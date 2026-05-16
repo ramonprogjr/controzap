@@ -1,23 +1,6 @@
 import { createClient } from '@/lib/supabase/client'
 
-// Helper para chamar as Edge Functions reais do Supabase
-export async function callEdgeFunction(name: string, body: any) {
-  const supabase = createClient()
-
-  const { data, error } = await supabase.functions.invoke(name, {
-    body: body
-  })
-
-  if (error) {
-    console.error(`[Edge Function ${name}] ❌ Erro:`, error)
-    throw new Error(error.message || `Erro ao chamar função ${name}`)
-  }
-
-  return data
-}
-
-// Se preferir usar as rotas locais do Next.js, use callLocalApi
-export async function callLocalApi(path: string, body: any) {
+async function callApi(path: string, body: any) {
   const supabase = createClient()
   const { data: { session } } = await supabase.auth.getSession()
 
@@ -31,23 +14,15 @@ export async function callLocalApi(path: string, body: any) {
     body: JSON.stringify(body),
   })
 
-  const responseText = await response.text()
+  const text = await response.text()
 
   if (!response.ok) {
-    let error
-    try {
-      error = JSON.parse(responseText)
-    } catch {
-      error = { error: responseText }
-    }
-    throw new Error(error.error || error.message || `Erro na API Local: ${response.statusText}`)
+    let err: any = {}
+    try { err = JSON.parse(text) } catch { err = { error: text } }
+    throw new Error(err.error || err.message || `Erro ${response.status}: ${response.statusText}`)
   }
 
-  try {
-    return JSON.parse(responseText)
-  } catch {
-    return { success: true }
-  }
+  try { return JSON.parse(text) } catch { return { success: true } }
 }
 
 export async function createInstance(data: {
@@ -55,11 +30,7 @@ export async function createInstance(data: {
   adminField01?: string
   adminField02?: string
 }) {
-  // Agora usamos a função unificada 'manage-instance' para tudo
-  return callEdgeFunction('manage-instance', {
-    ...data,
-    action: 'create'
-  })
+  return callApi('/api/instances/create', data)
 }
 
 export async function manageInstance(action: {
@@ -74,11 +45,9 @@ export async function manageInstance(action: {
   adminField01?: string
   adminField02?: string
 }) {
-  // Alterado para chamar a Edge Function Real do Supabase
-  return callEdgeFunction('manage-instance', action)
+  return callApi('/api/instances/manage', action)
 }
 
 export async function sendMessage(leadId: string, message: string) {
-  // Alterado para chamar a Edge Function Real do Supabase
-  return callEdgeFunction('send-message', { leadId, message })
+  return callApi('/api/instances/send-message', { leadId, message })
 }
