@@ -39,54 +39,32 @@ export default function LoginPage() {
 
     try {
       const redirectTo = searchParams.get('redirect_to') || '/dashboard'
+      const supabase = createClient()
 
-      // Fazer login via API para garantir cookies no servidor
-      const loginRes = await fetch('/api/auth/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password }),
-        credentials: 'include',
-      })
-      const loginData = await loginRes.json()
+      const { error } = await supabase.auth.signInWithPassword({ email, password })
 
-      if (!loginRes.ok) {
-        const message = loginData?.error || 'Erro ao fazer login'
-        if (message.includes('rate limit') || message.includes('seconds')) {
-          const match = message.match(/(\d+)\s*seconds?/i)
-          const seconds = match ? parseInt(match[1]) : 20
-          toast.error(
-            'Muitas tentativas',
-            `Por segurança, aguarde ${seconds} segundos antes de tentar novamente.`
-          )
-        } else if (message.includes('Invalid login')) {
+      if (error) {
+        if (error.message.includes('Invalid login')) {
           toast.error('Credenciais inválidas', 'Verifique seu e-mail e senha')
-        } else if (message.includes('Email not confirmed')) {
-          toast.error(
-            'Email não confirmado',
-            'Por favor, confirme seu email antes de fazer login. Verifique sua caixa de entrada.'
-          )
+        } else if (error.message.includes('Email not confirmed')) {
+          toast.error('Email não confirmado', 'Confirme seu email antes de fazer login.')
+        } else if (error.message.includes('rate limit') || error.message.includes('seconds')) {
+          const match = error.message.match(/(\d+)\s*seconds?/i)
+          const seconds = match ? parseInt(match[1]) : 20
+          toast.error('Muitas tentativas', `Aguarde ${seconds} segundos antes de tentar novamente.`)
         } else {
-          toast.error('Erro ao fazer login', message)
+          toast.error('Erro ao fazer login', error.message)
         }
         setLoading(false)
         return
       }
 
       toast.success('Login realizado com sucesso!', 'Redirecionando...')
-
-      // Aguardar um pouco para garantir que os cookies sejam salvos
-      await new Promise(resolve => setTimeout(resolve, 500))
-
-      // Redirecionar com recarga completa para garantir cookies no servidor
       window.location.href = redirectTo
 
     } catch (err: any) {
-      console.error('❌ [Login] ERRO CAPTURADO:', err)
-      console.error('❌ [Login] Stack:', err.stack)
       toast.error('Erro inesperado', err.message || 'Ocorreu um erro ao fazer login')
       setLoading(false)
-    } finally {
-      console.log('[Login] Finalizando handleLogin')
     }
   }
 
@@ -127,7 +105,7 @@ export default function LoginPage() {
             <Zap className="w-5 h-5 text-slate-900" strokeWidth={2.5} fill="currentColor" />
           </div>
           <span className="text-xl font-bold tracking-tight text-white uppercase">
-            Zap<span className="text-green-500">Flow</span>
+            Control<span className="text-green-500">Zap</span>
           </span>
         </Link>
 
