@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { Zap } from 'lucide-react'
+import { Zap, SlidersHorizontal } from 'lucide-react'
 
 export function Navbar() {
   return (
@@ -10,7 +10,7 @@ export function Navbar() {
             <Zap className="w-5 h-5 text-slate-900" strokeWidth={2.5} fill="currentColor" />
           </div>
           <span className="text-xl font-bold tracking-tight text-white uppercase">
-            Zap<span className="text-green-500">Flow</span>
+            Control<span className="text-green-500">Zap</span>
           </span>
         </Link>
 

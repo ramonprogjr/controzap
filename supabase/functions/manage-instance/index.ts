@@ -76,7 +76,7 @@ serve(async (req) => {
       const response = await fetch(`${UAZAPI_BASE_URL}/instance/init`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'admintoken': UAZAPI_GLOBAL_TOKEN },
-        body: JSON.stringify({ name: uniqueName, systemName: 'ZapFlow_CRM' }),
+        body: JSON.stringify({ name: uniqueName, systemName: 'ControlZap_CRM' }),
       })
 
       const instanceData = await response.json()

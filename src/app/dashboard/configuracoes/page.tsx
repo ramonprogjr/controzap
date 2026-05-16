@@ -62,7 +62,7 @@ export default function ConfiguracoesPage() {
         systemSounds: true
     })
     const [integrationSettings, setIntegrationSettings] = useState({
-        webhookUrl: 'https://api.galima.com/v1/webhook/123456',
+        webhookUrl: 'https://api.controlzap.com.br/v1/webhook/123456',
         apiKey: 'sk_live_51P8Xp...'
     })
 
@@ -387,7 +387,7 @@ export default function ConfiguracoesPage() {
                 <h1 className="text-5xl font-black heading-gradient mb-3 tracking-tighter">
                     Configurações
                 </h1>
-                <p className="text-dim text-lg font-medium">Personalize sua experiência no ZapFlow CRM</p>
+                <p className="text-dim text-lg font-medium">Personalize sua experiência no ControlZap CRM</p>
             </div>
 
 
@@ -765,7 +765,7 @@ export default function ConfiguracoesPage() {
                             <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
                                 <div>
                                     <h3 className="text-3xl font-black text-main tracking-tighter mb-2">Webhooks & API</h3>
-                                    <p className="text-dim font-medium">Conecte o Galima ao seu CRM, Zapier ou Make.</p>
+                                    <p className="text-dim font-medium">Conecte o ControlZap ao seu CRM, Zapier ou Make.</p>
                                 </div>
                                 <div className="p-3 bg-blue-500/10 rounded-2xl border border-blue-500/20">
                                     <Globe className="w-8 h-8 text-blue-500" />
@@ -805,7 +805,7 @@ export default function ConfiguracoesPage() {
                                         </button>
                                     </div>
                                     <p className="text-[10px] text-dim/60 font-bold uppercase tracking-widest leading-relaxed">
-                                        Use esta chave para autenticar suas requisições externas para o Galima. Mantenha-a em sigilo.
+                                        Use esta chave para autenticar suas requisições externas para o ControlZap. Mantenha-a em sigilo.
                                     </p>
                                 </div>
                             </div>
@@ -847,7 +847,7 @@ export default function ConfiguracoesPage() {
                                         <span className="px-3 py-1 bg-green-500 text-white text-[10px] font-black uppercase rounded-lg tracking-widest">Plano Pro</span>
                                         <span className="text-dim font-bold text-sm">Assinado desde Junho, 2025</span>
                                     </div>
-                                    <h3 className="text-5xl font-black text-main tracking-tighter">Galima Turbo Enterprise</h3>
+                                    <h3 className="text-5xl font-black text-main tracking-tighter">ControlZap Turbo Enterprise</h3>
                                 </div>
 
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-10 pt-10 border-t border-main">

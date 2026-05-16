@@ -55,7 +55,7 @@ export function ZapLoadingScreen() {
         <div className="fixed inset-0 z-[999] bg-[var(--background)] flex flex-col items-center justify-center gap-6 animate-in fade-in duration-500">
             <ZapSpinner size="xl" />
             <div className="flex flex-col items-center gap-2">
-                <h3 className="text-xl font-black text-main tracking-tighter uppercase italic">Carregando Galima</h3>
+                <h3 className="text-xl font-black text-main tracking-tighter uppercase italic">Carregando ControlZap</h3>
                 <div className="h-1 w-32 bg-main/10 rounded-full overflow-hidden">
                     <div className="h-full bg-green-500 w-1/3 animate-loading-bar" />
                 </div>

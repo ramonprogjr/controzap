@@ -138,16 +138,21 @@ serve(async (req) => {
           messages: [
             {
               role: 'user',
-              content: `Analise a seguinte mensagem de WhatsApp e identifique a intenção do cliente. Responda APENAS com JSON válido no formato:
+              content: `Você é um assistente da ALS Rent Cars, locadora de veículos executivos em São Paulo. Analise a mensagem de WhatsApp abaixo e identifique a intenção do cliente. Responda APENAS com JSON válido no formato:
 {
   "intent": "greeting" | "appointment" | "question" | "complaint" | "other",
   "confidence": 0.0-1.0,
   "extractedData": {
-    "date": "YYYY-MM-DD" se mencionar data,
+    "date": "YYYY-MM-DD" se mencionar data de retirada,
     "time": "HH:MM" se mencionar horário,
-    "location": "texto" se mencionar local
+    "location": "texto" se mencionar local de retirada ou destino,
+    "vehicle": "texto" se mencionar tipo ou modelo de veículo desejado,
+    "days": número se mencionar quantidade de dias
   }
 }
+
+Considere "appointment" para: pedido de reserva, orçamento com data definida, confirmação de locação.
+Considere "question" para: dúvidas sobre preços, disponibilidade, modelos, documentos necessários.
 
 Mensagem: "${content}"`,
             },
@@ -180,7 +185,7 @@ Mensagem: "${content}"`,
             messages: [
               {
                 role: 'user',
-                content: `Gere uma mensagem de boas-vindas profissional e amigável para WhatsApp comercial. Seja breve (máximo 2 frases). ${lead?.name ? `O nome do cliente é ${lead.name}.` : ''}`,
+                content: `Você representa a ALS Rent Cars, locadora de veículos executivos em São Paulo. Gere uma mensagem de boas-vindas profissional e acolhedora para WhatsApp. Seja breve (máximo 2 frases) e mencione que estão prontos para ajudar com locação de veículos executivos. ${lead?.name ? `O nome do cliente é ${lead.name}.` : ''}`,
               },
             ],
             temperature: 0.6,
@@ -201,7 +206,7 @@ Mensagem: "${content}"`,
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            'apikey': instanceToken, // Usar token da instância
+            'apikey': instanceToken,
           },
           body: JSON.stringify({
             number: phone,

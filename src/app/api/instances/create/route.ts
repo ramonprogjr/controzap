@@ -76,7 +76,7 @@ export async function POST(request: NextRequest) {
       },
       body: JSON.stringify({
         name: uniqueInstanceName,
-        systemName: 'ZapFlow_CRM',
+        systemName: 'ControlZap_CRM',
         adminField01: adminField01 || '',
         adminField02: adminField02 || '',
       }),

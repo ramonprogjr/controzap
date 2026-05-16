@@ -23,16 +23,21 @@ export class MistralClient {
   }
 
   async analyzeIntent(message: string): Promise<MessageIntent> {
-    const prompt = `Analise a seguinte mensagem de WhatsApp e identifique a intenção do cliente. Responda APENAS com JSON válido no formato:
+    const prompt = `Você é um assistente de uma locadora de veículos executivos chamada ALS Rent Cars, em São Paulo. Analise a mensagem de WhatsApp abaixo e identifique a intenção do cliente. Responda APENAS com JSON válido no formato:
 {
   "intent": "greeting" | "appointment" | "question" | "complaint" | "other",
   "confidence": 0.0-1.0,
   "extractedData": {
-    "date": "YYYY-MM-DD" se mencionar data,
+    "date": "YYYY-MM-DD" se mencionar data de retirada,
     "time": "HH:MM" se mencionar horário,
-    "location": "texto" se mencionar local
+    "location": "texto" se mencionar local de retirada ou destino,
+    "vehicle": "texto" se mencionar tipo ou modelo de veículo desejado,
+    "days": número se mencionar quantidade de dias
   }
 }
+
+Considere "appointment" para: pedido de reserva, orçamento com data definida, confirmação de locação.
+Considere "question" para: dúvidas sobre preços, disponibilidade, modelos, documentos necessários.
 
 Mensagem: "${message}"`
 
@@ -112,7 +117,7 @@ Mensagem original: "${originalMessage}"`
   }
 
   async generateGreetingResponse(leadName?: string): Promise<string> {
-    const prompt = `Gere uma mensagem de boas-vindas profissional e amigável para WhatsApp comercial. Seja breve (máximo 2 frases). ${leadName ? `O nome do cliente é ${leadName}.` : ''}`
+    const prompt = `Você representa a ALS Rent Cars, locadora de veículos executivos em São Paulo. Gere uma mensagem de boas-vindas profissional e acolhedora para WhatsApp. Seja breve (máximo 2 frases) e mencione que estão prontos para ajudar com locação de veículos executivos. ${leadName ? `O nome do cliente é ${leadName}.` : ''}`
 
     const response = await fetch(MISTRAL_API_URL, {
       method: 'POST',

@@ -293,7 +293,7 @@ export default function RegistroPage() {
                       Enviamos um email de confirmação para <strong className="text-white">{formData.adminEmail}</strong>
                     </p>
                     <p className="text-slate-400 text-sm leading-relaxed">
-                      Clique no link do email para confirmar sua conta e ter acesso completo ao ZapFlow.
+                      Clique no link do email para confirmar sua conta e ter acesso completo ao ControlZap.
                     </p>
                   </div>
                 </div>

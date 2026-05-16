@@ -49,15 +49,14 @@ export class UazapiClient {
   }
 
   async createInstance(instanceName: string): Promise<UazapiInstance> {
-    const response = await fetch(`${this.baseUrl}/instance/create`, {
+    const response = await fetch(`${this.baseUrl}/instance/init`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'apikey': this.globalToken,
+        'adminToken': this.globalToken,
       },
       body: JSON.stringify({
-        instance: instanceName,
-        token: `${instanceName}_token_${Date.now()}`,
+        name: instanceName,
       }),
     })
 
@@ -69,10 +68,10 @@ export class UazapiClient {
   }
 
   async getQRCode(instanceName: string): Promise<string> {
-    const response = await fetch(`${this.baseUrl}/instance/connect/${instanceName}`, {
+    const response = await fetch(`${this.baseUrl}/instance/qrcode/${instanceName}`, {
       method: 'GET',
       headers: {
-        'apikey': this.globalToken,
+        'adminToken': this.globalToken,
       },
     })
 
@@ -106,7 +105,7 @@ export class UazapiClient {
     const response = await fetch(`${this.baseUrl}/instance/connectionState/${instanceName}`, {
       method: 'GET',
       headers: {
-        'apikey': this.globalToken,
+        'adminToken': this.globalToken,
       },
     })
 

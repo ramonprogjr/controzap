@@ -12,8 +12,8 @@ const plusJakarta = Plus_Jakarta_Sans({
 })
 
 export const metadata: Metadata = {
-  title: 'ZapFlow | Infraestrutura Inteligente para WhatsApp',
-  description: 'Integre gravação, auditoria e inteligência artificial diretamente no fluxo de conversas do seu time.',
+  title: 'ControlZap | CRM Inteligente para WhatsApp',
+  description: 'Gerencie conversas, leads e automações do seu time de vendas no WhatsApp com inteligência artificial.',
 }
 
 export default function RootLayout({
