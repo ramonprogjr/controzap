@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
-import { Zap, Mail, Eye, EyeOff } from 'lucide-react'
+import { Lock, Mail, Eye, EyeOff } from 'lucide-react'
 import { createClient } from '@/lib/supabase/client'
 import { useToast } from '@/components/ui/ToastContainer'
 
@@ -102,7 +102,7 @@ export default function LoginPage() {
       <div className="w-full max-w-md">
         <Link href="/" className="flex items-center gap-3 mb-8 justify-center group">
           <div className="w-9 h-9 bg-gradient-to-tr from-green-600 to-emerald-400 rounded-lg flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
-            <Zap className="w-5 h-5 text-slate-900" strokeWidth={2.5} fill="currentColor" />
+            <Lock className="w-5 h-5 text-white" strokeWidth={2.5} />
           </div>
           <span className="text-xl font-bold tracking-tight text-white uppercase">
             Control<span className="text-green-500">Zap</span>

@@ -81,20 +81,47 @@ export async function POST(request: NextRequest) {
             instanceRow = data
         }
 
+        // Fallback: primeira instância conectada da empresa
         if (!instanceRow) {
-            return NextResponse.json({ error: 'Instância não encontrada para este lead' }, { status: 404 })
+            const { data } = await supabaseAdmin
+                .from('instances')
+                .select('*')
+                .eq('company_id', lead.company_id)
+                .in('status', ['connected', 'open'])
+                .limit(1)
+                .single()
+            instanceRow = data
+        }
+
+        // Fallback final: qualquer instância da empresa
+        if (!instanceRow) {
+            const { data } = await supabaseAdmin
+                .from('instances')
+                .select('*')
+                .eq('company_id', lead.company_id)
+                .limit(1)
+                .single()
+            instanceRow = data
+        }
+
+        if (!instanceRow) {
+            return NextResponse.json({ error: 'Nenhuma instância WhatsApp encontrada. Cadastre e conecte uma instância primeiro.' }, { status: 404 })
+        }
+
+        // Vincular instância ao lead para próximas mensagens
+        if (!lead.instance_id && instanceRow?.id) {
+            await supabaseAdmin.from('leads').update({ instance_id: instanceRow.id }).eq('id', lead.id)
         }
 
         const instanceId = instanceRow.uazapi_instance_id
         const instanceToken = instanceRow.uazapi_instance_key || UAZAPI_GLOBAL_TOKEN
 
         // Enviar via UAZAPI
-        const response = await fetch(`${UAZAPI_BASE_URL}/message/sendText/${instanceId}`, {
+        const response = await fetch(`${UAZAPI_BASE_URL}/send/text`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
                 'token': instanceToken,
-                'apikey': instanceToken,
             },
             body: JSON.stringify({
                 number: lead.phone,

@@ -1,4 +1,4 @@
-import { Zap, Loader2 } from 'lucide-react'
+import { Lock } from 'lucide-react'
 import { cn } from '@/lib/utils/cn'
 
 interface ZapSpinnerProps {
@@ -41,10 +41,10 @@ export function ZapSpinner({ className, size = 'md' }: ZapSpinnerProps) {
                 sizes[size]
             )} />
 
-            {/* Center Zap with Glow Effect */}
+            {/* Center Lock Icon */}
             <div className="relative z-10 flex items-center justify-center">
                 <div className="absolute inset-0 bg-green-500/10 blur-xl animate-pulse rounded-full" />
-                <Zap className={cn("text-green-500 fill-green-500/20 animate-bounce-slow relative z-20", iconSizes[size])} />
+                <Lock className={cn("text-green-500 animate-bounce-slow relative z-20", iconSizes[size])} strokeWidth={2.5} />
             </div>
         </div>
     )

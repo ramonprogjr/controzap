@@ -16,7 +16,7 @@ import {
   UserCog,
   BarChart3,
   Settings,
-  Zap,
+  Lock,
   LogOut,
   Bell,
   Search,
@@ -232,15 +232,15 @@ export function Sidebar() {
         isCollapsed ? "px-0" : "px-8"
       )}>
         <Link href="/dashboard" className="flex items-center gap-4 group">
-          <div className="flex-shrink-0 w-12 h-12 bg-gradient-to-tr from-green-600 via-emerald-600 to-teal-600 rounded-2xl flex items-center justify-center shadow-2xl shadow-green-600/20 group-hover:rotate-12 transition-all duration-500">
-            <Zap className="w-6 h-6 text-white" strokeWidth={2.5} fill="white" />
+          <div className="flex-shrink-0 w-12 h-12 bg-gradient-to-tr from-green-600 via-green-600 to-green-700 rounded-2xl flex items-center justify-center shadow-2xl shadow-green-600/20 group-hover:scale-110 transition-all duration-500">
+            <Lock className="w-6 h-6 text-white" strokeWidth={2.5} />
           </div>
           {!isCollapsed && (
             <div className="animate-in fade-in slide-in-from-left-4 duration-500">
               <span className="text-2xl font-black tracking-tighter text-main block leading-none uppercase">
-                Zap<span className="heading-gradient">Flow</span>
+                Control<span className="heading-gradient">Zap</span>
               </span>
-              <span className="text-[10px] text-dim font-black uppercase tracking-[2px]">CRM Inteligente</span>
+              <span className="text-[10px] text-dim font-black uppercase tracking-[2px]">WhatsApp CRM</span>
             </div>
           )}
         </Link>
@@ -265,8 +265,8 @@ export function Sidebar() {
                     'group flex items-center rounded-2xl transition-all duration-500 relative overflow-hidden',
                     isCollapsed ? "justify-center h-12 w-12 mx-auto" : "px-5 py-3.5",
                     isActive
-                      ? 'bg-gradient-to-r from-green-600 to-emerald-600 text-white shadow-xl shadow-green-600/20'
-                      : 'text-dim hover:text-main hover:bg-white/5'
+                      ? 'bg-gradient-to-r from-green-600 to-green-500 text-white shadow-xl shadow-green-500/25'
+                      : 'text-dim hover:text-main hover:bg-[var(--hover-bg)]'
                   )}
                 >
                   <div className={cn(
@@ -275,7 +275,7 @@ export function Sidebar() {
                   )}>
                     <item.icon className={cn(
                       "w-5 h-5 transition-all duration-500",
-                      isActive ? "text-white scale-110 drop-shadow-[0_0_8px_rgba(255,255,255,0.5)]" : "text-dim group-hover:text-main"
+                      isActive ? "text-white scale-110" : "text-dim group-hover:text-green-400"
                     )} strokeWidth={isActive ? 3 : 2} />
                     {!isCollapsed && (
                       <span className="font-black text-sm tracking-tight animate-in fade-in duration-500">
@@ -306,8 +306,8 @@ export function Sidebar() {
                     'group flex items-center rounded-2xl transition-all duration-500 relative overflow-hidden',
                     isCollapsed ? "justify-center h-12 w-12 mx-auto" : "px-5 py-3.5",
                     isActive
-                      ? 'bg-gradient-to-r from-green-600 to-emerald-600 text-white shadow-xl shadow-green-600/20'
-                      : 'text-dim hover:text-main hover:bg-white/5'
+                      ? 'bg-gradient-to-r from-green-600 to-green-500 text-white shadow-xl shadow-green-500/25'
+                      : 'text-dim hover:text-main hover:bg-[var(--hover-bg)]'
                   )}
                 >
                   <div className={cn(
@@ -316,7 +316,7 @@ export function Sidebar() {
                   )}>
                     <item.icon className={cn(
                       "w-5 h-5 transition-all duration-500",
-                      isActive ? "text-white scale-110 drop-shadow-[0_0_8px_rgba(255,255,255,0.5)]" : "text-dim group-hover:text-main"
+                      isActive ? "text-white scale-110" : "text-dim group-hover:text-green-400"
                     )} strokeWidth={isActive ? 3 : 2} />
                     {!isCollapsed && (
                       <span className="font-black text-sm tracking-tight animate-in fade-in duration-500">
@@ -338,8 +338,8 @@ export function Sidebar() {
               'group flex items-center rounded-2xl transition-all duration-500 relative overflow-hidden',
               isCollapsed ? "justify-center h-12 w-12 mx-auto" : "px-5 py-3.5",
               pathname === '/dashboard/configuracoes'
-                ? 'bg-gradient-to-r from-green-600 to-emerald-600 text-white shadow-xl shadow-green-600/20'
-                : 'text-dim hover:text-main hover:bg-white/5'
+                ? 'bg-gradient-to-r from-green-600 to-green-500 text-white shadow-xl shadow-green-500/25'
+                : 'text-dim hover:text-main hover:bg-[var(--hover-bg)]'
             )}
           >
             <div className={cn(
@@ -348,7 +348,7 @@ export function Sidebar() {
             )}>
               <Settings className={cn(
                 "w-5 h-5 transition-all duration-500",
-                pathname === '/dashboard/configuracoes' ? "text-white scale-110 drop-shadow-[0_0_8px_rgba(255,255,255,0.5)]" : "text-dim group-hover:text-main"
+                pathname === '/dashboard/configuracoes' ? "text-white scale-110" : "text-dim group-hover:text-green-400"
               )} strokeWidth={pathname === '/dashboard/configuracoes' ? 3 : 2} />
               {!isCollapsed && (
                 <span className="font-black text-sm tracking-tight animate-in fade-in duration-500">Configurações</span>

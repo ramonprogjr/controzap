@@ -385,7 +385,7 @@ export default function InstanciasPage() {
                         disabled={instances.length >= 5}
                         className="group relative flex items-center gap-3 bg-white text-slate-950 px-10 py-5 rounded-2xl font-black text-sm uppercase tracking-widest hover:scale-105 transition-all duration-300 shadow-2xl disabled:opacity-50 disabled:hover:scale-100 overflow-hidden"
                     >
-                        <div className="absolute inset-0 bg-gradient-to-r from-green-500 to-emerald-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                        <div className="absolute inset-0 bg-gradient-to-r from-green-500 to-green-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                         <Plus className="w-5 h-5 relative z-10 group-hover:text-white transition-colors" strokeWidth={4} />
                         <span className="relative z-10 group-hover:text-white transition-colors">Nova Instância</span>
                     </button>
@@ -404,7 +404,7 @@ export default function InstanciasPage() {
                         <Zap className="w-64 h-64 text-green-500" />
                     </div>
                     <div className="relative z-10">
-                        <div className="w-24 h-24 bg-gradient-to-tr from-green-500 to-emerald-600 rounded-3xl flex items-center justify-center mx-auto mb-8 shadow-2xl shadow-green-500/20 rotate-12 group-hover:rotate-0 transition-transform duration-500">
+                        <div className="w-24 h-24 bg-gradient-to-tr from-green-500 to-green-600 rounded-3xl flex items-center justify-center mx-auto mb-8 shadow-2xl shadow-green-500/20 rotate-12 group-hover:rotate-0 transition-transform duration-500">
                             <QrCode className="w-12 h-12 text-white" />
                         </div>
                         <h3 className="text-3xl font-bold text-[var(--text-primary)] mb-4">Pronto para começar?</h3>
@@ -414,7 +414,7 @@ export default function InstanciasPage() {
                         {isAdmin ? (
                             <button
                                 onClick={() => setShowCreateSideover(true)}
-                                className="px-10 py-5 bg-gradient-to-r from-green-600 to-emerald-600 text-white rounded-2xl font-bold text-lg hover:shadow-2xl hover:shadow-green-500/40 transition-all duration-300 active:scale-95"
+                                className="px-10 py-5 bg-gradient-to-r from-green-600 to-green-600 text-white rounded-2xl font-bold text-lg hover:shadow-2xl hover:shadow-green-500/40 transition-all duration-300 active:scale-95"
                             >
                                 Conectar Primeiro Número
                             </button>
@@ -481,7 +481,7 @@ export default function InstanciasPage() {
                                             )}>
                                                 <div className={cn(
                                                     "w-2 h-2 rounded-full",
-                                                    instance.status === 'connected' ? "bg-green-400 shadow-[0_0_8px_rgba(74,222,128,0.5)]" :
+                                                    instance.status === 'connected' ? "bg-green-400 shadow-[0_0_8px_rgba(255,105,0,0.5)]" :
                                                         instance.status === 'connecting' ? "bg-amber-400" : "bg-red-400"
                                                 )} />
                                                 {instance.status === 'connected' ? 'Ativo' : instance.status === 'connecting' ? 'Pendente' : 'Inativo'}
@@ -691,7 +691,7 @@ export default function InstanciasPage() {
                             <div className={cn(
                                 "absolute inset-0 transition-all duration-700",
                                 selectedInstance.status === 'connected'
-                                    ? "bg-gradient-to-br from-green-600/40 to-emerald-900/60"
+                                    ? "bg-gradient-to-br from-green-600/40 to-green-900/60"
                                     : "bg-gradient-to-br from-red-600/30 to-slate-900"
                             )} />
                             <div className="absolute inset-0 backdrop-blur-md z-0" />
@@ -752,7 +752,7 @@ export default function InstanciasPage() {
                                 <div className="space-y-2">
                                     <p className="text-dim font-black uppercase tracking-[2px] text-[10px]">Primeiro Registro</p>
                                     <p className="text-main text-xl font-black flex items-center gap-3">
-                                        <Calendar className="w-6 h-6 text-blue-500" />
+                                        <Calendar className="w-6 h-6 text-green-500" />
                                         {new Date(selectedInstance.created_at).toLocaleDateString('pt-BR')}
                                     </p>
                                 </div>
@@ -814,7 +814,7 @@ export default function InstanciasPage() {
                             {/* Section: Privacy Quick Controls */}
                             <div className="space-y-6">
                                 <h4 className="text-xs font-black text-dim uppercase tracking-widest flex items-center gap-3 ml-2">
-                                    <Settings2 className="w-4 h-4 text-blue-500" /> Privacidade da Conta
+                                    <Settings2 className="w-4 h-4 text-green-500" /> Privacidade da Conta
                                 </h4>
                                 <div className="grid grid-cols-1 gap-3">
                                     {[
@@ -824,7 +824,7 @@ export default function InstanciasPage() {
                                     ].map((item) => (
                                         <div key={item.key} className="p-5 bg-main/20 border border-main rounded-2xl flex items-center justify-between hover:bg-main/40 transition-all">
                                             <div className="flex items-center gap-4">
-                                                <div className="w-10 h-10 bg-blue-500/10 text-blue-400 rounded-xl flex items-center justify-center font-bold">
+                                                <div className="w-10 h-10 bg-green-500/10 text-green-400 rounded-xl flex items-center justify-center font-bold">
                                                     {item.label[0]}
                                                 </div>
                                                 <p className="text-main font-black">{item.label}</p>
@@ -885,7 +885,7 @@ export default function InstanciasPage() {
                             {/* Section: Advanced Actions */}
                             <div className="space-y-6">
                                 <h4 className="text-xs font-black text-dim uppercase tracking-widest flex items-center gap-3 ml-2">
-                                    <RefreshCw className="w-4 h-4 text-purple-500" /> Manutenção e Sessão
+                                    <RefreshCw className="w-4 h-4 text-green-500" /> Manutenção e Sessão
                                 </h4>
                                 <div className="grid grid-cols-2 gap-4">
                                     <button
@@ -901,9 +901,9 @@ export default function InstanciasPage() {
                                             setNewName(selectedInstance.name)
                                             setShowRenameModal({ id: selectedInstance.uazapi_instance_id, name: selectedInstance.name })
                                         }}
-                                        className="p-5 bg-card-theme border border-main rounded-2xl text-left hover:bg-blue-500/10 hover:border-blue-500/30 transition-all group shadow-sm hover:shadow-md"
+                                        className="p-5 bg-card-theme border border-main rounded-2xl text-left hover:bg-green-500/10 hover:border-green-500/30 transition-all group shadow-sm hover:shadow-md"
                                     >
-                                        <Settings2 className="w-6 h-6 text-blue-500 mb-3 group-hover:scale-125 transition-transform" />
+                                        <Settings2 className="w-6 h-6 text-green-500 mb-3 group-hover:scale-125 transition-transform" />
                                         <p className="text-main font-bold">Renomear</p>
                                         <p className="text-dim text-[10px]">Alterar apelido</p>
                                     </button>
@@ -1004,7 +1004,7 @@ export default function InstanciasPage() {
                                     handleManageAction(showRenameModal.id, 'updateName', { name: newName.trim() })
                                     setShowRenameModal(null)
                                 }}
-                                className="p-5 bg-blue-600 text-white font-black rounded-2xl hover:bg-blue-500 shadow-lg shadow-blue-600/20 transition-all disabled:opacity-50"
+                                className="p-5 bg-green-600 text-white font-black rounded-2xl hover:bg-green-500 shadow-lg shadow-green-600/20 transition-all disabled:opacity-50"
                             >
                                 Salvar
                             </button>

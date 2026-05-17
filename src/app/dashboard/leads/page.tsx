@@ -50,7 +50,7 @@ export default function LeadsPage() {
         .from('leads')
         .select(`
           *,
-          sellers(name)
+          users(name)
         `)
         .eq('company_id', userData.company_id)
         .order('first_contact', { ascending: false })
@@ -79,7 +79,7 @@ export default function LeadsPage() {
             score: lead.score || 0,
             first_contact: lead.first_contact,
             last_contact: lead.last_contact,
-            seller_name: lead.sellers?.name || null,
+            seller_name: lead.users?.name || null,
             message_count: count || 0,
           }
         })
@@ -96,13 +96,13 @@ export default function LeadsPage() {
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'new':
-        return 'bg-blue-500/10 text-blue-500 border-blue-500/20'
+        return 'bg-green-500/10 text-green-500 border-green-500/20'
       case 'contacted':
         return 'bg-amber-500/10 text-amber-500 border-amber-500/20'
       case 'qualified':
         return 'bg-green-500/10 text-green-500 border-green-500/20'
       case 'converted':
-        return 'bg-purple-500/10 text-purple-500 border-purple-500/20'
+        return 'bg-green-500/10 text-green-500 border-green-500/20'
       default:
         return 'bg-slate-500/10 text-slate-500 border-slate-500/20'
     }
@@ -177,7 +177,7 @@ export default function LeadsPage() {
         <div className="bg-card-theme border border-main rounded-3xl p-24 text-center shadow-2xl relative overflow-hidden group">
           <div className="absolute inset-0 bg-gradient-to-br from-green-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
           <div className="relative z-10">
-            <div className="w-24 h-24 bg-gradient-to-br from-green-500 to-emerald-600 rounded-[2rem] flex items-center justify-center mx-auto mb-8 shadow-2xl shadow-green-500/20 rotate-12 group-hover:rotate-0 transition-transform duration-500">
+            <div className="w-24 h-24 bg-gradient-to-br from-green-500 to-green-600 rounded-[2rem] flex items-center justify-center mx-auto mb-8 shadow-2xl shadow-green-500/20 rotate-12 group-hover:rotate-0 transition-transform duration-500">
               <Users className="w-10 h-10 text-white" />
             </div>
             <h3 className="text-3xl font-black text-main mb-4 tracking-tight">Nenhum lead encontrado</h3>
@@ -197,7 +197,7 @@ export default function LeadsPage() {
 
               <div className="flex items-start justify-between mb-8 relative z-10">
                 <div className="flex items-center gap-4">
-                  <div className="w-14 h-14 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-2xl flex items-center justify-center shadow-lg shadow-blue-500/20 group-hover/card:scale-110 transition-transform">
+                  <div className="w-14 h-14 bg-gradient-to-br from-green-500 to-green-600 rounded-2xl flex items-center justify-center shadow-lg shadow-green-500/20 group-hover/card:scale-110 transition-transform">
                     <User className="w-7 h-7 text-white" />
                   </div>
                   <div>
@@ -223,7 +223,7 @@ export default function LeadsPage() {
                 {lead.seller_name && (
                   <div className="flex items-center gap-3 text-sm font-medium text-dim">
                     <div className="w-8 h-8 bg-main/30 rounded-lg flex items-center justify-center">
-                      <User className="w-4 h-4 text-blue-500" />
+                      <User className="w-4 h-4 text-green-500" />
                     </div>
                     <span>Atendido por: <span className="text-main font-bold">{lead.seller_name}</span></span>
                   </div>
@@ -231,7 +231,7 @@ export default function LeadsPage() {
                 {lead.last_contact && (
                   <div className="flex items-center gap-3 text-sm font-medium text-dim">
                     <div className="w-8 h-8 bg-main/30 rounded-lg flex items-center justify-center">
-                      <Calendar className="w-4 h-4 text-purple-500" />
+                      <Calendar className="w-4 h-4 text-green-500" />
                     </div>
                     <span>Último contato: <span className="text-main font-bold">{new Date(lead.last_contact).toLocaleDateString('pt-BR')}</span></span>
                   </div>

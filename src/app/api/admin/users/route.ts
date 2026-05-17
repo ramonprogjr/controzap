@@ -1,35 +1,42 @@
-import { NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 import { cookies } from 'next/headers'
 import { createServerClient } from '@supabase/ssr'
 
-async function getAdminContext() {
+async function getAdminContext(request: NextRequest) {
   const cookieStore = await cookies()
   const supabaseAuth = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
     {
       cookies: {
-        getAll() {
-          return cookieStore.getAll()
-        },
+        getAll() { return cookieStore.getAll() },
         setAll() { },
       },
     }
   )
 
-  const { data: { user: authUser }, error: authError } = await supabaseAuth.auth.getUser()
+  let user = null
 
-  let user = authUser
+  // 1. Tenta via cookie
+  const { data: { user: cookieUser } } = await supabaseAuth.auth.getUser()
+  if (cookieUser) {
+    user = cookieUser
+  }
 
-  if (authError || !user) {
-    console.log('[API Users] getUser failed, trying getSession. Error:', authError?.message)
-    const { data: { session }, error: sessionError } = await supabaseAuth.auth.getSession()
-    if (session?.user) {
-      user = session.user
-      console.log('[API Users] getSession success. User ID:', user.id)
-    } else {
-      console.log('[API Users] getSession failed. Error:', sessionError?.message)
+  // 2. Fallback: Bearer token
+  if (!user) {
+    const authHeader = request.headers.get('Authorization')
+    if (authHeader?.startsWith('Bearer ')) {
+      const token = authHeader.substring(7)
+      const { data: { user: tokenUser } } = await supabaseAuth.auth.getUser(token)
+      if (tokenUser) user = tokenUser
     }
+  }
+
+  // 3. Fallback: getSession
+  if (!user) {
+    const { data: { session } } = await supabaseAuth.auth.getSession()
+    if (session?.user) user = session.user
   }
 
   if (!user) return null
@@ -39,9 +46,7 @@ async function getAdminContext() {
     process.env.SUPABASE_SERVICE_ROLE_KEY!,
     {
       cookies: {
-        getAll() {
-          return cookieStore.getAll()
-        },
+        getAll() { return cookieStore.getAll() },
         setAll() { },
       },
     }
@@ -59,8 +64,8 @@ async function getAdminContext() {
   return { supabaseAdmin, companyId: userData.company_id }
 }
 
-export async function GET() {
-  const ctx = await getAdminContext()
+export async function GET(request: NextRequest) {
+  const ctx = await getAdminContext(request)
   if (!ctx) {
     return NextResponse.json({ error: 'Não autorizado' }, { status: 403 })
   }
@@ -78,8 +83,8 @@ export async function GET() {
   return NextResponse.json({ users: data || [] })
 }
 
-export async function POST(request: Request) {
-  const ctx = await getAdminContext()
+export async function POST(request: NextRequest) {
+  const ctx = await getAdminContext(request)
   if (!ctx) {
     return NextResponse.json({ error: 'Não autorizado' }, { status: 403 })
   }
@@ -108,14 +113,19 @@ export async function POST(request: Request) {
     .eq('id', roleId)
     .single()
 
-  await ctx.supabaseAdmin.from('users').insert({
+  const { error: insertError } = await ctx.supabaseAdmin.from('users').insert({
     id: authUser.user.id,
     company_id: ctx.companyId,
     name,
     email,
-    role: role?.name || 'custom',
+    role: (role?.name || 'custom').toLowerCase(),
     is_active: true,
   })
+
+  if (insertError) {
+    await ctx.supabaseAdmin.auth.admin.deleteUser(authUser.user.id)
+    return NextResponse.json({ error: insertError.message }, { status: 500 })
+  }
 
   await ctx.supabaseAdmin.from('user_roles').insert({
     user_id: authUser.user.id,
@@ -125,8 +135,8 @@ export async function POST(request: Request) {
   return NextResponse.json({ success: true })
 }
 
-export async function PATCH(request: Request) {
-  const ctx = await getAdminContext()
+export async function PATCH(request: NextRequest) {
+  const ctx = await getAdminContext(request)
   if (!ctx) {
     return NextResponse.json({ error: 'Não autorizado' }, { status: 403 })
   }
@@ -144,6 +154,17 @@ export async function PATCH(request: Request) {
   }
 
   if (roleId) {
+    const { data: role } = await ctx.supabaseAdmin
+      .from('roles')
+      .select('name')
+      .eq('id', roleId)
+      .single()
+
+    await ctx.supabaseAdmin
+      .from('users')
+      .update({ role: (role?.name || 'custom').toLowerCase() })
+      .eq('id', userId)
+
     await ctx.supabaseAdmin.from('user_roles').delete().eq('user_id', userId)
     await ctx.supabaseAdmin.from('user_roles').insert({
       user_id: userId,
@@ -161,8 +182,8 @@ export async function PATCH(request: Request) {
   return NextResponse.json({ success: true })
 }
 
-export async function DELETE(request: Request) {
-  const ctx = await getAdminContext()
+export async function DELETE(request: NextRequest) {
+  const ctx = await getAdminContext(request)
   if (!ctx) {
     return NextResponse.json({ error: 'Não autorizado' }, { status: 403 })
   }

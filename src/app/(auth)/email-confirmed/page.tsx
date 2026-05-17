@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
-import { Zap, CheckCircle, AlertCircle } from 'lucide-react'
+import { Lock, CheckCircle, AlertCircle } from 'lucide-react'
 import { createClient } from '@/lib/supabase/client'
 
 export default function EmailConfirmedPage() {
@@ -50,11 +50,11 @@ export default function EmailConfirmedPage() {
     <main className="min-h-screen bg-[#020617] flex items-center justify-center px-8">
       <div className="w-full max-w-md">
         <Link href="/" className="flex items-center gap-3 mb-8 justify-center group">
-          <div className="w-9 h-9 bg-gradient-to-tr from-green-600 to-emerald-400 rounded-lg flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
-            <Zap className="w-5 h-5 text-slate-900" strokeWidth={2.5} fill="currentColor" />
+          <div className="w-9 h-9 bg-gradient-to-tr from-green-600 to-green-400 rounded-lg flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
+            <Lock className="w-5 h-5 text-white" strokeWidth={2.5} />
           </div>
           <span className="text-xl font-bold tracking-tight text-white uppercase">
-            Zap<span className="text-green-500 italic">Flow</span>
+            Control<span className="text-green-500">Zap</span>
           </span>
         </Link>
 

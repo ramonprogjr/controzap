@@ -1,13 +1,13 @@
 import Link from 'next/link'
-import { Zap, SlidersHorizontal } from 'lucide-react'
+import { Lock, SlidersHorizontal } from 'lucide-react'
 
 export function Navbar() {
   return (
     <nav className="fixed w-full z-50 border-b border-white/5 nav-blur">
       <div className="max-w-7xl mx-auto px-8 h-20 flex justify-between items-center">
         <Link href="/" className="flex items-center gap-3">
-          <div className="w-9 h-9 bg-gradient-to-tr from-green-600 to-emerald-400 rounded-lg flex items-center justify-center shadow-lg">
-            <Zap className="w-5 h-5 text-slate-900" strokeWidth={2.5} fill="currentColor" />
+          <div className="w-9 h-9 bg-gradient-to-tr from-green-600 to-green-400 rounded-lg flex items-center justify-center shadow-lg">
+            <Lock className="w-5 h-5 text-white" strokeWidth={2.5} />
           </div>
           <span className="text-xl font-bold tracking-tight text-white uppercase">
             Control<span className="text-green-500">Zap</span>
