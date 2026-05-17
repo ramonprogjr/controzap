@@ -1,4 +1,4 @@
-# ZapFlow - Headless CRM para WhatsApp
+# ControlZap- Headless CRM para WhatsApp
 
 Infraestrutura inteligente de automação e CRM invisível para empresas que operam vendas via WhatsApp.
 
