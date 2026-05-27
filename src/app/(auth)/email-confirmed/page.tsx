@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
@@ -47,28 +47,28 @@ export default function EmailConfirmedPage() {
   }, [router])
 
   return (
-    <main className="min-h-screen bg-[#020617] flex items-center justify-center px-8">
+    <main className="min-h-screen bg-[#0a0a0a] flex items-center justify-center px-8">
       <div className="w-full max-w-md">
         <Link href="/" className="flex items-center gap-3 mb-8 justify-center group">
-          <div className="w-9 h-9 bg-gradient-to-tr from-green-600 to-green-400 rounded-lg flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
+          <div className="w-9 h-9 bg-gradient-to-tr from-amber-600 to-amber-400 rounded-lg flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
             <Lock className="w-5 h-5 text-white" strokeWidth={2.5} />
           </div>
           <span className="text-xl font-bold tracking-tight text-white uppercase">
-            Control<span className="text-green-500">Zap</span>
+            Control<span className="text-amber-500">Zap</span>
           </span>
         </Link>
 
         <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-8 text-center">
           {loading ? (
             <div>
-              <div className="w-16 h-16 border-4 border-green-500/30 border-t-green-500 rounded-full animate-spin mx-auto mb-6"></div>
+              <div className="w-16 h-16 border-4 border-amber-500/30 border-t-amber-500 rounded-full animate-spin mx-auto mb-6"></div>
               <h1 className="text-2xl font-bold text-white mb-2">Verificando...</h1>
               <p className="text-slate-400">Aguarde enquanto verificamos sua confirmação de email.</p>
             </div>
           ) : confirmed ? (
             <div>
-              <div className="w-20 h-20 rounded-full bg-green-500/10 border-2 border-green-500/30 flex items-center justify-center mx-auto mb-6">
-                <CheckCircle className="w-10 h-10 text-green-500" strokeWidth={2} />
+              <div className="w-20 h-20 rounded-full bg-amber-500/10 border-2 border-amber-500/30 flex items-center justify-center mx-auto mb-6">
+                <CheckCircle className="w-10 h-10 text-amber-500" strokeWidth={2} />
               </div>
               <h1 className="text-3xl font-bold text-white mb-4">Email confirmado!</h1>
               <p className="text-slate-400 mb-6">
@@ -76,7 +76,7 @@ export default function EmailConfirmedPage() {
               </p>
               <Link
                 href="/login"
-                className="inline-block bg-green-600 text-white px-8 py-3 rounded-lg font-bold uppercase tracking-wider hover:bg-green-500 transition-all"
+                className="inline-block bg-amber-600 text-white px-8 py-3 rounded-lg font-bold uppercase tracking-wider hover:bg-amber-500 transition-all"
               >
                 Ir para Login
               </Link>
@@ -93,7 +93,7 @@ export default function EmailConfirmedPage() {
               <div className="space-y-3">
                 <Link
                   href="/login"
-                  className="block bg-green-600 text-white px-8 py-3 rounded-lg font-bold uppercase tracking-wider hover:bg-green-500 transition-all text-center"
+                  className="block bg-amber-600 text-white px-8 py-3 rounded-lg font-bold uppercase tracking-wider hover:bg-amber-500 transition-all text-center"
                 >
                   Fazer Login
                 </Link>

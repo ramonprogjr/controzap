@@ -1,4 +1,4 @@
-import { redirect } from 'next/navigation'
+﻿import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 import { Sidebar } from '@/components/dashboard/Sidebar'
 import { DashboardMain } from '@/components/dashboard/DashboardMain'
@@ -40,7 +40,7 @@ export default async function DashboardLayout({
 
   return (
     <div className="min-h-screen bg-[var(--background)] flex transition-colors duration-500 overflow-x-hidden">
-      <div className="fixed inset-0 bg-gradient-to-br from-transparent via-transparent to-green-500/5 pointer-events-none" />
+      <div className="fixed inset-0 bg-gradient-to-br from-transparent via-transparent to-amber-500/5 pointer-events-none" />
       <Sidebar />
       <DashboardMain>
         {children}

@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useState, useEffect } from 'react'
 import { createClient } from '@/lib/supabase/client'
@@ -375,7 +375,7 @@ export default function InstanciasPage() {
                         Instâncias WhatsApp
                     </h1>
                     <p className="text-dim text-lg max-w-2xl font-medium">
-                        Gerencie e monitore suas conexões em tempo real. Você pode ter até <span className="text-green-500 font-black">5 instâncias</span> ativas simultaneamente.
+                        Gerencie e monitore suas conexões em tempo real. Você pode ter até <span className="text-amber-500 font-black">5 instâncias</span> ativas simultaneamente.
                     </p>
                 </div>
 
@@ -385,7 +385,7 @@ export default function InstanciasPage() {
                         disabled={instances.length >= 5}
                         className="group relative flex items-center gap-3 bg-white text-slate-950 px-10 py-5 rounded-2xl font-black text-sm uppercase tracking-widest hover:scale-105 transition-all duration-300 shadow-2xl disabled:opacity-50 disabled:hover:scale-100 overflow-hidden"
                     >
-                        <div className="absolute inset-0 bg-gradient-to-r from-green-500 to-green-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                        <div className="absolute inset-0 bg-gradient-to-r from-amber-500 to-amber-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                         <Plus className="w-5 h-5 relative z-10 group-hover:text-white transition-colors" strokeWidth={4} />
                         <span className="relative z-10 group-hover:text-white transition-colors">Nova Instância</span>
                     </button>
@@ -394,17 +394,17 @@ export default function InstanciasPage() {
 
             {loading && !instances.length ? (
                 <div className="flex flex-col items-center justify-center py-32 space-y-6 bg-card-theme border border-card-theme rounded-3xl shadow-2xl group relative overflow-hidden">
-                    <div className="absolute inset-0 bg-gradient-to-br from-green-500/5 to-transparent animate-pulse" />
+                    <div className="absolute inset-0 bg-gradient-to-br from-amber-500/5 to-transparent animate-pulse" />
                     <ZapSpinner size="xl" />
                     <p className="text-dim font-black uppercase tracking-widest animate-pulse relative z-10">Sincronizando com UAZAPI...</p>
                 </div>
             ) : instances.length === 0 ? (
                 <div className="relative group overflow-hidden bg-[var(--card)] border border-[var(--sidebar-border)] rounded-3xl p-16 text-center shadow-2xl">
                     <div className="absolute top-0 right-0 p-8 opacity-10 group-hover:opacity-20 transition-opacity">
-                        <Zap className="w-64 h-64 text-green-500" />
+                        <Zap className="w-64 h-64 text-amber-500" />
                     </div>
                     <div className="relative z-10">
-                        <div className="w-24 h-24 bg-gradient-to-tr from-green-500 to-green-600 rounded-3xl flex items-center justify-center mx-auto mb-8 shadow-2xl shadow-green-500/20 rotate-12 group-hover:rotate-0 transition-transform duration-500">
+                        <div className="w-24 h-24 bg-gradient-to-tr from-amber-500 to-amber-600 rounded-3xl flex items-center justify-center mx-auto mb-8 shadow-2xl shadow-amber-500/20 rotate-12 group-hover:rotate-0 transition-transform duration-500">
                             <QrCode className="w-12 h-12 text-white" />
                         </div>
                         <h3 className="text-3xl font-bold text-[var(--text-primary)] mb-4">Pronto para começar?</h3>
@@ -414,7 +414,7 @@ export default function InstanciasPage() {
                         {isAdmin ? (
                             <button
                                 onClick={() => setShowCreateSideover(true)}
-                                className="px-10 py-5 bg-gradient-to-r from-green-600 to-green-600 text-white rounded-2xl font-bold text-lg hover:shadow-2xl hover:shadow-green-500/40 transition-all duration-300 active:scale-95"
+                                className="px-10 py-5 bg-gradient-to-r from-amber-600 to-amber-600 text-white rounded-2xl font-bold text-lg hover:shadow-2xl hover:shadow-amber-500/40 transition-all duration-300 active:scale-95"
                             >
                                 Conectar Primeiro Número
                             </button>
@@ -448,7 +448,7 @@ export default function InstanciasPage() {
                                                 <div className={cn(
                                                     "w-14 h-14 rounded-2xl flex-shrink-0 flex items-center justify-center shadow-lg transition-all duration-300 group-hover/row:scale-110",
                                                     instance.status === 'connected'
-                                                        ? "bg-green-500/10 text-green-500 border border-green-500/20"
+                                                        ? "bg-amber-500/10 text-amber-500 border border-amber-500/20"
                                                         : "bg-[var(--input-bg)] text-dim border border-main"
                                                 )}>
                                                     <Zap className="w-7 h-7" fill={instance.status === 'connected' ? "currentColor" : "none"} />
@@ -474,14 +474,14 @@ export default function InstanciasPage() {
                                             <div className={cn(
                                                 "inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider shadow-sm",
                                                 instance.status === 'connected'
-                                                    ? "bg-green-500/10 text-green-400 border border-green-500/20"
+                                                    ? "bg-amber-500/10 text-amber-400 border border-amber-500/20"
                                                     : instance.status === 'connecting'
                                                         ? "bg-amber-500/10 text-amber-500 border border-amber-500/20 animate-pulse"
                                                         : "bg-red-500/10 text-red-400 border border-red-500/20"
                                             )}>
                                                 <div className={cn(
                                                     "w-2 h-2 rounded-full",
-                                                    instance.status === 'connected' ? "bg-green-400 shadow-[0_0_8px_rgba(255,105,0,0.5)]" :
+                                                    instance.status === 'connected' ? "bg-amber-400 shadow-[0_0_8px_rgba(255,105,0,0.5)]" :
                                                         instance.status === 'connecting' ? "bg-amber-400" : "bg-red-400"
                                                 )} />
                                                 {instance.status === 'connected' ? 'Ativo' : instance.status === 'connecting' ? 'Pendente' : 'Inativo'}
@@ -496,7 +496,7 @@ export default function InstanciasPage() {
                                         <td className="px-8 py-6 text-right">
                                             <button
                                                 onClick={() => openDetails(instance)}
-                                                className="px-4 py-2 bg-[var(--input-bg)] hover:bg-green-500 text-main font-black text-[10px] uppercase tracking-[2px] hover:text-white rounded-xl transition-all duration-300 border border-transparent hover:border-green-500 active:scale-95 group/btn"
+                                                className="px-4 py-2 bg-[var(--input-bg)] hover:bg-amber-500 text-main font-black text-[10px] uppercase tracking-[2px] hover:text-white rounded-xl transition-all duration-300 border border-transparent hover:border-amber-500 active:scale-95 group/btn"
                                             >
                                                 Detalhes
                                             </button>
@@ -540,7 +540,7 @@ export default function InstanciasPage() {
                                         <div className={cn(
                                             "w-10 h-10 rounded-xl flex items-center justify-center font-bold transition-all duration-500",
                                             currentStep >= step
-                                                ? "bg-green-600 text-white shadow-lg shadow-green-500/20"
+                                                ? "bg-amber-600 text-white shadow-lg shadow-amber-500/20"
                                                 : "bg-main/40 text-dim"
                                         )}>
                                             {currentStep > step ? <Check className="w-6 h-6" /> : step}
@@ -548,7 +548,7 @@ export default function InstanciasPage() {
                                     </div>
                                 ))}
                                 <div
-                                    className="absolute top-5 left-0 h-[3px] bg-green-500 transition-all duration-700 z-0"
+                                    className="absolute top-5 left-0 h-[3px] bg-amber-500 transition-all duration-700 z-0"
                                     style={{ width: `${((currentStep - 1) / 3) * 100}%` }}
                                 />
                             </div>
@@ -602,7 +602,7 @@ export default function InstanciasPage() {
                             {currentStep === 3 && (
                                 <div className="space-y-8 animate-in fade-in zoom-in-95 duration-500 text-center py-6">
                                     <div className="relative group mx-auto inline-block">
-                                        <div className="absolute -inset-4 bg-green-500/10 blur-xl rounded-full opacity-100 transition-opacity" />
+                                        <div className="absolute -inset-4 bg-amber-500/10 blur-xl rounded-full opacity-100 transition-opacity" />
                                         <div className="relative bg-white p-8 rounded-[2rem] shadow-2xl border-8 border-main/20">
                                             {qrCodeData ? (
                                                 <img src={`data:image/png;base64,${qrCodeData}`} alt="QR" className="w-64 h-64" />
@@ -622,7 +622,7 @@ export default function InstanciasPage() {
                                     </div>
                                     <button
                                         onClick={() => createdInstanceId && handleGenerateQRCode(createdInstanceId)}
-                                        className="inline-flex items-center gap-2 text-green-400 hover:text-green-300 font-bold transition-colors bg-green-500/10 px-6 py-3 rounded-2xl border border-green-500/20"
+                                        className="inline-flex items-center gap-2 text-amber-400 hover:text-amber-300 font-bold transition-colors bg-amber-500/10 px-6 py-3 rounded-2xl border border-amber-500/20"
                                     >
                                         <RefreshCw className="w-5 h-5" /> Regerar QR Code
                                     </button>
@@ -632,8 +632,8 @@ export default function InstanciasPage() {
                             {currentStep === 4 && (
                                 <div className="h-full flex flex-col items-center justify-center space-y-10 animate-in zoom-in duration-500 py-12">
                                     <div className="relative">
-                                        <div className="absolute inset-0 bg-green-500 blur-3xl opacity-20 rounded-full animate-pulse" />
-                                        <div className="relative w-32 h-32 bg-green-600 rounded-[2.5rem] flex items-center justify-center shadow-2xl shadow-green-600/30 rotate-12">
+                                        <div className="absolute inset-0 bg-amber-500 blur-3xl opacity-20 rounded-full animate-pulse" />
+                                        <div className="relative w-32 h-32 bg-amber-600 rounded-[2.5rem] flex items-center justify-center shadow-2xl shadow-amber-600/30 rotate-12">
                                             <Check className="w-16 h-16 text-white" strokeWidth={4} />
                                         </div>
                                     </div>
@@ -663,7 +663,7 @@ export default function InstanciasPage() {
                                     else handleFinishCreate()
                                 }}
                                 disabled={creating || (currentStep === 1 && !formData.instanceName.trim())}
-                                className="group flex items-center gap-3 bg-green-600 text-white px-12 py-4 rounded-2xl font-extrabold uppercase tracking-widest text-sm hover:bg-green-500 transition-all active:scale-95 disabled:opacity-50"
+                                className="group flex items-center gap-3 bg-amber-600 text-white px-12 py-4 rounded-2xl font-extrabold uppercase tracking-widest text-sm hover:bg-amber-500 transition-all active:scale-95 disabled:opacity-50"
                             >
                                 {creating ? <ZapSpinner size="sm" /> : (
                                     <>
@@ -691,7 +691,7 @@ export default function InstanciasPage() {
                             <div className={cn(
                                 "absolute inset-0 transition-all duration-700",
                                 selectedInstance.status === 'connected'
-                                    ? "bg-gradient-to-br from-green-600/40 to-green-900/60"
+                                    ? "bg-gradient-to-br from-amber-600/40 to-amber-900/60"
                                     : "bg-gradient-to-br from-red-600/30 to-slate-900"
                             )} />
                             <div className="absolute inset-0 backdrop-blur-md z-0" />
@@ -701,7 +701,7 @@ export default function InstanciasPage() {
                                     <div className={cn(
                                         "w-20 h-20 rounded-[2rem] flex items-center justify-center shadow-2xl border-2 rotate-12 transition-all duration-500",
                                         selectedInstance.status === 'connected'
-                                            ? "bg-green-500 text-white border-white/20"
+                                            ? "bg-amber-500 text-white border-white/20"
                                             : "bg-[var(--input-bg)] text-dim border-main"
                                     )}>
                                         <Zap className="w-10 h-10" fill={selectedInstance.status === 'connected' ? "currentColor" : "none"} />
@@ -712,7 +712,7 @@ export default function InstanciasPage() {
                                             <span className={cn(
                                                 "px-3 py-1 rounded-lg text-[10px] font-black uppercase tracking-[2px] border",
                                                 selectedInstance.status === 'connected'
-                                                    ? "bg-green-500/20 text-green-400 border-green-500/30 shadow-[0_0_10px_rgba(34,197,94,0.3)]"
+                                                    ? "bg-amber-500/20 text-amber-400 border-amber-500/30 shadow-[0_0_10px_rgba(34,197,94,0.3)]"
                                                     : "bg-[var(--input-bg)] text-dim border-main shadow-sm"
                                             )}>
                                                 {selectedInstance.status === 'connected' ? 'On-line' : 'Off-line'}
@@ -724,7 +724,7 @@ export default function InstanciasPage() {
                                 <div className="flex items-center gap-3">
                                     <button
                                         onClick={() => loadInstances()}
-                                        className="p-4 bg-white/10 hover:bg-green-500/20 rounded-2xl text-white transition-all backdrop-blur-md border border-white/10 active:scale-90 group"
+                                        className="p-4 bg-white/10 hover:bg-amber-500/20 rounded-2xl text-white transition-all backdrop-blur-md border border-white/10 active:scale-90 group"
                                         title="Atualizar Status"
                                     >
                                         <RefreshCw className={cn("w-6 h-6", loading && "animate-spin")} />
@@ -745,14 +745,14 @@ export default function InstanciasPage() {
                                 <div className="space-y-2">
                                     <p className="text-dim font-black uppercase tracking-[2px] text-[10px]">Número de Telefone</p>
                                     <p className="text-main text-2xl font-black font-mono tracking-tight flex items-center gap-3">
-                                        <Phone className="w-7 h-7 text-green-500" />
+                                        <Phone className="w-7 h-7 text-amber-500" />
                                         {selectedInstance.phone || <span className="text-dim opacity-30 italic font-medium">Sincronizando...</span>}
                                     </p>
                                 </div>
                                 <div className="space-y-2">
                                     <p className="text-dim font-black uppercase tracking-[2px] text-[10px]">Primeiro Registro</p>
                                     <p className="text-main text-xl font-black flex items-center gap-3">
-                                        <Calendar className="w-6 h-6 text-green-500" />
+                                        <Calendar className="w-6 h-6 text-amber-500" />
                                         {new Date(selectedInstance.created_at).toLocaleDateString('pt-BR')}
                                     </p>
                                 </div>
@@ -785,14 +785,14 @@ export default function InstanciasPage() {
                             {/* Section: Presence & Availability */}
                             <div className="space-y-6">
                                 <h4 className="text-xs font-black text-dim uppercase tracking-widest flex items-center gap-3 ml-2">
-                                    <Signal className="w-4 h-4 text-green-500" /> Presença e Disponibilidade
+                                    <Signal className="w-4 h-4 text-amber-500" /> Presença e Disponibilidade
                                 </h4>
                                 <div className="grid grid-cols-2 gap-4">
                                     <button
                                         onClick={() => handleManageAction(selectedInstance.uazapi_instance_id, 'presence', { presence: 'available' })}
-                                        className="p-6 bg-green-500/5 hover:bg-green-500/10 border border-green-500/20 rounded-3xl text-left transition-all group"
+                                        className="p-6 bg-amber-500/5 hover:bg-amber-500/10 border border-amber-500/20 rounded-3xl text-left transition-all group"
                                     >
-                                        <div className="w-10 h-10 bg-green-500/20 text-green-400 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                                        <div className="w-10 h-10 bg-amber-500/20 text-amber-400 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
                                             <CheckCircle2 className="w-5 h-5" />
                                         </div>
                                         <p className="text-main font-black text-lg">Modo Online</p>
@@ -814,7 +814,7 @@ export default function InstanciasPage() {
                             {/* Section: Privacy Quick Controls */}
                             <div className="space-y-6">
                                 <h4 className="text-xs font-black text-dim uppercase tracking-widest flex items-center gap-3 ml-2">
-                                    <Settings2 className="w-4 h-4 text-green-500" /> Privacidade da Conta
+                                    <Settings2 className="w-4 h-4 text-amber-500" /> Privacidade da Conta
                                 </h4>
                                 <div className="grid grid-cols-1 gap-3">
                                     {[
@@ -824,7 +824,7 @@ export default function InstanciasPage() {
                                     ].map((item) => (
                                         <div key={item.key} className="p-5 bg-main/20 border border-main rounded-2xl flex items-center justify-between hover:bg-main/40 transition-all">
                                             <div className="flex items-center gap-4">
-                                                <div className="w-10 h-10 bg-green-500/10 text-green-400 rounded-xl flex items-center justify-center font-bold">
+                                                <div className="w-10 h-10 bg-amber-500/10 text-amber-400 rounded-xl flex items-center justify-center font-bold">
                                                     {item.label[0]}
                                                 </div>
                                                 <p className="text-main font-black">{item.label}</p>
@@ -885,7 +885,7 @@ export default function InstanciasPage() {
                             {/* Section: Advanced Actions */}
                             <div className="space-y-6">
                                 <h4 className="text-xs font-black text-dim uppercase tracking-widest flex items-center gap-3 ml-2">
-                                    <RefreshCw className="w-4 h-4 text-green-500" /> Manutenção e Sessão
+                                    <RefreshCw className="w-4 h-4 text-amber-500" /> Manutenção e Sessão
                                 </h4>
                                 <div className="grid grid-cols-2 gap-4">
                                     <button
@@ -901,9 +901,9 @@ export default function InstanciasPage() {
                                             setNewName(selectedInstance.name)
                                             setShowRenameModal({ id: selectedInstance.uazapi_instance_id, name: selectedInstance.name })
                                         }}
-                                        className="p-5 bg-card-theme border border-main rounded-2xl text-left hover:bg-green-500/10 hover:border-green-500/30 transition-all group shadow-sm hover:shadow-md"
+                                        className="p-5 bg-card-theme border border-main rounded-2xl text-left hover:bg-amber-500/10 hover:border-amber-500/30 transition-all group shadow-sm hover:shadow-md"
                                     >
-                                        <Settings2 className="w-6 h-6 text-green-500 mb-3 group-hover:scale-125 transition-transform" />
+                                        <Settings2 className="w-6 h-6 text-amber-500 mb-3 group-hover:scale-125 transition-transform" />
                                         <p className="text-main font-bold">Renomear</p>
                                         <p className="text-dim text-[10px]">Alterar apelido</p>
                                     </button>
@@ -1004,7 +1004,7 @@ export default function InstanciasPage() {
                                     handleManageAction(showRenameModal.id, 'updateName', { name: newName.trim() })
                                     setShowRenameModal(null)
                                 }}
-                                className="p-5 bg-green-600 text-white font-black rounded-2xl hover:bg-green-500 shadow-lg shadow-green-600/20 transition-all disabled:opacity-50"
+                                className="p-5 bg-amber-600 text-white font-black rounded-2xl hover:bg-amber-500 shadow-lg shadow-amber-600/20 transition-all disabled:opacity-50"
                             >
                                 Salvar
                             </button>

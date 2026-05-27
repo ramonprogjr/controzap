@@ -84,11 +84,11 @@ export class UazapiClient {
   }
 
   async sendMessage(instanceName: string, to: string, message: string): Promise<void> {
-    const response = await fetch(`${this.baseUrl}/message/sendText/${instanceName}`, {
+    const response = await fetch(`${this.baseUrl}/send/text`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'apikey': this.globalToken,
+        'token': this.globalToken,
       },
       body: JSON.stringify({
         number: to,

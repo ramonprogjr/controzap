@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useEffect, useMemo, useState } from 'react'
 import { Save, Shield, Bell, User, Zap, Globe, Heart, Users, Plus, Trash2, Edit2, Calendar, X } from 'lucide-react'
@@ -408,7 +408,7 @@ export default function ConfiguracoesPage() {
                             key={item.id}
                             onClick={() => setSection(item.id as typeof section)}
                             className={`px-5 py-2.5 rounded-xl text-sm font-black transition-all ${section === item.id
-                                ? 'bg-green-600 text-white shadow-lg shadow-green-600/20 scale-105'
+                                ? 'bg-amber-600 text-white shadow-lg shadow-amber-600/20 scale-105'
                                 : 'text-dim hover:text-main hover:bg-white/5'
                                 }`}
                         >
@@ -419,11 +419,11 @@ export default function ConfiguracoesPage() {
 
                 {section === 'perfil' && (
                     <div className="bg-card-theme border border-main rounded-3xl p-10 shadow-2xl relative overflow-hidden group">
-                        <div className="absolute top-0 right-0 w-64 h-64 bg-green-500/5 blur-[100px] rounded-full -mr-32 -mt-32" />
+                        <div className="absolute top-0 right-0 w-64 h-64 bg-amber-500/5 blur-[100px] rounded-full -mr-32 -mt-32" />
 
                         <h3 className="text-3xl font-black text-main mb-10 flex items-center gap-4 tracking-tight">
-                            <div className="p-3 bg-green-500/10 rounded-2xl">
-                                <User className="text-green-500 w-8 h-8" />
+                            <div className="p-3 bg-amber-500/10 rounded-2xl">
+                                <User className="text-amber-500 w-8 h-8" />
                             </div>
                             Informações do Perfil
                         </h3>
@@ -462,7 +462,7 @@ export default function ConfiguracoesPage() {
                             </div>
 
                             <div className="pt-10 border-t border-main flex justify-end">
-                                <button className="flex items-center gap-3 bg-gradient-to-r from-green-600 to-green-600 text-white px-10 py-5 rounded-2xl font-black uppercase tracking-widest text-xs hover:from-green-500 hover:to-green-500 transition-all shadow-xl shadow-green-500/20 hover:scale-105 active:scale-95">
+                                <button className="flex items-center gap-3 bg-gradient-to-r from-amber-600 to-amber-600 text-white px-10 py-5 rounded-2xl font-black uppercase tracking-widest text-xs hover:from-amber-500 hover:to-amber-500 transition-all shadow-xl shadow-amber-500/20 hover:scale-105 active:scale-95">
                                     <Save className="w-5 h-5" />
                                     Salvar Alterações
                                 </button>
@@ -483,7 +483,7 @@ export default function ConfiguracoesPage() {
                                         className="p-2 hover:bg-main/10 rounded-full transition-colors"
                                         title="Atualizar lista"
                                     >
-                                        <Zap className={cn("w-5 h-5 text-green-500", loadingPermissions && "animate-spin text-dim")} />
+                                        <Zap className={cn("w-5 h-5 text-amber-500", loadingPermissions && "animate-spin text-dim")} />
                                     </button>
                                 </h3>
                                 <p className="text-dim font-medium">Visualize as permissões disponíveis para atribuição aos cargos.</p>
@@ -504,7 +504,7 @@ export default function ConfiguracoesPage() {
                                         <tr>
                                             <td colSpan={3} className="px-10 py-20 text-center">
                                                 <div className="flex flex-col items-center gap-4">
-                                                    <div className="w-12 h-12 border-4 border-green-500/20 border-t-green-500 rounded-full animate-spin" />
+                                                    <div className="w-12 h-12 border-4 border-amber-500/20 border-t-amber-500 rounded-full animate-spin" />
                                                     <p className="text-dim font-bold text-sm">Carregando permissões...</p>
                                                 </div>
                                             </td>
@@ -517,7 +517,7 @@ export default function ConfiguracoesPage() {
                                                     <p className="text-dim font-bold">Nenhuma permissão encontrada</p>
                                                     <button
                                                         onClick={handleInitialize}
-                                                        className="mt-4 bg-green-600 text-white px-8 py-3 rounded-xl font-black uppercase tracking-widest text-xs hover:bg-green-500 transition-all shadow-lg shadow-green-500/20"
+                                                        className="mt-4 bg-amber-600 text-white px-8 py-3 rounded-xl font-black uppercase tracking-widest text-xs hover:bg-amber-500 transition-all shadow-lg shadow-amber-500/20"
                                                     >
                                                         Inicializar Sistema
                                                     </button>
@@ -562,7 +562,7 @@ export default function ConfiguracoesPage() {
                                     setSelectedPermissions([])
                                     setRoleSideoverOpen(true)
                                 }}
-                                className="flex items-center gap-3 bg-green-600 text-white px-8 py-4 rounded-2xl font-black uppercase tracking-widest text-xs hover:bg-green-500 transition-all shadow-lg shadow-green-500/20 active:scale-95"
+                                className="flex items-center gap-3 bg-amber-600 text-white px-8 py-4 rounded-2xl font-black uppercase tracking-widest text-xs hover:bg-amber-500 transition-all shadow-lg shadow-amber-500/20 active:scale-95"
                             >
                                 <Plus className="w-5 h-5" /> Novo cargo
                             </button>
@@ -585,7 +585,7 @@ export default function ConfiguracoesPage() {
                                                 <div className="flex items-center gap-3">
                                                     <span className="text-main font-black text-xl tracking-tight">{role.name}</span>
                                                     {role.is_system && (
-                                                        <span className="px-2 py-0.5 bg-green-500/10 text-green-500 text-[10px] font-black uppercase rounded-lg tracking-wider">Sistema</span>
+                                                        <span className="px-2 py-0.5 bg-amber-500/10 text-amber-500 text-[10px] font-black uppercase rounded-lg tracking-wider">Sistema</span>
                                                     )}
                                                 </div>
                                             </td>
@@ -640,7 +640,7 @@ export default function ConfiguracoesPage() {
                                     setNewUser({ name: '', email: '', password: '', confirmPassword: '', roleId: '' })
                                     setUserSideoverOpen(true)
                                 }}
-                                className="flex items-center gap-3 bg-green-600 text-white px-8 py-4 rounded-2xl font-black uppercase tracking-widest text-xs hover:bg-green-500 transition-all shadow-lg shadow-green-600/20 active:scale-95"
+                                className="flex items-center gap-3 bg-amber-600 text-white px-8 py-4 rounded-2xl font-black uppercase tracking-widest text-xs hover:bg-amber-500 transition-all shadow-lg shadow-amber-600/20 active:scale-95"
                             >
                                 <Plus className="w-5 h-5" /> Novo usuário
                             </button>
@@ -672,7 +672,7 @@ export default function ConfiguracoesPage() {
                                             <td className="px-10 py-6">
                                                 <button
                                                     onClick={() => handleToggleUser(user)}
-                                                    className={`px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-wider transition-all ${user.is_active ? 'bg-green-500/10 text-green-500' : 'bg-red-500/10 text-red-500'}`}
+                                                    className={`px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-wider transition-all ${user.is_active ? 'bg-amber-500/10 text-amber-500' : 'bg-red-500/10 text-red-500'}`}
                                                 >
                                                     {user.is_active ? 'Ativo' : 'Inativo'}
                                                 </button>
@@ -714,9 +714,9 @@ export default function ConfiguracoesPage() {
                 {section === 'notificacoes' && (
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8 animate-in slide-in-from-bottom-4 duration-700">
                         <div className="bg-card-theme border border-main rounded-3xl p-10 shadow-2xl space-y-8 relative overflow-hidden group">
-                            <div className="absolute top-0 left-0 w-1 h-full bg-green-500/20 group-hover:bg-green-500 transition-colors" />
+                            <div className="absolute top-0 left-0 w-1 h-full bg-amber-500/20 group-hover:bg-amber-500 transition-colors" />
                             <h3 className="text-2xl font-black text-main flex items-center gap-4">
-                                <Bell className="w-6 h-6 text-green-500" /> Canais de Alerta
+                                <Bell className="w-6 h-6 text-amber-500" /> Canais de Alerta
                             </h3>
                             <div className="space-y-6">
                                 {[
@@ -724,7 +724,7 @@ export default function ConfiguracoesPage() {
                                     { id: 'emailAlerts', label: 'Alertas via E-mail', desc: 'Relatórios diários e alertas críticos na sua caixa de entrada.' },
                                     { id: 'leadAssignment', label: 'Atribuição de Lead', desc: 'Notificar vendedores quando um novo lead for atribuído.' }
                                 ].map((item) => (
-                                    <div key={item.id} className="flex items-center justify-between p-6 bg-main/20 rounded-2xl border border-main hover:border-green-500/30 transition-all cursor-pointer"
+                                    <div key={item.id} className="flex items-center justify-between p-6 bg-main/20 rounded-2xl border border-main hover:border-amber-500/30 transition-all cursor-pointer"
                                         onClick={() => setNotificationSettings(s => ({ ...s, [item.id]: !s[item.id as keyof typeof s] }))}>
                                         <div className="space-y-1">
                                             <p className="font-black text-main text-sm">{item.label}</p>
@@ -732,7 +732,7 @@ export default function ConfiguracoesPage() {
                                         </div>
                                         <div className={cn(
                                             "w-12 h-6 rounded-full p-1 transition-all duration-300",
-                                            notificationSettings[item.id as keyof typeof notificationSettings] ? "bg-green-500" : "bg-main/50"
+                                            notificationSettings[item.id as keyof typeof notificationSettings] ? "bg-amber-500" : "bg-main/50"
                                         )}>
                                             <div className={cn(
                                                 "w-4 h-4 bg-white rounded-full transition-all duration-300",
@@ -745,14 +745,14 @@ export default function ConfiguracoesPage() {
                         </div>
 
                         <div className="bg-card-theme border border-main rounded-3xl p-10 shadow-2xl flex flex-col items-center justify-center text-center space-y-6 relative overflow-hidden group">
-                            <div className="p-8 bg-green-500/10 rounded-full border border-green-500/20 shadow-2xl group-hover:scale-110 transition-transform duration-700">
-                                <Zap className="w-16 h-16 text-green-500 fill-green-500/20" />
+                            <div className="p-8 bg-amber-500/10 rounded-full border border-amber-500/20 shadow-2xl group-hover:scale-110 transition-transform duration-700">
+                                <Zap className="w-16 h-16 text-amber-500 fill-amber-500/20" />
                             </div>
                             <div>
                                 <h3 className="text-3xl font-black text-main tracking-tighter">Modo Turbo</h3>
                                 <p className="text-dim font-medium max-w-xs mx-auto">Ative notificações instantâneas e nunca perca um lead qualificado.</p>
                             </div>
-                            <button className="px-10 py-5 bg-gradient-to-r from-green-600 to-green-600 text-white rounded-2xl font-black uppercase tracking-widest text-xs shadow-xl shadow-green-600/20 hover:scale-105 active:scale-95 transition-all">
+                            <button className="px-10 py-5 bg-gradient-to-r from-amber-600 to-amber-600 text-white rounded-2xl font-black uppercase tracking-widest text-xs shadow-xl shadow-amber-600/20 hover:scale-105 active:scale-95 transition-all">
                                 Configurar Web Push
                             </button>
                         </div>
@@ -767,8 +767,8 @@ export default function ConfiguracoesPage() {
                                     <h3 className="text-3xl font-black text-main tracking-tighter mb-2">Webhooks & API</h3>
                                     <p className="text-dim font-medium">Conecte o ControlZap ao seu CRM, Zapier ou Make.</p>
                                 </div>
-                                <div className="p-3 bg-green-500/10 rounded-2xl border border-green-500/20">
-                                    <Globe className="w-8 h-8 text-green-500" />
+                                <div className="p-3 bg-amber-500/10 rounded-2xl border border-amber-500/20">
+                                    <Globe className="w-8 h-8 text-amber-500" />
                                 </div>
                             </div>
 
@@ -811,7 +811,7 @@ export default function ConfiguracoesPage() {
                             </div>
 
                             <div className="pt-10 border-t border-main">
-                                <button className="flex items-center gap-3 text-green-500 font-black uppercase tracking-widest text-[10px] hover:translate-x-2 transition-transform">
+                                <button className="flex items-center gap-3 text-amber-500 font-black uppercase tracking-widest text-[10px] hover:translate-x-2 transition-transform">
                                     <Plus className="w-4 h-4" /> Gerar nova URL de Webhook
                                 </button>
                             </div>
@@ -819,9 +819,9 @@ export default function ConfiguracoesPage() {
 
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                             {[
-                                { name: 'Zapier', desc: 'Automação sem código', iconColor: 'text-green-500', bgColor: 'bg-green-500/10', borderColor: 'border-green-500/20' },
-                                { name: 'Make.com', desc: 'Workflows avançados', iconColor: 'text-green-500', bgColor: 'bg-green-500/10', borderColor: 'border-green-500/20' },
-                                { name: 'Typebot', desc: 'Bots conversacionais', iconColor: 'text-green-500', bgColor: 'bg-green-500/10', borderColor: 'border-green-500/20' }
+                                { name: 'Zapier', desc: 'Automação sem código', iconColor: 'text-amber-500', bgColor: 'bg-amber-500/10', borderColor: 'border-amber-500/20' },
+                                { name: 'Make.com', desc: 'Workflows avançados', iconColor: 'text-amber-500', bgColor: 'bg-amber-500/10', borderColor: 'border-amber-500/20' },
+                                { name: 'Typebot', desc: 'Bots conversacionais', iconColor: 'text-amber-500', bgColor: 'bg-amber-500/10', borderColor: 'border-amber-500/20' }
                             ].map((app) => (
                                 <div key={app.name} className="bg-card-theme border border-main rounded-3xl p-8 shadow-xl hover:-translate-y-2 transition-all group cursor-pointer">
                                     <div className={cn("w-12 h-12 rounded-2xl mb-6 flex items-center justify-center border", app.bgColor, app.borderColor)}>
@@ -840,11 +840,11 @@ export default function ConfiguracoesPage() {
                         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                             <div className="lg:col-span-2 bg-card-theme border border-main rounded-3xl p-10 shadow-2xl space-y-10 relative overflow-hidden">
                                 <div className="absolute top-0 right-0 p-10 opacity-5">
-                                    <Zap className="w-64 h-64 text-green-500" />
+                                    <Zap className="w-64 h-64 text-amber-500" />
                                 </div>
                                 <div className="space-y-2">
                                     <div className="flex items-center gap-3 mb-2">
-                                        <span className="px-3 py-1 bg-green-500 text-white text-[10px] font-black uppercase rounded-lg tracking-widest">Plano Pro</span>
+                                        <span className="px-3 py-1 bg-amber-500 text-white text-[10px] font-black uppercase rounded-lg tracking-widest">Plano Pro</span>
                                         <span className="text-dim font-bold text-sm">Assinado desde Junho, 2025</span>
                                     </div>
                                     <h3 className="text-5xl font-black text-main tracking-tighter">ControlZap Turbo Enterprise</h3>
@@ -857,7 +857,7 @@ export default function ConfiguracoesPage() {
                                             <p className="text-sm font-black text-main">4.210 / 10.000</p>
                                         </div>
                                         <div className="h-2 w-full bg-main/20 rounded-full overflow-hidden">
-                                            <div className="h-full bg-green-500 w-[42%] shadow-[0_0_10px_rgba(34,197,94,0.5)]" />
+                                            <div className="h-full bg-amber-500 w-[42%] shadow-[0_0_10px_rgba(34,197,94,0.5)]" />
                                         </div>
                                     </div>
                                     <div className="space-y-4">
@@ -866,19 +866,19 @@ export default function ConfiguracoesPage() {
                                             <p className="text-sm font-black text-main">8 / 15</p>
                                         </div>
                                         <div className="h-2 w-full bg-main/20 rounded-full overflow-hidden">
-                                            <div className="h-full bg-green-500 w-[53%] shadow-[0_0_10px_rgba(59,130,246,0.5)]" />
+                                            <div className="h-full bg-amber-500 w-[53%] shadow-[0_0_10px_rgba(59,130,246,0.5)]" />
                                         </div>
                                     </div>
                                 </div>
                             </div>
 
-                            <div className="bg-gradient-to-br from-green-600 to-green-700 rounded-3xl p-10 shadow-2xl text-white flex flex-col justify-between">
+                            <div className="bg-gradient-to-br from-amber-600 to-amber-700 rounded-3xl p-10 shadow-2xl text-white flex flex-col justify-between">
                                 <div>
                                     <h4 className="text-2xl font-black tracking-tight mb-4 text-white/80 uppercase">Próximo Vencimento</h4>
                                     <p className="text-6xl font-black tracking-tighter mb-4">R$ 297</p>
                                     <p className="font-bold opacity-80 mb-10">Vence em 22 de Fevereiro de 2026</p>
                                 </div>
-                                <button className="w-full bg-white text-green-700 py-5 rounded-2xl font-black uppercase tracking-widest text-xs hover:bg-white/90 transition-all shadow-2xl active:scale-95">
+                                <button className="w-full bg-white text-amber-700 py-5 rounded-2xl font-black uppercase tracking-widest text-xs hover:bg-white/90 transition-all shadow-2xl active:scale-95">
                                     Gerenciar Pagamento
                                 </button>
                             </div>
@@ -888,7 +888,7 @@ export default function ConfiguracoesPage() {
                             <Heart className="w-12 h-12 text-red-500/50 mx-auto" />
                             <h4 className="text-2xl font-black text-main tracking-tight">Precisa de um plano customizado?</h4>
                             <p className="text-dim font-medium max-w-md mx-auto">Temos soluções Enterprise para times de alta performance. Fale diretamente com o nosso time técnico.</p>
-                            <button className="text-green-500 font-black uppercase tracking-widest text-[10px] hover:scale-105 transition-all pt-4">
+                            <button className="text-amber-500 font-black uppercase tracking-widest text-[10px] hover:scale-105 transition-all pt-4">
                                 Abrir Ticket de Vendas →
                             </button>
                         </div>
@@ -906,12 +906,12 @@ export default function ConfiguracoesPage() {
                     <div className="relative w-full max-w-3xl bg-sidebar-theme border-l border-main shadow-[0_0_50px_rgba(0,0,0,0.5)] flex flex-col animate-in slide-in-from-right duration-500 ease-out">
                         {/* Premium Header */}
                         <div className="relative h-48 flex-shrink-0 overflow-hidden">
-                            <div className="absolute inset-0 bg-gradient-to-br from-green-600/20 via-transparent to-transparent transition-all duration-700" />
+                            <div className="absolute inset-0 bg-gradient-to-br from-amber-600/20 via-transparent to-transparent transition-all duration-700" />
                             <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-5 mix-blend-overlay" />
 
                             <div className="absolute top-10 left-10 right-10 flex justify-between items-start z-10">
                                 <div className="flex items-center gap-6">
-                                    <div className="w-16 h-16 bg-green-500/10 text-green-500 rounded-3xl flex items-center justify-center shadow-2xl border border-green-500/20 rotate-6 transition-transform hover:rotate-0 duration-500">
+                                    <div className="w-16 h-16 bg-amber-500/10 text-amber-500 rounded-3xl flex items-center justify-center shadow-2xl border border-amber-500/20 rotate-6 transition-transform hover:rotate-0 duration-500">
                                         <Shield className="w-8 h-8" />
                                     </div>
                                     <div>
@@ -942,7 +942,7 @@ export default function ConfiguracoesPage() {
                                                 ? setSelectedRole({ ...selectedRole, name: e.target.value })
                                                 : setNewRoleName(e.target.value)}
                                             placeholder="Ex: Supervisor de Vendas"
-                                            className="w-full input-theme rounded-2xl px-6 py-4 text-main outline-none focus:ring-2 focus:ring-green-500/50 transition-all text-lg font-black"
+                                            className="w-full input-theme rounded-2xl px-6 py-4 text-main outline-none focus:ring-2 focus:ring-amber-500/50 transition-all text-lg font-black"
                                             disabled={selectedRole?.is_system}
                                         />
                                     </div>
@@ -955,7 +955,7 @@ export default function ConfiguracoesPage() {
                                                 ? setSelectedRole({ ...selectedRole, description: e.target.value })
                                                 : setNewRoleDescription(e.target.value)}
                                             placeholder="Breve resumo das funções"
-                                            className="w-full input-theme rounded-2xl px-6 py-4 text-main outline-none focus:ring-2 focus:ring-green-500/50 transition-all font-medium"
+                                            className="w-full input-theme rounded-2xl px-6 py-4 text-main outline-none focus:ring-2 focus:ring-amber-500/50 transition-all font-medium"
                                             disabled={selectedRole?.is_system}
                                         />
                                     </div>
@@ -964,7 +964,7 @@ export default function ConfiguracoesPage() {
 
                             <div className="space-y-10">
                                 <h3 className="text-xs font-black text-dim uppercase tracking-[4px] ml-4 flex items-center gap-3">
-                                    <Zap className="w-4 h-4 text-green-500" /> Matriz de Permissões
+                                    <Zap className="w-4 h-4 text-amber-500" /> Matriz de Permissões
                                 </h3>
 
                                 {loadingPermissions ? (
@@ -987,14 +987,14 @@ export default function ConfiguracoesPage() {
                                             <button
                                                 onClick={handleInitialize}
                                                 disabled={initializing}
-                                                className="px-8 py-3 bg-green-600 hover:bg-green-500 border border-green-500/30 rounded-xl text-white font-black text-[10px] uppercase tracking-widest transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-green-500/20"
+                                                className="px-8 py-3 bg-amber-600 hover:bg-amber-500 border border-amber-500/30 rounded-xl text-white font-black text-[10px] uppercase tracking-widest transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-amber-500/20"
                                             >
                                                 {initializing ? 'Inicializando...' : 'Inicializar Sistema'}
                                             </button>
                                             <button
                                                 onClick={loadPermissions}
                                                 disabled={initializing}
-                                                className="px-8 py-3 bg-main/20 hover:bg-main/30 border border-main rounded-xl text-green-500 font-black text-[10px] uppercase tracking-widest transition-all disabled:opacity-50"
+                                                className="px-8 py-3 bg-main/20 hover:bg-main/30 border border-main rounded-xl text-amber-500 font-black text-[10px] uppercase tracking-widest transition-all disabled:opacity-50"
                                             >
                                                 Verificar Novamente
                                             </button>
@@ -1004,7 +1004,7 @@ export default function ConfiguracoesPage() {
                                     groupedPermissions.map((group) => (
                                         <div key={group.title} className="bg-card-theme/30 border border-main rounded-3xl p-10 space-y-8 hover:bg-card-theme/50 transition-all group/card">
                                             <h4 className="text-2xl font-black text-main flex items-center gap-4 tracking-tight">
-                                                <div className="w-2 h-8 bg-green-500 rounded-full shadow-[0_0_15px_rgba(34,197,94,0.5)]" />
+                                                <div className="w-2 h-8 bg-amber-500 rounded-full shadow-[0_0_15px_rgba(34,197,94,0.5)]" />
                                                 {group.title}
                                             </h4>
                                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -1016,8 +1016,8 @@ export default function ConfiguracoesPage() {
                                                             className={cn(
                                                                 "flex items-center justify-between p-6 rounded-2xl border-2 transition-all cursor-pointer group/item",
                                                                 isActive
-                                                                    ? "bg-green-500/10 border-green-500/30 text-main"
-                                                                    : "bg-main/30 border-main/50 text-dim hover:border-green-500/30"
+                                                                    ? "bg-amber-500/10 border-amber-500/30 text-main"
+                                                                    : "bg-main/30 border-main/50 text-dim hover:border-amber-500/30"
                                                             )}
                                                         >
                                                             <div className="flex flex-col gap-1">
@@ -1026,7 +1026,7 @@ export default function ConfiguracoesPage() {
                                                             </div>
                                                             <div className={cn(
                                                                 "w-6 h-6 rounded-lg border-2 flex items-center justify-center transition-all",
-                                                                isActive ? "bg-green-500 border-green-500 shadow-lg shadow-green-500/20" : "bg-transparent border-main"
+                                                                isActive ? "bg-amber-500 border-amber-500 shadow-lg shadow-amber-500/20" : "bg-transparent border-main"
                                                             )}>
                                                                 {isActive && <Save className="w-3 h-3 text-white" />}
                                                                 <input
@@ -1057,7 +1057,7 @@ export default function ConfiguracoesPage() {
                                 <button
                                     onClick={selectedRole ? handleUpdateRole : handleCreateRole}
                                     disabled={creatingRole || loadingPermissions || selectedRole?.is_system}
-                                    className="bg-green-600 text-white px-10 py-5 rounded-[2rem] font-black uppercase tracking-widest text-xs hover:bg-green-500 disabled:opacity-50 shadow-2xl shadow-green-600/20 transition-all active:scale-95 flex items-center gap-3"
+                                    className="bg-amber-600 text-white px-10 py-5 rounded-[2rem] font-black uppercase tracking-widest text-xs hover:bg-amber-500 disabled:opacity-50 shadow-2xl shadow-amber-600/20 transition-all active:scale-95 flex items-center gap-3"
                                 >
                                     {creatingRole ? <ZapSpinner size="sm" /> : (selectedRole ? 'Salvar Alterações' : 'Criar Cargo')}
                                 </button>
@@ -1091,12 +1091,12 @@ export default function ConfiguracoesPage() {
                     <div className="relative w-full max-w-2xl bg-sidebar-theme border-l border-main shadow-[0_0_50px_rgba(0,0,0,0.5)] flex flex-col animate-in slide-in-from-right duration-500 ease-out">
                         {/* Premium Header */}
                         <div className="relative h-48 flex-shrink-0 overflow-hidden">
-                            <div className="absolute inset-0 bg-gradient-to-br from-green-600/20 via-transparent to-transparent transition-all duration-700" />
+                            <div className="absolute inset-0 bg-gradient-to-br from-amber-600/20 via-transparent to-transparent transition-all duration-700" />
                             <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-5 mix-blend-overlay" />
 
                             <div className="absolute top-10 left-10 right-10 flex justify-between items-start z-10">
                                 <div className="flex items-center gap-6">
-                                    <div className="w-16 h-16 bg-green-500/10 text-green-500 rounded-3xl flex items-center justify-center shadow-2xl border border-green-500/20 rotate-6 transition-transform hover:rotate-0 duration-500">
+                                    <div className="w-16 h-16 bg-amber-500/10 text-amber-500 rounded-3xl flex items-center justify-center shadow-2xl border border-amber-500/20 rotate-6 transition-transform hover:rotate-0 duration-500">
                                         <Users className="w-8 h-8" />
                                     </div>
                                     <div>
@@ -1125,7 +1125,7 @@ export default function ConfiguracoesPage() {
                                             placeholder="Nome do colaborador"
                                             value={newUser.name}
                                             onChange={(e) => setNewUser({ ...newUser, name: e.target.value })}
-                                            className="w-full input-theme rounded-2xl px-6 py-4 text-main outline-none focus:ring-2 focus:ring-green-500/50 transition-all font-bold"
+                                            className="w-full input-theme rounded-2xl px-6 py-4 text-main outline-none focus:ring-2 focus:ring-amber-500/50 transition-all font-bold"
                                         />
                                     </div>
                                     <div className="space-y-3">
@@ -1135,7 +1135,7 @@ export default function ConfiguracoesPage() {
                                             placeholder="email@exemplo.com"
                                             value={newUser.email}
                                             onChange={(e) => setNewUser({ ...newUser, email: e.target.value })}
-                                            className="w-full input-theme rounded-2xl px-6 py-4 text-main outline-none focus:ring-2 focus:ring-green-500/50 transition-all font-bold"
+                                            className="w-full input-theme rounded-2xl px-6 py-4 text-main outline-none focus:ring-2 focus:ring-amber-500/50 transition-all font-bold"
                                             disabled={!!editingUser}
                                         />
                                     </div>
@@ -1146,7 +1146,7 @@ export default function ConfiguracoesPage() {
                                             placeholder={editingUser ? 'Nova senha (opcional)' : 'Mínimo 8 caracteres'}
                                             value={newUser.password}
                                             onChange={(e) => setNewUser({ ...newUser, password: e.target.value })}
-                                            className="w-full input-theme rounded-2xl px-6 py-4 text-main outline-none focus:ring-2 focus:ring-green-500/50 transition-all font-mono"
+                                            className="w-full input-theme rounded-2xl px-6 py-4 text-main outline-none focus:ring-2 focus:ring-amber-500/50 transition-all font-mono"
                                         />
                                     </div>
                                     <div className="space-y-3">
@@ -1156,7 +1156,7 @@ export default function ConfiguracoesPage() {
                                             placeholder="Repita a senha"
                                             value={newUser.confirmPassword}
                                             onChange={(e) => setNewUser({ ...newUser, confirmPassword: e.target.value })}
-                                            className="w-full input-theme rounded-2xl px-6 py-4 text-main outline-none focus:ring-2 focus:ring-green-500/50 transition-all font-mono"
+                                            className="w-full input-theme rounded-2xl px-6 py-4 text-main outline-none focus:ring-2 focus:ring-amber-500/50 transition-all font-mono"
                                         />
                                     </div>
                                     <div className="space-y-3 md:col-span-2">
@@ -1165,7 +1165,7 @@ export default function ConfiguracoesPage() {
                                             <select
                                                 value={newUser.roleId}
                                                 onChange={(e) => setNewUser({ ...newUser, roleId: e.target.value })}
-                                                className="w-full input-theme rounded-2xl px-6 py-4 text-main outline-none focus:ring-2 focus:ring-green-500/50 transition-all appearance-none cursor-pointer font-black"
+                                                className="w-full input-theme rounded-2xl px-6 py-4 text-main outline-none focus:ring-2 focus:ring-amber-500/50 transition-all appearance-none cursor-pointer font-black"
                                             >
                                                 <option value="" className="bg-card-theme">Selecionar cargo...</option>
                                                 {roles.map((role) => (
@@ -1187,7 +1187,7 @@ export default function ConfiguracoesPage() {
                             <button
                                 onClick={editingUser ? handleUpdateUser : handleCreateUser}
                                 disabled={creatingUser}
-                                className="bg-green-600 text-white px-12 py-5 rounded-2xl font-black uppercase tracking-widest text-xs hover:bg-green-500 disabled:opacity-50 shadow-2xl shadow-green-600/20 transition-all active:scale-95"
+                                className="bg-amber-600 text-white px-12 py-5 rounded-2xl font-black uppercase tracking-widest text-xs hover:bg-amber-500 disabled:opacity-50 shadow-2xl shadow-amber-600/20 transition-all active:scale-95"
                             >
                                 {editingUser ? 'Atualizar Perfil' : 'Cadastrar Usuário'}
                             </button>

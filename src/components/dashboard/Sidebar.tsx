@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
@@ -27,6 +27,7 @@ import {
   Sun
 } from 'lucide-react'
 import { ThemeToggle } from './ThemeToggle'
+import { NotificationsPanel } from './NotificationsPanel'
 
 const menuItems = [
   {
@@ -104,6 +105,7 @@ export function Sidebar() {
   const [permissions, setPermissionsState] = useState<string[]>([])
   const [role, setRoleState] = useState<string | null>(null)
   const [authLoaded, setAuthLoaded] = useState(false)
+  const [companyId, setCompanyId] = useState('')
 
   useEffect(() => {
     const loadAuth = async () => {
@@ -120,6 +122,7 @@ export function Sidebar() {
         setRoleState(nextRole)
         setPermissions(nextPermissions)
         setRole(nextRole)
+        if (data?.user?.company_id) setCompanyId(data.user.company_id)
       } catch {
         // Ignorar erro de auth para não quebrar a UI
       } finally {
@@ -220,9 +223,9 @@ export function Sidebar() {
         className="absolute -right-4 top-24 bg-theme-bg text-main rounded-full p-2 shadow-2xl border border-main hover:scale-110 transition-all duration-300 z-[60] flex items-center justify-center"
       >
         {isCollapsed ? (
-          <ChevronRight className="w-4 h-4 text-green-500" strokeWidth={4} />
+          <ChevronRight className="w-4 h-4 text-amber-500" strokeWidth={4} />
         ) : (
-          <ChevronLeft className="w-4 h-4 text-green-500" strokeWidth={4} />
+          <ChevronLeft className="w-4 h-4 text-amber-500" strokeWidth={4} />
         )}
       </button>
 
@@ -232,7 +235,7 @@ export function Sidebar() {
         isCollapsed ? "px-0" : "px-8"
       )}>
         <Link href="/dashboard" className="flex items-center gap-4 group">
-          <div className="flex-shrink-0 w-12 h-12 bg-gradient-to-tr from-green-600 via-green-600 to-green-700 rounded-2xl flex items-center justify-center shadow-2xl shadow-green-600/20 group-hover:scale-110 transition-all duration-500">
+          <div className="flex-shrink-0 w-12 h-12 bg-gradient-to-tr from-amber-600 via-amber-600 to-amber-700 rounded-2xl flex items-center justify-center shadow-2xl shadow-amber-600/20 group-hover:scale-110 transition-all duration-500">
             <Lock className="w-6 h-6 text-white" strokeWidth={2.5} />
           </div>
           {!isCollapsed && (
@@ -265,7 +268,7 @@ export function Sidebar() {
                     'group flex items-center rounded-2xl transition-all duration-500 relative overflow-hidden',
                     isCollapsed ? "justify-center h-12 w-12 mx-auto" : "px-5 py-3.5",
                     isActive
-                      ? 'bg-gradient-to-r from-green-600 to-green-500 text-white shadow-xl shadow-green-500/25'
+                      ? 'bg-gradient-to-r from-amber-600 to-amber-500 text-white shadow-xl shadow-amber-500/25'
                       : 'text-dim hover:text-main hover:bg-[var(--hover-bg)]'
                   )}
                 >
@@ -275,7 +278,7 @@ export function Sidebar() {
                   )}>
                     <item.icon className={cn(
                       "w-5 h-5 transition-all duration-500",
-                      isActive ? "text-white scale-110" : "text-dim group-hover:text-green-400"
+                      isActive ? "text-white scale-110" : "text-dim group-hover:text-amber-400"
                     )} strokeWidth={isActive ? 3 : 2} />
                     {!isCollapsed && (
                       <span className="font-black text-sm tracking-tight animate-in fade-in duration-500">
@@ -306,7 +309,7 @@ export function Sidebar() {
                     'group flex items-center rounded-2xl transition-all duration-500 relative overflow-hidden',
                     isCollapsed ? "justify-center h-12 w-12 mx-auto" : "px-5 py-3.5",
                     isActive
-                      ? 'bg-gradient-to-r from-green-600 to-green-500 text-white shadow-xl shadow-green-500/25'
+                      ? 'bg-gradient-to-r from-amber-600 to-amber-500 text-white shadow-xl shadow-amber-500/25'
                       : 'text-dim hover:text-main hover:bg-[var(--hover-bg)]'
                   )}
                 >
@@ -316,7 +319,7 @@ export function Sidebar() {
                   )}>
                     <item.icon className={cn(
                       "w-5 h-5 transition-all duration-500",
-                      isActive ? "text-white scale-110" : "text-dim group-hover:text-green-400"
+                      isActive ? "text-white scale-110" : "text-dim group-hover:text-amber-400"
                     )} strokeWidth={isActive ? 3 : 2} />
                     {!isCollapsed && (
                       <span className="font-black text-sm tracking-tight animate-in fade-in duration-500">
@@ -338,7 +341,7 @@ export function Sidebar() {
               'group flex items-center rounded-2xl transition-all duration-500 relative overflow-hidden',
               isCollapsed ? "justify-center h-12 w-12 mx-auto" : "px-5 py-3.5",
               pathname === '/dashboard/configuracoes'
-                ? 'bg-gradient-to-r from-green-600 to-green-500 text-white shadow-xl shadow-green-500/25'
+                ? 'bg-gradient-to-r from-amber-600 to-amber-500 text-white shadow-xl shadow-amber-500/25'
                 : 'text-dim hover:text-main hover:bg-[var(--hover-bg)]'
             )}
           >
@@ -348,7 +351,7 @@ export function Sidebar() {
             )}>
               <Settings className={cn(
                 "w-5 h-5 transition-all duration-500",
-                pathname === '/dashboard/configuracoes' ? "text-white scale-110" : "text-dim group-hover:text-green-400"
+                pathname === '/dashboard/configuracoes' ? "text-white scale-110" : "text-dim group-hover:text-amber-400"
               )} strokeWidth={pathname === '/dashboard/configuracoes' ? 3 : 2} />
               {!isCollapsed && (
                 <span className="font-black text-sm tracking-tight animate-in fade-in duration-500">Configurações</span>
@@ -369,21 +372,7 @@ export function Sidebar() {
 
 
         {/* Notifications */}
-        <button className={cn(
-          "w-full flex items-center rounded-2xl transition-all duration-500 group hover:bg-[var(--hover-bg)]",
-          isCollapsed ? "justify-center p-3.5" : "px-5 py-3.5 gap-4"
-        )}>
-          <div className="relative">
-            <Bell className="w-5 h-5 text-dim group-hover:text-green-500 transition-colors" strokeWidth={2.5} />
-            <span className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-green-500 rounded-full ring-4 ring-theme-bg group-hover:animate-ping" />
-          </div>
-          {!isCollapsed && (
-            <>
-              <span className="font-bold text-sm flex-1 text-left text-dim group-hover:text-main tracking-tight">Notificações</span>
-              <span className="px-2 py-0.5 bg-green-500/10 text-green-500 rounded-lg text-[10px] font-black shadow-inner">3</span>
-            </>
-          )}
-        </button>
+        <NotificationsPanel isCollapsed={isCollapsed} companyId={companyId} />
 
         {/* Logout */}
         <button

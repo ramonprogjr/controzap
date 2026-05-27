@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useState, useEffect } from 'react'
 import { createClient } from '@/lib/supabase/client'
@@ -96,13 +96,13 @@ export default function LeadsPage() {
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'new':
-        return 'bg-green-500/10 text-green-500 border-green-500/20'
+        return 'bg-amber-500/10 text-amber-500 border-amber-500/20'
       case 'contacted':
         return 'bg-amber-500/10 text-amber-500 border-amber-500/20'
       case 'qualified':
-        return 'bg-green-500/10 text-green-500 border-green-500/20'
+        return 'bg-amber-500/10 text-amber-500 border-amber-500/20'
       case 'converted':
-        return 'bg-green-500/10 text-green-500 border-green-500/20'
+        return 'bg-amber-500/10 text-amber-500 border-amber-500/20'
       default:
         return 'bg-slate-500/10 text-slate-500 border-slate-500/20'
     }
@@ -146,7 +146,7 @@ export default function LeadsPage() {
       {/* Filtros */}
       <div className="mb-8 flex items-center gap-4">
         <div className="relative flex-1 max-w-md group">
-          <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-dim group-focus-within:text-green-500 transition-colors" />
+          <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-dim group-focus-within:text-amber-500 transition-colors" />
           <input
             type="text"
             value={searchTerm}
@@ -175,9 +175,9 @@ export default function LeadsPage() {
       {/* Lista de Leads */}
       {filteredLeads.length === 0 ? (
         <div className="bg-card-theme border border-main rounded-3xl p-24 text-center shadow-2xl relative overflow-hidden group">
-          <div className="absolute inset-0 bg-gradient-to-br from-green-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+          <div className="absolute inset-0 bg-gradient-to-br from-amber-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
           <div className="relative z-10">
-            <div className="w-24 h-24 bg-gradient-to-br from-green-500 to-green-600 rounded-[2rem] flex items-center justify-center mx-auto mb-8 shadow-2xl shadow-green-500/20 rotate-12 group-hover:rotate-0 transition-transform duration-500">
+            <div className="w-24 h-24 bg-gradient-to-br from-amber-500 to-amber-600 rounded-[2rem] flex items-center justify-center mx-auto mb-8 shadow-2xl shadow-amber-500/20 rotate-12 group-hover:rotate-0 transition-transform duration-500">
               <Users className="w-10 h-10 text-white" />
             </div>
             <h3 className="text-3xl font-black text-main mb-4 tracking-tight">Nenhum lead encontrado</h3>
@@ -189,7 +189,7 @@ export default function LeadsPage() {
           {filteredLeads.map((lead) => (
             <div
               key={lead.id}
-              className="bg-card-theme border border-main rounded-3xl p-8 hover:border-green-500/50 transition-all duration-300 shadow-xl group/card relative overflow-hidden"
+              className="bg-card-theme border border-main rounded-3xl p-8 hover:border-amber-500/50 transition-all duration-300 shadow-xl group/card relative overflow-hidden"
             >
               <div className="absolute top-0 right-0 p-8 opacity-5 group-hover/card:opacity-10 transition-opacity">
                 <Users className="w-24 h-24" />
@@ -197,7 +197,7 @@ export default function LeadsPage() {
 
               <div className="flex items-start justify-between mb-8 relative z-10">
                 <div className="flex items-center gap-4">
-                  <div className="w-14 h-14 bg-gradient-to-br from-green-500 to-green-600 rounded-2xl flex items-center justify-center shadow-lg shadow-green-500/20 group-hover/card:scale-110 transition-transform">
+                  <div className="w-14 h-14 bg-gradient-to-br from-amber-500 to-amber-600 rounded-2xl flex items-center justify-center shadow-lg shadow-amber-500/20 group-hover/card:scale-110 transition-transform">
                     <User className="w-7 h-7 text-white" />
                   </div>
                   <div>
@@ -216,14 +216,14 @@ export default function LeadsPage() {
               <div className="space-y-3 mb-8 relative z-10">
                 <div className="flex items-center gap-3 text-sm font-medium text-dim">
                   <div className="w-8 h-8 bg-main/30 rounded-lg flex items-center justify-center">
-                    <MessageSquare className="w-4 h-4 text-green-500" />
+                    <MessageSquare className="w-4 h-4 text-amber-500" />
                   </div>
                   <span>{lead.message_count} mensagens trocadas</span>
                 </div>
                 {lead.seller_name && (
                   <div className="flex items-center gap-3 text-sm font-medium text-dim">
                     <div className="w-8 h-8 bg-main/30 rounded-lg flex items-center justify-center">
-                      <User className="w-4 h-4 text-green-500" />
+                      <User className="w-4 h-4 text-amber-500" />
                     </div>
                     <span>Atendido por: <span className="text-main font-bold">{lead.seller_name}</span></span>
                   </div>
@@ -231,7 +231,7 @@ export default function LeadsPage() {
                 {lead.last_contact && (
                   <div className="flex items-center gap-3 text-sm font-medium text-dim">
                     <div className="w-8 h-8 bg-main/30 rounded-lg flex items-center justify-center">
-                      <Calendar className="w-4 h-4 text-green-500" />
+                      <Calendar className="w-4 h-4 text-amber-500" />
                     </div>
                     <span>Último contato: <span className="text-main font-bold">{new Date(lead.last_contact).toLocaleDateString('pt-BR')}</span></span>
                   </div>
@@ -239,10 +239,10 @@ export default function LeadsPage() {
               </div>
 
               <div className="flex items-center gap-3 relative z-10">
-                <button className="flex-1 bg-main/30 text-main px-4 py-3 rounded-xl font-black hover:bg-green-500 hover:text-white transition-all text-xs uppercase tracking-widest border border-transparent hover:border-green-500">
+                <button className="flex-1 bg-main/30 text-main px-4 py-3 rounded-xl font-black hover:bg-amber-500 hover:text-white transition-all text-xs uppercase tracking-widest border border-transparent hover:border-amber-500">
                   Ver Conversa
                 </button>
-                <button className="px-6 py-3 bg-green-600 text-white rounded-xl font-black hover:bg-green-500 transition-all text-xs uppercase tracking-widest shadow-lg shadow-green-500/20">
+                <button className="px-6 py-3 bg-amber-600 text-white rounded-xl font-black hover:bg-amber-500 transition-all text-xs uppercase tracking-widest shadow-lg shadow-amber-500/20">
                   Editar
                 </button>
               </div>

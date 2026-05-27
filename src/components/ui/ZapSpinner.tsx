@@ -1,4 +1,4 @@
-import { Lock } from 'lucide-react'
+﻿import { Lock } from 'lucide-react'
 import { cn } from '@/lib/utils/cn'
 
 interface ZapSpinnerProps {
@@ -25,26 +25,26 @@ export function ZapSpinner({ className, size = 'md' }: ZapSpinnerProps) {
         <div className={cn("relative flex items-center justify-center", className)}>
             {/* Main Spinning Ring */}
             <div className={cn(
-                "absolute rounded-full border-2 border-green-500/20 border-t-green-500 animate-spin transition-all duration-1000",
+                "absolute rounded-full border-2 border-amber-500/20 border-t-amber-500 animate-spin transition-all duration-1000",
                 sizes[size]
             )} />
 
             {/* Counter-Spinning Inner Ring */}
             <div className={cn(
-                "absolute rounded-full border border-green-500/10 border-b-green-500/60 animate-spin-reverse transition-all duration-1500",
+                "absolute rounded-full border border-amber-500/10 border-b-amber-500/60 animate-spin-reverse transition-all duration-1500",
                 iconSizes[size]
             )} />
 
             {/* Inner Glow Circle */}
             <div className={cn(
-                "absolute rounded-full bg-green-500/5 animate-pulse",
+                "absolute rounded-full bg-amber-500/5 animate-pulse",
                 sizes[size]
             )} />
 
             {/* Center Lock Icon */}
             <div className="relative z-10 flex items-center justify-center">
-                <div className="absolute inset-0 bg-green-500/10 blur-xl animate-pulse rounded-full" />
-                <Lock className={cn("text-green-500 animate-bounce-slow relative z-20", iconSizes[size])} strokeWidth={2.5} />
+                <div className="absolute inset-0 bg-amber-500/10 blur-xl animate-pulse rounded-full" />
+                <Lock className={cn("text-amber-500 animate-bounce-slow relative z-20", iconSizes[size])} strokeWidth={2.5} />
             </div>
         </div>
     )
@@ -57,7 +57,7 @@ export function ZapLoadingScreen() {
             <div className="flex flex-col items-center gap-2">
                 <h3 className="text-xl font-black text-main tracking-tighter uppercase italic">Carregando ControlZap</h3>
                 <div className="h-1 w-32 bg-main/10 rounded-full overflow-hidden">
-                    <div className="h-full bg-green-500 w-1/3 animate-loading-bar" />
+                    <div className="h-full bg-amber-500 w-1/3 animate-loading-bar" />
                 </div>
             </div>
         </div>

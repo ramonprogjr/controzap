@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useState, useEffect } from 'react'
 import { Search, Shield, User, Mail, Plus, X, Eye, EyeOff, Pencil, Trash2, ToggleLeft, ToggleRight, UserPlus } from 'lucide-react'
@@ -23,9 +23,9 @@ const ROLES = [
 ]
 
 const ROLE_STYLES: Record<string, string> = {
-  Admin: 'bg-green-500/10 text-green-400 border-green-500/20',
+  Admin: 'bg-amber-500/10 text-amber-400 border-amber-500/20',
   Supervisor: 'bg-amber-500/10 text-amber-400 border-amber-500/20',
-  Vendedor: 'bg-green-500/10 text-green-400 border-green-500/20',
+  Vendedor: 'bg-amber-500/10 text-amber-400 border-amber-500/20',
   Leitor: 'bg-slate-500/10 text-slate-400 border-slate-500/20',
 }
 
@@ -224,7 +224,7 @@ export default function EquipePage() {
         </div>
         <button
           onClick={openCreate}
-          className="flex items-center gap-2 bg-green-600 hover:bg-green-500 text-white px-6 py-3 rounded-2xl font-black text-sm uppercase tracking-wider transition-all shadow-lg shadow-green-500/20 hover:scale-105"
+          className="flex items-center gap-2 bg-amber-600 hover:bg-amber-500 text-white px-6 py-3 rounded-2xl font-black text-sm uppercase tracking-wider transition-all shadow-lg shadow-amber-500/20 hover:scale-105"
         >
           <Plus className="w-5 h-5" />
           Novo Colaborador
@@ -233,7 +233,7 @@ export default function EquipePage() {
 
       {/* Search */}
       <div className="bg-card-theme border border-main rounded-3xl p-2 mb-8 flex gap-2">
-        <div className="flex-1 bg-main/30 rounded-2xl flex items-center px-4 border border-transparent focus-within:border-green-500/30 transition-all">
+        <div className="flex-1 bg-main/30 rounded-2xl flex items-center px-4 border border-transparent focus-within:border-amber-500/30 transition-all">
           <Search className="w-5 h-5 text-dim mr-3" />
           <input
             type="text"
@@ -261,7 +261,7 @@ export default function EquipePage() {
               key={user.id}
               className={cn(
                 "bg-card-theme border rounded-3xl p-6 hover:shadow-2xl transition-all group relative overflow-hidden",
-                user.is_active ? "border-main hover:border-green-500/30" : "border-red-500/20 opacity-70"
+                user.is_active ? "border-main hover:border-amber-500/30" : "border-red-500/20 opacity-70"
               )}
             >
               <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-opacity">
@@ -272,7 +272,7 @@ export default function EquipePage() {
                 <div className={cn(
                   "w-20 h-20 rounded-2xl flex items-center justify-center text-white text-2xl font-black shadow-lg mb-4 group-hover:scale-110 transition-transform duration-500",
                   user.is_active
-                    ? "bg-gradient-to-br from-green-500 to-green-600 shadow-green-500/20"
+                    ? "bg-gradient-to-br from-amber-500 to-amber-600 shadow-amber-500/20"
                     : "bg-gradient-to-br from-slate-500 to-slate-600 shadow-slate-500/20"
                 )}>
                   {user.name.charAt(0).toUpperCase()}
@@ -288,7 +288,7 @@ export default function EquipePage() {
                     {user.role || 'Sem Cargo'}
                   </span>
                   <span
-                    className={cn("w-2 h-2 rounded-full", user.is_active ? "bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.6)]" : "bg-red-500")}
+                    className={cn("w-2 h-2 rounded-full", user.is_active ? "bg-amber-500 shadow-[0_0_8px_rgba(34,197,94,0.6)]" : "bg-red-500")}
                     title={user.is_active ? 'Ativo' : 'Inativo'}
                   />
                 </div>
@@ -304,7 +304,7 @@ export default function EquipePage() {
                 <div className="w-full flex gap-2">
                   <button
                     onClick={() => openEdit(user)}
-                    className="flex-1 flex items-center justify-center gap-1.5 bg-main/20 hover:bg-green-500/20 hover:text-green-400 text-dim px-3 py-2.5 rounded-xl font-black text-xs uppercase tracking-wider transition-all border border-transparent hover:border-green-500/20"
+                    className="flex-1 flex items-center justify-center gap-1.5 bg-main/20 hover:bg-amber-500/20 hover:text-amber-400 text-dim px-3 py-2.5 rounded-xl font-black text-xs uppercase tracking-wider transition-all border border-transparent hover:border-amber-500/20"
                   >
                     <Pencil className="w-3.5 h-3.5" />
                     Editar
@@ -315,7 +315,7 @@ export default function EquipePage() {
                       "flex items-center justify-center gap-2 px-4 py-3 rounded-xl font-black text-xs uppercase tracking-wider transition-all border",
                       user.is_active
                         ? "bg-amber-500/10 text-amber-400 border-amber-500/20 hover:bg-amber-500/20"
-                        : "bg-green-500/10 text-green-400 border-green-500/20 hover:bg-green-500/20"
+                        : "bg-amber-500/10 text-amber-400 border-amber-500/20 hover:bg-amber-500/20"
                     )}
                     title={user.is_active ? 'Desativar' : 'Ativar'}
                   >
@@ -364,7 +364,7 @@ export default function EquipePage() {
                       value={form.name}
                       onChange={(e) => setForm(f => ({ ...f, name: e.target.value }))}
                       placeholder="Ex: João Silva"
-                      className="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-green-500/50 focus:border-green-500/50 font-medium transition-all"
+                      className="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-amber-500/50 focus:border-amber-500/50 font-medium transition-all"
                     />
                   </div>
                   <div>
@@ -374,7 +374,7 @@ export default function EquipePage() {
                       value={form.email}
                       onChange={(e) => setForm(f => ({ ...f, email: e.target.value }))}
                       placeholder="colaborador@empresa.com"
-                      className="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-green-500/50 focus:border-green-500/50 font-medium transition-all"
+                      className="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-amber-500/50 focus:border-amber-500/50 font-medium transition-all"
                     />
                   </div>
                 </>
@@ -390,7 +390,7 @@ export default function EquipePage() {
                     value={form.password}
                     onChange={(e) => setForm(f => ({ ...f, password: e.target.value }))}
                     placeholder={modalMode === 'create' ? 'Mínimo 8 caracteres' : 'Deixe em branco para não alterar'}
-                    className="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-3 pr-12 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-green-500/50 focus:border-green-500/50 font-medium transition-all"
+                    className="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-3 pr-12 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-amber-500/50 focus:border-amber-500/50 font-medium transition-all"
                   />
                   <button
                     type="button"
@@ -407,7 +407,7 @@ export default function EquipePage() {
                 <select
                   value={form.roleId}
                   onChange={(e) => setForm(f => ({ ...f, roleId: e.target.value }))}
-                  className="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-green-500/50 focus:border-green-500/50 font-bold cursor-pointer transition-all appearance-none"
+                  className="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-amber-500/50 focus:border-amber-500/50 font-bold cursor-pointer transition-all appearance-none"
                 >
                   {ROLES.map(r => (
                     <option key={r.id} value={r.id} className="bg-slate-800 text-white">{r.name}</option>
@@ -432,7 +432,7 @@ export default function EquipePage() {
               <button
                 onClick={modalMode === 'create' ? handleCreate : handleEdit}
                 disabled={saving}
-                className="flex-1 flex items-center justify-center gap-2 bg-green-600 hover:bg-green-500 text-white px-4 py-3 rounded-xl font-black text-sm uppercase tracking-wider transition-all shadow-lg shadow-green-500/20 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="flex-1 flex items-center justify-center gap-2 bg-amber-600 hover:bg-amber-500 text-white px-4 py-3 rounded-xl font-black text-sm uppercase tracking-wider transition-all shadow-lg shadow-amber-500/20 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {saving ? <ZapSpinner size="sm" /> : <Plus className="w-4 h-4" />}
                 {saving ? 'Salvando...' : modalMode === 'create' ? 'Criar Colaborador' : 'Salvar Alterações'}

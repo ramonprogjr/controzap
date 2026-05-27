@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
@@ -250,14 +250,14 @@ export default function RegistroPage() {
   }
 
   return (
-    <main className="min-h-screen bg-[#020617] flex items-center justify-center px-6 py-12">
+    <main className="min-h-screen bg-[#0a0a0a] flex items-center justify-center px-6 py-12">
       <div className="w-full max-w-6xl">
         <Link href="/" className="flex items-center gap-3 mb-4 justify-center group">
-          <div className="w-9 h-9 bg-gradient-to-tr from-green-600 to-green-400 rounded-lg flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
+          <div className="w-9 h-9 bg-gradient-to-tr from-amber-600 to-amber-400 rounded-lg flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
             <Lock className="w-5 h-5 text-white" strokeWidth={2.5} />
           </div>
           <span className="text-xl font-bold tracking-tight text-white uppercase">
-            Control<span className="text-green-500">Zap</span>
+            Control<span className="text-amber-500">Zap</span>
           </span>
         </Link>
 
@@ -274,17 +274,17 @@ export default function RegistroPage() {
         <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-8">
           {needsEmailConfirmation ? (
             <div className="text-center py-8">
-              <div className="w-20 h-20 rounded-full bg-green-500/10 border-2 border-green-500/30 flex items-center justify-center mx-auto mb-6">
-                <Mail className="w-10 h-10 text-green-500" strokeWidth={2} />
+              <div className="w-20 h-20 rounded-full bg-amber-500/10 border-2 border-amber-500/30 flex items-center justify-center mx-auto mb-6">
+                <Mail className="w-10 h-10 text-amber-500" strokeWidth={2} />
               </div>
 
               <h1 className="text-3xl font-bold text-white mb-4">
                 Conta criada com sucesso!
               </h1>
 
-              <div className="bg-green-500/10 border border-green-500/20 rounded-xl p-6 mb-6">
+              <div className="bg-amber-500/10 border border-amber-500/20 rounded-xl p-6 mb-6">
                 <div className="flex items-start gap-4 text-left">
-                  <AlertCircle className="w-6 h-6 text-green-500 flex-shrink-0 mt-0.5" strokeWidth={2} />
+                  <AlertCircle className="w-6 h-6 text-amber-500 flex-shrink-0 mt-0.5" strokeWidth={2} />
                   <div>
                     <h3 className="text-white font-bold mb-2 text-lg">
                       Verifique seu email
@@ -313,7 +313,7 @@ export default function RegistroPage() {
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Link
                   href="/login"
-                  className="bg-green-600 text-white px-8 py-3 rounded-lg font-bold uppercase tracking-wider hover:bg-green-500 transition-all"
+                  className="bg-amber-600 text-white px-8 py-3 rounded-lg font-bold uppercase tracking-wider hover:bg-amber-500 transition-all"
                 >
                   Ir para Login
                 </Link>
@@ -350,7 +350,7 @@ export default function RegistroPage() {
           ) : (
             <>
               <div className="mb-6">
-                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-green-500/10 border border-green-500/20 text-green-400 text-xs font-bold mb-4">
+                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-400 text-xs font-bold mb-4">
                   <span>Teste grátis por 12 dias</span>
                 </div>
               </div>
@@ -371,7 +371,7 @@ export default function RegistroPage() {
                         onChange={(e) => handleInputChange('cnpj', e.target.value)}
                         onBlur={handleFetchCnpj}
                         required
-                        className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-green-500"
+                        className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-amber-500"
                         placeholder="00.000.000/0001-00"
                       />
                       {fetchingCnpj && (
@@ -387,7 +387,7 @@ export default function RegistroPage() {
                         value={formData.razaoSocial}
                         onChange={(e) => handleInputChange('razaoSocial', e.target.value)}
                         required
-                        className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-green-500"
+                        className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-amber-500"
                         placeholder="Razão social"
                       />
                     </div>
@@ -399,7 +399,7 @@ export default function RegistroPage() {
                         type="text"
                         value={formData.nomeFantasia}
                         onChange={(e) => handleInputChange('nomeFantasia', e.target.value)}
-                        className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-green-500"
+                        className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-amber-500"
                         placeholder="Nome fantasia"
                       />
                     </div>
@@ -412,7 +412,7 @@ export default function RegistroPage() {
                         value={formData.companyName}
                         onChange={(e) => handleInputChange('companyName', e.target.value)}
                         required
-                        className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-green-500"
+                        className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-amber-500"
                         placeholder="Nome fantasia ou razão social"
                       />
                     </div>
@@ -424,7 +424,7 @@ export default function RegistroPage() {
                         type="tel"
                         value={formData.companyPhone}
                         onChange={(e) => handleInputChange('companyPhone', e.target.value)}
-                        className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-green-500"
+                        className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-amber-500"
                         placeholder="(11) 99999-9999"
                       />
                     </div>
@@ -442,7 +442,7 @@ export default function RegistroPage() {
                         value={formData.adminEmail}
                         onChange={(e) => handleInputChange('adminEmail', e.target.value)}
                         required
-                        className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-green-500"
+                        className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-amber-500"
                         placeholder="seu@empresa.com.br"
                       />
                     </div>
@@ -455,7 +455,7 @@ export default function RegistroPage() {
                         value={formData.adminName}
                         onChange={(e) => handleInputChange('adminName', e.target.value)}
                         required
-                        className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-green-500"
+                        className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-amber-500"
                         placeholder="Nome do administrador"
                       />
                     </div>
@@ -468,7 +468,7 @@ export default function RegistroPage() {
                         value={formData.adminPhone}
                         onChange={(e) => handleInputChange('adminPhone', e.target.value)}
                         required
-                        className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-green-500"
+                        className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-amber-500"
                         placeholder="(11) 99999-9999"
                       />
                     </div>
@@ -485,9 +485,9 @@ export default function RegistroPage() {
                           minLength={8}
                           className={`w-full bg-white/5 border rounded-lg px-4 py-3 pr-12 text-white placeholder-slate-500 focus:outline-none focus:ring-2 ${formData.adminPassword
                               ? passwordValidation.isValid
-                                ? 'border-green-500/50 focus:ring-green-500'
+                                ? 'border-amber-500/50 focus:ring-amber-500'
                                 : 'border-red-500/50 focus:ring-red-500'
-                              : 'border-white/10 focus:ring-green-500'
+                              : 'border-white/10 focus:ring-amber-500'
                             }`}
                           placeholder="••••••••"
                         />
@@ -513,7 +513,7 @@ export default function RegistroPage() {
                         value={formData.confirmPassword}
                         onChange={(e) => handleInputChange('confirmPassword', e.target.value)}
                         required
-                        className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-green-500"
+                        className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-amber-500"
                         placeholder="Digite a senha novamente"
                       />
                     </div>
@@ -532,23 +532,23 @@ export default function RegistroPage() {
 
                   {formData.adminPassword && (
                     <div className="mt-3 space-y-2">
-                      <div className={`flex items-center gap-2 text-xs ${passwordValidation.hasMinLength ? 'text-green-400' : 'text-slate-500'}`}>
+                      <div className={`flex items-center gap-2 text-xs ${passwordValidation.hasMinLength ? 'text-amber-400' : 'text-slate-500'}`}>
                         {passwordValidation.hasMinLength ? <Check className="w-4 h-4" /> : <X className="w-4 h-4" />}
                         <span>Mínimo de 8 caracteres</span>
                       </div>
-                      <div className={`flex items-center gap-2 text-xs ${passwordValidation.hasUpperCase ? 'text-green-400' : 'text-slate-500'}`}>
+                      <div className={`flex items-center gap-2 text-xs ${passwordValidation.hasUpperCase ? 'text-amber-400' : 'text-slate-500'}`}>
                         {passwordValidation.hasUpperCase ? <Check className="w-4 h-4" /> : <X className="w-4 h-4" />}
                         <span>Pelo menos uma letra maiúscula</span>
                       </div>
-                      <div className={`flex items-center gap-2 text-xs ${passwordValidation.hasLowerCase ? 'text-green-400' : 'text-slate-500'}`}>
+                      <div className={`flex items-center gap-2 text-xs ${passwordValidation.hasLowerCase ? 'text-amber-400' : 'text-slate-500'}`}>
                         {passwordValidation.hasLowerCase ? <Check className="w-4 h-4" /> : <X className="w-4 h-4" />}
                         <span>Pelo menos uma letra minúscula</span>
                       </div>
-                      <div className={`flex items-center gap-2 text-xs ${passwordValidation.hasNumber ? 'text-green-400' : 'text-slate-500'}`}>
+                      <div className={`flex items-center gap-2 text-xs ${passwordValidation.hasNumber ? 'text-amber-400' : 'text-slate-500'}`}>
                         {passwordValidation.hasNumber ? <Check className="w-4 h-4" /> : <X className="w-4 h-4" />}
                         <span>Pelo menos um número</span>
                       </div>
-                      <div className={`flex items-center gap-2 text-xs ${passwordValidation.hasSpecialChar ? 'text-green-400' : 'text-slate-500'}`}>
+                      <div className={`flex items-center gap-2 text-xs ${passwordValidation.hasSpecialChar ? 'text-amber-400' : 'text-slate-500'}`}>
                         {passwordValidation.hasSpecialChar ? <Check className="w-4 h-4" /> : <X className="w-4 h-4" />}
                         <span>Pelo menos um caractere especial (!@#$%...)</span>
                       </div>
@@ -567,7 +567,7 @@ export default function RegistroPage() {
                         value={formData.cep}
                         onChange={(e) => handleInputChange('cep', e.target.value)}
                         onBlur={() => handleFetchCep()}
-                        className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-green-500"
+                        className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-amber-500"
                         placeholder="00000-000"
                       />
                       {fetchingCep && (
@@ -582,7 +582,7 @@ export default function RegistroPage() {
                         type="text"
                         value={formData.logradouro}
                         onChange={(e) => handleInputChange('logradouro', e.target.value)}
-                        className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-green-500"
+                        className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-amber-500"
                         placeholder="Rua, Avenida, etc"
                       />
                     </div>
@@ -594,7 +594,7 @@ export default function RegistroPage() {
                         type="text"
                         value={formData.numero}
                         onChange={(e) => handleInputChange('numero', e.target.value)}
-                        className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-green-500"
+                        className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-amber-500"
                         placeholder="Número"
                       />
                     </div>
@@ -606,7 +606,7 @@ export default function RegistroPage() {
                         type="text"
                         value={formData.complemento}
                         onChange={(e) => handleInputChange('complemento', e.target.value)}
-                        className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-green-500"
+                        className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-amber-500"
                         placeholder="Sala, bloco, etc"
                       />
                     </div>
@@ -618,7 +618,7 @@ export default function RegistroPage() {
                         type="text"
                         value={formData.bairro}
                         onChange={(e) => handleInputChange('bairro', e.target.value)}
-                        className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-green-500"
+                        className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-amber-500"
                         placeholder="Bairro"
                       />
                     </div>
@@ -630,7 +630,7 @@ export default function RegistroPage() {
                         type="text"
                         value={formData.municipio}
                         onChange={(e) => handleInputChange('municipio', e.target.value)}
-                        className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-green-500"
+                        className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-amber-500"
                         placeholder="Cidade"
                       />
                     </div>
@@ -642,7 +642,7 @@ export default function RegistroPage() {
                         type="text"
                         value={formData.uf}
                         onChange={(e) => handleInputChange('uf', e.target.value.toUpperCase())}
-                        className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-green-500"
+                        className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-amber-500"
                         placeholder="UF"
                         maxLength={2}
                       />
@@ -654,7 +654,7 @@ export default function RegistroPage() {
                   <button
                     type="submit"
                     disabled={loading}
-                    className="w-full bg-green-600 text-white py-3 rounded-lg font-bold uppercase tracking-wider hover:bg-green-500 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="w-full bg-amber-600 text-white py-3 rounded-lg font-bold uppercase tracking-wider hover:bg-amber-500 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     {loading ? 'Processando...' : 'Criar Conta'}
                   </button>
@@ -665,7 +665,7 @@ export default function RegistroPage() {
                 <div className="mt-6 text-center">
                   <p className="text-slate-400 text-sm">
                     Já tem uma conta?{' '}
-                    <Link href="/login" className="text-green-500 hover:text-green-400 font-semibold">
+                    <Link href="/login" className="text-amber-500 hover:text-amber-400 font-semibold">
                       Fazer login
                     </Link>
                   </p>

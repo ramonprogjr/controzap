@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useState, useEffect, useRef } from 'react'
 import { createClient } from '@/lib/supabase/client'
@@ -53,6 +53,8 @@ export default function ConversasPage() {
   const supabase = createClient()
   const companyIdRef = useRef<string>('')
   const selectedConvRef = useRef<string | null>(null)
+  const seenMessageIds = useRef<Set<string>>(new Set())
+  const notifyReady = useRef(false)
 
   useEffect(() => {
     companyIdRef.current = companyId
@@ -61,6 +63,13 @@ export default function ConversasPage() {
   useEffect(() => {
     selectedConvRef.current = selectedConversation
   }, [selectedConversation])
+
+  // Pedir permissão de notificação ao carregar
+  useEffect(() => {
+    if ('Notification' in window && Notification.permission === 'default') {
+      Notification.requestPermission()
+    }
+  }, [])
 
   useEffect(() => {
     init()
@@ -90,6 +99,17 @@ export default function ConversasPage() {
         },
         (payload) => {
           const msg = payload.new as any
+
+          // Notificar mensagens inbound novas (não vistas antes)
+          if (msg.direction === 'inbound' && notifyReady.current && !seenMessageIds.current.has(msg.id)) {
+            seenMessageIds.current.add(msg.id)
+            setConversations((prev) => {
+              const conv = prev.find((c) => c.lead_id === msg.lead_id)
+              notifyNewMessage(conv?.lead_name || 'Cliente', msg.content || '📱 Nova mensagem')
+              return prev
+            })
+          }
+
           if (msg.lead_id === selectedConvRef.current) {
             setMessages((prev) => {
               if (prev.find((m) => m.id === msg.id)) return prev
@@ -117,6 +137,35 @@ export default function ConversasPage() {
     }, 4000)
     return () => clearInterval(interval)
   }, [companyId])
+
+  const playSound = () => {
+    try {
+      const ctx = new AudioContext()
+      const osc = ctx.createOscillator()
+      const gain = ctx.createGain()
+      osc.connect(gain)
+      gain.connect(ctx.destination)
+      osc.type = 'sine'
+      osc.frequency.setValueAtTime(880, ctx.currentTime)
+      osc.frequency.setValueAtTime(660, ctx.currentTime + 0.1)
+      gain.gain.setValueAtTime(0.4, ctx.currentTime)
+      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.4)
+      osc.start(ctx.currentTime)
+      osc.stop(ctx.currentTime + 0.4)
+    } catch {}
+  }
+
+  const notifyNewMessage = (senderName: string, content: string) => {
+    playSound()
+    if ('Notification' in window && Notification.permission === 'granted') {
+      new Notification(`💬 ${senderName}`, {
+        body: content.slice(0, 100),
+        icon: '/favicon.ico',
+        tag: 'controlzap-message',
+        requireInteraction: false,
+      })
+    }
+  }
 
   const init = async () => {
     const { data: { user } } = await supabase.auth.getUser()
@@ -180,6 +229,8 @@ export default function ConversasPage() {
         }
       })
       setConversations(Array.from(convMap.values()))
+      // Marcar como pronto para notificar apenas após o carregamento inicial
+      setTimeout(() => { notifyReady.current = true }, 2000)
     } catch (err: any) {
       toast.error('Erro ao carregar conversas', err.message)
     } finally {
@@ -330,14 +381,14 @@ export default function ConversasPage() {
             <h2 className="text-2xl font-black text-main tracking-tight">Conversas</h2>
             <button
               onClick={() => setShowNewConvModal(true)}
-              className="w-10 h-10 bg-green-600 hover:bg-green-500 text-white rounded-xl flex items-center justify-center transition-all shadow-lg shadow-green-500/20 hover:scale-110"
+              className="w-10 h-10 bg-amber-600 hover:bg-amber-500 text-white rounded-xl flex items-center justify-center transition-all shadow-lg shadow-amber-500/20 hover:scale-110"
               title="Nova conversa"
             >
               <Plus className="w-5 h-5" />
             </button>
           </div>
           <div className="relative group">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-dim group-focus-within:text-green-500 transition-colors" />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-dim group-focus-within:text-amber-500 transition-colors" />
             <input
               type="text"
               value={searchTerm}
@@ -352,7 +403,7 @@ export default function ConversasPage() {
           {[{ id: 'all', label: 'Tudo' }, { id: 'unread', label: 'Não lidas' }, { id: 'by_seller', label: 'Vendedor' }].map((item) => (
             <button key={item.id} onClick={() => setListFilter(item.id as typeof listFilter)}
               className={cn("px-4 py-2 rounded-xl text-xs font-black uppercase tracking-widest transition-all",
-                listFilter === item.id ? 'bg-green-600 text-white shadow-lg shadow-green-600/20' : 'bg-main/30 text-dim hover:text-main'
+                listFilter === item.id ? 'bg-amber-600 text-white shadow-lg shadow-amber-600/20' : 'bg-main/30 text-dim hover:text-main'
               )}>
               {item.label}
             </button>
@@ -380,20 +431,20 @@ export default function ConversasPage() {
               </div>
               <p className="text-dim font-bold text-sm mb-3">Nenhuma conversa</p>
               <button onClick={() => setShowNewConvModal(true)}
-                className="flex items-center gap-2 text-green-500 hover:text-green-400 font-black text-xs mx-auto transition-colors">
+                className="flex items-center gap-2 text-amber-500 hover:text-amber-400 font-black text-xs mx-auto transition-colors">
                 <Plus className="w-4 h-4" /> Nova conversa
               </button>
             </div>
           ) : visibleConversations.map((conv) => (
             <button key={conv.lead_id} onClick={() => setSelectedConversation(conv.lead_id)}
               className={cn("w-full p-5 border-b border-main transition-all text-left group relative",
-                selectedConversation === conv.lead_id ? 'bg-green-500/5' : 'hover:bg-[var(--hover-bg)]'
+                selectedConversation === conv.lead_id ? 'bg-amber-500/5' : 'hover:bg-[var(--hover-bg)]'
               )}>
-              {selectedConversation === conv.lead_id && <div className="absolute left-0 top-0 bottom-0 w-1 bg-green-500" />}
+              {selectedConversation === conv.lead_id && <div className="absolute left-0 top-0 bottom-0 w-1 bg-amber-500" />}
               <div className="flex items-start justify-between mb-2">
                 <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 bg-gradient-to-br from-green-500/20 to-green-500/20 rounded-2xl flex items-center justify-center border border-green-500/20 group-hover:scale-105 transition-transform">
-                    <User className="w-6 h-6 text-green-500" />
+                  <div className="w-12 h-12 bg-gradient-to-br from-amber-500/20 to-amber-500/20 rounded-2xl flex items-center justify-center border border-amber-500/20 group-hover:scale-105 transition-transform">
+                    <User className="w-6 h-6 text-amber-500" />
                   </div>
                   <div className="overflow-hidden">
                     <h3 className="font-black text-main truncate max-w-[150px] tracking-tight">{conv.lead_name}</h3>
@@ -407,7 +458,7 @@ export default function ConversasPage() {
                     </span>
                   )}
                   {conv.unread_count > 0 && (
-                    <span className="min-w-[18px] h-[18px] flex items-center justify-center bg-green-500 text-white text-[10px] font-black rounded-full shadow-lg shadow-green-500/20">
+                    <span className="min-w-[18px] h-[18px] flex items-center justify-center bg-amber-500 text-white text-[10px] font-black rounded-full shadow-lg shadow-amber-500/20">
                       {conv.unread_count}
                     </span>
                   )}
@@ -427,14 +478,14 @@ export default function ConversasPage() {
           <>
             <div className="p-6 border-b border-main bg-card-theme/50 backdrop-blur-md flex items-center justify-between">
               <div className="flex items-center gap-4">
-                <div className="w-14 h-14 bg-gradient-to-br from-green-500 to-green-600 rounded-2xl flex items-center justify-center shadow-lg shadow-green-500/20">
+                <div className="w-14 h-14 bg-gradient-to-br from-amber-500 to-amber-600 rounded-2xl flex items-center justify-center shadow-lg shadow-amber-500/20">
                   <User className="w-8 h-8 text-white" />
                 </div>
                 <div>
                   <h2 className="text-xl font-black text-main tracking-tight">{selectedConv?.lead_name}</h2>
                   <div className="flex items-center gap-2">
-                    <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
-                    <span className="text-xs font-bold text-green-500 uppercase tracking-widest">WhatsApp</span>
+                    <div className="w-2 h-2 bg-amber-500 rounded-full animate-pulse" />
+                    <span className="text-xs font-bold text-amber-500 uppercase tracking-widest">WhatsApp</span>
                     <span className="text-dim opacity-30 px-1">•</span>
                     <span className="text-xs font-bold text-dim">{selectedConv?.lead_phone}</span>
                   </div>
@@ -468,7 +519,7 @@ export default function ConversasPage() {
                     <div className={cn("flex", isOut ? 'justify-end' : 'justify-start')}>
                       <div className={cn("max-w-md rounded-3xl px-6 py-4 shadow-xl",
                         isOut
-                          ? 'bg-gradient-to-br from-green-600 to-green-600 text-white rounded-tr-none'
+                          ? 'bg-gradient-to-br from-amber-600 to-amber-600 text-white rounded-tr-none'
                           : 'bg-card-theme border border-main text-main rounded-tl-none'
                       )}>
                         {/* Audio */}
@@ -536,7 +587,7 @@ export default function ConversasPage() {
                     className="w-full input-theme rounded-[2rem] px-8 py-5 text-sm font-medium shadow-2xl" />
                 </div>
                 <button onClick={handleSendMessage} disabled={sending || !newMessage.trim()}
-                  className="bg-green-600 text-white w-16 h-16 rounded-full flex items-center justify-center hover:scale-105 transition-all shadow-2xl shadow-green-500/40 disabled:opacity-50 disabled:grayscale group">
+                  className="bg-amber-600 text-white w-16 h-16 rounded-full flex items-center justify-center hover:scale-105 transition-all shadow-2xl shadow-amber-500/40 disabled:opacity-50 disabled:grayscale group">
                   {sending ? <ZapSpinner size="sm" /> : <Send className="w-7 h-7 group-hover:rotate-12 transition-transform" />}
                 </button>
               </div>
@@ -551,7 +602,7 @@ export default function ConversasPage() {
               <h3 className="text-3xl font-black text-main mb-4 tracking-tight">Suas Conversas</h3>
               <p className="text-dim text-lg font-medium max-w-sm mx-auto mb-8">Selecione um cliente na lista ou inicie uma nova conversa.</p>
               <button onClick={() => setShowNewConvModal(true)}
-                className="flex items-center gap-2 bg-green-600 hover:bg-green-500 text-white px-6 py-3 rounded-2xl font-black text-sm uppercase tracking-wider transition-all shadow-lg shadow-green-500/20 mx-auto">
+                className="flex items-center gap-2 bg-amber-600 hover:bg-amber-500 text-white px-6 py-3 rounded-2xl font-black text-sm uppercase tracking-wider transition-all shadow-lg shadow-amber-500/20 mx-auto">
                 <Plus className="w-5 h-5" /> Nova Conversa
               </button>
             </div>
@@ -577,12 +628,12 @@ export default function ConversasPage() {
             <div className="flex gap-2 mb-6 bg-slate-800 p-1 rounded-2xl">
               <button onClick={() => setNewConvTab('search')}
                 className={cn("flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl font-black text-sm transition-all",
-                  newConvTab === 'search' ? 'bg-green-600 text-white shadow-lg' : 'text-slate-400 hover:text-white')}>
+                  newConvTab === 'search' ? 'bg-amber-600 text-white shadow-lg' : 'text-slate-400 hover:text-white')}>
                 <Search className="w-4 h-4" /> Buscar Contato
               </button>
               <button onClick={() => setNewConvTab('new')}
                 className={cn("flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl font-black text-sm transition-all",
-                  newConvTab === 'new' ? 'bg-green-600 text-white shadow-lg' : 'text-slate-400 hover:text-white')}>
+                  newConvTab === 'new' ? 'bg-amber-600 text-white shadow-lg' : 'text-slate-400 hover:text-white')}>
                 <Hash className="w-4 h-4" /> Novo Número
               </button>
             </div>
@@ -593,7 +644,7 @@ export default function ConversasPage() {
                   <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" />
                   <input type="text" value={contactSearch} onChange={e => setContactSearch(e.target.value)}
                     placeholder="Nome ou número do contato..."
-                    className="w-full bg-slate-800 border border-slate-700 rounded-xl pl-11 pr-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-green-500/50 font-medium" />
+                    className="w-full bg-slate-800 border border-slate-700 rounded-xl pl-11 pr-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-amber-500/50 font-medium" />
                 </div>
                 <div className="space-y-2 max-h-64 overflow-y-auto">
                   {searchingContacts ? (
@@ -601,15 +652,15 @@ export default function ConversasPage() {
                   ) : contactResults.length > 0 ? (
                     contactResults.map(lead => (
                       <button key={lead.id} onClick={() => openExistingConversation(lead)}
-                        className="w-full flex items-center gap-4 p-4 bg-slate-800 hover:bg-slate-700 border border-slate-700 hover:border-green-500/30 rounded-2xl transition-all text-left group">
-                        <div className="w-10 h-10 bg-gradient-to-br from-green-500/20 to-green-500/20 rounded-xl flex items-center justify-center border border-green-500/20 shrink-0">
-                          <User className="w-5 h-5 text-green-500" />
+                        className="w-full flex items-center gap-4 p-4 bg-slate-800 hover:bg-slate-700 border border-slate-700 hover:border-amber-500/30 rounded-2xl transition-all text-left group">
+                        <div className="w-10 h-10 bg-gradient-to-br from-amber-500/20 to-amber-500/20 rounded-xl flex items-center justify-center border border-amber-500/20 shrink-0">
+                          <User className="w-5 h-5 text-amber-500" />
                         </div>
                         <div className="min-w-0">
                           <p className="font-black text-white text-sm truncate">{lead.name}</p>
                           <p className="text-slate-400 text-xs font-bold">{lead.phone}</p>
                         </div>
-                        <div className="ml-auto text-green-500 opacity-0 group-hover:opacity-100 transition-opacity">
+                        <div className="ml-auto text-amber-500 opacity-0 group-hover:opacity-100 transition-opacity">
                           <MessageSquare className="w-4 h-4" />
                         </div>
                       </button>
@@ -635,7 +686,7 @@ export default function ConversasPage() {
                     <Phone className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" />
                     <input type="tel" value={newPhone} onChange={e => setNewPhone(e.target.value)}
                       placeholder="Ex: 11999999999"
-                      className="w-full bg-slate-800 border border-slate-700 rounded-xl pl-11 pr-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-green-500/50 font-medium" />
+                      className="w-full bg-slate-800 border border-slate-700 rounded-xl pl-11 pr-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-amber-500/50 font-medium" />
                   </div>
                   <p className="text-xs text-slate-500 mt-1">Código do país + DDD + número (sem espaços ou traços)</p>
                 </div>
@@ -647,11 +698,11 @@ export default function ConversasPage() {
                     <User className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" />
                     <input type="text" value={newName} onChange={e => setNewName(e.target.value)}
                       placeholder="Ex: João Silva"
-                      className="w-full bg-slate-800 border border-slate-700 rounded-xl pl-11 pr-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-green-500/50 font-medium" />
+                      className="w-full bg-slate-800 border border-slate-700 rounded-xl pl-11 pr-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-amber-500/50 font-medium" />
                   </div>
                 </div>
                 <button onClick={createNewConversation} disabled={creatingLead || !newPhone.trim()}
-                  className="w-full flex items-center justify-center gap-2 bg-green-600 hover:bg-green-500 text-white py-3 rounded-xl font-black text-sm uppercase tracking-wider transition-all shadow-lg shadow-green-500/20 disabled:opacity-50 disabled:cursor-not-allowed mt-2">
+                  className="w-full flex items-center justify-center gap-2 bg-amber-600 hover:bg-amber-500 text-white py-3 rounded-xl font-black text-sm uppercase tracking-wider transition-all shadow-lg shadow-amber-500/20 disabled:opacity-50 disabled:cursor-not-allowed mt-2">
                   {creatingLead ? <ZapSpinner size="sm" /> : <MessageSquare className="w-4 h-4" />}
                   {creatingLead ? 'Iniciando...' : 'Iniciar Conversa'}
                 </button>

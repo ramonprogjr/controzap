@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useEffect } from 'react'
 import { X, CheckCircle, AlertCircle, Info, AlertTriangle } from 'lucide-react'
@@ -27,7 +27,7 @@ const icons = {
 }
 
 const styles = {
-  success: 'bg-green-500/10 border-green-500/20 text-green-400',
+  success: 'bg-amber-500/10 border-amber-500/20 text-amber-400',
   error: 'bg-red-500/10 border-red-500/20 text-red-400',
   warning: 'bg-yellow-500/10 border-yellow-500/20 text-yellow-400',
   info: 'bg-blue-500/10 border-blue-500/20 text-blue-400',
