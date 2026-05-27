@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { createClient } from '@/lib/supabase/client'
-import { manageInstance, createInstance } from '@/lib/supabase/edge-functions'
+import { manageInstance, createInstance, syncInstanceHistory } from '@/lib/supabase/edge-functions'
 import { useToast } from '@/components/ui/ToastContainer'
 import {
     Plus,
@@ -24,7 +24,8 @@ import {
     MoreVertical,
     Signal,
     SignalLow,
-    ExternalLink
+    ExternalLink,
+    MessageSquare
 } from 'lucide-react'
 import { cn } from '@/lib/utils/cn'
 import { ZapSpinner } from '@/components/ui/ZapSpinner'
@@ -130,6 +131,17 @@ export default function InstanciasPage() {
         loadInstances()
     }, [])
 
+    const trySyncHistory = async (uazapiInstanceId: string) => {
+        try {
+            const result = await syncInstanceHistory(uazapiInstanceId)
+            if (result?.imported > 0) {
+                toast.success('Conversas sincronizadas', result.note || `${result.imported} mensagens importadas`)
+            }
+        } catch {
+            /* histórico também chega via webhook */
+        }
+    }
+
     const loadInstances = async () => {
         setLoading(true)
         try {
@@ -163,6 +175,17 @@ export default function InstanciasPage() {
 
                         const status = deriveStatus(statusData)
                         const phoneFromApi = extractPhone(statusData)
+
+                        if (status === 'connected' && instanceRow.status !== 'connected') {
+                            await supabase
+                                .from('instances')
+                                .update({
+                                    status: 'connected',
+                                    phone: phoneFromApi || instanceRow.phone || '',
+                                })
+                                .eq('id', instanceRow.id)
+                            trySyncHistory(instanceRow.uazapi_instance_id)
+                        }
 
                         return {
                             id: instanceRow.id,
@@ -494,12 +517,24 @@ export default function InstanciasPage() {
                                             </div>
                                         </td>
                                         <td className="px-8 py-6 text-right">
-                                            <button
-                                                onClick={() => openDetails(instance)}
-                                                className="px-4 py-2 bg-[var(--input-bg)] hover:bg-amber-500 text-main font-black text-[10px] uppercase tracking-[2px] hover:text-white rounded-xl transition-all duration-300 border border-transparent hover:border-amber-500 active:scale-95 group/btn"
-                                            >
-                                                Detalhes
-                                            </button>
+                                            <div className="flex items-center justify-end gap-2">
+                                                <button
+                                                    onClick={() => openDetails(instance)}
+                                                    className="px-4 py-2 bg-[var(--input-bg)] hover:bg-amber-500 text-main font-black text-[10px] uppercase tracking-[2px] hover:text-white rounded-xl transition-all duration-300 border border-transparent hover:border-amber-500 active:scale-95"
+                                                >
+                                                    Detalhes
+                                                </button>
+                                                {isAdmin && (
+                                                    <button
+                                                        type="button"
+                                                        onClick={() => setShowDeleteModal(instance.uazapi_instance_id)}
+                                                        title="Excluir instância"
+                                                        className="p-2.5 bg-red-500/10 hover:bg-red-500 text-red-400 hover:text-white rounded-xl transition-all duration-300 border border-red-500/20 hover:border-red-500 active:scale-95"
+                                                    >
+                                                        <Trash2 className="w-4 h-4" strokeWidth={2.5} />
+                                                    </button>
+                                                )}
+                                            </div>
                                         </td>
                                     </tr>
                                 ))}
@@ -896,6 +931,16 @@ export default function InstanciasPage() {
                                         <p className="text-main font-bold">Desconectar</p>
                                         <p className="text-dim text-[10px]">Encerra sessão atual</p>
                                     </button>
+                                    {selectedInstance.status === 'connected' && (
+                                    <button
+                                        onClick={() => trySyncHistory(selectedInstance.uazapi_instance_id)}
+                                        className="p-5 bg-card-theme border border-main rounded-2xl text-left hover:bg-amber-500/10 hover:border-amber-500/30 transition-all group shadow-sm hover:shadow-md"
+                                    >
+                                        <MessageSquare className="w-6 h-6 text-amber-500 mb-3" />
+                                        <p className="text-main font-bold">Sincronizar conversas</p>
+                                        <p className="text-dim text-[10px]">Importa histórico recente</p>
+                                    </button>
+                                    )}
                                     <button
                                         onClick={() => {
                                             setNewName(selectedInstance.name)

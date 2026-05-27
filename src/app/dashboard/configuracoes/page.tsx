@@ -62,9 +62,11 @@ export default function ConfiguracoesPage() {
         systemSounds: true
     })
     const [integrationSettings, setIntegrationSettings] = useState({
-        webhookUrl: 'https://api.controlzap.com.br/v1/webhook/123456',
-        apiKey: 'sk_live_51P8Xp...'
+        webhookUrl: '',
+        apiKey: '',
     })
+    const [apiKeyVisible, setApiKeyVisible] = useState(false)
+    const [copyingWebhook, setCopyingWebhook] = useState(false)
 
     const permissionsByKey = useMemo(() => {
         return new Map(permissions.map((perm) => [perm.key, perm]))
@@ -132,7 +134,69 @@ export default function ConfiguracoesPage() {
             loadRoles()
             loadUsers()
         }
+        if (section === 'integracoes') {
+            loadIntegrations()
+        }
     }, [section])
+
+    const loadIntegrations = async () => {
+        try {
+            const { data: { user } } = await supabase.auth.getUser()
+            if (!user) return
+            const { data: u } = await supabase
+                .from('users').select('company_id').eq('id', user.id).single()
+            if (!u?.company_id) return
+
+            const origin = typeof window !== 'undefined' ? window.location.origin : ''
+            const webhookUrl = `${origin}/api/webhooks/uazapi`
+
+            const { data: company } = await supabase
+                .from('companies').select('settings').eq('id', u.company_id).single()
+            const apiKey = company?.settings?.api_key || ''
+            setIntegrationSettings({ webhookUrl, apiKey })
+        } catch (err) {
+            console.error('[Configuracoes] Erro ao carregar integrações:', err)
+        }
+    }
+
+    const handleCopyWebhook = async () => {
+        try {
+            await navigator.clipboard.writeText(integrationSettings.webhookUrl)
+            setCopyingWebhook(true)
+            toast.success('Copiado!', 'URL do webhook copiada')
+            setTimeout(() => setCopyingWebhook(false), 1500)
+        } catch {
+            toast.error('Erro', 'Não foi possível copiar')
+        }
+    }
+
+    const handleGenerateApiKey = async () => {
+        try {
+            const { data: { user } } = await supabase.auth.getUser()
+            if (!user) return
+            const { data: u } = await supabase
+                .from('users').select('company_id').eq('id', user.id).single()
+            if (!u?.company_id) return
+
+            const newKey = 'czap_' + Array.from({ length: 40 }, () =>
+                'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'[Math.floor(Math.random() * 62)]
+            ).join('')
+
+            const { data: company } = await supabase
+                .from('companies').select('settings').eq('id', u.company_id).single()
+            const newSettings = { ...(company?.settings || {}), api_key: newKey }
+
+            const { error } = await supabase
+                .from('companies').update({ settings: newSettings }).eq('id', u.company_id)
+            if (error) throw error
+
+            setIntegrationSettings((prev) => ({ ...prev, apiKey: newKey }))
+            setApiKeyVisible(true)
+            toast.success('Chave gerada', 'Guarde em local seguro')
+        } catch (err: any) {
+            toast.error('Erro ao gerar chave', err.message)
+        }
+    }
 
     const loadPermissions = async () => {
         setLoadingPermissions(true)
@@ -774,7 +838,7 @@ export default function ConfiguracoesPage() {
 
                             <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
                                 <div className="space-y-4">
-                                    <label className="text-xs font-black text-dim uppercase tracking-[3px] ml-1">Webhook URL</label>
+                                    <label className="text-xs font-black text-dim uppercase tracking-[3px] ml-1">Webhook URL (UAZAPI)</label>
                                     <div className="flex gap-4">
                                         <input
                                             type="text"
@@ -782,12 +846,15 @@ export default function ConfiguracoesPage() {
                                             value={integrationSettings.webhookUrl}
                                             className="flex-1 input-theme rounded-2xl px-6 py-4 text-sm font-mono font-bold"
                                         />
-                                        <button className="bg-main/30 border border-main px-6 rounded-2xl text-main font-black uppercase text-[10px] tracking-widest hover:bg-main/50 transition-all">
-                                            Copiar
+                                        <button
+                                            onClick={handleCopyWebhook}
+                                            className="bg-main/30 border border-main px-6 rounded-2xl text-main font-black uppercase text-[10px] tracking-widest hover:bg-main/50 transition-all"
+                                        >
+                                            {copyingWebhook ? 'Copiado!' : 'Copiar'}
                                         </button>
                                     </div>
                                     <p className="text-[10px] text-dim/60 font-bold uppercase tracking-widest leading-relaxed">
-                                        Enviamos um POST JSON para esta URL sempre que um novo lead for capturado ou uma conversa for atualizada.
+                                        Configure esta URL no painel da UAZAPI (eventos onMessage / onMessageSent) com o header <span className="text-amber-500">x-instance</span> contendo o ID da instância.
                                     </p>
                                 </div>
 
@@ -795,24 +862,32 @@ export default function ConfiguracoesPage() {
                                     <label className="text-xs font-black text-dim uppercase tracking-[3px] ml-1">Chave de API (Secret)</label>
                                     <div className="flex gap-4">
                                         <input
-                                            type="password"
+                                            type={apiKeyVisible ? 'text' : 'password'}
                                             readOnly
-                                            value={integrationSettings.apiKey}
+                                            value={integrationSettings.apiKey || ''}
+                                            placeholder="Nenhuma chave gerada"
                                             className="flex-1 input-theme rounded-2xl px-6 py-4 text-sm font-mono font-bold"
                                         />
-                                        <button className="bg-main/30 border border-main px-6 rounded-2xl text-main font-black uppercase text-[10px] tracking-widest hover:bg-main/50 transition-all">
-                                            Revelar
+                                        <button
+                                            onClick={() => setApiKeyVisible((v) => !v)}
+                                            disabled={!integrationSettings.apiKey}
+                                            className="bg-main/30 border border-main px-6 rounded-2xl text-main font-black uppercase text-[10px] tracking-widest hover:bg-main/50 transition-all disabled:opacity-40"
+                                        >
+                                            {apiKeyVisible ? 'Ocultar' : 'Revelar'}
                                         </button>
                                     </div>
                                     <p className="text-[10px] text-dim/60 font-bold uppercase tracking-widest leading-relaxed">
-                                        Use esta chave para autenticar suas requisições externas para o ControlZap. Mantenha-a em sigilo.
+                                        Use esta chave para autenticar suas requisições externas ao ControlZap. Mantenha-a em sigilo.
                                     </p>
                                 </div>
                             </div>
 
                             <div className="pt-10 border-t border-main">
-                                <button className="flex items-center gap-3 text-amber-500 font-black uppercase tracking-widest text-[10px] hover:translate-x-2 transition-transform">
-                                    <Plus className="w-4 h-4" /> Gerar nova URL de Webhook
+                                <button
+                                    onClick={handleGenerateApiKey}
+                                    className="flex items-center gap-3 text-amber-500 font-black uppercase tracking-widest text-[10px] hover:translate-x-2 transition-transform"
+                                >
+                                    <Plus className="w-4 h-4" /> {integrationSettings.apiKey ? 'Gerar nova chave de API' : 'Gerar chave de API'}
                                 </button>
                             </div>
                         </div>

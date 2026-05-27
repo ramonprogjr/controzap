@@ -64,7 +64,7 @@ export async function routeMessage(config: RoutingConfig): Promise<MessageRouteR
 /**
  * Seleciona um vendedor disponível para receber a mensagem
  */
-async function selectAvailableSeller(companyId: string): Promise<string | null> {
+async function selectAvailableSeller(companyId: string): Promise<string | undefined> {
   const supabase = createClient()
   
   // Buscar instâncias vinculadas a vendedores ativos
@@ -76,11 +76,11 @@ async function selectAvailableSeller(companyId: string): Promise<string | null> 
     .order('created_at', { ascending: true })
 
   if (!instances || instances.length === 0) {
-    return null
+    return undefined
   }
 
   // Por enquanto, usar round-robin simples
-  return instances[0].seller_id as string
+  return (instances[0].seller_id as string) || undefined
 }
 
 /**

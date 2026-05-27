@@ -6,7 +6,7 @@ export function Pricing() {
     <section id="preco" className="max-w-7xl mx-auto px-8 py-32">
       <div className="max-w-2xl mx-auto text-center">
         <h2 className="text-4xl font-bold text-white mb-6">Economize Tempo. Aumente Vendas.</h2>
-        <p className="text-slate-400 mb-4">Pare de perder leads e horas com cadastros manuais. Automatize tudo por menos de R$ 250/mês.</p>
+        <p className="text-slate-400 mb-4">Pare de perder leads e horas com cadastros manuais. Automatize tudo com o ControlZap.</p>
         <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-400 text-sm font-bold mb-16">
           <span>Teste grátis por 12 dias - Sem cartão de crédito</span>
         </div>
@@ -19,10 +19,9 @@ export function Pricing() {
           <span className="text-xs font-black uppercase tracking-[0.3em] text-amber-500 mb-4 block relative z-10">
             Full Access Pack
           </span>
-          <div className="flex items-center justify-center gap-2 mb-10 relative z-10">
-            <span className="text-2xl font-bold text-slate-400">R$</span>
-            <span className="text-7xl font-black tracking-tighter text-white">447,90</span>
-            <span className="text-lg font-bold opacity-40 text-slate-400">/mês</span>
+          <div className="mb-10 relative z-10">
+            <p className="text-3xl font-black tracking-tighter text-white">Acesso completo</p>
+            <p className="text-slate-400 font-bold mt-2">Sem exibição de valores na página</p>
           </div>
 
           <ul className="text-left space-y-5 mb-12 font-semibold text-slate-300 relative z-10">

@@ -15,6 +15,28 @@ export interface SpinTaxResult {
   variations: string[]
 }
 
+export interface CompanyContext {
+  name?: string | null
+  segment?: string | null
+  city?: string | null
+  description?: string | null
+}
+
+const DEFAULT_CONTEXT: Required<CompanyContext> = {
+  name: 'a empresa',
+  segment: 'atendimento via WhatsApp',
+  city: '',
+  description: '',
+}
+
+function buildIdentity(ctx?: CompanyContext) {
+  const c = { ...DEFAULT_CONTEXT, ...(ctx || {}) }
+  const cityPart = c.city ? `, em ${c.city}` : ''
+  const segmentPart = c.segment ? `do segmento de ${c.segment}` : ''
+  const descPart = c.description ? ` ${c.description}` : ''
+  return `Você é um assistente da empresa ${c.name}${cityPart} ${segmentPart}.${descPart}`.trim()
+}
+
 export class MistralClient {
   private apiKey: string
 
@@ -22,22 +44,24 @@ export class MistralClient {
     this.apiKey = MISTRAL_API_KEY
   }
 
-  async analyzeIntent(message: string): Promise<MessageIntent> {
-    const prompt = `Você é um assistente de uma locadora de veículos executivos chamada ALS Rent Cars, em São Paulo. Analise a mensagem de WhatsApp abaixo e identifique a intenção do cliente. Responda APENAS com JSON válido no formato:
+  async analyzeIntent(message: string, ctx?: CompanyContext): Promise<MessageIntent> {
+    const identity = buildIdentity(ctx)
+    const prompt = `${identity}
+Analise a mensagem de WhatsApp abaixo e identifique a intenção do cliente. Responda APENAS com JSON válido no formato:
 {
   "intent": "greeting" | "appointment" | "question" | "complaint" | "other",
   "confidence": 0.0-1.0,
   "extractedData": {
-    "date": "YYYY-MM-DD" se mencionar data de retirada,
+    "date": "YYYY-MM-DD" se mencionar data,
     "time": "HH:MM" se mencionar horário,
-    "location": "texto" se mencionar local de retirada ou destino,
-    "vehicle": "texto" se mencionar tipo ou modelo de veículo desejado,
-    "days": número se mencionar quantidade de dias
+    "location": "texto" se mencionar local
   }
 }
 
-Considere "appointment" para: pedido de reserva, orçamento com data definida, confirmação de locação.
-Considere "question" para: dúvidas sobre preços, disponibilidade, modelos, documentos necessários.
+Considere "greeting" para: olá, oi, bom dia, boa tarde, boa noite.
+Considere "appointment" para: pedido de agendamento, reserva, orçamento com data definida, confirmação.
+Considere "question" para: dúvidas sobre preços, disponibilidade, produtos, serviços, documentos.
+Considere "complaint" para: reclamações, insatisfação, problemas reportados.
 
 Mensagem: "${message}"`
 
@@ -49,12 +73,7 @@ Mensagem: "${message}"`
       },
       body: JSON.stringify({
         model: 'mistral-small',
-        messages: [
-          {
-            role: 'user',
-            content: prompt,
-          },
-        ],
+        messages: [{ role: 'user', content: prompt }],
         temperature: 0.3,
       }),
     })
@@ -65,7 +84,7 @@ Mensagem: "${message}"`
 
     const data = await response.json()
     const content = data.choices[0]?.message?.content || '{}'
-    
+
     try {
       return JSON.parse(content)
     } catch {
@@ -92,12 +111,7 @@ Mensagem original: "${originalMessage}"`
       },
       body: JSON.stringify({
         model: 'mistral-small',
-        messages: [
-          {
-            role: 'user',
-            content: prompt,
-          },
-        ],
+        messages: [{ role: 'user', content: prompt }],
         temperature: 0.7,
       }),
     })
@@ -108,7 +122,7 @@ Mensagem original: "${originalMessage}"`
 
     const data = await response.json()
     const content = data.choices[0]?.message?.content || '{"variations": []}'
-    
+
     try {
       return JSON.parse(content)
     } catch {
@@ -116,8 +130,10 @@ Mensagem original: "${originalMessage}"`
     }
   }
 
-  async generateGreetingResponse(leadName?: string): Promise<string> {
-    const prompt = `Você representa a ALS Rent Cars, locadora de veículos executivos em São Paulo. Gere uma mensagem de boas-vindas profissional e acolhedora para WhatsApp. Seja breve (máximo 2 frases) e mencione que estão prontos para ajudar com locação de veículos executivos. ${leadName ? `O nome do cliente é ${leadName}.` : ''}`
+  async generateGreetingResponse(leadName?: string, ctx?: CompanyContext): Promise<string> {
+    const identity = buildIdentity(ctx)
+    const prompt = `${identity}
+Gere uma mensagem de boas-vindas profissional e acolhedora para WhatsApp. Seja breve (máximo 2 frases) e mencione que estão prontos para ajudar. ${leadName ? `O nome do cliente é ${leadName}.` : ''}`
 
     const response = await fetch(MISTRAL_API_URL, {
       method: 'POST',
@@ -127,12 +143,7 @@ Mensagem original: "${originalMessage}"`
       },
       body: JSON.stringify({
         model: 'mistral-small',
-        messages: [
-          {
-            role: 'user',
-            content: prompt,
-          },
-        ],
+        messages: [{ role: 'user', content: prompt }],
         temperature: 0.6,
       }),
     })
@@ -147,3 +158,14 @@ Mensagem original: "${originalMessage}"`
 }
 
 export const mistralClient = new MistralClient()
+
+export function extractCompanyContext(company: any): CompanyContext {
+  const settings = company?.settings || {}
+  const endereco = settings?.endereco || {}
+  return {
+    name: company?.name || settings?.nome_fantasia || settings?.razao_social || null,
+    segment: company?.segment || settings?.segment || null,
+    city: endereco?.municipio || settings?.city || null,
+    description: settings?.ai_description || null,
+  }
+}

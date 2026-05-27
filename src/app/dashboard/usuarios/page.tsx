@@ -15,12 +15,7 @@ type UserType = {
   is_active: boolean
 }
 
-const ROLES = [
-  { id: 'e88170c4-d7f2-4a7a-ad25-c6f1805ab902', name: 'Admin' },
-  { id: '17957a1e-f15b-4f8e-bcff-ea9eed02988b', name: 'Supervisor' },
-  { id: 'c9ad4b86-d55d-4ad7-8c52-b1f840580ba0', name: 'Vendedor' },
-  { id: 'e4ef9c71-4088-4f9e-92b5-02594102b24d', name: 'Leitor' },
-]
+type RoleOption = { id: string; name: string }
 
 const ROLE_STYLES: Record<string, string> = {
   Admin: 'bg-amber-500/10 text-amber-400 border-amber-500/20',
@@ -34,6 +29,7 @@ type ModalMode = 'create' | 'edit' | null
 export default function EquipePage() {
   const toast = useToast()
   const [users, setUsers] = useState<UserType[]>([])
+  const [roles, setRoles] = useState<RoleOption[]>([])
   const [loading, setLoading] = useState(true)
   const [searchTerm, setSearchTerm] = useState('')
   const [modalMode, setModalMode] = useState<ModalMode>(null)
@@ -46,10 +42,30 @@ export default function EquipePage() {
     name: '',
     email: '',
     password: '',
-    roleId: ROLES[2].id, // Vendedor padrão
+    roleId: '',
   })
 
-  useEffect(() => { loadUsers() }, [])
+  const defaultRoleId = (rs: RoleOption[]) => {
+    return rs.find((r) => r.name.toLowerCase() === 'vendedor')?.id || rs[0]?.id || ''
+  }
+
+  useEffect(() => {
+    loadUsers()
+    loadRoles()
+  }, [])
+
+  const loadRoles = async () => {
+    try {
+      const headers = await getAuthHeaders()
+      const res = await fetch('/api/admin/roles', { headers, credentials: 'include' })
+      const data = await res.json()
+      const list: RoleOption[] = (data.roles || []).map((r: any) => ({ id: r.id, name: r.name }))
+      setRoles(list)
+      setForm((prev) => ({ ...prev, roleId: prev.roleId || defaultRoleId(list) }))
+    } catch {
+      toast.error('Erro', 'Não foi possível carregar os cargos')
+    }
+  }
 
   const getAuthHeaders = async () => {
     const supabase = createClient()
@@ -75,15 +91,20 @@ export default function EquipePage() {
   }
 
   const openCreate = () => {
-    setForm({ name: '', email: '', password: '', roleId: ROLES[2].id })
+    setForm({ name: '', email: '', password: '', roleId: defaultRoleId(roles) })
     setSelectedUser(null)
     setShowPassword(false)
     setModalMode('create')
   }
 
   const openEdit = (user: UserType) => {
-    const role = ROLES.find(r => r.name === user.role)
-    setForm({ name: user.name, email: user.email, password: '', roleId: role?.id || ROLES[2].id })
+    const role = roles.find((r) => r.name.toLowerCase() === user.role?.toLowerCase())
+    setForm({
+      name: user.name,
+      email: user.email,
+      password: '',
+      roleId: role?.id || defaultRoleId(roles),
+    })
     setSelectedUser(user)
     setShowPassword(false)
     setModalMode('edit')
@@ -409,15 +430,21 @@ export default function EquipePage() {
                   onChange={(e) => setForm(f => ({ ...f, roleId: e.target.value }))}
                   className="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-amber-500/50 focus:border-amber-500/50 font-bold cursor-pointer transition-all appearance-none"
                 >
-                  {ROLES.map(r => (
+                  {roles.length === 0 ? (
+                    <option value="" disabled>Carregando cargos...</option>
+                  ) : roles.map((r) => (
                     <option key={r.id} value={r.id} className="bg-slate-800 text-white">{r.name}</option>
                   ))}
                 </select>
                 <p className="mt-2 text-xs text-slate-500">
-                  {form.roleId === ROLES[0].id && 'Acesso total à plataforma'}
-                  {form.roleId === ROLES[1].id && 'Visualiza conversas, leads e equipe'}
-                  {form.roleId === ROLES[2].id && 'Envia e recebe mensagens nas conversas'}
-                  {form.roleId === ROLES[3].id && 'Apenas visualização de conversas e leads'}
+                  {(() => {
+                    const current = roles.find((r) => r.id === form.roleId)?.name?.toLowerCase()
+                    if (current === 'admin') return 'Acesso total à plataforma'
+                    if (current === 'supervisor') return 'Visualiza conversas, leads e equipe'
+                    if (current === 'vendedor') return 'Envia e recebe mensagens nas conversas'
+                    if (current === 'leitor') return 'Apenas visualização de conversas e leads'
+                    return 'Cargo personalizado'
+                  })()}
                 </p>
               </div>
             </div>

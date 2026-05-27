@@ -24,7 +24,8 @@ import {
   ChevronRight,
   Menu,
   Moon,
-  Sun
+  Sun,
+  User as UserIcon,
 } from 'lucide-react'
 import { ThemeToggle } from './ThemeToggle'
 import { NotificationsPanel } from './NotificationsPanel'
@@ -86,8 +87,12 @@ const secondaryItems = [
     icon: UserCog,
     requiredAny: ['settings.manage']
   },
-
-
+  {
+    href: '/dashboard/vendedores',
+    label: 'Vendedores',
+    icon: Users,
+    requiredAny: ['vendors.manage']
+  },
   {
     href: '/dashboard/analytics',
     label: 'Analytics',
@@ -333,8 +338,32 @@ export function Sidebar() {
           </nav>
         </div>
 
-        {/* Settings - Bottom of nav */}
-        <div className={cn("pt-4 mt-auto border-t border-main", isCollapsed ? "px-0" : "px-4")}>
+        {/* Perfil + Settings - Bottom of nav */}
+        <div className={cn("pt-4 mt-auto border-t border-main space-y-2", isCollapsed ? "px-0" : "px-4")}>
+          <Link
+            href="/dashboard/perfil"
+            className={cn(
+              'group flex items-center rounded-2xl transition-all duration-500 relative overflow-hidden',
+              isCollapsed ? "justify-center h-12 w-12 mx-auto" : "px-5 py-3.5",
+              pathname === '/dashboard/perfil'
+                ? 'bg-gradient-to-r from-amber-600 to-amber-500 text-white shadow-xl shadow-amber-500/25'
+                : 'text-dim hover:text-main hover:bg-[var(--hover-bg)]'
+            )}
+          >
+            <div className={cn(
+              "flex flex-shrink-0 items-center justify-center transition-transform duration-300",
+              isCollapsed ? "w-5 h-5" : "gap-4"
+            )}>
+              <UserIcon className={cn(
+                "w-5 h-5 transition-all duration-500",
+                pathname === '/dashboard/perfil' ? "text-white scale-110" : "text-dim group-hover:text-amber-400"
+              )} strokeWidth={pathname === '/dashboard/perfil' ? 3 : 2} />
+              {!isCollapsed && (
+                <span className="font-black text-sm tracking-tight animate-in fade-in duration-500">Meu Perfil</span>
+              )}
+            </div>
+          </Link>
+
           <Link
             href="/dashboard/configuracoes"
             className={cn(

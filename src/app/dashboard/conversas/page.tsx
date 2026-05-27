@@ -1,10 +1,12 @@
 ﻿'use client'
 
 import { useState, useEffect, useRef } from 'react'
+import { useSearchParams } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
-import { sendMessage } from '@/lib/supabase/edge-functions'
+import { sendMessage, sendMedia } from '@/lib/supabase/edge-functions'
 import { useToast } from '@/components/ui/ToastContainer'
-import { MessageSquare, Search, Send, User, Clock, Filter, Plus, X, Phone, Hash, Mic, Image, FileText, Video } from 'lucide-react'
+import { MessageSquare, Search, Send, User, Clock, Filter, Plus, X, Phone, Hash, Mic, Image as ImageIcon, FileText, Video, Paperclip, Download } from 'lucide-react'
+import { normalizePhone } from '@/lib/utils/phone'
 import { cn } from '@/lib/utils/cn'
 import { ZapSpinner } from '@/components/ui/ZapSpinner'
 
@@ -48,9 +50,17 @@ export default function ConversasPage() {
   const [newPhone, setNewPhone] = useState('')
   const [newName, setNewName] = useState('')
   const [creatingLead, setCreatingLead] = useState(false)
+  const [uploadingMedia, setUploadingMedia] = useState(false)
+  const [lightboxUrl, setLightboxUrl] = useState<string | null>(null)
+
+  const imageInputRef = useRef<HTMLInputElement>(null)
+  const audioInputRef = useRef<HTMLInputElement>(null)
+  const docInputRef = useRef<HTMLInputElement>(null)
 
   const toast = useToast()
   const supabase = createClient()
+  const searchParams = useSearchParams()
+  const initialLeadId = searchParams.get('lead_id')
   const companyIdRef = useRef<string>('')
   const selectedConvRef = useRef<string | null>(null)
   const seenMessageIds = useRef<Set<string>>(new Set())
@@ -74,6 +84,16 @@ export default function ConversasPage() {
   useEffect(() => {
     init()
   }, [])
+
+  // Quando a lista de conversas carrega, seleciona o lead vindo da URL (?lead_id=...)
+  useEffect(() => {
+    if (initialLeadId && conversations.length > 0 && !selectedConversation) {
+      const exists = conversations.find((c) => c.lead_id === initialLeadId)
+      if (exists) {
+        setSelectedConversation(initialLeadId)
+      }
+    }
+  }, [initialLeadId, conversations, selectedConversation])
 
   useEffect(() => {
     if (selectedConversation) loadMessages(selectedConversation)
@@ -113,8 +133,12 @@ export default function ConversasPage() {
           if (msg.lead_id === selectedConvRef.current) {
             setMessages((prev) => {
               if (prev.find((m) => m.id === msg.id)) return prev
+              if (msg.external_id && prev.find((m) => m.external_id === msg.external_id)) return prev
               return [...prev, msg]
             })
+            if (msg.direction === 'inbound') {
+              markConversationRead(msg.lead_id)
+            }
           }
           loadConversations(companyIdRef.current)
         }
@@ -134,9 +158,24 @@ export default function ConversasPage() {
         loadMessages(selectedConvRef.current)
       }
       loadConversations(companyIdRef.current)
-    }, 4000)
+    }, 30000)
     return () => clearInterval(interval)
   }, [companyId])
+
+  const markConversationRead = async (leadId: string) => {
+    if (!companyId) return
+    await supabase
+      .from('messages')
+      .update({ read_at: new Date().toISOString() })
+      .eq('company_id', companyId)
+      .eq('lead_id', leadId)
+      .eq('direction', 'inbound')
+      .is('read_at', null)
+
+    setConversations((prev) =>
+      prev.map((c) => (c.lead_id === leadId ? { ...c, unread_count: 0 } : c))
+    )
+  }
 
   const playSound = () => {
     try {
@@ -185,7 +224,7 @@ export default function ConversasPage() {
     try {
       const { data, error } = await supabase
         .from('messages')
-        .select('lead_id, content, sent_at, direction, message_type, leads(id, name, phone, seller_id)')
+        .select('lead_id, content, sent_at, direction, message_type, read_at, leads(id, name, phone, seller_id)')
         .eq('company_id', cid)
         .not('lead_id', 'is', null)
         .order('sent_at', { ascending: false })
@@ -215,7 +254,7 @@ export default function ConversasPage() {
             lead_phone: lead?.phone || '',
             last_message: previewText,
             last_message_time: msg.sent_at || '',
-            unread_count: msg.direction === 'inbound' ? 1 : 0,
+            unread_count: msg.direction === 'inbound' && !msg.read_at ? 1 : 0,
             seller_id: lead?.seller_id || null,
             seller_name: null,
           })
@@ -225,10 +264,13 @@ export default function ConversasPage() {
             conv.last_message = previewText
             conv.last_message_time = msg.sent_at || ''
           }
-          if (msg.direction === 'inbound') conv.unread_count++
+          if (msg.direction === 'inbound' && !msg.read_at) conv.unread_count++
         }
       })
-      setConversations(Array.from(convMap.values()))
+      const sorted = Array.from(convMap.values()).sort(
+        (a, b) => new Date(b.last_message_time).getTime() - new Date(a.last_message_time).getTime()
+      )
+      setConversations(sorted)
       // Marcar como pronto para notificar apenas após o carregamento inicial
       setTimeout(() => { notifyReady.current = true }, 2000)
     } catch (err: any) {
@@ -247,6 +289,32 @@ export default function ConversasPage() {
       .from('messages').select('*').eq('company_id', userData.company_id)
       .eq('lead_id', leadId).order('sent_at', { ascending: true })
     if (!error) setMessages(data || [])
+
+    await markConversationRead(leadId)
+  }
+
+  const handleMediaUpload = async (file: File, type: 'image' | 'audio' | 'document' | 'video') => {
+    if (!selectedConversation) return
+    setUploadingMedia(true)
+    try {
+      const result = await sendMedia(selectedConversation, file, type)
+      await loadMessages(selectedConversation)
+      if (companyId) loadConversations(companyId)
+      toast.success('Mídia enviada', 'Mensagem entregue ao WhatsApp')
+      return result
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : 'Erro ao enviar mídia'
+      toast.error('Erro ao enviar mídia', message)
+    } finally {
+      setUploadingMedia(false)
+    }
+  }
+
+  const onSelectConversation = (leadId: string) => {
+    setSelectedConversation(leadId)
+    setConversations((prev) =>
+      prev.map((c) => (c.lead_id === leadId ? { ...c, unread_count: 0 } : c))
+    )
   }
 
   const handleSendMessage = async () => {
@@ -315,7 +383,7 @@ export default function ConversasPage() {
     setCreatingLead(true)
     try {
       // Verificar se já existe lead com esse telefone
-      const phone = newPhone.replace(/\D/g, '')
+      const phone = normalizePhone(newPhone)
       const { data: existing } = await supabase
         .from('leads').select('id, name, phone').eq('phone', phone).eq('company_id', companyId).single()
 
@@ -436,7 +504,7 @@ export default function ConversasPage() {
               </button>
             </div>
           ) : visibleConversations.map((conv) => (
-            <button key={conv.lead_id} onClick={() => setSelectedConversation(conv.lead_id)}
+            <button key={conv.lead_id} onClick={() => onSelectConversation(conv.lead_id)}
               className={cn("w-full p-5 border-b border-main transition-all text-left group relative",
                 selectedConversation === conv.lead_id ? 'bg-amber-500/5' : 'hover:bg-[var(--hover-bg)]'
               )}>
@@ -547,8 +615,17 @@ export default function ConversasPage() {
                           </div>
                         ) : msg.message_type === 'image' && msg.media_url ? (
                           <div className="space-y-2">
-                            <img src={msg.media_url} alt="Imagem" className="rounded-2xl max-w-[260px] object-cover" onError={e => { (e.target as HTMLImageElement).style.display = 'none' }} />
+                            <button type="button" onClick={() => setLightboxUrl(msg.media_url)} className="block">
+                              <img src={msg.media_url} alt="Imagem" className="rounded-2xl max-w-[260px] object-cover hover:opacity-90 transition-opacity" />
+                            </button>
                             {msg.content && msg.content !== '[Imagem]' && (
+                              <p className="text-sm font-medium leading-relaxed">{msg.content}</p>
+                            )}
+                          </div>
+                        ) : msg.message_type === 'video' && msg.media_url ? (
+                          <div className="space-y-2">
+                            <video controls src={msg.media_url} className="rounded-2xl max-w-[280px] w-full" />
+                            {msg.content && msg.content !== '[Vídeo]' && (
                               <p className="text-sm font-medium leading-relaxed">{msg.content}</p>
                             )}
                           </div>
@@ -557,6 +634,12 @@ export default function ConversasPage() {
                             <Video className="w-4 h-4 shrink-0" />
                             <span>{msg.content || 'Vídeo'}</span>
                           </div>
+                        ) : msg.message_type === 'document' && msg.media_url ? (
+                          <a href={msg.media_url} target="_blank" rel="noopener noreferrer"
+                            className={cn("flex items-center gap-2 text-sm font-bold underline", isOut ? 'text-white' : 'text-amber-500')}>
+                            <Download className="w-4 h-4 shrink-0" />
+                            {msg.content || 'Baixar documento'}
+                          </a>
                         ) : msg.message_type === 'document' ? (
                           <div className={cn("flex items-center gap-2 text-sm font-medium", isOut ? 'text-white' : 'text-dim')}>
                             <FileText className="w-4 h-4 shrink-0" />
@@ -579,16 +662,39 @@ export default function ConversasPage() {
             </div>
 
             <div className="p-8 bg-card-theme/80 border-t border-main backdrop-blur-xl">
-              <div className="max-w-4xl mx-auto flex items-center gap-4">
+              <input ref={imageInputRef} type="file" accept="image/*" className="hidden"
+                onChange={(e) => { const f = e.target.files?.[0]; if (f) handleMediaUpload(f, 'image'); e.target.value = '' }} />
+              <input ref={audioInputRef} type="file" accept="audio/*" className="hidden"
+                onChange={(e) => { const f = e.target.files?.[0]; if (f) handleMediaUpload(f, 'audio'); e.target.value = '' }} />
+              <input ref={docInputRef} type="file" accept=".pdf,.doc,.docx,.xls,.xlsx,application/*" className="hidden"
+                onChange={(e) => { const f = e.target.files?.[0]; if (f) handleMediaUpload(f, 'document'); e.target.value = '' }} />
+              <div className="max-w-4xl mx-auto flex items-center gap-3">
+                <div className="flex gap-1">
+                  <button type="button" title="Enviar imagem" disabled={uploadingMedia}
+                    onClick={() => imageInputRef.current?.click()}
+                    className="p-3 rounded-xl text-dim hover:text-amber-500 hover:bg-amber-500/10 transition-all disabled:opacity-40">
+                    <ImageIcon className="w-5 h-5" />
+                  </button>
+                  <button type="button" title="Enviar áudio" disabled={uploadingMedia}
+                    onClick={() => audioInputRef.current?.click()}
+                    className="p-3 rounded-xl text-dim hover:text-amber-500 hover:bg-amber-500/10 transition-all disabled:opacity-40">
+                    <Mic className="w-5 h-5" />
+                  </button>
+                  <button type="button" title="Enviar documento" disabled={uploadingMedia}
+                    onClick={() => docInputRef.current?.click()}
+                    className="p-3 rounded-xl text-dim hover:text-amber-500 hover:bg-amber-500/10 transition-all disabled:opacity-40">
+                    <Paperclip className="w-5 h-5" />
+                  </button>
+                </div>
                 <div className="flex-1">
                   <input type="text" value={newMessage} onChange={(e) => setNewMessage(e.target.value)}
                     onKeyDown={(e) => e.key === 'Enter' && !e.shiftKey && handleSendMessage()}
                     placeholder="Digite sua mensagem aqui..."
                     className="w-full input-theme rounded-[2rem] px-8 py-5 text-sm font-medium shadow-2xl" />
                 </div>
-                <button onClick={handleSendMessage} disabled={sending || !newMessage.trim()}
+                <button onClick={handleSendMessage} disabled={sending || uploadingMedia || !newMessage.trim()}
                   className="bg-amber-600 text-white w-16 h-16 rounded-full flex items-center justify-center hover:scale-105 transition-all shadow-2xl shadow-amber-500/40 disabled:opacity-50 disabled:grayscale group">
-                  {sending ? <ZapSpinner size="sm" /> : <Send className="w-7 h-7 group-hover:rotate-12 transition-transform" />}
+                  {sending || uploadingMedia ? <ZapSpinner size="sm" /> : <Send className="w-7 h-7 group-hover:rotate-12 transition-transform" />}
                 </button>
               </div>
             </div>
@@ -609,6 +715,15 @@ export default function ConversasPage() {
           </div>
         )}
       </div>
+
+      {lightboxUrl && (
+        <div className="fixed inset-0 z-[300] flex items-center justify-center bg-black/90 p-6" onClick={() => setLightboxUrl(null)}>
+          <button type="button" className="absolute top-6 right-6 text-white p-2" onClick={() => setLightboxUrl(null)}>
+            <X className="w-8 h-8" />
+          </button>
+          <img src={lightboxUrl} alt="Visualização" className="max-h-[90vh] max-w-full rounded-2xl object-contain" onClick={(e) => e.stopPropagation()} />
+        </div>
+      )}
 
       {/* Modal Nova Conversa */}
       {showNewConvModal && (

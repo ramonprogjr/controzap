@@ -24,7 +24,7 @@ export default async function DashboardLayout({
 
   const { data: userData, error: userDataError } = await supabase
     .from('users')
-    .select('is_active')
+    .select('is_active, company_id')
     .eq('id', user.id)
     .single()
 
