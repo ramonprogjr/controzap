@@ -1,5 +1,7 @@
 import { getCompanyIdFromRequest } from "@/lib/auth/get-company";
-import { requireAdmin } from "@/lib/auth/get-profile";
+import { requirePermission } from "@/lib/auth/get-profile";
+import { PERMISSIONS } from "@/lib/auth/permissions";
+import { createServiceRoleClient } from "@/lib/supabase/admin";
 import { createClient } from "@/lib/supabase/server";
 import { NextResponse } from "next/server";
 
@@ -77,7 +79,7 @@ export async function PATCH(
   if (!companyId) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
-  const adminErr = await requireAdmin(companyId);
+  const adminErr = await requirePermission(companyId, PERMISSIONS.queues.manage);
   if (adminErr) {
     return NextResponse.json({ error: adminErr.error }, { status: adminErr.status });
   }
@@ -95,6 +97,7 @@ export async function PATCH(
   }
 
   const supabase = await createClient();
+  const admin = createServiceRoleClient();
   const { data: existing } = await supabase
     .from("queues")
     .select("id")
@@ -129,7 +132,7 @@ export async function PATCH(
     return NextResponse.json({ error: "Nenhuma alteração (name, slug, queue_type, business_hours ou special_dates)" }, { status: 400 });
   }
 
-  const { data, error } = await supabase
+  const { data, error } = await admin
     .from("queues")
     .update(updates)
     .eq("id", queueId)
@@ -157,7 +160,7 @@ export async function PATCH(
       if (!missingQueueType && updates.queue_type !== undefined) fallbackUpdates.queue_type = updates.queue_type;
       if (!missingBusinessHours && updates.business_hours !== undefined) fallbackUpdates.business_hours = updates.business_hours;
 
-      const fallbackUpdate = await supabase
+      const fallbackUpdate = await admin
         .from("queues")
         .update(fallbackUpdates)
         .eq("id", queueId)
@@ -196,7 +199,7 @@ export async function DELETE(
   if (!companyId) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
-  const adminErr = await requireAdmin(companyId);
+  const adminErr = await requirePermission(companyId, PERMISSIONS.queues.manage);
   if (adminErr) {
     return NextResponse.json({ error: adminErr.error }, { status: adminErr.status });
   }
@@ -207,6 +210,7 @@ export async function DELETE(
   }
 
   const supabase = await createClient();
+  const admin = createServiceRoleClient();
   const { data: existing } = await supabase
     .from("queues")
     .select("id")
@@ -218,8 +222,8 @@ export async function DELETE(
     return NextResponse.json({ error: "Queue not found" }, { status: 404 });
   }
 
-  await supabase.from("channel_queues").delete().eq("queue_id", queueId);
-  const { error: delErr } = await supabase
+  await admin.from("channel_queues").delete().eq("queue_id", queueId);
+  const { error: delErr } = await admin
     .from("queues")
     .delete()
     .eq("id", queueId)

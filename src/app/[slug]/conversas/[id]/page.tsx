@@ -15,6 +15,7 @@ import { EmojiReactionPicker } from "@/components/EmojiReactionPicker";
 import { ChannelIcon } from "@/components/ChannelIcon";
 import { ChatAudioPlayer } from "@/components/chat/ChatAudioPlayer";
 import { ChatContactInfoTagsAndForms } from "./ChatContactInfoTagsAndForms";
+import { ContactAppointmentsPanel } from "@/components/calendar/ContactAppointmentsPanel";
 
 type Message = {
   id: string;
@@ -4116,6 +4117,15 @@ export default function ConversaThreadPage({
                       wa_chat_jid: conv.wa_chat_jid ?? null,
                     }}
                     apiHeaders={apiHeaders ?? undefined}
+                  />
+                )}
+                {infoOpen && conv && !conv.is_group && (
+                  <ContactAppointmentsPanel
+                    slug={slug}
+                    apiHeaders={apiHeaders ?? undefined}
+                    phone={conv.customer_phone || conv.external_id}
+                    clientName={conv.customer_name}
+                    compact
                   />
                 )}
               </div>

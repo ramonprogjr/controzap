@@ -14,8 +14,8 @@ const sora = Sora({
 });
 
 export const metadata: Metadata = {
-  title: "Smart Vendas",
-  description: "Centralize o atendimento WhatsApp da sua empresa — smartvendas.com.br",
+  title: "ControlZap",
+  description: "Centralize o atendimento WhatsApp da sua empresa — controlzap.com.br",
 };
 
 export default function RootLayout({

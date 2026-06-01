@@ -14,8 +14,6 @@ import {
   Ticket,
   Inbox,
   X,
-  Loader2,
-  ExternalLink,
   ChevronRight,
 } from "lucide-react";
 
@@ -74,11 +72,7 @@ const FEATURE_CARDS = [
 ];
 
 export default function HomePage() {
-  const [modal, setModal] = useState<"termos" | "privacidade" | "pedir-acesso" | null>(null);
-  const [pedirCnpj, setPedirCnpj] = useState("");
-  const [pedirLoading, setPedirLoading] = useState(false);
-  const [pedirResult, setPedirResult] = useState<{ slug: string; name?: string } | null>(null);
-  const [pedirError, setPedirError] = useState<string | null>(null);
+  const [modal, setModal] = useState<"termos" | "privacidade" | null>(null);
   const [email, setEmail] = useState("");
 
   useEffect(() => {
@@ -87,40 +81,9 @@ export default function HomePage() {
     if (hash === "privacidade") setModal("privacidade");
   }, []);
 
-  const handlePedirAcesso = async () => {
-    const cnpj = pedirCnpj.replace(/\D/g, "");
-    if (cnpj.length !== 14) {
-      setPedirError("Informe um CNPJ válido (14 dígitos).");
-      return;
-    }
-    setPedirError(null);
-    setPedirResult(null);
-    setPedirLoading(true);
-    try {
-      const res = await fetch(`/api/lookup-company?cnpj=${encodeURIComponent(cnpj)}`);
-      const data = await res.json();
-      if (!res.ok) {
-        setPedirError(data?.error ?? "Empresa não encontrada.");
-        return;
-      }
-      setPedirResult({ slug: data.slug, name: data.name });
-    } catch {
-      setPedirError("Erro ao buscar. Tente novamente.");
-    } finally {
-      setPedirLoading(false);
-    }
-  };
-
-  const closePedirModal = () => {
-    setModal(null);
-    setPedirCnpj("");
-    setPedirResult(null);
-    setPedirError(null);
-  };
-
   return (
     <main className="min-h-screen bg-white flex flex-col">
-      <LandingHeader onPedirAcesso={() => setModal("pedir-acesso")} />
+      <LandingHeader />
 
       {/* Hero - Menos verde, fundo neutro */}
       <section className="relative overflow-hidden">
@@ -157,12 +120,12 @@ export default function HomePage() {
                 <span className="font-display">Começar gratuitamente</span>
                 <ChevronRight className="h-5 w-5 shrink-0" />
               </Link>
-              <button
-                onClick={() => setModal("pedir-acesso")}
+              <Link
+                href="/login"
                 className="inline-flex items-center justify-center gap-2 rounded-full border-2 border-white px-8 py-4 text-base font-semibold text-white transition-all hover:bg-white/10"
               >
-                <span className="font-display">Já tenho acesso</span>
-              </button>
+                <span className="font-display">Login</span>
+              </Link>
             </motion.div>
           </div>
         </div>
@@ -344,97 +307,6 @@ export default function HomePage() {
                   Podemos atualizar estes termos periodicamente. O uso continuado do serviço após alterações constitui aceite das novas condições. Em caso de dúvidas, entre em contato conosco.
                 </p>
               </div>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      {/* Modal Meu acesso */}
-      <AnimatePresence>
-        {modal === "pedir-acesso" && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 flex items-center justify-center p-4"
-            onClick={closePedirModal}
-          >
-            <div className="absolute inset-0 bg-[#0F172A]/60 backdrop-blur-sm" />
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95, y: 20 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.95, y: 20 }}
-              className="relative w-full max-w-md overflow-hidden rounded-2xl border border-[#E2E8F0] bg-white p-6 shadow-2xl"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <div className="mb-4 flex items-center justify-between">
-                <h2 className="text-lg font-bold text-[#0F172A]">Meu acesso</h2>
-                <button type="button" onClick={closePedirModal} className="rounded-lg p-2 text-[#64748B] hover:bg-[#F1F5F9]">
-                  <X className="h-5 w-5" />
-                </button>
-              </div>
-              <p className="mb-4 text-sm text-[#64748B]">
-                Informe o CNPJ da empresa cadastrada para acessar o link do seu painel.
-              </p>
-              {!pedirResult ? (
-                <>
-                  <input
-                    type="text"
-                    placeholder="00.000.000/0001-00"
-                    value={pedirCnpj.length >= 14 ? pedirCnpj.replace(/(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/, "$1.$2.$3/$4-$5") : pedirCnpj}
-                    onChange={(e) => {
-                      const digits = e.target.value.replace(/\D/g, "").slice(0, 14);
-                      setPedirCnpj(digits);
-                      setPedirError(null);
-                    }}
-                    onKeyDown={(e) => e.key === "Enter" && handlePedirAcesso()}
-                    className="mb-3 w-full rounded-xl border border-[#E2E8F0] bg-[#F8FAFC] px-4 py-3 text-[#0a0a0a] placeholder-[#94A3B8] focus:border-[#34B097] focus:outline-none focus:ring-2 focus:ring-[#34B097]/20"
-                  />
-                  {pedirError && <p className="mb-3 text-sm text-[#DC2626]">{pedirError}</p>}
-                  <button
-                    type="button"
-                    onClick={handlePedirAcesso}
-                    disabled={pedirLoading || pedirCnpj.replace(/\D/g, "").length !== 14}
-                    className="w-full rounded-xl bg-[#34B097] px-4 py-3 font-semibold text-white transition-colors hover:bg-[#2D9B85] disabled:cursor-not-allowed disabled:opacity-50"
-                  >
-                    {pedirLoading ? (
-                      <span className="inline-flex items-center gap-2">
-                        <Loader2 className="h-4 w-4 animate-spin" />
-                        Buscando…
-                      </span>
-                    ) : (
-                      "Verificar CNPJ"
-                    )}
-                  </button>
-                </>
-              ) : (
-                <div className="space-y-4">
-                  {pedirResult.name && <p className="text-sm font-medium text-[#0F172A]">{pedirResult.name}</p>}
-                  <div className="rounded-xl border border-[#E2E8F0] bg-[#F8FAFC] p-3">
-                    <p className="mb-1 text-xs text-[#64748B]">Link do seu painel</p>
-                    <p className="break-all font-mono text-sm font-medium text-[#34B097]">
-                      {typeof window !== "undefined" ? `${window.location.origin}/${pedirResult.slug}` : `/${pedirResult.slug}`}
-                    </p>
-                  </div>
-                  <a
-                    href={typeof window !== "undefined" ? `${window.location.origin}/${pedirResult.slug}` : `/${pedirResult.slug}`}
-                    className="flex w-full items-center justify-center gap-2 rounded-xl bg-[#1E293B] px-4 py-3 font-semibold text-white transition-colors hover:bg-[#0F172A]"
-                  >
-                    <ExternalLink className="h-4 w-4" />
-                    Acessar meu painel
-                  </a>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setPedirResult(null);
-                      setPedirCnpj("");
-                    }}
-                    className="w-full text-sm text-[#64748B] hover:text-[#34B097]"
-                  >
-                    Consultar outro CNPJ
-                  </button>
-                </div>
-              )}
             </motion.div>
           </motion.div>
         )}

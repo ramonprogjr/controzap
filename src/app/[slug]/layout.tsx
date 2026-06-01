@@ -69,7 +69,7 @@ export default async function AppLayout({
           <div className="flex min-h-0 flex-1 overflow-hidden pt-14">
             <AppSidebar />
             <div className="ml-[8px] flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden">
-              <header className="fixed left-[8px] right-0 top-14 z-30 shrink-0 border-b border-emerald-600/70 bg-gradient-to-r from-black via-emerald-950 to-emerald-900 shadow-sm">
+              <header className="fixed left-[8px] right-0 top-14 z-30 shrink-0 border-b border-white/[0.08] bg-[#0a0a0a] shadow-sm">
                 <AppNavTabs />
               </header>
               <main className="min-h-0 flex-1 flex flex-col overflow-hidden bg-[#FAFBFC] pt-12">

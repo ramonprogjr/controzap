@@ -11,7 +11,11 @@ const getBaseUrl = (): string => {
 };
 
 const getAdminToken = (): string | undefined => {
-  return process.env.UAZAPI_ADMIN_TOKEN?.trim() || undefined;
+  return (
+    process.env.UAZAPI_ADMIN_TOKEN?.trim() ||
+    process.env.UAZAPI_GLOBAL_TOKEN?.trim() ||
+    undefined
+  );
 };
 
 /** Timeout em ms para requisições à UAZAPI (evita Connect Timeout longo). */

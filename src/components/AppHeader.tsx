@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useState, useEffect, useRef } from "react";
-import { Settings, ChevronDown, Bell, Loader2, Check, LogOut } from "lucide-react";
+import { Settings, ChevronDown, Bell, Loader2, Check, LogOut, CalendarDays } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import { ClicVendLogo } from "@/components/ClicVendLogo";
 
@@ -30,6 +30,8 @@ export function AppHeader() {
   const base = slug ? `/${slug}` : "";
   const [canViewProfile, setCanViewProfile] = useState(false);
   const [canShowNewNotifications, setCanShowNewNotifications] = useState(false);
+  const [canViewCalendar, setCanViewCalendar] = useState(false);
+  const [pendingAppointmentsToday, setPendingAppointmentsToday] = useState(0);
   const [unassignedCount, setUnassignedCount] = useState<number>(0);
   const [notifications, setNotifications] = useState<NotificationItem[]>([]);
   const [notificationsUnread, setNotificationsUnread] = useState(0);
@@ -57,12 +59,37 @@ export function AppHeader() {
         const hideBell = perms.includes("inbox.hide_new_notifications");
         const showBell = perms.includes("inbox.show_new_notifications");
         setCanShowNewNotifications(hasRead && (showBell || !hideBell));
+        setCanViewCalendar(perms.includes("calendar.view") || perms.includes("calendar.manage"));
       })
       .catch(() => {
         setCanViewProfile(false);
         setCanShowNewNotifications(false);
+        setCanViewCalendar(false);
       });
   }, [slug]);
+
+  useEffect(() => {
+    if (!slug || !canViewCalendar) {
+      setPendingAppointmentsToday(0);
+      return;
+    }
+    const apiHeaders = { "X-Company-Slug": slug };
+    const fetchToday = () =>
+      fetch("/api/appointments?today=1", { credentials: "include", headers: apiHeaders, cache: "no-store" })
+        .then((r) => r.json())
+        .then((data) => {
+          setPendingAppointmentsToday(typeof data?.count === "number" ? data.count : 0);
+        })
+        .catch(() => {});
+    fetchToday();
+    const interval = setInterval(fetchToday, 60_000);
+    const onRefresh = () => fetchToday();
+    window.addEventListener("clicvend:notifications-refresh", onRefresh);
+    return () => {
+      clearInterval(interval);
+      window.removeEventListener("clicvend:notifications-refresh", onRefresh);
+    };
+  }, [slug, canViewCalendar]);
 
   useEffect(() => {
     if (!slug || !canShowNewNotifications) {
@@ -192,6 +219,21 @@ export function AppHeader() {
         <ClicVendLogo size="sm" className="h-7 w-auto" />
       </Link>
       <div className="relative flex items-center gap-2" ref={dropdownRef}>
+        {canViewCalendar && (
+          <Link
+            href={`${base}/calendario`}
+            className="relative flex items-center justify-center rounded-md p-2.5 text-[#64748B] hover:bg-amber-50 hover:text-amber-700 transition-colors focus:outline-none focus:ring-2 focus:ring-amber-200"
+            aria-label="Calendário"
+            title="Agendamentos de hoje"
+          >
+            <CalendarDays className="h-5 w-5 shrink-0" />
+            {pendingAppointmentsToday > 0 && (
+              <span className="absolute -right-1 -top-1 flex h-5 min-w-[1.25rem] items-center justify-center rounded-full bg-amber-600 px-1 text-[11px] font-bold leading-none text-white shadow-md ring-2 ring-white">
+                {pendingAppointmentsToday > 99 ? "99+" : pendingAppointmentsToday}
+              </span>
+            )}
+          </Link>
+        )}
         {canShowNewNotifications && (
           <div className="relative">
             <button

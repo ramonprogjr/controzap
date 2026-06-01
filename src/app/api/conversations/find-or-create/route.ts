@@ -4,6 +4,7 @@ import { PERMISSIONS } from "@/lib/auth/permissions";
 import { toCanonicalDigits, normalizeWhatsAppJid } from "@/lib/phone-canonical";
 import { isCommercialQueue } from "@/lib/queue/commercial";
 import { getNextAgentForQueue } from "@/lib/queue/round-robin";
+import { createServiceRoleClient } from "@/lib/supabase/admin";
 import { createClient } from "@/lib/supabase/server";
 import { NextResponse } from "next/server";
 
@@ -41,6 +42,7 @@ export async function GET(request: Request) {
   }
 
   const supabase = await createClient();
+  const admin = createServiceRoleClient();
   const { data: { user } } = await supabase.auth.getUser();
 
   // Contato (ticket): normalizar JID/customer_phone para formato canônico antes de buscar/inserir (evita duplicatas)
@@ -108,7 +110,7 @@ export async function GET(request: Request) {
       (channelGroup as { name?: string; topic?: string } | null)?.topic ||
       canonicalJid;
 
-    const { data: inserted, error: insertErr } = await supabase
+    const { data: inserted, error: insertErr } = await admin
       .from("conversations")
       .insert({
         company_id: companyId,
@@ -149,7 +151,7 @@ export async function GET(request: Request) {
 
   if (existing?.id) {
     if (assignToMe && user?.id && !(existing as { assigned_to?: string | null }).assigned_to) {
-      await supabase
+      await admin
         .from("conversations")
         .update({ assigned_to: user.id, updated_at: new Date().toISOString() })
         .eq("id", existing.id)
@@ -159,7 +161,7 @@ export async function GET(request: Request) {
     return NextResponse.json({ id: existing.id });
   }
 
-  // Mesmo contato pode existir com external_id antigo (ex.: LID). Buscar por customer_phone canônico para não duplicar.
+  // Mesmo contato pode existir com external_id antigo
   if (canonicalPhone && canonicalPhone !== "—" && canonicalPhone.replace(/\D/g, "").length >= 10) {
     const fetchByPhone = async (phoneVal: string) =>
       supabase
@@ -184,14 +186,14 @@ export async function GET(request: Request) {
       const existingId = (byPhone as { id: string }).id;
       const currentExt = (byPhone as { external_id?: string }).external_id;
       if (currentExt !== canonicalJid) {
-        await supabase
+        await admin
           .from("conversations")
           .update({ external_id: canonicalJid, wa_chat_jid: canonicalJid, updated_at: new Date().toISOString() })
           .eq("id", existingId)
           .eq("company_id", companyId);
       }
       if (assignToMe && user?.id && !(byPhone as { assigned_to?: string | null }).assigned_to) {
-        await supabase
+        await admin
           .from("conversations")
           .update({ assigned_to: user.id, updated_at: new Date().toISOString() })
           .eq("id", existingId)
@@ -247,7 +249,7 @@ export async function GET(request: Request) {
     }
   }
 
-  const { data: inserted, error: insertErr } = await supabase
+  const { data: inserted, error: insertErr } = await admin
     .from("conversations")
     .insert({
       company_id: companyId,

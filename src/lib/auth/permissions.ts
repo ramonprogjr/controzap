@@ -43,6 +43,8 @@ export const PERMISSIONS = {
   campaigns: { view: "campaigns.view", manage: "campaigns.manage" },
   // CRM Comercial
   crm: { view: "crm.view", manage: "crm.manage" },
+  // Calendário (retiradas / agendamentos ALS)
+  calendar: { view: "calendar.view", manage: "calendar.manage" },
   // Envio em massa (fila de envio / broadcast)
   broadcast: { view: "broadcast.view", manage: "broadcast.manage" },
   // Multicálculo de Seguros
@@ -68,6 +70,7 @@ export type PermissionKey =
   | (typeof PERMISSIONS)["tags"][keyof (typeof PERMISSIONS)["tags"]]
   | (typeof PERMISSIONS)["campaigns"][keyof (typeof PERMISSIONS)["campaigns"]]
   | (typeof PERMISSIONS)["crm"][keyof (typeof PERMISSIONS)["crm"]]
+  | (typeof PERMISSIONS)["calendar"][keyof (typeof PERMISSIONS)["calendar"]]
   | (typeof PERMISSIONS)["broadcast"][keyof (typeof PERMISSIONS)["broadcast"]]
   | (typeof PERMISSIONS)["insurance_multicalculo"][keyof (typeof PERMISSIONS)["insurance_multicalculo"]]
   | (typeof PERMISSIONS)["profile"][keyof (typeof PERMISSIONS)["profile"]]
@@ -106,6 +109,8 @@ const ALL_PERMISSION_KEYS: PermissionKey[] = [
   PERMISSIONS.campaigns.manage,
   PERMISSIONS.crm.view,
   PERMISSIONS.crm.manage,
+  PERMISSIONS.calendar.view,
+  PERMISSIONS.calendar.manage,
   PERMISSIONS.broadcast.view,
   PERMISSIONS.broadcast.manage,
   PERMISSIONS.insurance_multicalculo.view,
@@ -179,6 +184,10 @@ export const PERMISSION_GROUPS: { label: string; keys: PermissionKey[] }[] = [
     keys: [PERMISSIONS.crm.view, PERMISSIONS.crm.manage],
   },
   {
+    label: "Módulo Calendário (retiradas e veículos)",
+    keys: [PERMISSIONS.calendar.view, PERMISSIONS.calendar.manage],
+  },
+  {
     label: "Módulo Envio em massa",
     keys: [PERMISSIONS.broadcast.view, PERMISSIONS.broadcast.manage],
   },
@@ -229,6 +238,8 @@ export const PERMISSION_LABELS: Record<PermissionKey, string> = {
   [PERMISSIONS.campaigns.manage]: "Ação: gerenciar Campanhas",
   [PERMISSIONS.crm.view]: "Acesso: ver CRM Comercial",
   [PERMISSIONS.crm.manage]: "Ação: gerenciar CRM Comercial (carteiras, distribuição e painel)",
+  [PERMISSIONS.calendar.view]: "Acesso: ver Calendário de retiradas",
+  [PERMISSIONS.calendar.manage]: "Ação: criar e gerenciar agendamentos no calendário",
   [PERMISSIONS.broadcast.view]: "Acesso: ver Envio em massa (fila de envio)",
   [PERMISSIONS.broadcast.manage]: "Ação: gerenciar Envio em massa (adicionar/remover e disparar)",
   [PERMISSIONS.insurance_multicalculo.view]: "Acesso: ver módulo Multicálculo de Seguros",

@@ -1,5 +1,11 @@
 import { getCompanyIdFromRequest } from "@/lib/auth/get-company";
 import { connectInstance } from "@/lib/uazapi/client";
+import {
+  findBlockingConnectedInstance,
+  formatUazConnectedLimitMessage,
+  isUazInstanceLimitError,
+  listUazInstances,
+} from "@/lib/uazapi/instance-sync";
 import { createClient } from "@/lib/supabase/server";
 import { NextResponse } from "next/server";
 
@@ -24,12 +30,13 @@ export async function POST(request: Request) {
 
   let token: string | undefined = typeof body?.token === "string" ? body.token.trim() : undefined;
   const phone = typeof body?.phone === "string" ? body.phone.trim() : undefined;
+  let channelInstanceId: string | undefined;
 
   if (!token && body?.channel_id) {
     const supabase = await createClient();
     const { data: ch } = await supabase
       .from("channels")
-      .select("id, uazapi_token_encrypted")
+      .select("id, uazapi_instance_id, uazapi_token_encrypted")
       .eq("id", body.channel_id)
       .eq("company_id", companyId)
       .single();
@@ -37,19 +44,36 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Channel not found or token missing" }, { status: 404 });
     }
     token = ch.uazapi_token_encrypted;
+    channelInstanceId = String(ch.uazapi_instance_id ?? "").trim() || undefined;
   }
 
   if (!token) {
     return NextResponse.json({ error: "token or channel_id is required" }, { status: 400 });
   }
 
+  const listResult = await listUazInstances();
+  if (listResult.ok) {
+    const blocker = findBlockingConnectedInstance(listResult.instances, channelInstanceId);
+    if (blocker) {
+      return NextResponse.json(
+        { error: formatUazConnectedLimitMessage(blocker) },
+        { status: 409 }
+      );
+    }
+  }
+
   const result = await connectInstance(token, phone);
 
   if (!result.ok) {
-    return NextResponse.json(
-      { error: result.error ?? "Failed to connect instance" },
-      { status: 502 }
-    );
+    const raw = (result.error ?? "Failed to connect instance").trim();
+    const error = isUazInstanceLimitError(raw)
+      ? formatUazConnectedLimitMessage(
+          listResult.ok
+            ? findBlockingConnectedInstance(listResult.instances, channelInstanceId)
+            : null
+        )
+      : raw;
+    return NextResponse.json({ error }, { status: 502 });
   }
 
   return NextResponse.json({

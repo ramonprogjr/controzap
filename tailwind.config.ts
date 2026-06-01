@@ -48,14 +48,14 @@ export default {
         },
         // Cores antigas mantidas para compatibilidade (Legacy)
         clicvend: {
-          green: "#00A78F",
-          "green-dark": "#008F7A",
-          "green-light": "#00C4A7",
+          green: "#f59e0b",
+          "green-dark": "#d97706",
+          "green-light": "#fbbf24",
           white: "#FFFFFF",
           black: "#0a0a0a",
-          blue: "#1A376B",
-          orange: "#00A78F",
-          "orange-dark": "#008F7A",
+          blue: "#b45309",
+          orange: "#f59e0b",
+          "orange-dark": "#d97706",
         },
       },
       borderRadius: {

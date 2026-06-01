@@ -48,7 +48,7 @@ export async function DELETE(request: Request) {
       response: "Channel removed locally",
       channel_id: channelId,
       warning:
-        "Registro removido só no Smart Vendas. Se a instância ainda existir na UAZAPI, apague-a no painel da UAZ para encerrar o número de lá.",
+        "Registro removido só no ControlZap. Se a instância ainda existir na UAZAPI, apague-a no painel da UAZ para encerrar o número de lá.",
     });
   }
 
@@ -72,7 +72,7 @@ export async function DELETE(request: Request) {
       {
         error: result.error ?? "Failed to delete instance",
         code: "uazapi_delete_failed",
-        hint: "Se o token está inválido, use a opção para remover só o registro no Smart Vendas.",
+        hint: "Se o token está inválido, use a opção para remover só o registro no ControlZap.",
       },
       { status: 502 }
     );
@@ -86,7 +86,7 @@ export async function DELETE(request: Request) {
     response: absent ? "Instance already absent on UAZAPI; channel removed locally" : "Instance deleted",
     channel_id: channelId,
     ...(absent && {
-      info: "A UAZAPI respondeu que a instância já não existia (token antigo ou excluída no painel). O registro foi removido no Smart Vendas.",
+      info: "A UAZAPI respondeu que a instância já não existia (token antigo ou excluída no painel). O registro foi removido no ControlZap.",
     }),
   });
 }

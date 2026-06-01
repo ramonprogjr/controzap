@@ -20,8 +20,10 @@ import {
   MessageSquare,
   ChevronLeft,
   ChevronRight,
+  CalendarDays,
 } from "lucide-react";
 import { SideOver } from "@/components/SideOver";
+import { ContactAppointmentsPanel } from "@/components/calendar/ContactAppointmentsPanel";
 import { ConfirmDialog } from "@/components/ConfirmDialog";
 
 type OverviewQueue = {
@@ -254,6 +256,8 @@ export default function CrmCommercialPage() {
   const [addContactOpen, setAddContactOpen] = useState(false);
   const [transferContactOpen, setTransferContactOpen] = useState(false);
   const [selectedContactId, setSelectedContactId] = useState<string>("");
+  const [appointmentSideOverOpen, setAppointmentSideOverOpen] = useState(false);
+  const [appointmentContactPhone, setAppointmentContactPhone] = useState<string>("");
   const [newPhone, setNewPhone] = useState("");
   const [newNotes, setNewNotes] = useState("");
   const [newChannelId, setNewChannelId] = useState("");
@@ -1069,6 +1073,16 @@ export default function CrmCommercialPage() {
                           <td className="px-4 py-3">
                             <div className="flex items-center justify-end gap-1">
                               <button
+                                onClick={() => {
+                                  setAppointmentContactPhone(c.phone_canonical);
+                                  setAppointmentSideOverOpen(true);
+                                }}
+                                className="rounded p-1.5 text-[#64748B] transition-colors hover:bg-amber-50 hover:text-amber-700"
+                                title="Agendamentos"
+                              >
+                                <CalendarDays className="h-4 w-4" />
+                              </button>
+                              <button
                                 onClick={() => { setSelectedContactId(c.id); setTransferContactOpen(true); }}
                                 disabled={c.source === "conversation_fallback"}
                                 className="rounded p-1.5 text-[#64748B] transition-colors hover:bg-clicvend-orange/10 hover:text-clicvend-orange"
@@ -1754,6 +1768,21 @@ export default function CrmCommercialPage() {
               </button>
             </div>
           </div>
+        </SideOver>
+
+        <SideOver
+          open={appointmentSideOverOpen}
+          onClose={() => setAppointmentSideOverOpen(false)}
+          title="Agendamentos do contato"
+          width={480}
+        >
+          {appointmentContactPhone && (
+            <ContactAppointmentsPanel
+              slug={slug}
+              apiHeaders={apiHeaders}
+              phone={appointmentContactPhone}
+            />
+          )}
         </SideOver>
 
         <ConfirmDialog

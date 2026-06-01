@@ -20,21 +20,21 @@ function LoginForm() {
   const isValid = email.trim().length > 0 && password.length > 0;
 
   const inputClass =
-    "w-full rounded-xl border border-[#E2E8F0] bg-[#F8FAFC] px-4 py-3.5 text-[#1E293B] placeholder-[#94A3B8] focus:border-[#34B097] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#34B097]/20 transition-all";
+    "w-full rounded-xl border border-[#E2E8F0] bg-[#F8FAFC] px-4 py-3.5 text-[#1E293B] placeholder-[#94A3B8] focus:border-amber-500 focus:bg-white focus:outline-none focus:ring-2 focus:ring-amber-500/20 transition-all";
 
   return (
     <div className="flex min-h-screen flex-row-reverse">
-      {/* Fundo degradê verde - lado direito no desktop */}
-      <div className="absolute inset-0 bg-gradient-to-br from-[#0D2B26] via-[#134D45] to-[#1A6B5C] md:relative md:flex-1">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_50%_at_80%_50%,rgba(52,176,151,0.2),transparent)] pointer-events-none" />
+      {/* Fundo degradê escuro + âmbar */}
+      <div className="absolute inset-0 bg-gradient-to-br from-[#0a0a0a] via-[#1c1008] to-[#292018] md:relative md:flex-1">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_50%_at_80%_50%,rgba(245,158,11,0.15),transparent)] pointer-events-none" />
       </div>
 
-      {/* Faixa branca à esquerda com o form - maior */}
+      {/* Faixa branca à esquerda com o form */}
       <div className="relative z-10 flex w-full min-h-screen flex-col justify-center bg-white p-8 md:w-[55%] md:min-w-[520px] md:max-w-[640px] md:flex-none md:shadow-[8px_0_24px_rgba(0,0,0,0.08)]">
         <div className="mx-auto w-full max-w-md">
         <Link
           href="/"
-          className="flex justify-center focus:outline-none focus:ring-2 focus:ring-[#34B097] focus:ring-offset-2 rounded"
+          className="flex justify-center focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2 rounded"
         >
           <ClicVendLogo size="lg" />
         </Link>
@@ -83,13 +83,13 @@ function LoginForm() {
 
 
           {error && <p className="text-sm font-medium text-[#EF4444]">{error}</p>}
-          {success && <p className="text-sm font-medium text-emerald-600 text-center animate-pulse">Login realizado com sucesso! Redirecionando...</p>}
+          {success && <p className="text-sm font-medium text-amber-600 text-center animate-pulse">Login realizado com sucesso! Redirecionando...</p>}
 
           <button
             type="submit"
             disabled={!isValid || loading || success}
             className={`w-full inline-flex items-center justify-center gap-2 rounded-xl py-3.5 font-semibold text-white shadow-lg transition-all disabled:cursor-not-allowed disabled:bg-[#94A3B8] disabled:shadow-none ${
-              success ? "bg-emerald-500 hover:bg-emerald-600" : "bg-[#34B097] hover:bg-[#2D9B85]"
+              success ? "bg-amber-500 hover:bg-amber-600" : "bg-gradient-to-r from-amber-600 to-amber-500 hover:from-amber-500 hover:to-amber-400"
             }`}
           >
             {success ? (

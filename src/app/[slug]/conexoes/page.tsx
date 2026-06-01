@@ -228,7 +228,7 @@ export default function ConexoesPage() {
         return;
       }
       if (!createData.channel?.id) {
-        setCreateError("Canal não foi criado. Tente novamente.");
+        setCreateError(createData?.error ?? createData?.channelError ?? "Canal não foi criado. Tente novamente.");
         setCreating(false);
         return;
       }
@@ -236,7 +236,12 @@ export default function ConexoesPage() {
         fetchStats();
         fetchStatus(createData.channel.id);
         setSideOverOpen(false);
-        setFeedback({ type: "success", message: "Conexão criada com sucesso." });
+        setFeedback({
+          type: "success",
+          message: createData.reused
+            ? "Conexão vinculada a instância existente na UAZAPI."
+            : "Conexão criada com sucesso.",
+        });
       });
     } catch {
       setCreateError("Erro de rede. Tente novamente.");
@@ -886,7 +891,7 @@ export default function ConexoesPage() {
       <ConfirmDialog
         open={!!deleteLocalOnlyChannel}
         onClose={() => setDeleteLocalOnlyChannel(null)}
-        title="Remover só do Smart Vendas?"
+        title="Remover só do ControlZap?"
         message={
           deleteLocalOnlyChannel
             ? `A UAZAPI não aceitou excluir a instância (token inválido ou instância já removida lá). Deseja remover apenas o registro da conexão "${deleteLocalOnlyChannel.name}" no sistema? As mensagens deixam de ser roteadas para esta empresa; se a instância ainda existir na UAZ, apague-a manualmente no painel da UAZ.`

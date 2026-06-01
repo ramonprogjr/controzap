@@ -31,7 +31,6 @@ export async function fetchClosedTicketStatusSlugs(
  * Encadeia .neq("status", slug) para cada status encerrado.
  * Retorno `any` evita inferência recursiva profunda do client Supabase.
  */
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function excludeClosedTicketStatuses(query: any, closedSlugs: string[]): any {
   let q = query;
   for (const s of closedSlugs) {

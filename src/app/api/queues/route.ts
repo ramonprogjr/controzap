@@ -1,5 +1,7 @@
 import { getCompanyIdFromRequest } from "@/lib/auth/get-company";
-import { getProfileForCompany, requireAdmin } from "@/lib/auth/get-profile";
+import { getProfileForCompany, requirePermission } from "@/lib/auth/get-profile";
+import { PERMISSIONS } from "@/lib/auth/permissions";
+import { createServiceRoleClient } from "@/lib/supabase/admin";
 import { createClient } from "@/lib/supabase/server";
 import { NextResponse } from "next/server";
 
@@ -98,9 +100,9 @@ export async function POST(request: Request) {
   if (!companyId) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
-  const adminError = await requireAdmin(companyId);
-  if (adminError) {
-    return NextResponse.json({ error: adminError.error }, { status: adminError.status });
+  const permErr = await requirePermission(companyId, PERMISSIONS.queues.manage);
+  if (permErr) {
+    return NextResponse.json({ error: permErr.error }, { status: permErr.status });
   }
   let body: { name?: string; slug?: string; use_groups?: boolean; queue_type?: string };
   try {
@@ -115,17 +117,17 @@ export async function POST(request: Request) {
   if (!name || !slug) {
     return NextResponse.json({ error: "name and slug required" }, { status: 400 });
   }
-  const supabase = await createClient();
+  const admin = createServiceRoleClient();
 
   if (useGroups) {
-    const { data: existing } = await supabase
+    const { data: existing } = await admin
       .from("queues")
       .select("id")
       .eq("company_id", companyId)
       .eq("slug", "groups")
       .maybeSingle();
     if (!existing) {
-      const { error: groupErr } = await supabase
+      const { error: groupErr } = await admin
         .from("queues")
         .insert({ company_id: companyId, name: "Grupos", slug: "groups", kind: "group" });
       if (groupErr) {
@@ -134,7 +136,7 @@ export async function POST(request: Request) {
     }
   }
 
-  const { data, error } = await supabase
+  const { data, error } = await admin
     .from("queues")
     .insert({ company_id: companyId, name, slug, queue_type: queueType })
     .select("id, name, slug, queue_type, created_at")

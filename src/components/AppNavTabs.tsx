@@ -21,6 +21,7 @@ import {
   Bot,
   ChevronLeft,
   ChevronRight,
+  CalendarDays,
 } from "lucide-react";
 
 const fetcher = (url: string, slug: string) =>
@@ -41,6 +42,7 @@ const ALL_TABS = [
   { href: "/conexoes", label: "Conexões", icon: Plug, requires: "channels.view" as const, module: "conexoes" as const },
   { href: "/filas", label: "Filas", icon: Inbox, requires: "queues.view" as const, module: "filas" as const },
   { href: "/crm", label: "CRM", icon: ChartLine, requires: "crm.view" as const, module: "crm" as const },
+  { href: "/calendario", label: "Calendário", icon: CalendarDays, requires: "calendar.view" as const, module: "calendario" as const },
   { href: "/contatos", label: "Contatos", icon: Users, requires: "contacts.view" as const, module: "contatos" as const },
   { href: "/respostas-rapidas", label: "Respostas Rápidas", icon: Zap, requires: "quickreplies.view" as const, module: "respostas_rapidas" as const },
   { href: "/tags", label: "Tags", icon: Tag, requires: "tags.view" as const, module: "tags" as const },
@@ -85,6 +87,13 @@ export function AppNavTabs() {
     swrOpts
   );
   const permissions = Array.isArray(data?.permissions) ? data.permissions : [];
+  const canViewCalendar = permissions.includes("calendar.view") || permissions.includes("calendar.manage");
+  const { data: todayData } = useSWR<{ count?: number }>(
+    base && canViewCalendar ? ["/api/appointments?today=1", slug] : null,
+    ([url]) => fetcher(url, slug),
+    { ...swrOpts, refreshInterval: 60_000 }
+  );
+  const pendingToday = typeof todayData?.count === "number" ? todayData.count : 0;
   const multicalculoEnabled = data?.multicalculo_seguros_enabled === true;
   const copilotModuleEnabled = data?.copilot_module_enabled !== false;
   const isPlatformOwner = platformOwnerData?.isPlatformOwner === true;
@@ -128,7 +137,7 @@ export function AppNavTabs() {
         type="button"
         aria-label="Abas anteriores"
         onClick={() => scrollByDelta(-240)}
-        className="flex w-8 shrink-0 items-center justify-center rounded-lg text-white/85 transition-colors hover:bg-white/10 hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400/70"
+        className="flex w-8 shrink-0 items-center justify-center rounded-lg text-white/60 transition-colors hover:bg-white/5 hover:text-amber-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-500/50"
       >
         <ChevronLeft className="h-5 w-5" strokeWidth={2.25} />
       </button>
@@ -140,22 +149,28 @@ export function AppNavTabs() {
         const fullHref = `${base}${href}`;
         const isActive = pathname === fullHref || (href !== "/" && pathname?.startsWith(fullHref));
         const isMulticalculo = href === "/multicalculo";
+        const isCalendario = href === "/calendario";
         const activeClass = isMulticalculo
-          ? "bg-violet-400/35 text-violet-100 ring-1 ring-violet-300/60 shadow-sm shadow-violet-900/20"
-          : "bg-emerald-600/30 text-emerald-300 ring-1 ring-emerald-500/50";
+          ? "bg-gradient-to-r from-violet-600 to-violet-500 text-white shadow-lg shadow-violet-500/25 ring-1 ring-violet-400/40"
+          : "bg-gradient-to-r from-amber-600 to-amber-500 text-white shadow-lg shadow-amber-500/25 ring-1 ring-amber-400/40";
         const inactiveHover = isMulticalculo
-          ? "hover:bg-violet-500/15 hover:text-violet-100/95"
-          : "hover:bg-white/5 hover:text-white";
+          ? "hover:bg-violet-500/15 hover:text-violet-200"
+          : "hover:bg-white/5 hover:text-amber-400";
         return (
           <Link
             key={href}
             href={fullHref}
-            className={`flex shrink-0 items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium transition-all duration-200 ${
-              isActive ? activeClass : `text-white/70 ${inactiveHover}`
+            className={`flex shrink-0 items-center gap-2 rounded-xl px-3 py-2 text-sm font-semibold transition-all duration-200 ${
+              isActive ? activeClass : `text-white/60 ${inactiveHover}`
             }`}
           >
             <Icon className="h-4 w-4 shrink-0" />
             <span className="whitespace-nowrap">{label}</span>
+            {isCalendario && pendingToday > 0 && (
+              <span className="ml-0.5 flex h-5 min-w-[1.25rem] items-center justify-center rounded-full bg-amber-500 px-1 text-[10px] font-bold text-white">
+                {pendingToday > 99 ? "99+" : pendingToday}
+              </span>
+            )}
           </Link>
         );
       })}
@@ -164,7 +179,7 @@ export function AppNavTabs() {
         type="button"
         aria-label="Próximas abas"
         onClick={() => scrollByDelta(240)}
-        className="flex w-8 shrink-0 items-center justify-center rounded-lg text-white/85 transition-colors hover:bg-white/10 hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400/70"
+        className="flex w-8 shrink-0 items-center justify-center rounded-lg text-white/60 transition-colors hover:bg-white/5 hover:text-amber-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-500/50"
       >
         <ChevronRight className="h-5 w-5" strokeWidth={2.25} />
       </button>

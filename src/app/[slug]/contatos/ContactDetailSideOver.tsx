@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback, useMemo } from "react";
 import { SideOver } from "@/components/SideOver";
+import { ContactAppointmentsPanel } from "@/components/calendar/ContactAppointmentsPanel";
 import { Loader2, User, Ban, UserPlus, UserMinus, MessageCircle, Save } from "lucide-react";
 
 export type Contact = {
@@ -783,6 +784,14 @@ export function ContactDetailSideOver({
                     })()}
                   </dl>
                 </div>
+              )}
+              {contact && !contact.is_historical && (
+                <ContactAppointmentsPanel
+                  slug={companySlug}
+                  apiHeaders={apiHeaders}
+                  phone={numberForApi(contact)}
+                  clientName={displayName !== "—" ? displayName : contact.contact_name ?? contact.first_name}
+                />
               )}
             </>
           )}

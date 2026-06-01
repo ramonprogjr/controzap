@@ -8,16 +8,16 @@
     --background: 0 0% 100%;       /* Branco puro */
     --foreground: 222.2 84% 4.9%;  /* Preto quase puro para texto */
 
-    /* Primary (Rosa React Flow - #FF0071) */
-    --primary: 333 100% 50%;       /* HSL para #FF0071 (Magenta Vibrante) */
-    --primary-foreground: 0 0% 100%; /* Branco */
+    /* Primary (Âmbar ControlZap - #f59e0b) */
+    --primary: 38 92% 50%;
+    --primary-foreground: 0 0% 100%;
 
-    /* Secondary (Azul Forte - #3b82f6) */
-    --secondary: 221.2 83.2% 53.3%; /* HSL para Azul Forte/Vibrante */
+    /* Secondary */
+    --secondary: 38 92% 40%;
     --secondary-foreground: 0 0% 100%;
 
-    /* Accent (Roxo/Violeta Sutil) */
-    --accent: 262.1 83.3% 57.8%;
+    /* Accent */
+    --accent: 38 92% 50%;
     --accent-foreground: 0 0% 100%;
 
     /* Muted (Cinzas Neutros) */
@@ -27,7 +27,7 @@
     /* Borders & Inputs */
     --border: 214.3 31.8% 91.4%;
     --input: 214.3 31.8% 91.4%;
-    --ring: 333 100% 50%; /* Ring uses Primary color */
+    --ring: 38 92% 50%;
 
     /* Surfaces */
     --card: 0 0% 100%;
@@ -42,30 +42,37 @@
     /* Radius Global */
     --radius: 0.5rem; /* 8px - Levemente arredondado */
 
-    /* Legacy Variables (Coexistence) */
-    /* Cores Primárias (verde) - Mais vibrantes */
-    --clicvend-green-lightest: #5EF0C2;  /* Verde água vibrante */
-    --clicvend-green-lighter: #00E6B8;   /* Verde menta intenso */
-    --clicvend-green-light: #00C896;    /* Verde claro vibrante */
-    --clicvend-green: #00A854;          /* Verde principal forte */
-    --clicvend-green-dark: #008A45;     /* Verde escuro vibrante */
-    --clicvend-green-darker: #006B35;   /* Verde profundo */
-  
-    /* Cores Secundárias (azuis) - Mais saturados */
-    --clicvend-teal: #00C4C4;           /* Azul-esverdeado vibrante */
-    --clicvend-teal-dark: #00A0A0;      /* Azul-esverdeado escuro */
-    --clicvend-blue-light: #00A2FF;     /* Azul claro elétrico */
-    --clicvend-blue: #0066CC;           /* Azul médio intenso */
-    --clicvend-blue-dark: #004099;      /* Azul escuro profundo */
-    --clicvend-blue-darker: #002266;    /* Azul muito escuro */
-  
-    /* Cores de Destaque (para CTAs, links, etc.) - Chamativas */
-    --clicvend-highlight: #00FFCC;      /* Verde neon brilhante */
-    --clicvend-highlight-blue: #00CCFF; /* Azul vibrante para ações */
-  
-    /* Cores de Fundo (para seções, cards, etc.) - Mais contrastantes */
-    --clicvend-bg-light: #D4FFEC;       /* Fundo verde claro vibrante */
-    --clicvend-bg-blue: #E6F2FF;        /* Fundo azul claro suave */
+    /* ControlZap theme tokens (galima-compatible) */
+    --cz-background: #0a0a0a;
+    --cz-foreground: #f8fafc;
+    --cz-sidebar: #111111;
+    --cz-sidebar-border: rgba(255, 255, 255, 0.08);
+    --cz-card: #ffffff;
+    --cz-card-border: rgba(0, 0, 0, 0.1);
+    --cz-accent: #f59e0b;
+    --cz-accent-dark: #d97706;
+    --cz-text-primary: #0f172a;
+    --cz-text-secondary: #475569;
+    --cz-input-bg: #ffffff;
+    --cz-ring-color: rgba(245, 158, 11, 0.2);
+
+    /* Legacy Variables — remapeadas para âmbar ControlZap */
+    --clicvend-green-lightest: #fde68a;
+    --clicvend-green-lighter: #fcd34d;
+    --clicvend-green-light: #fbbf24;
+    --clicvend-green: #f59e0b;
+    --clicvend-green-dark: #d97706;
+    --clicvend-green-darker: #b45309;
+    --clicvend-teal: #f59e0b;
+    --clicvend-teal-dark: #d97706;
+    --clicvend-blue-light: #fbbf24;
+    --clicvend-blue: #f59e0b;
+    --clicvend-blue-dark: #d97706;
+    --clicvend-blue-darker: #b45309;
+    --clicvend-highlight: #fbbf24;
+    --clicvend-highlight-blue: #f59e0b;
+    --clicvend-bg-light: #fffbeb;
+    --clicvend-bg-blue: #fff7ed;
   }
 
   /* Dot Pattern Background */
@@ -138,4 +145,24 @@
 }
 .scroll-tabs::-webkit-scrollbar {
   height: 2px; /* Mais fina que os botões */
+}
+
+@layer utilities {
+  .text-main { color: var(--cz-text-primary); }
+  .text-dim { color: var(--cz-text-secondary); }
+  .bg-card-theme { background-color: var(--cz-card); }
+  .border-card-theme { border-color: var(--cz-card-border); }
+  .heading-gradient {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-amber-500 to-amber-600;
+  }
+  .input-theme {
+    @apply outline-none transition-all border rounded-lg px-3 py-2 text-sm;
+    background-color: var(--cz-input-bg);
+    border-color: #e2e8f0;
+    color: var(--cz-text-primary);
+  }
+  .input-theme:focus {
+    box-shadow: 0 0 0 4px var(--cz-ring-color);
+    border-color: var(--cz-accent);
+  }
 }

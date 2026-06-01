@@ -8,10 +8,13 @@ import { queryKeys } from "@/lib/query-keys";
 import { SideOver } from "@/components/SideOver";
 import { ConfirmDialog } from "@/components/ConfirmDialog";
 import {
+  getAllPermissionKeys,
   PERMISSION_GROUPS,
   PERMISSION_LABELS,
   type PermissionKey,
 } from "@/lib/auth/permissions";
+
+const TOTAL_ASSIGNABLE_PERMISSIONS = getAllPermissionKeys().length;
 
 function getCompanySlug(pathname: string | null): string {
   const fromPath = pathname?.split("/").filter(Boolean)[0] ?? "";
@@ -424,6 +427,14 @@ export default function CargosUsuariosPage() {
     setRolePermissions((prev) =>
       prev.includes(key) ? prev.filter((p) => p !== key) : [...prev, key]
     );
+  };
+
+  const selectAllPermissions = () => {
+    setRolePermissions(getAllPermissionKeys());
+  };
+
+  const clearAllPermissions = () => {
+    setRolePermissions([]);
   };
 
   const filteredRoles = useMemo(() => {
@@ -1115,7 +1126,28 @@ export default function CargosUsuariosPage() {
                 />
               </div>
               <div>
-                <label className="mb-2 block text-sm font-medium text-[#334155]">Permissões</label>
+                <div className="mb-2 flex flex-wrap items-center justify-between gap-2">
+                  <label className="text-sm font-medium text-[#334155]">Permissões</label>
+                  <div className="flex flex-wrap items-center gap-2">
+                    <button
+                      type="button"
+                      onClick={selectAllPermissions}
+                      className="rounded-lg border border-[#E2E8F0] px-3 py-1.5 text-xs font-medium text-[#64748B] transition-colors hover:border-clicvend-orange hover:text-clicvend-orange"
+                    >
+                      Marcar todas
+                    </button>
+                    <button
+                      type="button"
+                      onClick={clearAllPermissions}
+                      className="rounded-lg border border-[#E2E8F0] px-3 py-1.5 text-xs font-medium text-[#64748B] transition-colors hover:border-clicvend-orange hover:text-clicvend-orange"
+                    >
+                      Desmarcar todas
+                    </button>
+                    <span className="text-xs text-[#64748B]">
+                      {rolePermissions.length} de {TOTAL_ASSIGNABLE_PERMISSIONS} selecionadas
+                    </span>
+                  </div>
+                </div>
                 <p className="mb-2 text-xs text-[#64748B]">Marque os acessos e ações que este cargo terá em cada módulo.</p>
                 <div className="space-y-4 max-h-[420px] overflow-auto rounded-lg border border-[#E2E8F0] bg-[#F8FAFC] p-3">
                   {PERMISSION_GROUPS.map((group) => (

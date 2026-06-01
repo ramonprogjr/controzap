@@ -34,7 +34,8 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     "C:\\Users\\anima\\AppData\\Local\\finy-next-cache\\cfa6a85fc3687d3d/types/**/*.ts",
-    "..\\..\\..\\AppData\\Local\\finy-next-cache\\cfa6a85fc3687d3d/types/**/*.ts"
+    "..\\..\\..\\AppData\\Local\\finy-next-cache\\cfa6a85fc3687d3d/types/**/*.ts",
+    ".next-local/types/**/*.ts"
   ],
   "exclude": [
     "node_modules",

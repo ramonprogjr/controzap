@@ -18,6 +18,7 @@ export const DEFAULT_ENABLED_MODULES: Record<string, boolean> = {
   respostas_rapidas: true,
   campanhas: true,
   copilot: true,
+  calendario: true,
 };
 
 /** Rótulos para o Super Admin (ordem de exibição). */
@@ -27,6 +28,7 @@ export const COMPANY_MODULE_LABELS: { key: string; label: string; description?: 
   { key: "conexoes", label: "Conexões", description: "WhatsApp / canais" },
   { key: "filas", label: "Filas", description: "Filas de atendimento" },
   { key: "crm", label: "CRM", description: "CRM comercial" },
+  { key: "calendario", label: "Calendário", description: "Retiradas e agendamentos de veículos" },
   { key: "contatos", label: "Contatos", description: "Lista de contatos" },
   { key: "respostas_rapidas", label: "Respostas rápidas", description: "Atalhos de mensagem" },
   { key: "tags", label: "Tags", description: "Tags e formulários" },

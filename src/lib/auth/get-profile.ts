@@ -15,6 +15,23 @@ export type ProfileRow = {
   roles: RoleRow | null;
 };
 
+const PROFILE_SELECT_FULL =
+  "id, user_id, company_id, role, role_id, is_owner, companies(slug, name), roles(id, name, permissions)";
+const PROFILE_SELECT_BASIC =
+  "id, user_id, company_id, role, role_id, is_owner, companies(slug, name)";
+
+function mapProfileRows(
+  data: unknown
+): ProfileRow[] {
+  const rows = (data ?? []) as unknown as (Omit<ProfileRow, "roles"> & {
+    roles?: RoleRow | RoleRow[] | null;
+  })[];
+  return rows.map((r) => ({
+    ...r,
+    roles: Array.isArray(r.roles) ? r.roles[0] ?? null : r.roles ?? null,
+  })) as unknown as ProfileRow[];
+}
+
 export async function getCurrentUserProfiles(): Promise<ProfileRow[]> {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
@@ -22,17 +39,18 @@ export async function getCurrentUserProfiles(): Promise<ProfileRow[]> {
 
   const { data, error } = await supabase
     .from("profiles")
-    .select("id, user_id, company_id, role, role_id, is_owner, companies(slug, name), roles(id, name, permissions)")
+    .select(PROFILE_SELECT_FULL)
     .eq("user_id", user.id);
 
-  if (error) return [];
-  const rows = (data ?? []) as unknown as (Omit<ProfileRow, "roles"> & {
-    roles: RoleRow | RoleRow[] | null;
-  })[];
-  return rows.map((r) => ({
-    ...r,
-    roles: Array.isArray(r.roles) ? r.roles[0] ?? null : r.roles ?? null,
-  })) as unknown as ProfileRow[];
+  if (!error) return mapProfileRows(data);
+
+  const { data: basicData, error: basicError } = await supabase
+    .from("profiles")
+    .select(PROFILE_SELECT_BASIC)
+    .eq("user_id", user.id);
+
+  if (basicError) return [];
+  return mapProfileRows(basicData);
 }
 
 export async function getFirstCompanySlug(): Promise<string | null> {
