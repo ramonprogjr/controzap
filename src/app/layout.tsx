@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Plus_Jakarta_Sans, Sora } from "next/font/google";
 import { AbortErrorHandler } from "@/components/AbortErrorHandler";
+import { ThemeProvider } from "@/components/theme/ThemeProvider";
 import "./globals.css";
 
 const plusJakarta = Plus_Jakarta_Sans({
@@ -24,10 +25,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="pt-BR" className={`${plusJakarta.variable} ${sora.variable}`}>
+    <html lang="pt-BR" className={`${plusJakarta.variable} ${sora.variable}`} suppressHydrationWarning>
       <body className="font-sans antialiased">
-        <AbortErrorHandler />
-        {children}
+        <ThemeProvider>
+          <AbortErrorHandler />
+          {children}
+        </ThemeProvider>
       </body>
     </html>
   );

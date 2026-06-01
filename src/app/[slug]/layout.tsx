@@ -64,15 +64,15 @@ export default async function AppLayout({
     <QueryProvider initialData={prefetch?.queryInitialData ?? null}>
       <RealtimeConversations />
       <SWRProviderWithPrefetch fallback={prefetch?.swrFallback ?? {}}>
-        <div className="flex h-screen flex-col overflow-hidden bg-[#F1F5F9]">
+        <div className="flex h-screen flex-col overflow-hidden bg-muted/40">
           <AppHeader />
           <div className="flex min-h-0 flex-1 overflow-hidden pt-14">
             <AppSidebar />
             <div className="ml-[8px] flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden">
-              <header className="fixed left-[8px] right-0 top-14 z-30 shrink-0 border-b border-white/[0.08] bg-[#0a0a0a] shadow-sm">
+              <header className="fixed left-[8px] right-0 top-14 z-30 shrink-0 border-b border-border bg-background shadow-sm">
                 <AppNavTabs />
               </header>
-              <main className="min-h-0 flex-1 flex flex-col overflow-hidden bg-[#FAFBFC] pt-12">
+              <main className="min-h-0 flex flex-1 flex-col overflow-hidden bg-background pt-12">
                 {children}
               </main>
             </div>

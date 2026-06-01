@@ -3020,10 +3020,10 @@ export default function ConversaThreadPage({
       )}
 
       {messageSearchOpen && (
-        <div className="shrink-0 border-b border-[#E2E8F0] bg-white px-4 py-2">
+        <div className="shrink-0 border-b border-border bg-background px-4 py-2">
           <div className="flex items-center gap-2">
             <div className="relative flex-1">
-              <Search className="pointer-events-none absolute left-2.5 top-1/2 h-4 w-4 -translate-y-1/2 text-[#94A3B8]" />
+              <Search className="pointer-events-none absolute left-2.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
               <input
                 ref={messageSearchInputRef}
                 value={messageSearchTerm}
@@ -3035,10 +3035,10 @@ export default function ConversaThreadPage({
                   }
                 }}
                 placeholder="Buscar texto nas mensagens desta conversa"
-                className="h-9 w-full rounded-lg border border-[#E2E8F0] bg-white pl-8 pr-3 text-sm text-[#1E293B] outline-none focus:border-clicvend-orange"
+                className="h-9 w-full rounded-lg border border-border bg-background pl-8 pr-3 text-sm text-foreground outline-none focus:border-clicvend-orange"
               />
             </div>
-            <span className="min-w-[72px] text-center text-xs font-medium text-[#64748B]">
+            <span className="min-w-[72px] text-center text-xs font-medium text-muted-foreground">
               {matchedMessageIds.length === 0
                 ? "0 resultados"
                 : `${messageSearchIndex + 1}/${matchedMessageIds.length}`}
@@ -3047,7 +3047,7 @@ export default function ConversaThreadPage({
               type="button"
               onClick={() => goToSearchResult(-1)}
               disabled={matchedMessageIds.length === 0}
-              className="rounded border border-[#E2E8F0] p-1.5 text-[#64748B] hover:bg-[#F8FAFC] disabled:cursor-not-allowed disabled:opacity-40"
+              className="rounded border border-border p-1.5 text-muted-foreground transition-colors hover:bg-muted/40 disabled:cursor-not-allowed disabled:opacity-40"
               aria-label="Resultado anterior"
             >
               <ChevronUp className="h-4 w-4" />
@@ -3056,7 +3056,7 @@ export default function ConversaThreadPage({
               type="button"
               onClick={() => goToSearchResult(1)}
               disabled={matchedMessageIds.length === 0}
-              className="rounded border border-[#E2E8F0] p-1.5 text-[#64748B] hover:bg-[#F8FAFC] disabled:cursor-not-allowed disabled:opacity-40"
+              className="rounded border border-border p-1.5 text-muted-foreground transition-colors hover:bg-muted/40 disabled:cursor-not-allowed disabled:opacity-40"
               aria-label="Próximo resultado"
             >
               <ChevronDown className="h-4 w-4" />
@@ -3067,7 +3067,7 @@ export default function ConversaThreadPage({
                 setMessageSearchOpen(false);
                 setMessageSearchTerm("");
               }}
-              className="rounded border border-[#E2E8F0] p-1.5 text-[#64748B] hover:bg-[#F8FAFC]"
+              className="rounded border border-border p-1.5 text-muted-foreground transition-colors hover:bg-muted/40"
               aria-label="Fechar busca"
             >
               <X className="h-4 w-4" />
@@ -3082,7 +3082,7 @@ export default function ConversaThreadPage({
           <button
             type="button"
             onClick={scrollMessagesToTop}
-            className="absolute right-3 top-2 z-10 flex h-8 w-8 items-center justify-center rounded-full border border-[#E2E8F0] bg-white/95 text-[#64748B] shadow-sm backdrop-blur-sm transition-colors hover:bg-[#F8FAFC] hover:text-[#334155]"
+            className="absolute right-3 top-2 z-10 flex h-8 w-8 items-center justify-center rounded-full border border-border bg-background/90 text-muted-foreground shadow-sm backdrop-blur-sm transition-colors hover:bg-muted/40 hover:text-foreground"
             title="Ir ao início da conversa"
             aria-label="Ir ao início da conversa"
           >
@@ -3099,7 +3099,7 @@ export default function ConversaThreadPage({
             {isLoading ? (
               <>
                 {isInitialLoad && (
-                  <div className="flex flex-col items-center justify-center gap-2 py-8 text-[#64748B]">
+                  <div className="flex flex-col items-center justify-center gap-2 py-8 text-muted-foreground">
                     <Loader2 className="h-8 w-8 animate-spin" aria-hidden />
                     <p className="text-sm font-medium">Abrindo conversa…</p>
                   </div>

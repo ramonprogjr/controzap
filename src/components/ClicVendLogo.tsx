@@ -51,10 +51,10 @@ export function ControlZapLogo({ size = "md", iconOnly = false, className = "" }
         <Lock className={`${lockIcon} text-white`} strokeWidth={2.5} />
       </span>
       <span className="flex flex-col leading-none">
-        <span className={`${textSize} font-black tracking-tighter uppercase text-[#0a0a0a]`}>
+        <span className={`${textSize} font-black tracking-tighter uppercase text-foreground`}>
           Control<span className="bg-gradient-to-r from-amber-500 to-amber-600 bg-clip-text text-transparent">Zap</span>
         </span>
-        <span className="mt-0.5 text-[9px] font-black uppercase tracking-[2px] text-[#64748B]">{BRAND_TAGLINE}</span>
+        <span className="mt-0.5 text-[9px] font-black uppercase tracking-[2px] text-muted-foreground">{BRAND_TAGLINE}</span>
       </span>
     </span>
   );

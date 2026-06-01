@@ -6,6 +6,7 @@ import { useState, useEffect, useRef } from "react";
 import { Settings, ChevronDown, Bell, Loader2, Check, LogOut, CalendarDays } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import { ClicVendLogo } from "@/components/ClicVendLogo";
+import { ThemeToggle } from "@/components/theme/ThemeToggle";
 
 type NotificationItem = {
   id: string;
@@ -214,21 +215,22 @@ export function AppHeader() {
   if (!base) return null;
 
   return (
-    <header className="fixed left-0 right-0 top-0 z-50 flex h-14 shrink-0 items-center justify-between gap-4 border-b border-[#E2E8F0] bg-white px-6 shadow-sm">
+    <header className="fixed left-0 right-0 top-0 z-50 flex h-14 shrink-0 items-center justify-between gap-4 border-b border-border bg-background px-6 shadow-sm">
       <Link href={base} className="flex shrink-0 items-center gap-2 transition-opacity hover:opacity-90">
         <ClicVendLogo size="sm" className="h-7 w-auto" />
       </Link>
       <div className="relative flex items-center gap-2" ref={dropdownRef}>
+        <ThemeToggle />
         {canViewCalendar && (
           <Link
             href={`${base}/calendario`}
-            className="relative flex items-center justify-center rounded-md p-2.5 text-[#64748B] hover:bg-amber-50 hover:text-amber-700 transition-colors focus:outline-none focus:ring-2 focus:ring-amber-200"
+            className="relative flex items-center justify-center rounded-md p-2.5 text-muted-foreground hover:bg-amber-50 hover:text-amber-700 transition-colors focus:outline-none focus:ring-2 focus:ring-amber-200 dark:hover:bg-white/[0.06] dark:hover:text-foreground dark:focus:ring-amber-400/30"
             aria-label="Calendário"
             title="Agendamentos de hoje"
           >
             <CalendarDays className="h-5 w-5 shrink-0" />
             {pendingAppointmentsToday > 0 && (
-              <span className="absolute -right-1 -top-1 flex h-5 min-w-[1.25rem] items-center justify-center rounded-full bg-amber-600 px-1 text-[11px] font-bold leading-none text-white shadow-md ring-2 ring-white">
+              <span className="absolute -right-1 -top-1 flex h-5 min-w-[1.25rem] items-center justify-center rounded-full bg-amber-600 px-1 text-[11px] font-bold leading-none text-white shadow-md ring-2 ring-background">
                 {pendingAppointmentsToday > 99 ? "99+" : pendingAppointmentsToday}
               </span>
             )}
@@ -239,14 +241,14 @@ export function AppHeader() {
             <button
               type="button"
               onClick={() => setNotificationsOpen((o) => !o)}
-              className="relative flex items-center justify-center rounded-md p-2.5 text-[#64748B] hover:bg-amber-50 hover:text-amber-700 transition-colors focus:outline-none focus:ring-2 focus:ring-amber-200"
+              className="relative flex items-center justify-center rounded-md p-2.5 text-muted-foreground hover:bg-amber-50 hover:text-amber-700 transition-colors focus:outline-none focus:ring-2 focus:ring-amber-200 dark:hover:bg-white/[0.06] dark:hover:text-foreground dark:focus:ring-amber-400/30"
               aria-label="Notificações"
               title="Notificações"
             >
               <Bell className="h-5 w-5 shrink-0" />
               {notificationsUnread > 0 && (
                 <span
-                  className="absolute -right-1 -top-1 flex h-5 min-w-[1.25rem] items-center justify-center rounded-full bg-[#EA580C] px-1 text-[11px] font-bold leading-none text-white shadow-md ring-2 ring-white"
+                  className="absolute -right-1 -top-1 flex h-5 min-w-[1.25rem] items-center justify-center rounded-full bg-[#EA580C] px-1 text-[11px] font-bold leading-none text-white shadow-md ring-2 ring-background"
                   aria-hidden
                 >
                   {notificationsUnread > 99 ? "99+" : notificationsUnread}
@@ -254,9 +256,9 @@ export function AppHeader() {
               )}
             </button>
             {notificationsOpen && (
-              <div className="absolute right-[2.75rem] top-[120%] z-50 w-[360px] max-w-[92vw] rounded-lg border border-[#E2E8F0] bg-white shadow-xl">
-                <div className="flex items-center justify-between px-4 py-3 border-b border-[#E2E8F0]">
-                  <div className="text-sm font-semibold text-[#0F172A]">Notificações</div>
+              <div className="absolute right-[2.75rem] top-[120%] z-50 w-[360px] max-w-[92vw] rounded-lg border border-border bg-background shadow-xl">
+                <div className="flex items-center justify-between border-b border-border px-4 py-3">
+                  <div className="text-sm font-semibold text-foreground">Notificações</div>
                   <button
                     type="button"
                     onClick={handleMarkAllNotificationsRead}
@@ -269,32 +271,32 @@ export function AppHeader() {
                 </div>
                 <div className="max-h-[360px] overflow-y-auto">
                   {notifications.length === 0 ? (
-                    <div className="px-4 py-6 text-sm text-[#64748B]">
+                    <div className="px-4 py-6 text-sm text-muted-foreground">
                       Nenhuma notificação por enquanto.
                     </div>
                   ) : (
-                    <ul className="divide-y divide-[#E2E8F0]/70">
+                    <ul className="divide-y divide-border/70">
                       {notifications.map((n) => {
                         const href = n.link?.startsWith("/") ? n.link : n.link ? `/${n.link}` : null;
                         const inner = (
                           <>
                             <span
                               className={`mt-1 h-2.5 w-2.5 shrink-0 rounded-full ${
-                                n.is_read ? "bg-[#E2E8F0]" : "bg-clicvend-green"
+                                n.is_read ? "bg-border" : "bg-clicvend-green"
                               }`}
                               aria-hidden
                             />
                             <div className="min-w-0 flex-1 text-left">
                               <div className="flex items-center justify-between gap-2">
-                                <p className="truncate text-[13px] font-semibold text-[#0F172A]">
+                                <p className="truncate text-[13px] font-semibold text-foreground">
                                   {n.title}
                                 </p>
-                                <span className="shrink-0 text-[11px] text-[#94A3B8]">
+                                <span className="shrink-0 text-[11px] text-muted-foreground">
                                   {formatRelativeTime(n.created_at)}
                                 </span>
                               </div>
                               {n.body && (
-                                <p className="mt-0.5 text-[12px] leading-snug text-[#64748B] line-clamp-3">
+                                <p className="mt-0.5 line-clamp-3 text-[12px] leading-snug text-muted-foreground">
                                   {n.body}
                                 </p>
                               )}
@@ -304,12 +306,12 @@ export function AppHeader() {
                         return (
                           <li
                             key={n.id}
-                            className={`text-sm ${n.is_read ? "bg-white" : "bg-[#F8FAFC]"}`}
+                            className={`text-sm ${n.is_read ? "bg-background" : "bg-muted/40"}`}
                           >
                             {href ? (
                               <Link
                                 href={href}
-                                className="flex items-start gap-3 px-4 py-3 transition-colors hover:bg-amber-50/60"
+                                className="flex items-start gap-3 px-4 py-3 transition-colors hover:bg-amber-50/60 dark:hover:bg-white/[0.05]"
                                 onClick={() => setNotificationsOpen(false)}
                               >
                                 {inner}
@@ -331,7 +333,7 @@ export function AppHeader() {
           type="button"
           onClick={() => setDropdownOpen((o) => !o)}
           className={`flex items-center gap-2 rounded-lg px-2 py-1.5 transition-colors focus:outline-none focus:ring-2 focus:ring-clicvend-green/30 ${
-            dropdownOpen ? "bg-[#F1F5F9]" : "hover:bg-[#F8FAFC]"
+            dropdownOpen ? "bg-muted" : "hover:bg-muted/60"
           }`}
           aria-expanded={dropdownOpen}
           aria-haspopup="true"
@@ -339,18 +341,18 @@ export function AppHeader() {
         >
           <span className="relative flex h-8 w-8 items-center justify-center rounded-full bg-clicvend-green text-sm font-medium text-white">
             {initial}
-            <span className="absolute -bottom-0.5 -right-0.5 h-2.5 w-2.5 rounded-full border-2 border-white bg-clicvend-green-dark" />
+            <span className="absolute -bottom-0.5 -right-0.5 h-2.5 w-2.5 rounded-full border-2 border-background bg-clicvend-green-dark" />
           </span>
-          <ChevronDown className={`h-4 w-4 shrink-0 text-[#64748B] transition-transform ${dropdownOpen ? "rotate-180" : ""}`} />
+          <ChevronDown className={`h-4 w-4 shrink-0 text-muted-foreground transition-transform ${dropdownOpen ? "rotate-180" : ""}`} />
         </button>
 
         {dropdownOpen && (
-          <div className="absolute right-0 top-full z-50 mt-2 w-52 rounded-xl border border-[#E2E8F0] bg-white py-1.5 shadow-lg ring-1 ring-black/5">
+          <div className="absolute right-0 top-full z-50 mt-2 w-52 rounded-xl border border-border bg-background py-1.5 shadow-lg ring-1 ring-black/5">
             {canViewProfile && (
               <Link
                 href={`${base}/perfil`}
                 onClick={() => setDropdownOpen(false)}
-                className="flex items-center gap-2.5 px-4 py-2.5 text-sm text-[#64748B] hover:bg-[#F8FAFC] hover:text-[#1E293B] transition-colors"
+                className="flex items-center gap-2.5 px-4 py-2.5 text-sm text-muted-foreground transition-colors hover:bg-muted/60 hover:text-foreground"
               >
                 <Settings className="h-4 w-4 shrink-0" />
                 Configurações
@@ -359,7 +361,7 @@ export function AppHeader() {
             <button
               type="button"
               onClick={() => { setDropdownOpen(false); handleLogout(); }}
-              className="flex w-full items-center gap-2.5 px-4 py-2.5 text-sm text-[#64748B] hover:bg-red-50 hover:text-red-600 transition-colors text-left"
+              className="flex w-full items-center gap-2.5 px-4 py-2.5 text-left text-sm text-muted-foreground transition-colors hover:bg-red-50 hover:text-red-600 dark:hover:bg-red-950/40"
             >
               <LogOut className="h-4 w-4 shrink-0" />
               Sair

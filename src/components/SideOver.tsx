@@ -63,20 +63,20 @@ export function SideOver({
         role="dialog"
         aria-modal="true"
         aria-labelledby={titleId}
-        className={`fixed right-0 top-0 z-50 flex h-full flex-col bg-white shadow-xl transition-transform duration-300 ease-out ${
+        className={`fixed right-0 top-0 z-50 flex h-full flex-col bg-background shadow-xl transition-transform duration-300 ease-out ${
           open ? "translate-x-0" : "translate-x-full"
         }`}
         style={{ width: w, maxWidth: "100vw" }}
       >
-        <header className="flex shrink-0 items-center justify-between border-b border-[#E2E8F0] px-6 py-4">
-          <h2 id={titleId} className="text-lg font-semibold text-[#1E293B]">
+        <header className="flex shrink-0 items-center justify-between border-b border-border px-6 py-4">
+          <h2 id={titleId} className="text-lg font-semibold text-foreground">
             {title}
           </h2>
           <button
             type="button"
             ref={closeButtonRef}
             onClick={onClose}
-            className="rounded-lg p-2 text-[#64748B] hover:bg-[#F1F5F9] hover:text-[#334155]"
+            className="rounded-lg p-2 text-muted-foreground transition-colors hover:bg-muted/60 hover:text-foreground"
             aria-label="Fechar painel"
           >
             <X className="h-5 w-5" />

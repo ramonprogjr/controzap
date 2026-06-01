@@ -203,17 +203,17 @@ export default function CalendarioPage() {
   if (slug && permissionsData !== undefined && !canView) return null;
 
   return (
-    <div className="flex h-full flex-col overflow-hidden bg-[#F8FAFC]">
-      <div className="border-b border-[#E2E8F0] bg-white px-4 py-4 sm:px-6">
+    <div className="flex h-full flex-col overflow-hidden bg-background">
+      <div className="border-b border-border bg-background px-4 py-4 sm:px-6">
         <div className="flex flex-wrap items-start justify-between gap-4">
           <div>
             <div className="mb-1 flex items-center gap-2">
               <span className="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-amber-500 to-amber-600 text-white shadow-sm shadow-amber-500/30">
                 <CalendarDays className="h-4 w-4" />
               </span>
-              <h1 className="text-xl font-bold text-[#0F172A] sm:text-2xl">Calendário</h1>
+              <h1 className="text-xl font-bold text-foreground sm:text-2xl">Calendário</h1>
             </div>
-            <p className="text-sm text-[#64748B]">
+            <p className="text-sm text-muted-foreground">
               Retiradas e entregas de veículos — transporte executivo ALS Rent Cars
             </p>
           </div>
@@ -233,22 +233,22 @@ export default function CalendarioPage() {
       <div className="flex-1 overflow-auto p-4 sm:p-6">
         <div className="grid grid-cols-1 gap-6 xl:grid-cols-[340px_1fr]">
           {/* Calendário mensal */}
-          <div className="h-fit rounded-xl border border-[#E2E8F0] bg-white p-5 shadow-sm">
+          <div className="h-fit rounded-xl border border-border bg-card p-5 shadow-sm">
             <div className="mb-5 flex items-center justify-between">
-              <button type="button" onClick={() => { setCurrentDate(new Date(year, month - 1, 1)); setSelectedDay(null); }} className="rounded-lg p-2 hover:bg-[#F1F5F9]">
-                <ChevronLeft className="h-5 w-5 text-[#64748B]" />
+              <button type="button" onClick={() => { setCurrentDate(new Date(year, month - 1, 1)); setSelectedDay(null); }} className="rounded-lg p-2 transition-colors hover:bg-muted/60">
+                <ChevronLeft className="h-5 w-5 text-muted-foreground" />
               </button>
-              <h2 className="text-base font-bold text-[#0F172A]">
+              <h2 className="text-base font-bold text-foreground">
                 {MONTHS[month]} {year}
               </h2>
-              <button type="button" onClick={() => { setCurrentDate(new Date(year, month + 1, 1)); setSelectedDay(null); }} className="rounded-lg p-2 hover:bg-[#F1F5F9]">
-                <ChevronRight className="h-5 w-5 text-[#64748B]" />
+              <button type="button" onClick={() => { setCurrentDate(new Date(year, month + 1, 1)); setSelectedDay(null); }} className="rounded-lg p-2 transition-colors hover:bg-muted/60">
+                <ChevronRight className="h-5 w-5 text-muted-foreground" />
               </button>
             </div>
 
             <div className="mb-2 grid grid-cols-7">
               {WEEK_DAYS.map((d) => (
-                <div key={d} className="py-2 text-center text-[10px] font-semibold uppercase tracking-wide text-[#94A3B8]">
+                <div key={d} className="py-2 text-center text-[10px] font-semibold uppercase tracking-wide text-muted-foreground">
                   {d}
                 </div>
               ))}
@@ -312,11 +312,11 @@ export default function CalendarioPage() {
           {/* Lista de agendamentos */}
           <div>
             <div className="mb-4 flex items-center justify-between">
-              <h3 className="text-base font-bold text-[#0F172A]">
+              <h3 className="text-base font-bold text-foreground">
                 {selectedDay ? `${selectedDay} de ${MONTHS[month]}` : `Todo ${MONTHS[month]}`}
               </h3>
               {selectedDay && (
-                <button type="button" onClick={() => setSelectedDay(null)} className="flex items-center gap-1 text-xs font-medium text-[#64748B] hover:text-[#0F172A]">
+                <button type="button" onClick={() => setSelectedDay(null)} className="flex items-center gap-1 text-xs font-medium text-muted-foreground hover:text-foreground">
                   <X className="h-3 w-3" /> Ver mês inteiro
                 </button>
               )}
@@ -327,10 +327,10 @@ export default function CalendarioPage() {
                 <Loader2 className="h-8 w-8 animate-spin text-amber-600" />
               </div>
             ) : filteredAppointments.length === 0 ? (
-              <div className="rounded-xl border border-dashed border-[#CBD5E1] bg-white px-6 py-16 text-center">
-                <CalendarDays className="mx-auto mb-3 h-12 w-12 text-[#CBD5E1]" />
-                <p className="font-semibold text-[#475569]">Nenhum agendamento</p>
-                <p className="mt-1 text-sm text-[#94A3B8]">
+              <div className="rounded-xl border border-dashed border-border bg-card px-6 py-16 text-center">
+                <CalendarDays className="mx-auto mb-3 h-12 w-12 text-muted-foreground" />
+                <p className="font-semibold text-foreground">Nenhum agendamento</p>
+                <p className="mt-1 text-sm text-muted-foreground">
                   {canManage ? "Clique em Novo agendamento para registrar uma retirada." : "Sem retiradas neste período."}
                 </p>
               </div>
@@ -342,7 +342,7 @@ export default function CalendarioPage() {
                   return (
                     <div
                       key={appt.id}
-                      className="rounded-xl border border-[#E2E8F0] bg-white p-4 shadow-sm transition hover:border-amber-300/60 hover:shadow-md"
+                      className="rounded-xl border border-border bg-card p-4 shadow-sm transition hover:border-amber-300/60 hover:shadow-md"
                     >
                       <div className="flex flex-wrap items-start justify-between gap-3">
                         <div className="flex min-w-0 flex-1 gap-3">
@@ -351,13 +351,13 @@ export default function CalendarioPage() {
                           </div>
                           <div className="min-w-0 flex-1">
                             <div className="mb-1 flex flex-wrap items-center gap-2">
-                              <h4 className="font-bold text-[#0F172A]">{appt.leads?.name ?? "Cliente"}</h4>
+                              <h4 className="font-bold text-foreground">{appt.leads?.name ?? "Cliente"}</h4>
                               <span className={`inline-flex items-center gap-1 rounded-md border px-2 py-0.5 text-[10px] font-bold uppercase ${cfg.color}`}>
                                 <StatusIcon className="h-3 w-3" />
                                 {cfg.label}
                               </span>
                             </div>
-                            <div className="flex flex-wrap gap-x-4 gap-y-1 text-sm text-[#64748B]">
+                            <div className="flex flex-wrap gap-x-4 gap-y-1 text-sm text-muted-foreground">
                               {appt.leads?.phone && (
                                 <Link
                                   href={`/${slug}/contatos?phone=${encodeURIComponent(appt.leads.phone.replace(/\D/g, ""))}`}
@@ -387,7 +387,7 @@ export default function CalendarioPage() {
                               )}
                             </div>
                             {appt.notes && (
-                              <p className="mt-2 text-sm text-[#475569]">
+                              <p className="mt-2 text-sm text-muted-foreground">
                                 <Car className="mr-1 inline h-3.5 w-3.5 text-amber-600" />
                                 {appt.notes}
                               </p>
@@ -399,7 +399,7 @@ export default function CalendarioPage() {
                             <select
                               value={appt.status}
                               onChange={(e) => handleStatusChange(appt.id, e.target.value)}
-                              className="rounded-lg border border-[#E2E8F0] bg-white px-2 py-1.5 text-xs font-medium text-[#334155] focus:outline-none focus:ring-2 focus:ring-amber-500/40"
+                              className="rounded-lg border border-border bg-background px-2 py-1.5 text-xs font-medium text-foreground focus:outline-none focus:ring-2 focus:ring-amber-500/40"
                             >
                               <option value="pending">Pendente</option>
                               <option value="confirmed">Confirmado</option>

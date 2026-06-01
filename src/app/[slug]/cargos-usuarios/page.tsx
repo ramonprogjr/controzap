@@ -658,7 +658,7 @@ export default function CargosUsuariosPage() {
           className={`flex items-center gap-2 border-b-2 px-4 py-2 text-sm font-medium ${
             activeTab === "cargos"
               ? "border-clicvend-orange text-clicvend-orange"
-              : "border-transparent text-[#64748B] hover:text-[#334155]"
+              : "border-transparent text-muted-foreground hover:text-foreground"
           }`}
         >
           <Briefcase className="h-4 w-4" />
@@ -670,7 +670,7 @@ export default function CargosUsuariosPage() {
           className={`flex items-center gap-2 border-b-2 px-4 py-2 text-sm font-medium ${
             activeTab === "usuarios"
               ? "border-clicvend-orange text-clicvend-orange"
-              : "border-transparent text-[#64748B] hover:text-[#334155]"
+              : "border-transparent text-muted-foreground hover:text-foreground"
           }`}
         >
           <Users className="h-4 w-4" />
@@ -686,21 +686,21 @@ export default function CargosUsuariosPage() {
         <>
           {activeTab === "cargos" && (
             <div className="flex flex-col gap-2">
-              <div className="flex items-center justify-between rounded-xl border border-[#E2E8F0] bg-white px-4 py-3 shadow-sm">
+              <div className="flex items-center justify-between rounded-xl border border-border bg-card px-4 py-3 shadow-sm">
                 <div className="flex items-center gap-3">
-                  <h2 className="text-sm font-semibold text-[#334155]">Cargos</h2>
-                  <span className="rounded-full bg-[#E2E8F0] px-2 py-0.5 text-xs font-medium text-[#475569]">
+                  <h2 className="text-sm font-semibold text-foreground">Cargos</h2>
+                  <span className="rounded-full bg-muted px-2 py-0.5 text-xs font-medium text-muted-foreground">
                     {filteredRoles.length}
                   </span>
                 </div>
                 <div className="flex items-center gap-2">
                   <div className="relative">
-                    <Search className="pointer-events-none absolute left-2.5 top-1/2 h-4 w-4 -translate-y-1/2 text-[#94A3B8]" />
+                    <Search className="pointer-events-none absolute left-2.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                     <input
                       value={roleSearch}
                       onChange={(e) => setRoleSearch(e.target.value)}
                       placeholder="Buscar cargo..."
-                      className="w-52 rounded-lg border border-[#E2E8F0] bg-white py-2 pl-8 pr-3 text-sm text-[#1E293B] placeholder:text-[#94A3B8] focus:border-clicvend-orange focus:outline-none focus:ring-1 focus:ring-clicvend-orange"
+                      className="w-52 rounded-lg border border-border bg-background py-2 pl-8 pr-3 text-sm text-foreground placeholder:text-muted-foreground focus:border-clicvend-orange focus:outline-none focus:ring-1 focus:ring-clicvend-orange"
                     />
                   </div>
                   <button
@@ -714,13 +714,13 @@ export default function CargosUsuariosPage() {
                 </div>
               </div>
 
-              <div className="rounded-xl border border-[#E2E8F0] bg-white shadow-sm overflow-hidden">
+              <div className="rounded-xl border border-border bg-card shadow-sm overflow-hidden">
               {selectedRoleIds.size > 0 && (
-                <div className="flex flex-wrap items-center justify-between gap-2 border-b border-[#D9EEF0] bg-[#ECF8FA] px-3 py-2">
-                  <span className="text-sm font-medium text-[#1E293B]">
+                <div className="flex flex-wrap items-center justify-between gap-2 border-b border-border bg-clicvend-orange/10 px-3 py-2">
+                  <span className="text-sm font-medium text-foreground">
                     {selectedRoleIds.size} cargo(s) selecionado(s)
                   </span>
-                  <div className="inline-flex flex-wrap rounded-lg border border-[#E2E8F0] bg-white overflow-hidden shadow-sm">
+                  <div className="inline-flex flex-wrap rounded-lg border border-border bg-card overflow-hidden shadow-sm">
                     {selectedRoleIds.size === 1 && (
                       <button
                         type="button"
@@ -728,7 +728,7 @@ export default function CargosUsuariosPage() {
                           const r = roles.find((x) => selectedRoleIds.has(x.id));
                           if (r) openEditRole(r);
                         }}
-                        className="inline-flex items-center gap-1.5 border-r border-[#E2E8F0] bg-white px-3 py-2 text-sm font-medium text-[#334155] hover:bg-[#F8FAFC] last:border-r-0"
+                        className="inline-flex items-center gap-1.5 border-r border-border bg-card px-3 py-2 text-sm font-medium text-foreground transition-colors hover:bg-muted/30 last:border-r-0"
                         title="Editar cargo selecionado"
                       >
                         Editar
@@ -748,7 +748,7 @@ export default function CargosUsuariosPage() {
                     <button
                       type="button"
                       onClick={() => setSelectedRoleIds(new Set())}
-                      className="inline-flex items-center gap-1.5 bg-white px-3 py-2 text-sm font-medium text-[#64748B] hover:bg-[#F1F5F9] last:border-r-0"
+                      className="inline-flex items-center gap-1.5 bg-card px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-muted/30 last:border-r-0"
                       title="Limpar seleção"
                     >
                       Limpar seleção

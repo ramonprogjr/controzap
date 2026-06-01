@@ -81,7 +81,7 @@ export function ConfirmDialog({
         aria-hidden="true"
       />
       {/* Panel */}
-      <div className="relative w-full max-w-md rounded-xl bg-white shadow-xl border border-[#E2E8F0] overflow-hidden">
+      <div className="relative w-full max-w-md rounded-xl bg-background shadow-xl border border-border overflow-hidden">
         <div className="p-6">
           <div className="flex gap-4">
             <div
@@ -92,10 +92,10 @@ export function ConfirmDialog({
               <AlertTriangle className="h-5 w-5" />
             </div>
             <div className="min-w-0 flex-1">
-              <h2 id="confirm-dialog-title" className="text-lg font-semibold text-[#1E293B]">
+              <h2 id="confirm-dialog-title" className="text-lg font-semibold text-foreground">
                 {title}
               </h2>
-              <p id="confirm-dialog-desc" className="mt-1 text-sm text-[#64748B]">
+              <p id="confirm-dialog-desc" className="mt-1 text-sm text-muted-foreground">
                 {message}
               </p>
             </div>
@@ -105,7 +105,7 @@ export function ConfirmDialog({
               <button
                 type="button"
                 onClick={handleCancel}
-                className="rounded-lg border border-[#E2E8F0] bg-white px-4 py-2 text-sm font-medium text-[#64748B] hover:bg-[#F8FAFC] focus:outline-none focus:ring-2 focus:ring-[#E2E8F0] focus:ring-offset-2"
+                className="rounded-lg border border-border bg-background px-4 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-muted/40 focus:outline-none focus:ring-2 focus:ring-border focus:ring-offset-2"
               >
                 {cancelLabel}
               </button>

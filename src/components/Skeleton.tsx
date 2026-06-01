@@ -8,7 +8,7 @@ type SkeletonProps = {
 export function Skeleton({ className = "" }: SkeletonProps) {
   return (
     <div
-      className={`animate-pulse rounded-md bg-[#E2E8F0] ${className}`}
+      className={`animate-pulse rounded-md bg-muted ${className}`}
       aria-hidden
     />
   );
@@ -17,7 +17,7 @@ export function Skeleton({ className = "" }: SkeletonProps) {
 /** Lista de skeletons no formato de item de conversa (avatar + 2 linhas) */
 export function ConversationListSkeleton({ count = 6 }: { count?: number }) {
   return (
-    <ul className="divide-y divide-[#E2E8F0]">
+    <ul className="divide-y divide-border">
       {Array.from({ length: count }).map((_, i) => (
         <li key={i} className="flex items-center gap-3 p-3">
           <Skeleton className="h-10 w-10 shrink-0 rounded-full" />
@@ -34,8 +34,8 @@ export function ConversationListSkeleton({ count = 6 }: { count?: number }) {
 /** Skeleton para tabela de canais (Conexões) */
 export function ChannelTableSkeleton({ rows = 3 }: { rows?: number }) {
   return (
-    <div className="rounded-xl border border-[#E2E8F0] bg-white shadow-sm overflow-hidden">
-      <div className="flex flex-wrap items-center justify-between gap-4 border-b border-[#E2E8F0] bg-[#F8FAFC] px-4 py-3">
+    <div className="rounded-xl border border-border bg-card shadow-sm overflow-hidden">
+      <div className="flex flex-wrap items-center justify-between gap-4 border-b border-border bg-muted/30 px-4 py-3">
         <Skeleton className="h-4 w-48" />
         <div className="flex gap-4">
           <Skeleton className="h-4 w-32" />
@@ -45,7 +45,7 @@ export function ChannelTableSkeleton({ rows = 3 }: { rows?: number }) {
       <div className="overflow-x-auto">
         <table className="w-full min-w-[640px]">
           <thead>
-            <tr className="border-b border-[#E2E8F0] bg-[#F8FAFC]">
+            <tr className="border-b border-border bg-muted/30">
               {[1, 2, 3, 4, 5, 6, 7].map((i) => (
                 <th key={i} className="px-4 py-3"><Skeleton className="h-3 w-16" /></th>
               ))}
@@ -53,7 +53,7 @@ export function ChannelTableSkeleton({ rows = 3 }: { rows?: number }) {
           </thead>
           <tbody>
             {Array.from({ length: rows }).map((_, r) => (
-              <tr key={r} className="border-b border-[#E2E8F0]">
+              <tr key={r} className="border-b border-border">
                 <td className="px-4 py-3"><Skeleton className="h-4 w-28" /></td>
                 <td className="px-4 py-3"><Skeleton className="h-4 w-24" /></td>
                 <td className="px-4 py-3"><Skeleton className="h-6 w-20 rounded-full" /></td>
@@ -73,8 +73,8 @@ export function ChannelTableSkeleton({ rows = 3 }: { rows?: number }) {
 /** Skeleton da tela de chat (cabeçalho + bolhas de mensagem) */
 export function ChatThreadSkeleton() {
   return (
-    <div className="flex min-h-0 flex-1 flex-col overflow-hidden bg-[#F1F5F9]">
-      <div className="flex shrink-0 items-center gap-3 border-b border-[#E2E8F0] bg-white px-4 py-3">
+    <div className="flex min-h-0 flex-1 flex-col overflow-hidden bg-muted/40">
+      <div className="flex shrink-0 items-center gap-3 border-b border-border bg-background px-4 py-3">
         <Skeleton className="h-5 w-5 shrink-0 rounded" />
         <Skeleton className="h-10 w-10 shrink-0 rounded-full" />
         <div className="min-w-0 flex-1 space-y-2">
@@ -104,7 +104,7 @@ export function ChatThreadSkeleton() {
           <Skeleton className="h-10 w-32 rounded-lg" />
         </div>
       </div>
-      <div className="shrink-0 border-t border-[#E2E8F0] bg-white p-2">
+      <div className="shrink-0 border-t border-border bg-background p-2">
         <div className="flex gap-2">
           <Skeleton className="h-10 flex-1 rounded-lg" />
           <Skeleton className="h-10 w-24 rounded-lg" />

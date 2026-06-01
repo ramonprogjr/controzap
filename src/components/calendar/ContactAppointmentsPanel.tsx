@@ -162,9 +162,9 @@ export function ContactAppointmentsPanel({
     .slice(0, compact ? 3 : 10);
 
   return (
-    <div className={compact ? "space-y-2" : "rounded-xl border border-[#E2E8F0] bg-white p-4"}>
+    <div className={compact ? "space-y-2" : "rounded-xl border border-border bg-card p-4"}>
       <div className={`flex items-center justify-between gap-2 ${compact ? "" : "mb-3"}`}>
-        <h4 className={`font-semibold text-[#0F172A] ${compact ? "text-sm" : "text-base"}`}>
+        <h4 className={`font-semibold text-foreground ${compact ? "text-sm" : "text-base"}`}>
           Agendamentos
         </h4>
         <div className="flex items-center gap-2">
@@ -186,7 +186,7 @@ export function ContactAppointmentsPanel({
           <Loader2 className="h-5 w-5 animate-spin text-amber-600" />
         </div>
       ) : upcoming.length === 0 ? (
-        <p className="text-sm text-[#94A3B8]">Nenhum agendamento próximo.</p>
+        <p className="text-sm text-muted-foreground">Nenhum agendamento próximo.</p>
       ) : (
         <ul className="space-y-2">
           {upcoming.map((appt) => {
@@ -194,9 +194,9 @@ export function ContactAppointmentsPanel({
             return (
               <li
                 key={appt.id}
-                className="rounded-lg border border-[#E2E8F0] bg-[#F8FAFC] px-3 py-2 text-sm"
+                className="rounded-lg border border-border bg-muted/40 px-3 py-2 text-sm text-foreground"
               >
-                <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-[#64748B]">
+                <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-muted-foreground">
                   <span className={`rounded border px-1.5 py-0.5 text-[10px] font-bold uppercase ${cfg.color}`}>
                     {cfg.label}
                   </span>
@@ -215,7 +215,7 @@ export function ContactAppointmentsPanel({
                     </span>
                   )}
                 </div>
-                {appt.notes && <p className="mt-1 text-xs text-[#475569]">{appt.notes}</p>}
+                {appt.notes && <p className="mt-1 text-xs text-muted-foreground">{appt.notes}</p>}
                 <Link
                   href={`/${slug}/calendario?date=${appt.detected_date}`}
                   className="mt-1.5 inline-flex items-center gap-1 text-xs font-medium text-amber-700 hover:text-amber-600"

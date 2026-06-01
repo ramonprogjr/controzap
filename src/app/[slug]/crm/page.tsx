@@ -780,22 +780,22 @@ export default function CrmCommercialPage() {
 
   return (
     <div className="flex flex-col gap-4 p-6">
-      <div className="rounded-xl border border-[#E2E8F0] bg-white p-4 shadow-sm">
+      <div className="rounded-xl border border-border bg-card p-4 shadow-sm">
         <div className="flex flex-wrap items-start justify-between gap-3">
           <div>
-            <h1 className="flex items-center gap-2 text-2xl font-bold text-[#1E293B]">
+            <h1 className="flex items-center gap-2 text-2xl font-bold text-foreground">
               <ChartLine className="h-5 w-5 text-clicvend-orange" />
               CRM Comercial
             </h1>
-            <p className="mt-0.5 text-sm text-[#64748B]">
-              Total: <span className="font-medium tabular-nums text-[#1E293B]">{currentTabTotal}</span> {currentTabLabel}
+            <p className="mt-0.5 text-sm text-muted-foreground">
+              Total: <span className="font-medium tabular-nums text-foreground">{currentTabTotal}</span> {currentTabLabel}
             </p>
           </div>
           <div className="flex flex-wrap items-center justify-end gap-2">
             <select
               value={queueId}
               onChange={(e) => setQueueId(e.target.value)}
-              className="h-9 rounded-lg border border-[#E2E8F0] bg-white px-3 text-sm text-[#1E293B] focus:border-clicvend-orange focus:outline-none focus:ring-1 focus:ring-clicvend-orange"
+              className="h-9 rounded-lg border border-border bg-background px-3 text-sm text-foreground focus:border-clicvend-orange focus:outline-none focus:ring-1 focus:ring-clicvend-orange"
             >
               <option value="all">Todas as filas comerciais</option>
               {(overview?.queues ?? []).map((q) => (
@@ -807,7 +807,7 @@ export default function CrmCommercialPage() {
             <select
               value={days}
               onChange={(e) => setDays(Number(e.target.value))}
-              className="h-9 rounded-lg border border-[#E2E8F0] bg-white px-3 text-sm text-[#1E293B] focus:border-clicvend-orange focus:outline-none focus:ring-1 focus:ring-clicvend-orange"
+              className="h-9 rounded-lg border border-border bg-background px-3 text-sm text-foreground focus:border-clicvend-orange focus:outline-none focus:ring-1 focus:ring-clicvend-orange"
             >
               <option value={7}>Últimos 7 dias</option>
               <option value={15}>Últimos 15 dias</option>
@@ -817,7 +817,7 @@ export default function CrmCommercialPage() {
             </select>
             <button
               onClick={() => reloadAll()}
-              className="flex h-9 w-9 items-center justify-center rounded-lg bg-[#F1F5F9] text-[#64748B] transition-colors hover:bg-[#E2E8F0]"
+              className="flex h-9 w-9 items-center justify-center rounded-lg bg-muted/40 text-muted-foreground transition-colors hover:bg-muted"
               disabled={refreshing || loading}
               aria-label="Atualizar CRM"
               title="Atualizar CRM"
@@ -828,7 +828,7 @@ export default function CrmCommercialPage() {
         </div>
       </div>
 
-      <p className="text-sm text-[#64748B]">
+      <p className="text-sm text-muted-foreground">
         {canManage
           ? "Gestor visualiza todas as carteiras comerciais, acompanha distribuição e pode redistribuir leads via SideOver."
           : "Consultor visualiza apenas a própria carteira comercial nas tabelas abaixo."}
@@ -839,7 +839,7 @@ export default function CrmCommercialPage() {
       )}
 
       <section className="flex flex-col gap-2">
-          <div className="flex gap-2 border-b border-[#E2E8F0] px-2">
+          <div className="flex gap-2 border-b border-border px-2">
             {[
               ["carteiras", "Carteiras"],
               ["fluxo", "Fluxo visual"],
@@ -853,7 +853,7 @@ export default function CrmCommercialPage() {
                 className={`flex items-center gap-2 border-b-2 px-4 py-2 text-sm font-medium transition-colors ${
                   activeTab === id
                     ? "border-clicvend-orange text-clicvend-orange"
-                    : "border-transparent text-[#64748B] hover:text-[#1E293B]"
+                    : "border-transparent text-muted-foreground hover:text-foreground"
                 }`}
               >
                 {label}
@@ -865,43 +865,43 @@ export default function CrmCommercialPage() {
             <div className="flex flex-col gap-4">
               {canManage && (
                 <div className="grid gap-3 md:grid-cols-4">
-                  <div className="rounded-xl border border-[#E2E8F0] bg-white p-4 shadow-sm border-r-4 border-r-[#0EA5E9]">
+                  <div className="rounded-xl border border-border bg-card p-4 shadow-sm border-r-4 border-r-[#0EA5E9]">
                     <div className="flex items-start justify-between">
-                      <p className="text-xs uppercase tracking-wide text-[#64748B]">Leads totais</p>
+                      <p className="text-xs uppercase tracking-wide text-muted-foreground">Leads totais</p>
                       <Users className="h-4 w-4 text-[#0EA5E9]" />
                     </div>
-                    <p className="mt-2 text-2xl font-semibold text-[#0F172A]">{overview?.totals.leads_total ?? 0}</p>
+                    <p className="mt-2 text-2xl font-semibold text-foreground">{overview?.totals.leads_total ?? 0}</p>
                   </div>
-                  <div className="rounded-xl border border-[#E2E8F0] bg-white p-4 shadow-sm border-r-4 border-r-[#6366F1]">
+                  <div className="rounded-xl border border-border bg-card p-4 shadow-sm border-r-4 border-r-[#6366F1]">
                     <div className="flex items-start justify-between">
-                      <p className="text-xs uppercase tracking-wide text-[#64748B]">Ativos</p>
+                      <p className="text-xs uppercase tracking-wide text-muted-foreground">Ativos</p>
                       <Briefcase className="h-4 w-4 text-[#6366F1]" />
                     </div>
-                    <p className="mt-2 text-2xl font-semibold text-[#0F172A]">{overview?.totals.active_total ?? 0}</p>
+                    <p className="mt-2 text-2xl font-semibold text-foreground">{overview?.totals.active_total ?? 0}</p>
                   </div>
-                  <div className="rounded-xl border border-[#E2E8F0] bg-white p-4 shadow-sm border-r-4 border-r-[#16A34A]">
+                  <div className="rounded-xl border border-border bg-card p-4 shadow-sm border-r-4 border-r-[#16A34A]">
                     <div className="flex items-start justify-between">
-                      <p className="text-xs uppercase tracking-wide text-[#64748B]">Fechados</p>
+                      <p className="text-xs uppercase tracking-wide text-muted-foreground">Fechados</p>
                       <CheckCircle2 className="h-4 w-4 text-[#16A34A]" />
                     </div>
-                    <p className="mt-2 text-2xl font-semibold text-[#0F172A]">{overview?.totals.closed_total ?? 0}</p>
+                    <p className="mt-2 text-2xl font-semibold text-foreground">{overview?.totals.closed_total ?? 0}</p>
                   </div>
-                  <div className="rounded-xl border border-[#E2E8F0] bg-white p-4 shadow-sm border-r-4 border-r-[#F59E0B]">
+                  <div className="rounded-xl border border-border bg-card p-4 shadow-sm border-r-4 border-r-[#F59E0B]">
                     <div className="flex items-start justify-between">
-                      <p className="text-xs uppercase tracking-wide text-[#64748B]">Sem responsável</p>
+                      <p className="text-xs uppercase tracking-wide text-muted-foreground">Sem responsável</p>
                       <UserMinus className="h-4 w-4 text-[#F59E0B]" />
                     </div>
-                    <p className="mt-2 text-2xl font-semibold text-[#0F172A]">{overview?.totals.unassigned_total ?? 0}</p>
+                    <p className="mt-2 text-2xl font-semibold text-foreground">{overview?.totals.unassigned_total ?? 0}</p>
                   </div>
                 </div>
               )}
 
               {/* Minha carteira (contatos individuais) */}
-              <div className="rounded-xl border border-[#E2E8F0] bg-white shadow-sm overflow-hidden">
-                <div className="flex items-center justify-between border-b border-[#E2E8F0] px-4 py-3">
+              <div className="rounded-xl border border-border bg-card shadow-sm overflow-hidden">
+                <div className="flex items-center justify-between border-b border-border px-4 py-3">
                   <div>
-                    <h2 className="text-sm font-semibold text-[#0F172A]">Minha carteira</h2>
-                    <p className="text-xs text-[#64748B]">
+                    <h2 className="text-sm font-semibold text-foreground">Minha carteira</h2>
+                    <p className="text-xs text-muted-foreground">
                       {portfolio?.total ?? 0} contato(s) na carteira
                     </p>
                   </div>

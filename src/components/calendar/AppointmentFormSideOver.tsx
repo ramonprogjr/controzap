@@ -58,34 +58,34 @@ export function AppointmentFormSideOver({
 
   return (
     <SideOver open={open} onClose={onClose} title={title}>
-      <p className="mb-4 text-sm text-[#64748B]">Registre retirada ou entrega de veículo premium.</p>
+      <p className="mb-4 text-sm text-muted-foreground">Registre retirada ou entrega de veículo premium.</p>
       {error && <p className="mb-3 text-sm text-red-600">{error}</p>}
       <div className="space-y-4">
         <div>
-          <label className="mb-1 block text-xs font-semibold uppercase tracking-wide text-[#64748B]">Cliente *</label>
+          <label className="mb-1 block text-xs font-semibold uppercase tracking-wide text-muted-foreground">Cliente *</label>
           <input
             type="text"
             value={form.clientName}
             disabled={lockClientFields}
             onChange={(e) => onChange({ ...form, clientName: e.target.value })}
             placeholder="Nome do cliente"
-            className="input-theme w-full disabled:bg-[#F8FAFC] disabled:text-[#64748B]"
+            className="input-theme w-full disabled:bg-muted/50 disabled:text-muted-foreground"
           />
         </div>
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <div>
-            <label className="mb-1 block text-xs font-semibold uppercase tracking-wide text-[#64748B]">WhatsApp</label>
+            <label className="mb-1 block text-xs font-semibold uppercase tracking-wide text-muted-foreground">WhatsApp</label>
             <input
               type="text"
               value={form.clientPhone}
               disabled={lockClientFields}
               onChange={(e) => onChange({ ...form, clientPhone: e.target.value })}
               placeholder="11999999999"
-              className="input-theme w-full disabled:bg-[#F8FAFC] disabled:text-[#64748B]"
+              className="input-theme w-full disabled:bg-muted/50 disabled:text-muted-foreground"
             />
           </div>
           <div>
-            <label className="mb-1 block text-xs font-semibold uppercase tracking-wide text-[#64748B]">Consultor</label>
+            <label className="mb-1 block text-xs font-semibold uppercase tracking-wide text-muted-foreground">Consultor</label>
             <select
               value={form.seller_id}
               onChange={(e) => onChange({ ...form, seller_id: e.target.value })}
@@ -100,7 +100,7 @@ export function AppointmentFormSideOver({
             </select>
           </div>
           <div>
-            <label className="mb-1 block text-xs font-semibold uppercase tracking-wide text-[#64748B]">Data da retirada *</label>
+            <label className="mb-1 block text-xs font-semibold uppercase tracking-wide text-muted-foreground">Data da retirada *</label>
             <input
               type="date"
               value={form.detected_date}
@@ -109,7 +109,7 @@ export function AppointmentFormSideOver({
             />
           </div>
           <div>
-            <label className="mb-1 block text-xs font-semibold uppercase tracking-wide text-[#64748B]">Horário</label>
+            <label className="mb-1 block text-xs font-semibold uppercase tracking-wide text-muted-foreground">Horário</label>
             <input
               type="time"
               value={form.detected_time}
@@ -119,7 +119,7 @@ export function AppointmentFormSideOver({
           </div>
         </div>
         <div>
-          <label className="mb-1 block text-xs font-semibold uppercase tracking-wide text-[#64748B]">Local de retirada</label>
+          <label className="mb-1 block text-xs font-semibold uppercase tracking-wide text-muted-foreground">Local de retirada</label>
           <input
             type="text"
             value={form.location}
@@ -129,7 +129,7 @@ export function AppointmentFormSideOver({
           />
         </div>
         <div>
-          <label className="mb-1 block text-xs font-semibold uppercase tracking-wide text-[#64748B]">Veículo / observações</label>
+          <label className="mb-1 block text-xs font-semibold uppercase tracking-wide text-muted-foreground">Veículo / observações</label>
           <input
             type="text"
             value={form.notes}
@@ -143,7 +143,7 @@ export function AppointmentFormSideOver({
         <button
           type="button"
           onClick={onClose}
-          className="flex-1 rounded-lg border border-[#E2E8F0] px-4 py-2.5 text-sm font-medium text-[#475569] hover:bg-[#F8FAFC]"
+          className="flex-1 rounded-lg border border-border bg-background px-4 py-2.5 text-sm font-medium text-muted-foreground transition-colors hover:bg-muted/40"
         >
           Cancelar
         </button>

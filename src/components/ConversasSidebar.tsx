@@ -54,11 +54,11 @@ function ChannelTimeBadge({
     : `WhatsApp · ${formatLastMessageTime(lastMessageAt)}`;
   return (
     <span
-      className="inline-flex shrink-0 items-center gap-1 rounded-full border border-[#E2E8F0] bg-gradient-to-b from-white to-[#F8FAFC] py-0.5 pl-0.5 pr-2 shadow-sm ring-1 ring-black/[0.03]"
+      className="inline-flex shrink-0 items-center gap-1 rounded-full border border-border bg-gradient-to-b from-background to-muted/40 py-0.5 pl-0.5 pr-2 shadow-sm ring-1 ring-black/[0.03]"
       title={title}
     >
       <ChannelIcon variant="colored" provider="generic" channelName={channelName} size={20} title={conn || "WhatsApp"} />
-      <span className="text-[11px] font-semibold text-[#475569] tabular-nums">{formatLastMessageTime(lastMessageAt)}</span>
+      <span className="text-[11px] font-semibold text-muted-foreground tabular-nums">{formatLastMessageTime(lastMessageAt)}</span>
     </span>
   );
 }
@@ -1078,33 +1078,33 @@ export function ConversasSidebar() {
   // o usuário abre o painel de informações e chama chat-details. Sem chamadas em loop à UAZAPI.
 
   return (
-    <aside className="flex min-h-0 w-[32%] min-w-[320px] max-w-[520px] shrink-0 flex-col border-r border-[#E2E8F0]/60 bg-white shadow-sm overflow-hidden self-stretch">
-      <div className="shrink-0 px-3 py-3 border-b border-[#E2E8F0]/60">
+    <aside className="flex min-h-0 w-[32%] min-w-[320px] max-w-[520px] shrink-0 flex-col border-r border-border bg-background shadow-sm overflow-hidden self-stretch">
+      <div className="shrink-0 px-3 py-3 border-b border-border">
         <div className="relative">
-          <Search className="absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-[#94A3B8]" />
+          <Search className="absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
           <input
             type="search"
             placeholder="Pesquisar por nome ou número…"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full rounded-xl border border-[#E2E8F0] bg-[#F8FAFC] pl-10 pr-4 py-2.5 text-sm text-[#1E293B] placeholder-[#94A3B8] transition-all focus:border-clicvend-orange focus:bg-white focus:outline-none focus:ring-2 focus:ring-clicvend-orange/20 shadow-sm hover:border-[#CBD5E1]"
+            className="w-full rounded-xl border border-border bg-muted/40 pl-10 pr-4 py-2.5 text-sm text-foreground placeholder:text-muted-foreground transition-all focus:border-clicvend-orange focus:bg-background focus:outline-none focus:ring-2 focus:ring-clicvend-orange/20 shadow-sm hover:border-border"
           />
         </div>
       </div>
       {/* Tabs: Novos, Pendente, Meus, Contatos, Grupos — scroll horizontal se não couber */}
-      <div className="flex shrink-0 w-full border-b border-[#E2E8F0]/60 px-3 py-0.5 items-center gap-1 min-w-0">
+      <div className="flex shrink-0 w-full border-b border-border px-3 py-0.5 items-center gap-1 min-w-0">
         <button
           type="button"
           onClick={() => scrollTabs("left")}
           disabled={!canScrollLeft}
-          className="flex h-6 w-6 shrink-0 items-center justify-center rounded text-[#64748B] hover:bg-[#F1F5F9] hover:text-[#1E293B] transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+          className="flex h-6 w-6 shrink-0 items-center justify-center rounded text-muted-foreground hover:bg-muted/60 hover:text-foreground transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
           aria-label="Rolar para esquerda"
         >
           <ChevronLeft className="h-4 w-4" />
         </button>
         <div
           ref={tabsScrollRef}
-          className="scroll-tabs flex w-full flex-nowrap items-center gap-1.5 rounded-md bg-white py-0.5 px-1.5 overflow-x-auto touch-pan-x min-w-0 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
+          className="scroll-tabs flex w-full flex-nowrap items-center gap-1.5 rounded-md bg-background py-0.5 px-1.5 overflow-x-auto touch-pan-x min-w-0 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
         >
           <button
             type="button"
@@ -1112,7 +1112,7 @@ export function ConversasSidebar() {
             className={`relative flex min-w-[5rem] shrink-0 items-center justify-center gap-2 rounded-lg px-3 py-2 transition-all duration-200 ${
               activeTab === "novos"
                 ? "bg-emerald-50 text-emerald-800 shadow-md shadow-emerald-200/60 border border-emerald-200/70"
-                : "text-[#64748B] hover:bg-slate-50 hover:text-[#1E293B]"
+                : "text-muted-foreground hover:bg-muted/60 hover:text-foreground"
             }`}
             title="Novos (não atribuídos)"
             aria-label="Novos"
@@ -1131,7 +1131,7 @@ export function ConversasSidebar() {
             className={`relative flex min-w-[5rem] shrink-0 items-center justify-center gap-2 rounded-lg px-3 py-2 transition-all duration-200 ${
               activeTab === "queues"
                 ? "bg-sky-50 text-sky-800 shadow-md shadow-sky-200/60 border border-sky-200/70"
-                : "text-[#64748B] hover:bg-slate-50 hover:text-[#1E293B]"
+                : "text-muted-foreground hover:bg-muted/60 hover:text-foreground"
             }`}
             title="Pendente — todos os atendimentos ativos nas suas filas"
             aria-label="Pendente"
@@ -1150,7 +1150,7 @@ export function ConversasSidebar() {
             className={`relative flex min-w-[5rem] shrink-0 items-center justify-center gap-2 rounded-lg px-3 py-2 transition-all duration-200 ${
               activeTab === "mine"
                 ? "bg-violet-50 text-violet-800 shadow-md shadow-violet-200/60 border border-violet-200/70"
-                : "text-[#64748B] hover:bg-slate-50 hover:text-[#1E293B]"
+                : "text-muted-foreground hover:bg-muted/60 hover:text-foreground"
             }`}
             title="Meus atendimentos"
             aria-label="Meus atendimentos"
@@ -1169,7 +1169,7 @@ export function ConversasSidebar() {
             className={`relative flex min-w-[5rem] shrink-0 items-center justify-center gap-2 rounded-lg px-3 py-2 transition-all duration-200 ${
               activeTab === "mine_closed"
                 ? "bg-red-50 text-red-800 shadow-md shadow-red-200/50 border border-red-200/70"
-                : "text-[#64748B] hover:bg-slate-50 hover:text-[#1E293B]"
+                : "text-muted-foreground hover:bg-muted/60 hover:text-foreground"
             }`}
             title="Meus encerrados"
             aria-label="Meus encerrados"

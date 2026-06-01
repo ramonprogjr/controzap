@@ -460,7 +460,7 @@ export default function FilasPage() {
         </div>
       </div>
 
-      <p className="text-sm text-[#64748B]">
+      <p className="text-sm text-muted-foreground">
         Crie e edite filas para organizar conversas por setor (ex.: Comercial, Suporte). Para vincular cada fila aos
         números (até 8 caixas por número), use <strong>Conexões</strong> e abra <strong>Configurar</strong> no número.
       </p>
@@ -481,14 +481,14 @@ export default function FilasPage() {
         <div className="flex justify-center py-12">
           <div className="flex flex-col items-center gap-3">
             <Loader2 className="h-8 w-8 animate-spin text-clicvend-orange" />
-            <span className="text-sm text-[#64748B]">Carregando…</span>
+            <span className="text-sm text-muted-foreground">Carregando…</span>
           </div>
         </div>
       ) : queues.length === 0 ? (
-        <div className="rounded-xl border border-[#E2E8F0] bg-white p-8 text-center">
-          <Inbox className="mx-auto h-12 w-12 text-[#94A3B8]" />
-          <p className="mt-2 text-[#64748B]">Nenhuma fila cadastrada.</p>
-          <p className="mt-1 text-xs text-[#94A3B8]">Crie uma fila. Depois vincule aos números em Conexões.</p>
+        <div className="rounded-xl border border-border bg-card p-8 text-center">
+          <Inbox className="mx-auto h-12 w-12 text-muted-foreground" />
+          <p className="mt-2 text-muted-foreground">Nenhuma fila cadastrada.</p>
+          <p className="mt-1 text-xs text-muted-foreground">Crie uma fila. Depois vincule aos números em Conexões.</p>
           <button
             type="button"
             onClick={() => setNewQueueOpen(true)}
@@ -499,22 +499,22 @@ export default function FilasPage() {
           </button>
         </div>
       ) : (
-        <div className="rounded-xl border border-[#E2E8F0] bg-white shadow-sm overflow-hidden">
-          <div className="flex flex-wrap items-center justify-between gap-4 border-b border-[#E2E8F0] bg-[#F8FAFC] px-4 py-3">
-            <p className="text-sm text-[#64748B]">
-              <span className="font-medium text-[#1E293B]">{filteredQueues.length}</span> fila
+        <div className="rounded-xl border border-border bg-card shadow-sm overflow-hidden">
+          <div className="flex flex-wrap items-center justify-between gap-4 border-b border-border bg-muted/30 px-4 py-3">
+            <p className="text-sm text-muted-foreground">
+              <span className="font-medium text-foreground">{filteredQueues.length}</span> fila
               {filteredQueues.length !== 1 ? "s" : ""}
               {search.trim() ? (
                 <>
                   {" "}
-                  de <span className="font-medium text-[#1E293B]">{queues.length}</span>
+                  de <span className="font-medium text-foreground">{queues.length}</span>
                 </>
               ) : null}
             </p>
-            <span className="flex items-center gap-1.5 text-sm text-[#64748B]">
+            <span className="flex items-center gap-1.5 text-sm text-muted-foreground">
               <Plug className="h-4 w-4 text-clicvend-orange" />
-              <span className="uppercase text-[10px] font-medium tracking-wider text-[#64748B]">Números vinculados</span>
-              <strong className="text-[#1E293B]">
+              <span className="uppercase text-[10px] font-medium tracking-wider text-muted-foreground">Números vinculados</span>
+              <strong className="text-foreground">
                 {filteredQueues.reduce((sum, q) => sum + (queueChannelCount[q.id] ?? 0), 0)}
               </strong>
             </span>
@@ -522,11 +522,11 @@ export default function FilasPage() {
 
           <div className="max-h-[300px] overflow-auto">
             {selectedQueueIds.size > 0 && (
-              <div className="flex flex-wrap items-center justify-between gap-4 px-4 py-3 bg-clicvend-orange/10 border-b border-[#E2E8F0]">
-                <span className="text-sm font-medium text-[#1E293B]">
+              <div className="flex flex-wrap items-center justify-between gap-4 px-4 py-3 bg-clicvend-orange/10 border-b border-border">
+                <span className="text-sm font-medium text-foreground">
                   {selectedQueueIds.size} fila(s) selecionada(s)
                 </span>
-                <div className="inline-flex flex-wrap rounded-lg border border-[#E2E8F0] bg-white overflow-hidden shadow-sm">
+                <div className="inline-flex flex-wrap rounded-lg border border-border bg-card overflow-hidden shadow-sm">
                   <button
                     type="button"
                     onClick={() => setLinkChannelsOpen(true)}

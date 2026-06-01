@@ -12,7 +12,7 @@ export function AppSidebar() {
 
   return (
     <aside
-      className="fixed left-0 top-14 z-40 flex h-[calc(100vh-3.5rem)] w-[8px] shrink-0 flex-col items-center bg-[#0a0a0a] py-3"
+      className="fixed left-0 top-14 z-40 flex h-[calc(100vh-3.5rem)] w-[8px] shrink-0 flex-col items-center bg-background py-3"
     />
   );
 }

@@ -75,6 +75,57 @@
     --clicvend-bg-blue: #fff7ed;
   }
 
+  .dark {
+    /* Base */
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+
+    /* Primary (Âmbar ControlZap) */
+    --primary: 38 92% 50%;
+    --primary-foreground: 222.2 84% 4.9%;
+
+    /* Secondary */
+    --secondary: 38 92% 40%;
+    --secondary-foreground: 210 40% 98%;
+
+    /* Accent */
+    --accent: 38 92% 50%;
+    --accent-foreground: 222.2 84% 4.9%;
+
+    /* Muted */
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+
+    /* Borders & Inputs */
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 38 92% 50%;
+
+    /* Surfaces */
+    --card: 222.2 84% 6.5%;
+    --card-foreground: 210 40% 98%;
+    --popover: 222.2 84% 6.5%;
+    --popover-foreground: 210 40% 98%;
+
+    /* Feedback */
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+
+    /* ControlZap theme tokens (dark) */
+    --cz-background: #0a0a0a;
+    --cz-foreground: #f8fafc;
+    --cz-sidebar: #0f0f10;
+    --cz-sidebar-border: rgba(255, 255, 255, 0.08);
+    --cz-card: rgba(255, 255, 255, 0.04);
+    --cz-card-border: rgba(255, 255, 255, 0.10);
+    --cz-accent: #f59e0b;
+    --cz-accent-dark: #d97706;
+    --cz-text-primary: #f8fafc;
+    --cz-text-secondary: rgba(226, 232, 240, 0.78);
+    --cz-input-bg: rgba(255, 255, 255, 0.04);
+    --cz-ring-color: rgba(245, 158, 11, 0.28);
+  }
+
   /* Dot Pattern Background */
   .bg-dot-pattern {
     background-image: radial-gradient(hsl(var(--muted-foreground)) 1px, transparent 1px);
@@ -158,11 +209,40 @@
   .input-theme {
     @apply outline-none transition-all border rounded-lg px-3 py-2 text-sm;
     background-color: var(--cz-input-bg);
-    border-color: #e2e8f0;
-    color: var(--cz-text-primary);
+    border-color: hsl(var(--border));
+    color: hsl(var(--foreground));
   }
   .input-theme:focus {
     box-shadow: 0 0 0 4px var(--cz-ring-color);
     border-color: var(--cz-accent);
+  }
+
+  /**
+   * Compatibilidade Dark Mode (legado):
+   * Parte do app ainda usa classes Tailwind com cores fixas (bg-white, bg-[#F8FAFC], border-[#E2E8F0], etc.).
+   * Essas regras garantem contraste no tema escuro sem “sumir” botões/textos.
+   */
+  .dark .bg-white {
+    background-color: hsl(var(--card)) !important;
+  }
+  .dark .bg-\[\#F8FAFC\],
+  .dark .bg-\[\#F1F5F9\],
+  .dark .bg-\[\#FAFBFC\] {
+    background-color: hsl(var(--background)) !important;
+  }
+  .dark .border-\[\#E2E8F0\],
+  .dark .border-\[\#CBD5E1\] {
+    border-color: hsl(var(--border)) !important;
+  }
+  .dark .text-\[\#1E293B\],
+  .dark .text-\[\#0F172A\],
+  .dark .text-\[\#0a0a0a\] {
+    color: hsl(var(--foreground)) !important;
+  }
+  .dark .text-\[\#64748B\],
+  .dark .text-\[\#94A3B8\],
+  .dark .text-\[\#475569\],
+  .dark .text-\[\#334155\] {
+    color: hsl(var(--muted-foreground)) !important;
   }
 }

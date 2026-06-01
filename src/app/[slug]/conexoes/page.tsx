@@ -481,7 +481,7 @@ export default function ConexoesPage() {
   return (
     <div className="flex flex-col gap-4 p-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-[#1E293B]">Conexões</h1>
+        <h1 className="text-2xl font-bold text-foreground">Conexões</h1>
         <div className="flex items-center gap-2">
           <button
             type="button"
@@ -496,7 +496,7 @@ export default function ConexoesPage() {
           <button
             type="button"
             onClick={() => { fetchChannels(); fetchStats(); channels.forEach((c) => fetchStatus(c.id)); }}
-            className="flex h-10 w-10 items-center justify-center rounded-full bg-[#F1F5F9] text-[#64748B] hover:bg-[#E2E8F0] transition-colors"
+            className="flex h-10 w-10 items-center justify-center rounded-full bg-muted/40 text-muted-foreground hover:bg-muted transition-colors"
             aria-label="Atualizar"
           >
             <RefreshCw className="h-4 w-4" />
@@ -519,10 +519,10 @@ export default function ConexoesPage() {
       {loading ? (
         <ChannelTableSkeleton rows={4} />
       ) : channels.length === 0 ? (
-        <div className="rounded-xl border border-[#E2E8F0] bg-white p-8 text-center">
-          <Smartphone className="mx-auto h-12 w-12 text-[#94A3B8]" />
-          <p className="mt-2 text-[#64748B]">Nenhum canal cadastrado.</p>
-          <p className="mt-1 text-xs text-[#94A3B8]">Cada empresa pode conectar até {MAX_CHANNELS_PER_COMPANY} números.</p>
+        <div className="rounded-xl border border-border bg-card p-8 text-center">
+          <Smartphone className="mx-auto h-12 w-12 text-muted-foreground" />
+          <p className="mt-2 text-muted-foreground">Nenhum canal cadastrado.</p>
+          <p className="mt-1 text-xs text-muted-foreground">Cada empresa pode conectar até {MAX_CHANNELS_PER_COMPANY} números.</p>
           <button
             type="button"
             onClick={openSideOver}
@@ -534,12 +534,12 @@ export default function ConexoesPage() {
           </button>
         </div>
       ) : (
-        <div className="rounded-xl border border-[#E2E8F0] bg-white shadow-sm overflow-hidden">
+        <div className="rounded-xl border border-border bg-card shadow-sm overflow-hidden">
           {/* Resumo total */}
-          <div className="flex flex-wrap items-center justify-between gap-4 border-b border-[#E2E8F0] bg-[#F8FAFC] px-4 py-3">
-            <p className="text-sm text-[#64748B]">
+          <div className="flex flex-wrap items-center justify-between gap-4 border-b border-border bg-muted/30 px-4 py-3">
+            <p className="text-sm text-muted-foreground">
               {channels.length} de {MAX_CHANNELS_PER_COMPANY} números ·{" "}
-              <span className="font-medium text-[#1E293B]">
+              <span className="font-medium text-foreground">
                 {channels.filter((c) => channelStatuses[c.id] === "connected").length} conectados
               </span>
               {channels.filter((c) => channelStatuses[c.id] === "connecting").length > 0 && (
@@ -549,18 +549,18 @@ export default function ConexoesPage() {
               )}
             </p>
             <div className="flex items-center gap-4 text-sm">
-              <span className="flex items-center gap-1.5 text-[#64748B]">
+              <span className="flex items-center gap-1.5 text-muted-foreground">
                 <Users className="h-4 w-4 text-clicvend-orange" />
-                <span className="uppercase text-[10px] font-medium tracking-wider text-[#64748B]">Conversas</span>
-                <strong className="text-[#1E293B]">{channels.reduce((s, c) => s + (channelStats[c.id]?.conversations_count ?? 0), 0)}</strong>
+                <span className="uppercase text-[10px] font-medium tracking-wider text-muted-foreground">Conversas</span>
+                <strong className="text-foreground">{channels.reduce((s, c) => s + (channelStats[c.id]?.conversations_count ?? 0), 0)}</strong>
               </span>
-              <span className="flex items-center gap-1.5 text-[#64748B]">
+              <span className="flex items-center gap-1.5 text-muted-foreground">
                 <MessageSquare className="h-4 w-4 text-clicvend-blue" />
-                <span className="uppercase text-[10px] font-medium tracking-wider text-[#64748B]">Mensagens</span>
-                <strong className="text-[#1E293B]">{channels.reduce((s, c) => s + (channelStats[c.id]?.messages_count ?? 0), 0)}</strong>
+                <span className="uppercase text-[10px] font-medium tracking-wider text-muted-foreground">Mensagens</span>
+                <strong className="text-foreground">{channels.reduce((s, c) => s + (channelStats[c.id]?.messages_count ?? 0), 0)}</strong>
               </span>
-              <span className="flex items-center gap-1.5 text-[#64748B]">
-                <span className="uppercase text-[10px] font-medium tracking-wider text-[#64748B]">Abertas</span>
+              <span className="flex items-center gap-1.5 text-muted-foreground">
+                <span className="uppercase text-[10px] font-medium tracking-wider text-muted-foreground">Abertas</span>
                 <strong className="text-[#16A34A]">{channels.reduce((s, c) => s + (channelStats[c.id]?.open_conversations ?? 0), 0)}</strong>
               </span>
             </div>
@@ -569,11 +569,11 @@ export default function ConexoesPage() {
           {/* Tabela */}
           <div className="overflow-x-auto">
             {selectedChannelIds.size > 0 && (
-              <div className="flex flex-wrap items-center justify-between gap-4 px-4 py-3 bg-clicvend-orange/10 border-b border-[#E2E8F0]">
-                <span className="text-sm font-medium text-[#1E293B]">
+              <div className="flex flex-wrap items-center justify-between gap-4 border-b border-border bg-clicvend-orange/10 px-4 py-3">
+                <span className="text-sm font-medium text-foreground">
                   {selectedChannelIds.size} conexão(ões) selecionada(s)
                 </span>
-                <div className="inline-flex flex-wrap rounded-lg border border-[#E2E8F0] bg-white overflow-hidden shadow-sm">
+                <div className="inline-flex flex-wrap overflow-hidden rounded-lg border border-border bg-card shadow-sm">
                   <button
                     type="button"
                     disabled={bulkActionLoading || !channels.some((c) => selectedChannelIds.has(c.id) && (channelStatuses[c.id] === "disconnected" || channelStatuses[c.id] === "error"))}
@@ -606,7 +606,7 @@ export default function ConexoesPage() {
                         setBulkActionLoading(false);
                       }
                     }}
-                    className="inline-flex items-center gap-1.5 border-r border-[#E2E8F0] bg-white px-3 py-2 text-sm font-medium text-[#334155] hover:bg-[#F8FAFC] disabled:opacity-60 last:border-r-0"
+                    className="inline-flex items-center gap-1.5 border-r border-border bg-card px-3 py-2 text-sm font-medium text-foreground transition-colors hover:bg-muted/30 disabled:opacity-60 last:border-r-0"
                     title="Conectar ao WhatsApp as conexões selecionadas (apenas as desconectadas)."
                   >
                     {bulkActionLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Link2 className="h-4 w-4" />}
@@ -621,7 +621,7 @@ export default function ConexoesPage() {
                       if (toDisconnect.length === 0) return;
                       setBulkConfirm({ type: "disconnect", ids: toDisconnect });
                     }}
-                    className="inline-flex items-center gap-1.5 border-r border-[#E2E8F0] bg-amber-50 px-3 py-2 text-sm font-medium text-amber-800 hover:bg-amber-100 disabled:opacity-60 last:border-r-0"
+                    className="inline-flex items-center gap-1.5 border-r border-border bg-amber-50 px-3 py-2 text-sm font-medium text-amber-800 transition-colors hover:bg-amber-100 disabled:opacity-60 last:border-r-0 dark:bg-amber-500/10 dark:text-amber-200 dark:hover:bg-amber-500/15"
                     title="Desconectar do WhatsApp as conexões selecionadas (apenas as conectadas)."
                   >
                     {bulkActionLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : <WifiOff className="h-4 w-4" />}
@@ -635,7 +635,7 @@ export default function ConexoesPage() {
                       if (ids.length === 0) return;
                       setBulkConfirm({ type: "delete", ids });
                     }}
-                    className="inline-flex items-center gap-1.5 border-r border-[#E2E8F0] bg-red-50 px-3 py-2 text-sm font-medium text-red-700 hover:bg-red-100 disabled:opacity-60 last:border-r-0"
+                    className="inline-flex items-center gap-1.5 border-r border-border bg-red-50 px-3 py-2 text-sm font-medium text-red-700 transition-colors hover:bg-red-100 disabled:opacity-60 last:border-r-0 dark:bg-red-950/30 dark:text-red-200 dark:hover:bg-red-950/40"
                     title="Excluir permanentemente as conexões selecionadas."
                   >
                     {bulkActionLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Trash2 className="h-4 w-4" />}
@@ -645,7 +645,7 @@ export default function ConexoesPage() {
                     type="button"
                     onClick={() => setSelectedChannelIds(new Set())}
                     disabled={bulkActionLoading}
-                    className="inline-flex items-center gap-1.5 bg-white px-3 py-2 text-sm font-medium text-[#64748B] hover:bg-[#F1F5F9] disabled:opacity-60 last:border-r-0"
+                    className="inline-flex items-center gap-1.5 bg-card px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-muted/30 disabled:opacity-60 last:border-r-0"
                     title="Desmarcar todas as conexões selecionadas."
                   >
                     Limpar seleção
@@ -655,7 +655,7 @@ export default function ConexoesPage() {
             )}
             <table className="w-full min-w-[640px]">
               <thead>
-                <tr className="border-b border-[#E2E8F0] bg-[#F8FAFC]">
+                <tr className="border-b border-border bg-muted/30">
                   <th className="px-4 py-3 w-10 text-left">
                     <input
                       type="checkbox"
@@ -667,18 +667,18 @@ export default function ConexoesPage() {
                           setSelectedChannelIds(new Set(channels.map((c) => c.id)));
                         }
                       }}
-                      className="h-4 w-4 rounded border-[#E2E8F0] text-clicvend-orange focus:ring-clicvend-orange"
+                      className="h-4 w-4 rounded border-border text-clicvend-orange focus:ring-clicvend-orange"
                       aria-label="Selecionar todas"
                     />
                   </th>
-                  <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-[#64748B]">Nome</th>
-                  <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-[#64748B]">Número WhatsApp</th>
-                  <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-[#64748B]">Caixa de entrada</th>
-                  <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-[#64748B]">Status</th>
-                  <th className="px-4 py-3 text-center text-xs font-semibold uppercase tracking-wider text-[#64748B]">Conversas</th>
-                  <th className="px-4 py-3 text-center text-xs font-semibold uppercase tracking-wider text-[#64748B]">Mensagens</th>
-                  <th className="px-4 py-3 text-center text-xs font-semibold uppercase tracking-wider text-[#64748B]">Abertas</th>
-                  <th className="px-4 py-3 text-right text-xs font-semibold uppercase tracking-wider text-[#64748B]">Ações</th>
+                  <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-muted-foreground">Nome</th>
+                  <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-muted-foreground">Número WhatsApp</th>
+                  <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-muted-foreground">Caixa de entrada</th>
+                  <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-muted-foreground">Status</th>
+                  <th className="px-4 py-3 text-center text-xs font-semibold uppercase tracking-wider text-muted-foreground">Conversas</th>
+                  <th className="px-4 py-3 text-center text-xs font-semibold uppercase tracking-wider text-muted-foreground">Mensagens</th>
+                  <th className="px-4 py-3 text-center text-xs font-semibold uppercase tracking-wider text-muted-foreground">Abertas</th>
+                  <th className="px-4 py-3 text-right text-xs font-semibold uppercase tracking-wider text-muted-foreground">Ações</th>
                 </tr>
               </thead>
               <tbody>
@@ -692,7 +692,7 @@ export default function ConexoesPage() {
                   return (
                     <tr
                       key={ch.id}
-                      className="border-b border-[#E2E8F0] transition-colors hover:bg-[#F8FAFC]"
+                      className="border-b border-border transition-colors hover:bg-muted/20"
                     >
                       <td className="px-4 py-3 w-10">
                         <input

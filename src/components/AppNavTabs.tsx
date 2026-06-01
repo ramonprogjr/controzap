@@ -137,7 +137,7 @@ export function AppNavTabs() {
         type="button"
         aria-label="Abas anteriores"
         onClick={() => scrollByDelta(-240)}
-        className="flex w-8 shrink-0 items-center justify-center rounded-lg text-white/60 transition-colors hover:bg-white/5 hover:text-amber-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-500/50"
+        className="flex w-8 shrink-0 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:bg-muted/60 hover:text-amber-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-500/50"
       >
         <ChevronLeft className="h-5 w-5" strokeWidth={2.25} />
       </button>
@@ -154,14 +154,14 @@ export function AppNavTabs() {
           ? "bg-gradient-to-r from-violet-600 to-violet-500 text-white shadow-lg shadow-violet-500/25 ring-1 ring-violet-400/40"
           : "bg-gradient-to-r from-amber-600 to-amber-500 text-white shadow-lg shadow-amber-500/25 ring-1 ring-amber-400/40";
         const inactiveHover = isMulticalculo
-          ? "hover:bg-violet-500/15 hover:text-violet-200"
-          : "hover:bg-white/5 hover:text-amber-400";
+          ? "hover:bg-violet-500/15 hover:text-violet-700 dark:hover:text-violet-200"
+          : "hover:bg-muted/60 hover:text-amber-700 dark:hover:text-amber-200";
         return (
           <Link
             key={href}
             href={fullHref}
             className={`flex shrink-0 items-center gap-2 rounded-xl px-3 py-2 text-sm font-semibold transition-all duration-200 ${
-              isActive ? activeClass : `text-white/60 ${inactiveHover}`
+              isActive ? activeClass : `text-muted-foreground ${inactiveHover}`
             }`}
           >
             <Icon className="h-4 w-4 shrink-0" />
@@ -179,7 +179,7 @@ export function AppNavTabs() {
         type="button"
         aria-label="Próximas abas"
         onClick={() => scrollByDelta(240)}
-        className="flex w-8 shrink-0 items-center justify-center rounded-lg text-white/60 transition-colors hover:bg-white/5 hover:text-amber-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-500/50"
+        className="flex w-8 shrink-0 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:bg-muted/60 hover:text-amber-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-500/50"
       >
         <ChevronRight className="h-5 w-5" strokeWidth={2.25} />
       </button>
