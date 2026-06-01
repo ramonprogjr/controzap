@@ -57,11 +57,11 @@ export async function getLinkedInstanceIds(admin: SupabaseClient): Promise<Set<s
     if (id) linked.add(id);
   }
 
-  const { data: galimaInstances, error: galimaErr } = await admin
+  const { data: legacyInstances, error: legacyErr } = await admin
     .from("instances")
     .select("uazapi_instance_id");
-  if (!galimaErr) {
-    for (const row of galimaInstances ?? []) {
+  if (!legacyErr) {
+    for (const row of legacyInstances ?? []) {
       const id = String((row as { uazapi_instance_id?: string }).uazapi_instance_id ?? "").trim();
       if (id) linked.add(id);
     }
