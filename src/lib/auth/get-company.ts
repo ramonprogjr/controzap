@@ -1,5 +1,6 @@
 import { cookies } from "next/headers";
 import { createClient } from "@/lib/supabase/server";
+import { normalizeCompanySlug } from "@/lib/company-slug";
 
 const COOKIE_COMPANY_ID = "clicvend_company_id";
 const COOKIE_SLUG = "clicvend_slug";
@@ -20,7 +21,7 @@ export async function getSlugFromCookie(): Promise<string | null> {
  * Assim evitamos 401 quando o cookie não chega na requisição (ex.: em produção).
  */
 export async function getCompanyIdFromRequest(request: Request): Promise<string | null> {
-  const slugFromHeader = request.headers.get(HEADER_COMPANY_SLUG)?.trim().toLowerCase();
+  const slugFromHeader = normalizeCompanySlug(request.headers.get(HEADER_COMPANY_SLUG));
   if (slugFromHeader) {
     const supabase = await createClient();
     const { data } = await supabase

@@ -11,6 +11,7 @@ import {
   requestNotificationPermission,
   showIncomingChatDesktopNotification,
 } from "@/lib/browser-desktop-notification";
+import { getCompanySlugFromPath } from "@/lib/company-slug";
 
 /** Debounce (ms): evita enxurrada de invalidações quando muitas mensagens entram. */
 const INVALIDATE_DEBOUNCE_MS = 1200;
@@ -72,7 +73,7 @@ function playBeepFallback() {
 export function RealtimeConversations() {
   const pathname = usePathname();
   const queryClient = useQueryClient();
-  const slug = pathname?.split("/").filter(Boolean)[0] ?? "";
+  const slug = getCompanySlugFromPath(pathname);
   const apiHeaders = slug ? { "X-Company-Slug": slug } : undefined;
   /** ID da conversa aberta na URL (para não tocar som na conversa atual). */
   const openConversationId = pathname?.includes("/conversas/")
@@ -244,7 +245,13 @@ export function RealtimeConversations() {
 
           const msgTime = row.sent_at ? new Date(row.sent_at).getTime() : 0;
           if (!msgTime || Date.now() - msgTime > RECENT_MESSAGE_MS) return;
-          if (row.conversation_id === openConversationId) return;
+
+          const convId = row.conversation_id!;
+          const isOpenChat = convId === openConversationId;
+          if (isOpenChat) {
+            void queryClient.invalidateQueries({ queryKey: queryKeys.conversation(convId) });
+            return;
+          }
 
           void (async () => {
             const { data: conv, error } = await supabase

@@ -4,6 +4,7 @@ import { PERMISSIONS } from "@/lib/auth/permissions";
 import { toCanonicalDigits, normalizeWhatsAppJid } from "@/lib/phone-canonical";
 import { isCommercialQueue } from "@/lib/queue/commercial";
 import { getNextAgentForQueue } from "@/lib/queue/round-robin";
+import { linkConversationToDefaultChannel } from "@/lib/inbox/link-conversation-channel";
 import { createServiceRoleClient } from "@/lib/supabase/admin";
 import { createClient } from "@/lib/supabase/server";
 import { NextResponse } from "next/server";
@@ -158,6 +159,7 @@ export async function GET(request: Request) {
         .eq("company_id", companyId)
         .is("assigned_to", null);
     }
+    await linkConversationToDefaultChannel(companyId, existing.id);
     return NextResponse.json({ id: existing.id });
   }
 
@@ -200,6 +202,7 @@ export async function GET(request: Request) {
           .eq("company_id", companyId)
           .is("assigned_to", null);
       }
+      await linkConversationToDefaultChannel(companyId, existingId);
       return NextResponse.json({ id: existingId });
     }
   }

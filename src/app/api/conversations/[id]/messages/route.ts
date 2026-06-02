@@ -201,22 +201,29 @@ export async function POST(
   }
 
   const { data: { user } } = await supabase.auth.getUser();
+  if (!user) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
   const assignedTo = conversation.assigned_to ?? null;
-  if (assignedTo !== (user?.id ?? null)) {
+  if (assignedTo !== user.id) {
     return NextResponse.json(
       { error: "Atribua esta conversa a você para enviar mensagens." },
       { status: 403 }
     );
   }
 
+  const writeClient = process.env.SUPABASE_SERVICE_ROLE_KEY
+    ? createServiceRoleClient()
+    : supabase;
+
   // Se for nota interna, salva em internal_notes e retorna
   if (type === "internal_note") {
-    const { data: note, error: noteErr } = await supabase
+    const { data: note, error: noteErr } = await writeClient
       .from("internal_notes")
       .insert({
         conversation_id: conversationId,
         content: content,
-        author_id: user?.id,
+        author_id: user.id,
       })
       .select("id, content, created_at, author_id")
       .single();
@@ -322,28 +329,36 @@ export async function POST(
   }
 
   const MESSAGES_SELECT = "id, direction, content, external_id, sent_at, created_at, message_type, media_url, caption, file_name, reaction";
-  const { data: newMsg, error: insertErr } = await supabase
+  const { data: newMsg, error: insertErr } = await writeClient
     .from("messages")
     .insert(insertPayload)
     .select(MESSAGES_SELECT)
     .single();
   if (insertErr) {
+    console.error("[messages POST] insert failed", { conversationId, companyId, error: insertErr.message });
     return NextResponse.json({ error: insertErr.message }, { status: 500 });
   }
   if (newMsg) {
     const SNAPSHOT_MAX = 1000;
-    const { data: convRow } = await supabase.from("conversations").select("messages_snapshot").eq("id", conversationId).eq("company_id", companyId).single();
-    const prev = Array.isArray((convRow as { messages_snapshot?: unknown } | null)?.messages_snapshot) ? (convRow as { messages_snapshot: unknown[] }).messages_snapshot : [];
-  const newMsgId = (newMsg as { id?: string }).id;
-  const hasDup = newMsgId && prev.some((m: unknown) => (m as { id?: string }).id === newMsgId);
-  const newSnapshot = hasDup ? prev : [...prev, newMsg].slice(-SNAPSHOT_MAX);
-    await supabase
+    const { data: convRow } = await writeClient
+      .from("conversations")
+      .select("messages_snapshot")
+      .eq("id", conversationId)
+      .eq("company_id", companyId)
+      .single();
+    const prev = Array.isArray((convRow as { messages_snapshot?: unknown } | null)?.messages_snapshot)
+      ? (convRow as { messages_snapshot: unknown[] }).messages_snapshot
+      : [];
+    const newMsgId = (newMsg as { id?: string }).id;
+    const hasDup = newMsgId && prev.some((m: unknown) => (m as { id?: string }).id === newMsgId);
+    const newSnapshot = hasDup ? prev : [...prev, newMsg].slice(-SNAPSHOT_MAX);
+    await writeClient
       .from("conversations")
       .update({ messages_snapshot: newSnapshot, last_message_at: sentAt, updated_at: sentAt })
       .eq("id", conversationId)
       .eq("company_id", companyId);
   } else {
-    await supabase
+    await writeClient
       .from("conversations")
       .update({ last_message_at: sentAt, updated_at: sentAt })
       .eq("id", conversationId)

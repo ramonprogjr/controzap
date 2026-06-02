@@ -62,33 +62,37 @@ export function RealtimeMessages({ conversationId }: { conversationId: string })
           const newMessage = payload?.new as Message | undefined;
           if (!newMessage) return;
 
-          // Atualizar cache da conversa adicionando a nova mensagem
-          queryClient.setQueryData<ConversationDetail>(
-            queryKeys.conversation(conversationId),
-            (oldData) => {
-              if (!oldData) return oldData;
-
-              // Verificar se a mensagem já existe (evitar duplicatas por id ou external_id+sent_at+direction)
-          const existingMessages = Array.isArray(oldData.messages) ? oldData.messages : [];
-          const messageExists =
-            existingMessages.some((m) => m.id === newMessage.id) ||
-            (newMessage.external_id &&
-              existingMessages.some(
-                (m) =>
-                  (m as { external_id?: string }).external_id === newMessage.external_id &&
-                  m.sent_at === newMessage.sent_at &&
-                  m.direction === newMessage.direction
-              ));
-          if (messageExists) return oldData;
-
-              // Adicionar nova mensagem no final (mensagens já vêm ordenadas por sent_at)
-              return {
-                ...oldData,
-                messages: [...existingMessages, newMessage],
-                last_message_at: newMessage.sent_at,
-              };
-            }
+          const hadCache = queryClient.getQueryData<ConversationDetail>(
+            queryKeys.conversation(conversationId)
           );
+          if (!hadCache) {
+            void queryClient.invalidateQueries({ queryKey: queryKeys.conversation(conversationId) });
+          } else {
+            queryClient.setQueryData<ConversationDetail>(
+              queryKeys.conversation(conversationId),
+              (oldData) => {
+                if (!oldData) return oldData;
+
+                const existingMessages = Array.isArray(oldData.messages) ? oldData.messages : [];
+                const messageExists =
+                  existingMessages.some((m) => m.id === newMessage.id) ||
+                  (newMessage.external_id &&
+                    existingMessages.some(
+                      (m) =>
+                        (m as { external_id?: string }).external_id === newMessage.external_id &&
+                        m.sent_at === newMessage.sent_at &&
+                        m.direction === newMessage.direction
+                    ));
+                if (messageExists) return oldData;
+
+                return {
+                  ...oldData,
+                  messages: [...existingMessages, newMessage],
+                  last_message_at: newMessage.sent_at,
+                };
+              }
+            );
+          }
 
           // Verificar se o usuário está próximo do final do scroll (dentro de 300px)
           // Se sim, fazer scroll automático para a nova mensagem

@@ -9,6 +9,8 @@ import { SideOver } from "@/components/SideOver";
 import { ConfirmDialog } from "@/components/ConfirmDialog";
 import { ChannelTableSkeleton } from "@/components/Skeleton";
 import { ChannelConfigSideOver } from "./ChannelConfigSideOver";
+import { LocalDevWebhookNotice } from "@/components/LocalDevWebhookNotice";
+import { formInputClass } from "@/lib/ui/form-input-class";
 
 type Channel = {
   id: string;
@@ -504,6 +506,8 @@ export default function ConexoesPage() {
         </div>
       </div>
 
+      <LocalDevWebhookNotice />
+
       {feedback && (
         <div
           className={`rounded-lg border px-3 py-2 text-sm ${
@@ -814,13 +818,13 @@ export default function ConexoesPage() {
           value={name}
           onChange={(e) => setName(e.target.value)}
           placeholder="Ex: Atendimento"
-          className="mb-4 w-full rounded-lg border border-[#E2E8F0] px-3 py-2 text-[#1E293B] placeholder:text-[#94A3B8] focus:border-clicvend-orange focus:outline-none focus:ring-1 focus:ring-clicvend-orange"
+          className={`${formInputClass} mb-4`}
         />
         <label className="mb-1 block text-sm font-medium text-[#334155]">Caixa de entrada</label>
         <select
           value={queueId}
           onChange={(e) => setQueueId(e.target.value)}
-          className="mb-4 w-full rounded-lg border border-[#E2E8F0] px-3 py-2 text-[#1E293B] focus:border-clicvend-orange focus:outline-none focus:ring-1 focus:ring-clicvend-orange"
+          className={`${formInputClass} mb-4`}
         >
           <option value="">Nenhuma</option>
           {queues.map((q) => (

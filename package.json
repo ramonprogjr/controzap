@@ -14,6 +14,7 @@
     "test:cora": "node scripts/test-cora-token.mjs",
     "backfill:media": "node scripts/backfill-media.mjs",
     "run-broadcast-cron": "node scripts/run-broadcast-cron.mjs",
+    "check:production-env": "node scripts/check-production-env.mjs",
     "clean": "node -e \"const fs=require('fs');['.next','node_modules/.cache'].forEach(p=>{if(fs.existsSync(p)){fs.rmSync(p,{recursive:true});console.log('Removed '+p)}})\"",
     "dev:clean": "npm run clean && next dev"
   },

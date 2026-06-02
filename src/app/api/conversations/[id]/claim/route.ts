@@ -5,9 +5,28 @@ import {
   invalidateConversationDetail,
   invalidateConversationList,
 } from "@/lib/redis/inbox-state";
+import { linkConversationToDefaultChannel } from "@/lib/inbox/link-conversation-channel";
+import {
+  getQueueAgentUserIds,
+  isOrphanAssignee,
+  isSoleActiveAgent,
+  isSoleAgentInQueue,
+} from "@/lib/inbox/sole-agent";
 import { isCommercialQueue } from "@/lib/queue/commercial";
+import { createServiceRoleClient } from "@/lib/supabase/admin";
 import { createClient } from "@/lib/supabase/server";
 import { NextResponse } from "next/server";
+
+async function canTakeOverFromOtherAgent(companyId: string, userId: string): Promise<boolean> {
+  const profile = await getProfileForCompany(companyId);
+  if (!profile) return false;
+  if (profile.is_owner || (profile.role === "admin" && !profile.role_id)) return true;
+  const [assignErr, manageErr] = await Promise.all([
+    requirePermission(companyId, PERMISSIONS.inbox.assign),
+    requirePermission(companyId, PERMISSIONS.inbox.manage_tickets),
+  ]);
+  return assignErr === null || manageErr === null;
+}
 
 /**
  * POST /api/conversations/[id]/claim
@@ -40,7 +59,7 @@ export async function POST(
 
   const { data: conversation, error: fetchErr } = await supabase
     .from("conversations")
-    .select("id, assigned_to, status, company_id, queue_id")
+    .select("id, assigned_to, status, company_id, queue_id, channel_id")
     .eq("id", id)
     .eq("company_id", companyId)
     .single();
@@ -68,11 +87,67 @@ export async function POST(
     );
   }
 
-  if (conversation.assigned_to != null) {
-    return NextResponse.json(
-      { error: "Chamado já está atribuído a outro atendente." },
-      { status: 400 }
-    );
+  const existingAssignee = conversation.assigned_to as string | null;
+
+  if (existingAssignee === user.id) {
+    const linkedChannelId = await linkConversationToDefaultChannel(companyId, id);
+    let assigned_to_name: string | null = null;
+    const { data: profile } = await supabase
+      .from("profiles")
+      .select("full_name")
+      .eq("user_id", user.id)
+      .eq("company_id", companyId)
+      .single();
+    assigned_to_name = (profile as { full_name?: string } | null)?.full_name?.trim() ?? null;
+    return NextResponse.json({
+      ...conversation,
+      channel_id: linkedChannelId ?? conversation.channel_id,
+      assigned_to_name,
+      status: conversation.status ?? "in_progress",
+    });
+  }
+
+  const soleCompany = await isSoleActiveAgent(companyId, user.id);
+  const soleInQueue =
+    conversation.queue_id &&
+    (await isSoleAgentInQueue(companyId, conversation.queue_id as string, user.id));
+  const takeOver = await canTakeOverFromOtherAgent(companyId, user.id);
+
+  if (existingAssignee != null && existingAssignee !== user.id) {
+    const orphan = await isOrphanAssignee(companyId, existingAssignee);
+    let onlyMeInQueue = false;
+    let assigneeNotInQueue = false;
+    if (conversation.queue_id) {
+      const queueId = conversation.queue_id as string;
+      const queueAgents = await getQueueAgentUserIds(companyId, queueId);
+      onlyMeInQueue =
+        queueAgents.length > 0 && queueAgents.every((agentId) => agentId === user.id);
+      assigneeNotInQueue = !queueAgents.includes(existingAssignee);
+    }
+    if (
+      !orphan &&
+      !soleCompany &&
+      !soleInQueue &&
+      !takeOver &&
+      !onlyMeInQueue &&
+      !assigneeNotInQueue
+    ) {
+      const admin = createServiceRoleClient();
+      const { data: otherProfile } = await admin
+        .from("profiles")
+        .select("full_name")
+        .eq("user_id", existingAssignee)
+        .eq("company_id", companyId)
+        .maybeSingle();
+      const otherName =
+        (otherProfile as { full_name?: string } | null)?.full_name?.trim() || "outro atendente";
+      return NextResponse.json(
+        {
+          error: `Chamado está com ${otherName}. Peça a um gestor para transferir ou use um usuário com permissão de atribuir atendimentos.`,
+        },
+        { status: 400 }
+      );
+    }
   }
 
   if (conversation.queue_id) {
@@ -80,7 +155,8 @@ export async function POST(
       requirePermission(companyId, PERMISSIONS.inbox.see_all),
       requirePermission(companyId, PERMISSIONS.inbox.manage_tickets),
     ]);
-    const canBypassCommercial = seeAllErr === null || manageErr === null;
+    const canBypassCommercial =
+      seeAllErr === null || manageErr === null || soleCompany || soleInQueue;
     if (!canBypassCommercial) {
       const commercial = await isCommercialQueue(supabase, companyId, conversation.queue_id);
       if (commercial) {
@@ -93,7 +169,10 @@ export async function POST(
   }
 
   const now = new Date().toISOString();
-  const { data: updated, error: updateErr } = await supabase
+  const writeClient = process.env.SUPABASE_SERVICE_ROLE_KEY
+    ? createServiceRoleClient()
+    : supabase;
+  const { data: updated, error: updateErr } = await writeClient
     .from("conversations")
     .update({
       assigned_to: user.id,
@@ -107,6 +186,11 @@ export async function POST(
 
   if (updateErr) {
     return NextResponse.json({ error: updateErr.message }, { status: 500 });
+  }
+
+  const linkedChannelId = await linkConversationToDefaultChannel(companyId, id);
+  if (linkedChannelId && updated) {
+    (updated as { channel_id?: string | null }).channel_id = linkedChannelId;
   }
 
   let assigned_to_name: string | null = null;

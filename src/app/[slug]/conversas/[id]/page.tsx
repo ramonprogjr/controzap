@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import React, { useState, useEffect, useLayoutEffect, useCallback, useRef, useMemo } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
@@ -10,12 +11,15 @@ import { useInboxStore } from "@/stores/inbox-store";
 import { SideOver } from "@/components/SideOver";
 import { Skeleton } from "@/components/Skeleton";
 import { Loader2 } from "lucide-react";
+import { LocalDevWebhookNotice } from "@/components/LocalDevWebhookNotice";
 import { RealtimeMessages } from "@/components/RealtimeMessages";
 import { EmojiReactionPicker } from "@/components/EmojiReactionPicker";
 import { ChannelIcon } from "@/components/ChannelIcon";
 import { ChatAudioPlayer } from "@/components/chat/ChatAudioPlayer";
 import { ChatContactInfoTagsAndForms } from "./ChatContactInfoTagsAndForms";
 import { ContactAppointmentsPanel } from "@/components/calendar/ContactAppointmentsPanel";
+import { getCompanySlugFromPath, isReservedPathSlug, normalizeCompanySlug } from "@/lib/company-slug";
+import { formInputClass } from "@/lib/ui/form-input-class";
 
 type Message = {
   id: string;
@@ -52,6 +56,7 @@ type ConversationDetail = {
   /** Nome do status do Kanban (company_ticket_statuses) para exibição contextual */
   ticket_status_name?: string | null;
   has_more_messages?: boolean;
+  last_message_at?: string | null;
   messages: Message[];
 };
 
@@ -1327,9 +1332,23 @@ export default function ConversaThreadPage({
   const resolved =
     resolvedParams ??
     (typeof (params as { slug?: string; id?: string })?.id !== "undefined" ? (params as { slug: string; id: string }) : null);
-  const slug = resolved?.slug ?? pathname?.split("/")[1] ?? "";
+  const slugFromPath = getCompanySlugFromPath(pathname);
+  const paramSlug = normalizeCompanySlug(resolved?.slug ?? "");
+  const slug =
+    slugFromPath || (paramSlug && !isReservedPathSlug(paramSlug) ? paramSlug : "");
   const router = useRouter();
   const apiHeaders = slug ? { "X-Company-Slug": slug } : undefined;
+
+  /** Corrige URL com slug inválido (login, espaços, %20, etc.) para o slug canônico. */
+  useEffect(() => {
+    const id = resolved?.id;
+    if (!id || !slug) return;
+    const expectedPath = `/${slug}/conversas/${id}`;
+    const current = pathname?.replace(/\/$/, "") ?? "";
+    if (current !== expectedPath) {
+      router.replace(expectedPath);
+    }
+  }, [resolved?.id, slug, pathname, router]);
   /** Id da conversa ativa (callbacks assíncronos cancelam se o usuário trocar de chat). */
   const activeConversationIdRef = useRef<string | null>(null);
   activeConversationIdRef.current = resolved?.id ?? null;
@@ -1398,19 +1417,25 @@ export default function ConversaThreadPage({
     queryKey: queryKeys.conversation(resolved?.id ?? ""),
     queryFn: async () => {
       const id = resolved?.id;
-      if (!id) return null;
+      if (!id) throw new Error("Conversa inválida");
       const res = await fetch(`/api/conversations/${id}`, {
         credentials: "include",
         headers: apiHeaders,
       });
-      if (!res.ok) return null;
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        throw new Error((err as { error?: string })?.error ?? "Falha ao carregar conversa");
+      }
       return res.json() as Promise<ConversationDetail>;
     },
     enabled: !!resolved?.id && !!slug,
+    placeholderData: (previousData) => previousData,
     staleTime: 5 * 60 * 1000, // 5 minutos - Realtime atualiza em tempo real
     refetchOnWindowFocus: false, // Evita refetch ao fechar picker de reação (reação sumia e voltava)
     refetchInterval: 15 * 1000,
     refetchIntervalInBackground: true,
+    /** Falha em refetch não deve substituir dados já exibidos (placeholderData). */
+    retry: false,
   });
 
   const [quickSearch, setQuickSearch] = useState<string | null>(null);
@@ -1761,11 +1786,20 @@ export default function ConversaThreadPage({
   }, [resolved?.id, conv?.has_more_messages]);
 
   useEffect(() => {
-    if (convQueryError) setError(convQueryError instanceof Error ? convQueryError.message : "Erro ao carregar");
-    else setError(null);
-  }, [convQueryError]);
+    if (convQueryError && !conv) {
+      const msg =
+        convQueryError instanceof Error ? convQueryError.message : "Erro ao carregar";
+      setError(msg === "Not found" ? "Conversa não encontrada ou sem permissão." : msg);
+    } else if (!convQueryError) {
+      setError(null);
+    } else if (conv && convQueryError) {
+      // Refetch em segundo plano falhou — manter conversa na tela sem alarmar o usuário
+      setError((prev) => (prev === "Not found" ? null : prev));
+    }
+  }, [convQueryError, conv]);
 
   const claimAttemptedRef = useRef(false);
+  const freshSyncDoneRef = useRef(false);
   const contactDetailsFetchedForRef = useRef<string | null>(null);
   /** Uma tentativa silenciosa de puxar histórico da instância ao abrir conversa sem mensagens. */
   const autoHistoryPullDoneForIdRef = useRef<string | null>(null);
@@ -1775,7 +1809,41 @@ export default function ConversaThreadPage({
   useEffect(() => {
     autoHistoryPullDoneForIdRef.current = null;
     openConversationSoftPullDoneRef.current = null;
+    claimAttemptedRef.current = false;
+    freshSyncDoneRef.current = false;
   }, [resolved?.id]);
+
+  /** Alinha assigned_to e channel_id com o banco antes do auto-claim. */
+  useEffect(() => {
+    const id = resolved?.id;
+    if (!id || !slug || freshSyncDoneRef.current) return;
+    freshSyncDoneRef.current = true;
+    void (async () => {
+      try {
+        const res = await fetch(`/api/conversations/${id}?skip_cache=1`, {
+          credentials: "include",
+          headers: apiHeaders,
+        });
+        if (!res.ok) return;
+        const detail = (await res.json()) as ConversationDetail;
+        queryClient.setQueryData(queryKeys.conversation(id), detail);
+      } catch {
+        /* silencioso */
+      }
+    })();
+  }, [resolved?.id, slug, apiHeaders, queryClient]);
+
+  /** Em desenvolvimento local: polling leve quando webhook não alcança localhost. */
+  useEffect(() => {
+    if (process.env.NODE_ENV !== "development") return;
+    const id = resolved?.id;
+    if (!id || !slug) return;
+    const interval = window.setInterval(() => {
+      void queryClient.invalidateQueries({ queryKey: queryKeys.conversation(id) });
+      void queryClient.invalidateQueries({ queryKey: ["inbox", "conversations"] });
+    }, 20_000);
+    return () => window.clearInterval(interval);
+  }, [resolved?.id, slug, queryClient]);
 
   async function handleAICorrection() {
     if (!sendValue.trim()) return;
@@ -1921,8 +1989,9 @@ export default function ConversaThreadPage({
             body: JSON.stringify({ max_messages: PULL_REMOTE_PER_LOAD_MORE }),
           });
           const pullData = (await pullRes.json().catch(() => ({}))) as { inserted?: number; error?: string };
-          if (!pullRes.ok) {
-            setError(pullData?.error ?? "Não foi possível buscar histórico no WhatsApp.");
+          if (!pullRes.ok && activeConversationIdRef.current === id) {
+            const errMsg = pullData?.error ?? "Não foi possível buscar histórico no WhatsApp.";
+            setError(errMsg === "Not found" ? "Não foi possível sincronizar o histórico desta conversa." : errMsg);
           }
         } finally {
           setPullingRemoteHistory(false);
@@ -1958,44 +2027,54 @@ export default function ConversaThreadPage({
     queryClient,
   ]);
 
-  /** Importa mensagens antigas via /message/find (várias páginas por clique, até o teto da API). Sem avisos quando não há novidades — só erro em falha real da API. */
-  const pullWhatsAppHistory = useCallback(async () => {
-    const id = resolved?.id;
-    if (!id || pullingRemoteHistory) return;
-    setPullingRemoteHistory(true);
-    setError(null);
-    try {
-      const pullRes = await fetch(`/api/conversations/${id}/pull-remote-history`, {
-        method: "POST",
-        credentials: "include",
-        headers: { "Content-Type": "application/json", ...apiHeaders },
-        body: JSON.stringify({ max_messages: 8000 }),
-      });
-      const pullData = (await pullRes.json().catch(() => ({}))) as {
-        inserted?: number;
-        error?: string;
-        warning?: string;
-        jid_corrected?: boolean;
-      };
-      if (!pullRes.ok) {
-        setError(pullData?.error ?? "Não foi possível buscar histórico no WhatsApp.");
-        return;
-      }
+  /** Importa mensagens antigas via /message/find (várias páginas por clique, até o teto da API). */
+  const pullWhatsAppHistory = useCallback(
+    async (opts?: { silent?: boolean }) => {
+      const id = resolved?.id;
+      if (!id || pullingRemoteHistory) return;
+      const pullId = id;
+      const silent = opts?.silent === true;
+      setPullingRemoteHistory(true);
+      if (!silent) setError(null);
+      try {
+        const pullRes = await fetch(`/api/conversations/${pullId}/pull-remote-history`, {
+          method: "POST",
+          credentials: "include",
+          headers: { "Content-Type": "application/json", ...apiHeaders },
+          body: JSON.stringify({ max_messages: 8000 }),
+        });
+        const pullData = (await pullRes.json().catch(() => ({}))) as {
+          inserted?: number;
+          error?: string;
+          warning?: string;
+          jid_corrected?: boolean;
+        };
+        if (activeConversationIdRef.current !== pullId) return;
+        if (!pullRes.ok) {
+          if (!silent) {
+            const errMsg = pullData?.error ?? "Não foi possível buscar histórico no WhatsApp.";
+            setError(errMsg === "Not found" ? "Não foi possível sincronizar o histórico desta conversa." : errMsg);
+          }
+          return;
+        }
 
-      const detailRes = await fetch(`/api/conversations/${id}?skip_cache=1`, {
-        credentials: "include",
-        headers: apiHeaders,
-      });
-      if (detailRes.ok) {
-        const detail = (await detailRes.json()) as ConversationDetail;
-        queryClient.setQueryData(queryKeys.conversation(id), detail);
-      } else {
-        await queryClient.invalidateQueries({ queryKey: queryKeys.conversation(id) });
+        const detailRes = await fetch(`/api/conversations/${pullId}?skip_cache=1`, {
+          credentials: "include",
+          headers: apiHeaders,
+        });
+        if (activeConversationIdRef.current !== pullId) return;
+        if (detailRes.ok) {
+          const detail = (await detailRes.json()) as ConversationDetail;
+          queryClient.setQueryData(queryKeys.conversation(pullId), detail);
+        } else if (!silent) {
+          await queryClient.invalidateQueries({ queryKey: queryKeys.conversation(pullId) });
+        }
+      } finally {
+        setPullingRemoteHistory(false);
       }
-    } finally {
-      setPullingRemoteHistory(false);
-    }
-  }, [resolved?.id, pullingRemoteHistory, apiHeaders, queryClient]);
+    },
+    [resolved?.id, pullingRemoteHistory, apiHeaders, queryClient]
+  );
 
   /** Um só "Carregar mais": com mensagens já na tela, puxa lote na UAZ e depois página antiga do banco; sem mensagens, só import inicial. */
   const handleLoadMoreChat = useCallback(async () => {
@@ -2028,7 +2107,7 @@ export default function ConversaThreadPage({
       return;
     }
     autoHistoryPullDoneForIdRef.current = cid;
-    void pullWhatsAppHistory();
+    void pullWhatsAppHistory({ silent: true });
   }, [resolved?.id, conv?.channel_id, conv?.messages, loading, conv, pullWhatsAppHistory]);
 
   /** Só transição “sem mensagens → com mensagens” re-dispara o efeito; novas bolhas via realtime não cancelam o timer. */
@@ -2150,7 +2229,9 @@ export default function ConversaThreadPage({
   const perms = Array.isArray(permissionsData?.permissions) ? permissionsData.permissions : [];
   const canClaim = perms.includes("inbox.claim");
   const currentUserId = (permissionsData as { user_id?: string } | undefined)?.user_id ?? null;
-  const canSendMessages = Boolean(conv && currentUserId && conv.assigned_to === currentUserId);
+  const isAssignedToMe = Boolean(conv && currentUserId && conv.assigned_to === currentUserId);
+  const canSendMessages = isAssignedToMe;
+  const isClaiming = chatActionLoading === "claim";
   const canChangeStatus = perms.includes("inbox.assign") || perms.includes("inbox.manage_tickets");
   const canClose = perms.includes("inbox.close");
 
@@ -2166,14 +2247,23 @@ export default function ConversaThreadPage({
       });
       const json = await res.json().catch(() => ({}));
       if (!res.ok) {
-        setError(json?.error ?? "Falha ao atribuir");
+        const msg = json?.error === "Not found" ? "Conversa não encontrada para esta empresa." : json?.error;
+        setError(msg ?? "Falha ao atribuir");
         return;
       }
       const assignedToName = json?.assigned_to_name ?? null;
       queryClient.setQueryData<ConversationDetail>(queryKeys.conversation(resolved.id), (prev) =>
-        prev ? { ...prev, assigned_to: json?.assigned_to ?? currentUserId, assigned_to_name: assignedToName ?? prev.assigned_to_name, status: "in_progress" } : prev
+        prev
+          ? {
+              ...prev,
+              assigned_to: json?.assigned_to ?? currentUserId,
+              assigned_to_name: assignedToName ?? prev.assigned_to_name,
+              channel_id: (json?.channel_id as string | null | undefined) ?? prev.channel_id,
+              status: "in_progress",
+            }
+          : prev
       );
-      await refetchConversation();
+      void refetchConversation().catch(() => {});
       queryClient.invalidateQueries({ queryKey: ["inbox", "conversations"] });
       queryClient.invalidateQueries({ queryKey: queryKeys.counts(slug) });
       window.dispatchEvent(new CustomEvent("conversations-status-reset"));
@@ -2181,6 +2271,19 @@ export default function ConversaThreadPage({
       setChatActionLoading(null);
     }
   }
+
+  const canAssignOthers = perms.includes("inbox.assign") || perms.includes("inbox.manage_tickets");
+
+  /** Assume atendimento ao abrir só se estiver sem atendente (evita loop quando está com outro). */
+  useEffect(() => {
+    const id = resolved?.id;
+    if (!id || !conv || !currentUserId || !canClaim) return;
+    if (conv.assigned_to === currentUserId) return;
+    if (conv.assigned_to && !canAssignOthers) return;
+    if (claimAttemptedRef.current) return;
+    claimAttemptedRef.current = true;
+    void handleClaim();
+  }, [resolved?.id, conv?.assigned_to, currentUserId, canClaim, canAssignOthers]);
 
   async function handleStatusChange(newStatus: string) {
     if (!resolved?.id) return;
@@ -2393,7 +2496,8 @@ export default function ConversaThreadPage({
       .then(async (res) => {
         if (!res.ok) {
           const err = await res.json().catch(() => ({}));
-          setError(err?.error ?? "Falha ao enviar");
+          const raw = err?.error ?? "Falha ao enviar";
+          setError(raw === "Not found" ? "Conversa não encontrada para esta empresa." : raw);
           setOptimisticMessages((prev) => prev.filter((m) => m.id !== tempId));
           return;
         }
@@ -2404,10 +2508,10 @@ export default function ConversaThreadPage({
           queryClient.setQueryData<ConversationDetail>(queryKeys.conversation(resolved.id), (c) => {
             if (!c) return c;
             const existing = Array.isArray(c.messages) ? c.messages : [];
-            return { ...c, messages: [...existing, newMsg] };
+            return { ...c, messages: [...existing, newMsg], last_message_at: newMsg.sent_at ?? c.last_message_at };
           });
         } else {
-          await refetchConversation();
+          void refetchConversation().catch(() => {});
         }
         setOptimisticMessages((prev) => prev.filter((m) => m.id !== tempId));
         requestAnimationFrame(() => {
@@ -2768,10 +2872,13 @@ export default function ConversaThreadPage({
 
   const base = slug ? `/${slug}` : "";
 
-  if (!conv && !loading) {
+  if (!conv && !loading && convQueryError) {
     return (
-      <div className="flex flex-1 flex-col items-center justify-center bg-[#F1F5F9] text-[#64748B]">
+      <div className="flex flex-1 flex-col items-center justify-center bg-background text-muted-foreground px-4 text-center">
         <p>Conversa não encontrada.</p>
+        {convQueryError instanceof Error && (
+          <p className="mt-1 text-xs text-muted-foreground/80">{convQueryError.message}</p>
+        )}
         <a href={`${base}/conversas`} className="mt-2 text-clicvend-orange hover:underline">
           Voltar
         </a>
@@ -3077,6 +3184,12 @@ export default function ConversaThreadPage({
       )}
 
       {resolved?.id && typeof window !== "undefined" && <RealtimeMessages conversationId={resolved.id} />}
+
+      {process.env.NODE_ENV === "development" && (
+        <div className="mx-4 mt-2 max-w-3xl">
+          <LocalDevWebhookNotice />
+        </div>
+      )}
       <div className="relative flex flex-1 min-h-0 flex-col min-w-0 overflow-hidden">
         {showScrollToTopBtn && !isLoading && (
           <button
@@ -3136,18 +3249,35 @@ export default function ConversaThreadPage({
                 )}
                 {mergedMessages.length === 0 && !conv?.channel_id && (
                   <div className="flex flex-col items-center justify-center gap-2 py-12 px-4 text-center">
-                    <p className="text-sm text-[#64748B]">Nenhuma mensagem carregada ainda.</p>
-                    <p className="max-w-md text-xs text-[#94A3B8]">
-                      Esta conversa não está vinculada a um canal WhatsApp. Sem canal, não dá para pedir histórico na UAZAPI.
+                    <p className="text-sm text-muted-foreground">Nenhuma mensagem carregada ainda.</p>
+                    <p className="max-w-md text-xs text-muted-foreground/80">
+                      Esta conversa não está vinculada a um canal WhatsApp. Sem canal, não dá para pedir histórico na UAZAPI.{" "}
+                      <Link href={`${base}/conexoes`} className="text-clicvend-orange hover:underline font-medium">
+                        Vincule em Conexões
+                      </Link>
+                      .
                     </p>
                   </div>
                 )}
                 {mergedMessages.length === 0 && conv?.channel_id && (
-                  <div className="flex flex-col items-center justify-center gap-2 py-8 px-4 text-center">
-                    <p className="text-sm text-[#64748B]">Nenhuma mensagem ainda.</p>
-                    <p className="max-w-sm text-xs text-[#94A3B8]">
-                      Toque em <strong>Carregar mais</strong> ou no ícone de histórico no topo.
+                  <div className="flex flex-col items-center justify-center gap-3 py-12 px-4 text-center">
+                    <p className="text-sm text-muted-foreground">Nenhuma mensagem carregada ainda.</p>
+                    <p className="max-w-sm text-xs text-muted-foreground/80">
+                      Toque em <strong>Carregar mais</strong> no topo ou sincronize agora com a instância WhatsApp.
                     </p>
+                    <button
+                      type="button"
+                      onClick={() => void pullWhatsAppHistory({ silent: false })}
+                      disabled={pullingRemoteHistory}
+                      className="inline-flex items-center gap-2 rounded-lg bg-clicvend-orange px-4 py-2 text-sm font-medium text-white hover:bg-clicvend-orange-dark disabled:opacity-60"
+                    >
+                      {pullingRemoteHistory ? (
+                        <Loader2 className="h-4 w-4 animate-spin" aria-hidden />
+                      ) : (
+                        <History className="h-4 w-4" aria-hidden />
+                      )}
+                      Sincronizar mensagens do WhatsApp
+                    </button>
                   </div>
                 )}
                 {mergedMessages.map((m) => (
@@ -3177,8 +3307,8 @@ export default function ConversaThreadPage({
           </div>
         </div>
 
-        <div className="shrink-0 border-t border-[#E2E8F0] p-0 bg-white">
-          {error && <p className="mb-2 text-sm text-[#EF4444] px-4 pt-2">{error}</p>}
+        <div className="shrink-0 border-t border-border p-0 bg-card">
+          {error && <p className="mb-2 text-sm text-destructive px-4 pt-2">{error}</p>}
           {recording ? (
             <RecordingInProgressBar
               seconds={recordingSeconds}
@@ -3208,12 +3338,46 @@ export default function ConversaThreadPage({
           </div>
           ) : (
           <>
-<div className={`flex flex-col bg-white overflow-hidden ${!canSendMessages ? "opacity-60 pointer-events-none" : ""}`}>
-  <div className="flex items-center border-b border-[#E2E8F0] bg-[#F8FAFC] overflow-x-auto [scrollbar-width:thin]">
+<div className="flex flex-col bg-card overflow-hidden">
+  {!canSendMessages && !isClaiming && (
+    <div className="flex flex-wrap items-center justify-between gap-2 border-b border-amber-500/30 bg-amber-500/10 px-4 py-3 text-sm text-foreground">
+      <span>
+        {conv?.assigned_to && conv.assigned_to !== currentUserId
+          ? `Atendimento de ${conv.assigned_to_name?.trim() || "outro atendente"}. Assuma para responder.`
+          : "Atribua este atendimento para responder ao cliente."}
+      </span>
+      {canClaim && (
+        <button
+          type="button"
+          onClick={() => void handleClaim()}
+          disabled={isClaiming}
+          className="inline-flex shrink-0 items-center gap-1.5 rounded-lg bg-clicvend-orange px-3 py-1.5 text-xs font-semibold text-white hover:bg-clicvend-orange-dark disabled:opacity-60"
+        >
+          {isClaiming ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <UserCheck className="h-3.5 w-3.5" />}
+          Atribuir a mim
+        </button>
+      )}
+    </div>
+  )}
+  {isClaiming && (
+    <div className="flex items-center gap-2 border-b border-border bg-muted/30 px-4 py-2 text-sm text-muted-foreground">
+      <Loader2 className="h-4 w-4 animate-spin shrink-0" />
+      Assumindo atendimento…
+    </div>
+  )}
+  {canSendMessages && !conv?.channel_id && (
+    <div className="border-b border-border bg-muted/30 px-4 py-2 text-xs text-muted-foreground">
+      Sem canal WhatsApp vinculado — mensagens podem não ser entregues.{" "}
+      <Link href={`${base}/conexoes`} className="font-medium text-clicvend-orange hover:underline">
+        Configurar em Conexões
+      </Link>
+    </div>
+  )}
+  <div className="flex items-center border-b border-border bg-muted/30 overflow-x-auto [scrollbar-width:thin]">
     <button
       type="button"
       onClick={() => setInputTab('write')}
-      className={`px-4 py-2 text-sm font-medium transition-colors border-b-2 flex items-center gap-2 ${inputTab === 'write' ? 'border-clicvend-orange text-clicvend-orange bg-white' : 'border-transparent text-[#64748B] hover:text-[#1E293B] hover:bg-gray-50'}`}
+      className={`px-4 py-2 text-sm font-medium transition-colors border-b-2 flex items-center gap-2 ${inputTab === 'write' ? 'border-clicvend-orange text-clicvend-orange bg-card' : 'border-transparent text-muted-foreground hover:text-foreground hover:bg-muted/40'}`}
     >
       <MessageSquare className="h-4 w-4" />
       Responder
@@ -3221,7 +3385,7 @@ export default function ConversaThreadPage({
     <button
       type="button"
       onClick={() => setInputTab('quick')}
-      className={`px-4 py-2 text-sm font-medium transition-colors border-b-2 flex items-center gap-2 ${inputTab === 'quick' ? 'border-clicvend-orange text-clicvend-orange bg-white' : 'border-transparent text-[#64748B] hover:text-[#1E293B] hover:bg-gray-50'}`}
+      className={`px-4 py-2 text-sm font-medium transition-colors border-b-2 flex items-center gap-2 ${inputTab === 'quick' ? 'border-clicvend-orange text-clicvend-orange bg-card' : 'border-transparent text-muted-foreground hover:text-foreground hover:bg-muted/40'}`}
     >
       <Zap className="h-4 w-4" />
       Respostas Rápidas
@@ -3229,7 +3393,7 @@ export default function ConversaThreadPage({
     <button
       type="button"
       onClick={() => setInputTab('note')}
-      className={`px-4 py-2 text-sm font-medium transition-colors border-b-2 flex items-center gap-2 ${inputTab === 'note' ? 'border-purple-500 text-purple-600 bg-purple-50' : 'border-transparent text-[#64748B] hover:text-[#1E293B] hover:bg-gray-50'}`}
+      className={`px-4 py-2 text-sm font-medium transition-colors border-b-2 flex items-center gap-2 ${inputTab === 'note' ? 'border-purple-500 text-purple-400 bg-purple-500/10' : 'border-transparent text-muted-foreground hover:text-foreground hover:bg-muted/40'}`}
     >
       <FileText className="h-4 w-4" />
       Comentário Interno
@@ -3238,7 +3402,7 @@ export default function ConversaThreadPage({
       <button
         type="button"
         onClick={() => setInputTab("copilot")}
-        className={`px-4 py-2 text-sm font-medium transition-colors border-b-2 flex items-center gap-2 shrink-0 ${inputTab === "copilot" ? "border-sky-500 text-sky-800 bg-sky-50" : "border-transparent text-[#64748B] hover:text-[#1E293B] hover:bg-gray-50"}`}
+        className={`px-4 py-2 text-sm font-medium transition-colors border-b-2 flex items-center gap-2 shrink-0 ${inputTab === "copilot" ? "border-sky-500 text-sky-400 bg-sky-500/10" : "border-transparent text-muted-foreground hover:text-foreground hover:bg-muted/40"}`}
         title="Assistente interno: análise da conversa só para você"
       >
         <Bot className="h-4 w-4" />
@@ -3247,7 +3411,7 @@ export default function ConversaThreadPage({
     ) : null}
   </div>
 
-  <div className="p-0 relative bg-white">
+  <div className="p-0 relative bg-card">
     {inputTab === 'write' || inputTab === 'note' ? (
       <>
         <input
@@ -3355,13 +3519,13 @@ export default function ConversaThreadPage({
               }
           }}
           placeholder={inputTab === 'note' ? "Escreva um comentário interno (não será enviado ao cliente)..." : "Digite sua mensagem…"}
-          className={`w-full resize-none border-0 p-4 text-sm text-[#1E293B] placeholder-[#94A3B8] focus:ring-0 min-h-[56px] focus:outline-none ${inputTab === 'note' ? 'bg-purple-50' : 'bg-[#F0FDF4]'}`}
-          disabled={sending || isLoading}
+          className={`${formInputClass} resize-none border-0 rounded-none min-h-[56px] focus:ring-0 ${inputTab === 'note' ? 'bg-purple-500/10' : ''} ${!canSendMessages ? 'opacity-70' : ''}`}
+          disabled={sending || isLoading || !canSendMessages}
         />
         
-        <div className={`flex items-center justify-between px-3 py-2 border-t border-[#E2E8F0] bg-[#F8FAFC]`}>
+        <div className={`flex items-center justify-between px-3 py-2 border-t border-border bg-muted/30 ${!canSendMessages ? 'opacity-70' : ''}`}>
             <div className="flex items-center gap-2">
-                 <div className="flex shrink-0 items-center gap-0.5 border border-[#E2E8F0] rounded-lg overflow-hidden bg-white">
+                 <div className="flex shrink-0 items-center gap-0.5 border border-border rounded-lg overflow-hidden bg-card">
                     <button
                         type="button"
                         onClick={() => setAttachOpen(!attachOpen)}

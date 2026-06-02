@@ -1,5 +1,6 @@
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
+import { normalizeCompanySlug } from "@/lib/company-slug";
 
 const RESERVED_SLUGS = new Set([
   "login",
@@ -52,9 +53,32 @@ export async function middleware(request: NextRequest) {
     const pathname = request.nextUrl.pathname;
     const segments = pathname.split("/").filter(Boolean);
     const firstSegment = segments[0];
+    const canonicalSlug = firstSegment ? normalizeCompanySlug(firstSegment) : "";
+
+    // /login/conversas/... trata "login" como slug dinâmico — redireciona para o tenant real
+    if (firstSegment === "login" && segments.length > 1) {
+      const tenantSlug = normalizeCompanySlug(request.cookies.get("clicvend_slug")?.value);
+      if (tenantSlug && !RESERVED_SLUGS.has(tenantSlug)) {
+        const rest = segments.slice(1).join("/");
+        return NextResponse.redirect(new URL(`/${tenantSlug}/${rest}`, request.url));
+      }
+    }
+
+    // Slug com espaços ou caracteres inválidos → URL canônica
+    if (
+      canonicalSlug &&
+      firstSegment &&
+      canonicalSlug !== firstSegment &&
+      !RESERVED_SLUGS.has(canonicalSlug)
+    ) {
+      const rest = segments.slice(1).join("/");
+      const target = rest ? `/${canonicalSlug}/${rest}` : `/${canonicalSlug}`;
+      return NextResponse.redirect(new URL(target, request.url));
+    }
 
     // Rotas de tenant: /[slug]/...
-    if (firstSegment && !RESERVED_SLUGS.has(firstSegment) && !pathname.startsWith("/_next") && !pathname.startsWith("/api")) {
+    const tenantSlug = canonicalSlug || firstSegment;
+    if (tenantSlug && !RESERVED_SLUGS.has(tenantSlug) && !pathname.startsWith("/_next") && !pathname.startsWith("/api")) {
       if (!user) {
         const url = new URL("/login", request.url);
         const returnPath = pathname.endsWith("/login") ? `/${firstSegment}` : pathname;
@@ -65,16 +89,17 @@ export async function middleware(request: NextRequest) {
       const { data: link } = await supabase
         .from("company_links")
         .select("company_id")
-        .eq("slug", firstSegment)
+        .ilike("slug", tenantSlug)
         .eq("is_active", true)
-        .single();
+        .limit(1)
+        .maybeSingle();
 
       if (!link) {
         return NextResponse.redirect(new URL("/login", request.url));
       }
 
       response.cookies.set("clicvend_company_id", link.company_id, { path: "/" });
-      response.cookies.set("clicvend_slug", firstSegment, { path: "/" });
+      response.cookies.set("clicvend_slug", tenantSlug, { path: "/" });
     }
 
     return response;

@@ -11,6 +11,8 @@ import {
 } from "@/lib/redis/inbox-state";
 import { getCachedMediaUrlsBulk } from "@/lib/redis/media-cache";
 import { toCanonicalDigits } from "@/lib/phone-canonical";
+import { linkConversationToDefaultChannel } from "@/lib/inbox/link-conversation-channel";
+import { isSoleActiveAgent, isSoleAgentInQueue } from "@/lib/inbox/sole-agent";
 import { isCommercialQueue } from "@/lib/queue/commercial";
 import { createClient } from "@/lib/supabase/server";
 import { createServiceRoleClient } from "@/lib/supabase/admin";
@@ -162,7 +164,45 @@ export async function GET(
   if (!skipCache) {
       const cached = await getCachedConversationDetail(companyId, id);
     if (cached) {
+      if (!(cached as { channel_id?: string | null }).channel_id) {
+        const linked = await linkConversationToDefaultChannel(companyId, id);
+        if (linked) {
+          (cached as { channel_id?: string | null }).channel_id = linked;
+          await invalidateConversationDetail(id);
+        }
+      }
       const supabaseFresh = await createClient();
+      const { data: { user: userCached } } = await supabaseFresh.auth.getUser();
+      const [seeAllErrCached, manageErrCached, assignErrCached, claimErrCached] = await Promise.all([
+        requirePermission(companyId, PERMISSIONS.inbox.see_all),
+        requirePermission(companyId, PERMISSIONS.inbox.manage_tickets),
+        requirePermission(companyId, PERMISSIONS.inbox.assign),
+        requirePermission(companyId, PERMISSIONS.inbox.claim),
+      ]);
+      const canBypassCommercialCached =
+        seeAllErrCached === null ||
+        manageErrCached === null ||
+        assignErrCached === null ||
+        claimErrCached === null;
+      const queueIdForAccess = (cached.queue_id as string | null) ?? null;
+      if (userCached && !canBypassCommercialCached && queueIdForAccess) {
+        const commercialCached = await isCommercialQueue(supabaseFresh, companyId, queueIdForAccess);
+        if (commercialCached) {
+          const { data: freshAssign } = await supabaseFresh
+            .from("conversations")
+            .select("assigned_to")
+            .eq("id", id)
+            .eq("company_id", companyId)
+            .maybeSingle();
+          const assignedTo =
+            (freshAssign as { assigned_to?: string | null } | null)?.assigned_to ??
+            (cached.assigned_to as string | null) ??
+            null;
+          if (assignedTo !== userCached.id) {
+            return NextResponse.json({ error: "Not found" }, { status: 404 });
+          }
+        }
+      }
       let messages = (await fetchRecentMessagesFromDb(id, INITIAL_MESSAGES_LIMIT, supabaseFresh)) as Record<
         string,
         unknown
@@ -324,16 +364,32 @@ export async function GET(
     return NextResponse.json({ error: "Not found" }, { status: 404 });
   }
 
+  if (!conversation.channel_id) {
+    const linkedChannelId = await linkConversationToDefaultChannel(companyId, id);
+    if (linkedChannelId) {
+      conversation.channel_id = linkedChannelId;
+      await invalidateConversationDetail(id);
+    }
+  }
+
   const { data: { user } } = await supabase.auth.getUser();
-  const [seeAllErr, manageErr] = await Promise.all([
+  const [seeAllErr, manageErr, assignErr, claimErr] = await Promise.all([
     requirePermission(companyId, PERMISSIONS.inbox.see_all),
     requirePermission(companyId, PERMISSIONS.inbox.manage_tickets),
+    requirePermission(companyId, PERMISSIONS.inbox.assign),
+    requirePermission(companyId, PERMISSIONS.inbox.claim),
   ]);
-  const canBypassCommercial = seeAllErr === null || manageErr === null;
+  const canBypassCommercial =
+    seeAllErr === null || manageErr === null || assignErr === null || claimErr === null;
   if (user && !canBypassCommercial && conversation.queue_id) {
     const commercial = await isCommercialQueue(supabase, companyId, conversation.queue_id);
     if (commercial && conversation.assigned_to !== user.id) {
-      return NextResponse.json({ error: "Not found" }, { status: 404 });
+      const sole =
+        (await isSoleActiveAgent(companyId, user.id)) ||
+        (await isSoleAgentInQueue(companyId, conversation.queue_id, user.id));
+      if (!sole) {
+        return NextResponse.json({ error: "Not found" }, { status: 404 });
+      }
     }
   }
 

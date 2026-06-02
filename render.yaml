@@ -1,0 +1,54 @@
+# Blueprint Render — ControlZap (GestorZap)
+# https://render.com/docs/blueprint-spec
+#
+# Após conectar o repo: preencha secrets no Dashboard (não commitar valores).
+# Sync: Manual ou Auto Deploy no push para main.
+
+services:
+  - type: web
+    name: controlzap
+    runtime: node
+    plan: starter
+    region: oregon
+    buildCommand: npm ci && npm run build
+    startCommand: npm run start
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: NEXT_PUBLIC_APP_URL
+        sync: false
+      - key: NEXT_PUBLIC_SUPABASE_URL
+        value: https://ncvwocdinqudlgivnmpz.supabase.co
+      - key: NEXT_PUBLIC_SUPABASE_ANON_KEY
+        sync: false
+      - key: SUPABASE_SERVICE_ROLE_KEY
+        sync: false
+      - key: USE_REDIS
+        value: "true"
+      - key: REDIS_URL
+        sync: false
+      - key: REDIS_NAMESPACE
+        value: production
+      - key: AI_API_KEY
+        sync: false
+      - key: CRON_SECRET
+        generateValue: true
+
+  - type: cron
+    name: controlzap-broadcast-pipelines
+    runtime: node
+    schedule: "* * * * *"
+    buildCommand: npm ci
+    startCommand: node scripts/run-broadcast-cron.mjs
+    envVars:
+      - key: CRON_SECRET
+        fromService:
+          type: web
+          name: controlzap
+          envVarKey: CRON_SECRET
+      - key: NEXT_PUBLIC_APP_URL
+        fromService:
+          type: web
+          name: controlzap
+          envVarKey: NEXT_PUBLIC_APP_URL

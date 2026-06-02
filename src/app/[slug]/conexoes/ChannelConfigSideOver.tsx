@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback, useRef } from "react";
 import { SideOver } from "@/components/SideOver";
 import { ConfirmDialog } from "@/components/ConfirmDialog";
 import { Loader2, User, Shield, Bot, Radio, Upload, ImageIcon, Link2, Star, Trash2 } from "lucide-react";
+import { formInputClass } from "@/lib/ui/form-input-class";
 
 type TabId = "conectar" | "perfil" | "privacidade" | "chatbot" | "presenca";
 
@@ -689,7 +690,7 @@ export function ChannelConfigSideOver({
                 <select
                   value={addQueueId}
                   onChange={(e) => setAddQueueId(e.target.value)}
-                  className="flex-1 min-w-[160px] rounded-lg border border-[#E2E8F0] px-3 py-2 text-sm text-[#1E293B] focus:border-clicvend-orange focus:outline-none focus:ring-1 focus:ring-clicvend-orange"
+                  className={`flex-1 min-w-[160px] ${formInputClass}`}
                 >
                   <option value="">Selecionar caixa…</option>
                   {queues
@@ -849,7 +850,7 @@ export function ChannelConfigSideOver({
                       value={connectPhone}
                       onChange={(e) => setConnectPhone(e.target.value)}
                       placeholder="Ex: 11 99999-9999 ou 5511999999999"
-                      className="w-full rounded-lg border border-[#E2E8F0] px-3 py-2 text-[#1E293B] placeholder:text-[#94A3B8] focus:border-clicvend-orange focus:outline-none focus:ring-1 focus:ring-clicvend-orange"
+                      className={formInputClass}
                     />
                     <p className="mt-1 text-xs text-[#64748B]">Informe o número do celular que tem o WhatsApp. Será gerado um código de pareamento (até 5 min de validade). No WhatsApp, vá em Aparelhos conectados → Conectar um aparelho → Vincular com número de telefone e digite o código.</p>
                   </div>
@@ -888,7 +889,7 @@ export function ChannelConfigSideOver({
                 onChange={(e) => setProfileName(e.target.value)}
                 placeholder="Nome exibido no WhatsApp"
                 maxLength={25}
-                className="w-full rounded-lg border border-[#E2E8F0] px-3 py-2 text-[#1E293B] focus:border-clicvend-orange focus:outline-none focus:ring-1 focus:ring-clicvend-orange"
+                className={formInputClass}
               />
             </div>
             <div>
@@ -954,7 +955,7 @@ export function ChannelConfigSideOver({
                 <select
                   value={privacy[opt.key] ?? ""}
                   onChange={(e) => setPrivacy((p) => ({ ...p, [opt.key]: e.target.value }))}
-                  className="w-full rounded-lg border border-[#E2E8F0] px-3 py-2 text-[#1E293B] focus:border-clicvend-orange focus:outline-none focus:ring-1 focus:ring-clicvend-orange"
+                  className={formInputClass}
                 >
                   <option value="">Manter atual</option>
                   {opt.options.map((o) => (
@@ -997,7 +998,7 @@ export function ChannelConfigSideOver({
                 value={chatbotStopWord}
                 onChange={(e) => setChatbotStopWord(e.target.value)}
                 placeholder="Ex: atendente, parar"
-                className="w-full rounded-lg border border-[#E2E8F0] px-3 py-2 text-[#1E293B] focus:border-clicvend-orange focus:outline-none focus:ring-1 focus:ring-clicvend-orange"
+                className={formInputClass}
               />
             </div>
             <div>
@@ -1007,7 +1008,7 @@ export function ChannelConfigSideOver({
                 min={0}
                 value={chatbotStopMinutes}
                 onChange={(e) => setChatbotStopMinutes(parseInt(e.target.value, 10) || 0)}
-                className="w-full rounded-lg border border-[#E2E8F0] px-3 py-2 text-[#1E293B] focus:border-clicvend-orange focus:outline-none focus:ring-1 focus:ring-clicvend-orange"
+                className={formInputClass}
               />
             </div>
             <div>
@@ -1017,7 +1018,7 @@ export function ChannelConfigSideOver({
                 min={0}
                 value={chatbotStopWhenSend}
                 onChange={(e) => setChatbotStopWhenSend(parseInt(e.target.value, 10) || 0)}
-                className="w-full rounded-lg border border-[#E2E8F0] px-3 py-2 text-[#1E293B] focus:border-clicvend-orange focus:outline-none focus:ring-1 focus:ring-clicvend-orange"
+                className={formInputClass}
               />
             </div>
 
@@ -1083,7 +1084,7 @@ export function ChannelConfigSideOver({
                         setNewTrigger((cur) => ({ ...cur, wordsToStart: e.target.value }))
                       }
                       placeholder="Ex: ola|bom dia|atendimento"
-                      className="w-full rounded-lg border border-[#E2E8F0] px-2 py-1.5 text-xs text-[#1E293B] focus:border-clicvend-orange focus:outline-none focus:ring-1 focus:ring-clicvend-orange"
+                      className={`${formInputClass} text-xs px-2 py-1.5`}
                     />
                   </div>
                   <div>
@@ -1101,7 +1102,7 @@ export function ChannelConfigSideOver({
                             : parseInt(e.target.value, 10),
                         }))
                       }
-                      className="w-full rounded-lg border border-[#E2E8F0] px-2 py-1.5 text-xs text-[#1E293B] focus:border-clicvend-orange focus:outline-none focus:ring-1 focus:ring-clicvend-orange"
+                      className={`${formInputClass} text-xs px-2 py-1.5`}
                     />
                   </div>
                 </div>
@@ -1115,7 +1116,7 @@ export function ChannelConfigSideOver({
                       onChange={(e) =>
                         setNewTrigger((cur) => ({ ...cur, quickreplyId: e.target.value }))
                       }
-                      className="w-full rounded-lg border border-[#E2E8F0] px-2 py-1.5 text-xs text-[#1E293B] focus:border-clicvend-orange focus:outline-none focus:ring-1 focus:ring-clicvend-orange"
+                      className={`${formInputClass} text-xs px-2 py-1.5`}
                     >
                       <option value="">Selecione uma resposta rápida…</option>
                       {quickReplies.map((qr) => (
@@ -1211,7 +1212,7 @@ export function ChannelConfigSideOver({
                           setNewQuickReply((cur) => ({ ...cur, shortCut: e.target.value }))
                         }
                         placeholder="Ex: saudacao1"
-                        className="w-full rounded-lg border border-[#E2E8F0] px-2 py-1.5 text-xs text-[#1E293B] focus:border-clicvend-orange focus:outline-none focus:ring-1 focus:ring-clicvend-orange"
+                        className={`${formInputClass} text-xs px-2 py-1.5`}
                       />
                     </div>
                     <div className="md:col-span-2">
@@ -1225,7 +1226,7 @@ export function ChannelConfigSideOver({
                           setNewQuickReply((cur) => ({ ...cur, text: e.target.value }))
                         }
                         placeholder="Ex: Olá! Como posso ajudar hoje?"
-                        className="w-full rounded-lg border border-[#E2E8F0] px-2 py-1.5 text-xs text-[#1E293B] focus:border-clicvend-orange focus:outline-none focus:ring-1 focus:ring-clicvend-orange"
+                        className={`${formInputClass} text-xs px-2 py-1.5`}
                       />
                     </div>
                   </div>
@@ -1254,7 +1255,7 @@ export function ChannelConfigSideOver({
               <select
                 value={presence}
                 onChange={(e) => setPresence(e.target.value as "available" | "unavailable")}
-                className="w-full rounded-lg border border-[#E2E8F0] px-3 py-2 text-[#1E293B] focus:border-clicvend-orange focus:outline-none focus:ring-1 focus:ring-clicvend-orange"
+                className={formInputClass}
               >
                 <option value="available">Disponível (online)</option>
                 <option value="unavailable">Indisponível (offline)</option>

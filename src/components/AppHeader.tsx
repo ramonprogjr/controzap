@@ -7,6 +7,7 @@ import { Settings, ChevronDown, Bell, Loader2, Check, LogOut, CalendarDays } fro
 import { createClient } from "@/lib/supabase/client";
 import { ClicVendLogo } from "@/components/ClicVendLogo";
 import { ThemeToggle } from "@/components/theme/ThemeToggle";
+import { getCompanySlugFromPath } from "@/lib/company-slug";
 
 type NotificationItem = {
   id: string;
@@ -26,8 +27,7 @@ export function AppHeader() {
   const [notificationsOpen, setNotificationsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
-  const segments = pathname?.split("/").filter(Boolean) ?? [];
-  const slug = segments[0];
+  const slug = getCompanySlugFromPath(pathname);
   const base = slug ? `/${slug}` : "";
   const [canViewProfile, setCanViewProfile] = useState(false);
   const [canShowNewNotifications, setCanShowNewNotifications] = useState(false);

@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
+import { getCompanySlugFromPath } from "@/lib/company-slug";
 import Link from "next/link";
 import { useQuery } from "@tanstack/react-query";
 import { ChevronLeft, ChevronRight, Users } from "lucide-react";
@@ -29,8 +30,7 @@ function formatPhoneShort(raw: string | null | undefined): string {
 
 export function FocusModeTabs() {
   const pathname = usePathname();
-  const segments = pathname?.split("/").filter(Boolean) ?? [];
-  const slug = segments[0];
+  const slug = getCompanySlugFromPath(pathname);
   const currentId = pathname?.includes("/conversas/") ? pathname.split("/conversas/")[1]?.split("/")[0] ?? null : null;
   const base = slug ? `/${slug}` : "";
   const apiHeaders = slug ? { "X-Company-Slug": slug } : undefined;

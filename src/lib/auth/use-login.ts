@@ -55,7 +55,14 @@ export function useLogin() {
     
     let target = slug ? `/${slug}` : "/sem-empresa";
     if (returnUrl && returnUrl.startsWith("/") && !returnUrl.startsWith("//")) {
-      target = returnUrl.endsWith("/login") ? returnUrl.replace(/\/login$/, "") || "/" : returnUrl;
+      const returnSegments = returnUrl.split("/").filter(Boolean);
+      const returnIsReserved =
+        returnSegments[0] === "login" ||
+        returnSegments[0] === "cadastro" ||
+        returnSegments[0] === "onboarding";
+      if (!returnIsReserved) {
+        target = returnUrl.endsWith("/login") ? returnUrl.replace(/\/login$/, "") || "/" : returnUrl;
+      }
     }
     router.push(target);
     router.refresh();

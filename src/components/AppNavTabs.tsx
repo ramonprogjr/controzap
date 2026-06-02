@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useMemo, useRef } from "react";
 import useSWR from "swr";
+import { getCompanySlugFromPath } from "@/lib/company-slug";
 import {
   MessageSquare,
   Plug,
@@ -71,8 +72,7 @@ const ALL_TABS = [
 export function AppNavTabs() {
   const scrollRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
-  const segments = pathname?.split("/").filter(Boolean) ?? [];
-  const slug = segments[0];
+  const slug = getCompanySlugFromPath(pathname);
   const base = slug ? `/${slug}` : "";
 
   const { data } = useSWR<{

@@ -9,6 +9,7 @@ import { ConversationListSkeleton } from "@/components/Skeleton";
 import { ChannelIcon } from "@/components/ChannelIcon";
 import { queryKeys } from "@/lib/query-keys";
 import { useBroadcastStore } from "@/stores/broadcast-store";
+import { getCompanySlugFromPath } from "@/lib/company-slug";
 
 type Conversation = {
   id: string;
@@ -175,19 +176,6 @@ type SidebarGroup = {
   left_at: string | null;
 };
 
-/** Cards em degradê cinza; só os botões mantêm cor (ex.: verde do Atribuir). */
-const STYLE_CARD_GRAY = "border-l-4 border-l-slate-200 bg-gradient-to-r from-slate-50/80 to-white shadow-sm";
-
-function getTabRowStyle(activeTab: TabId, showQueueColors: boolean): string {
-  if (!showQueueColors) return "";
-  return STYLE_CARD_GRAY;
-}
-
-/** Bolinha "novo" em cinza para combinar com o card. */
-function getTabDotStyle(_activeTab: TabId): { dot: string; dotRing: string } {
-  return { dot: "bg-slate-500", dotRing: "ring-slate-100" };
-}
-
 const ConversationListItem = memo(function ConversationListItem({
   conversation: c,
   base,
@@ -195,8 +183,6 @@ const ConversationListItem = memo(function ConversationListItem({
   onHover,
   canClaim,
   onClaim,
-  showQueueColors = false,
-  activeTab = "queues",
 }: {
   conversation: Conversation;
   base: string;
@@ -204,9 +190,6 @@ const ConversationListItem = memo(function ConversationListItem({
   onHover?: (id: string) => void;
   canClaim?: boolean;
   onClaim?: (conversationId: string) => void;
-  /** Cards em degradê cinza; botões mantêm cores (ex.: verde Atribuir). */
-  showQueueColors?: boolean;
-  activeTab?: TabId;
 }) {
   const href = `${base}/conversas/${c.id}`;
   const displayName = (c.customer_name ?? formatPhoneBrazil(c.customer_phone)) ?? "?";
@@ -216,8 +199,6 @@ const ConversationListItem = memo(function ConversationListItem({
   const [claiming, setClaiming] = useState(false);
   const [imgError, setImgError] = useState(false);
   const isNew = (c.assigned_to == null || c.assigned_to === "") && (c.status === "open" || c.status === "in_queue");
-  const rowStyle = getTabRowStyle(activeTab, showQueueColors);
-  const tabDot = getTabDotStyle(activeTab);
   const avatarSrc =
     c.avatar_url && !imgError
       ? c.avatar_url.startsWith("http://") || c.avatar_url.startsWith("https://")
@@ -257,11 +238,11 @@ const ConversationListItem = memo(function ConversationListItem({
   return (
     <li onMouseEnter={() => onHover?.(c.id)} className="px-2 py-1">
       <div
-        className={`flex items-stretch gap-1.5 rounded-xl border transition-all duration-200 overflow-hidden ${currentId === c.id ? "border-clicvend-green/40 bg-clicvend-green/5 shadow-sm ring-1 ring-clicvend-green/20" : "border-[#E2E8F0]/80 bg-white hover:border-[#CBD5E1] hover:shadow-sm"} ${rowStyle}`}
+        className={`flex items-stretch gap-1.5 rounded-xl border transition-all duration-200 overflow-hidden ${currentId === c.id ? "border-clicvend-green/40 bg-clicvend-green/10 shadow-sm ring-1 ring-clicvend-green/20" : "border-border bg-card hover:border-border hover:bg-muted/40 hover:shadow-sm"}`}
       >
         <Link href={href} className="flex min-w-0 flex-1 flex-col">
           <div className="flex items-start gap-3 p-3">
-            <span className="relative flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden rounded-full bg-gradient-to-br from-[#F1F5F9] to-[#E2E8F0] text-base font-semibold text-[#475569] shadow-sm ring-1 ring-white/80">
+            <span className="relative flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden rounded-full bg-gradient-to-br from-muted to-muted/60 text-base font-semibold text-muted-foreground shadow-sm ring-1 ring-border">
               {avatarSrc ? (
                 <img
                   src={avatarSrc}
@@ -271,17 +252,17 @@ const ConversationListItem = memo(function ConversationListItem({
                   onError={() => setImgError(true)}
                 />
               ) : isGroup ? (
-                <Users className="h-6 w-6 text-[#64748B]" />
+                <Users className="h-6 w-6 text-muted-foreground" />
               ) : (
                 <span aria-hidden>{initial}</span>
               )}
             </span>
             <div className="min-w-0 flex-1">
               <div className="flex items-center justify-between gap-2">
-                <p className="flex min-w-0 items-center gap-2 truncate text-sm font-semibold text-[#1E293B]">
+                <p className="flex min-w-0 items-center gap-2 truncate text-sm font-semibold text-foreground">
                   {isNew && (
                     <span
-                      className={`h-2 w-2 shrink-0 rounded-full shadow-sm ring-2 ${showQueueColors ? `${tabDot.dot} ${tabDot.dotRing}` : "bg-amber-500 ring-amber-100"}`}
+                      className="h-2 w-2 shrink-0 rounded-full bg-amber-500 shadow-sm ring-2 ring-amber-500/30"
                       title="Nova conversa (não atribuída)"
                       aria-hidden
                     />
@@ -290,19 +271,19 @@ const ConversationListItem = memo(function ConversationListItem({
                 </p>
                 <ChannelTimeBadge channelName={c.channel_name} lastMessageAt={c.last_message_at} />
               </div>
-              <p className="mt-1 truncate text-xs text-[#64748B]">
+              <p className="mt-1 truncate text-xs text-muted-foreground">
                 {isGroup && (
-                  <span className="mr-1.5 inline-flex shrink-0 rounded-md bg-[#E2E8F0] px-1.5 py-0.5 text-[10px] font-semibold text-[#64748B]">
+                  <span className="mr-1.5 inline-flex shrink-0 rounded-md bg-muted px-1.5 py-0.5 text-[10px] font-semibold text-muted-foreground">
                     Grupo
                   </span>
                 )}
                 {!isGroup && c.customer_phone && (
-                  <span className="text-[#64748B]" title="Número">
+                  <span className="text-muted-foreground" title="Número">
                     {formatPhoneBrazil(c.customer_phone)}
                   </span>
                 )}
                 {!isGroup && c.customer_phone && (c.last_message_preview != null && c.last_message_preview !== "" || c.status) && (
-                  <span className="mx-1 text-[#94A3B8]">·</span>
+                  <span className="mx-1 text-muted-foreground/70">·</span>
                 )}
                 {c.last_message_preview != null && c.last_message_preview !== ""
                   ? c.last_message_preview
@@ -310,20 +291,20 @@ const ConversationListItem = memo(function ConversationListItem({
               </p>
             </div>
           </div>
-          <footer className="flex flex-wrap items-center gap-x-3 gap-y-1.5 border-t border-[#F1F5F9] bg-[#F8FAFC]/80 px-3 py-2 text-[10px] text-[#64748B]">
+          <footer className="flex flex-wrap items-center gap-x-3 gap-y-1.5 border-t border-border bg-muted/30 px-3 py-2 text-[10px] text-muted-foreground">
             <span className="inline-flex items-center gap-1" title={`ID: ${c.id}`}>
-              <Hash className="h-3.5 w-3.5 shrink-0 text-[#94A3B8]" />
+              <Hash className="h-3.5 w-3.5 shrink-0 text-muted-foreground" />
               <span className="font-mono font-medium tracking-wide">{shortId}</span>
             </span>
             {c.channel_name?.trim() && (
               <span className="inline-flex min-w-0 items-center gap-1" title={`Instância / conexão: ${c.channel_name.trim()}`}>
                 <Plug className="h-3.5 w-3.5 shrink-0 text-[#22C55E]" aria-hidden />
-                <span className="truncate max-w-[min(140px,40vw)] font-medium text-[#475569]">{c.channel_name.trim()}</span>
+                <span className="truncate max-w-[min(140px,40vw)] font-medium text-muted-foreground">{c.channel_name.trim()}</span>
               </span>
             )}
             {c.queue_name && (
               <span className="inline-flex items-center gap-1" title={`Fila: ${c.queue_name}`}>
-                <Layers className="h-3.5 w-3.5 shrink-0 text-[#94A3B8]" />
+                <Layers className="h-3.5 w-3.5 shrink-0 text-muted-foreground" />
                 <span className="truncate max-w-[100px]">{c.queue_name}</span>
               </span>
             )}
@@ -336,7 +317,7 @@ const ConversationListItem = memo(function ConversationListItem({
                       ? "bg-[#8B5CF6]/10 text-[#7C3AED]"
                       : c.status === "open" || c.status === "in_queue"
                         ? "bg-[#22C55E]/10 text-[#16A34A]"
-                        : "bg-[#E2E8F0] text-[#64748B]"
+                        : "bg-muted text-muted-foreground"
                   : ""
               }`}
               style={badgeTextColor ? { color: badgeTextColor, backgroundColor: badgeBg ?? undefined } : undefined}
@@ -345,8 +326,8 @@ const ConversationListItem = memo(function ConversationListItem({
               {statusLabel}
             </span>
             <span className="inline-flex items-center gap-1 ml-auto" title={c.assigned_to_name ? `Atendente: ${c.assigned_to_name}` : "Ninguém pegou ainda"}>
-              <UserCheck className="h-3.5 w-3.5 shrink-0 text-[#94A3B8]" />
-              <span className="truncate max-w-[80px]"><span className="text-[#94A3B8]">Atendente:</span> {c.assigned_to_name ?? "—"}</span>
+              <UserCheck className="h-3.5 w-3.5 shrink-0 text-muted-foreground" />
+              <span className="truncate max-w-[80px]"><span className="text-muted-foreground">Atendente:</span> {c.assigned_to_name ?? "—"}</span>
             </span>
           </footer>
         </Link>
@@ -355,7 +336,7 @@ const ConversationListItem = memo(function ConversationListItem({
             type="button"
             onClick={handleClaimClick}
             disabled={claiming}
-            className="flex h-8 w-8 shrink-0 items-center justify-center self-center rounded-full border border-[#E2E8F0] bg-[#F8FAFC] text-[#22C55E]/80 shadow-sm transition-all duration-200 hover:bg-[#DCFCE7] hover:text-[#16A34A] hover:border-[#BBF7D0] mr-2 disabled:opacity-60"
+            className="flex h-8 w-8 shrink-0 items-center justify-center self-center rounded-full border border-border bg-muted/50 text-emerald-500 shadow-sm transition-all duration-200 hover:bg-emerald-500/15 hover:text-emerald-400 hover:border-emerald-500/40 mr-2 disabled:opacity-60"
             title="Atribuir a mim e colocar em atendimento"
             aria-label="Atribuir a mim"
           >
@@ -421,9 +402,9 @@ const ContactListItem = memo(function ContactListItem({
         type="button"
         onClick={handleClick}
         disabled={starting}
-        className="flex w-full items-center gap-3.5 p-3.5 text-left rounded-lg transition-all duration-150 hover:bg-[#F8FAFC] disabled:opacity-70"
+        className="flex w-full items-center gap-3.5 p-3.5 text-left rounded-lg transition-all duration-150 hover:bg-muted/40 disabled:opacity-70"
       >
-        <span className="flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-full bg-gradient-to-br from-[#E2E8F0] to-[#CBD5E1] text-sm font-semibold text-[#64748B] shadow-sm ring-1 ring-white/50">
+        <span className="flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-full bg-gradient-to-br from-muted to-muted/60 text-sm font-semibold text-muted-foreground shadow-sm ring-1 ring-border">
           {starting ? (
             <span className="inline-block h-4 w-4 animate-spin rounded-full border-2 border-[#64748B] border-t-transparent" />
           ) : avatarSrc ? (
@@ -439,10 +420,10 @@ const ContactListItem = memo(function ContactListItem({
           )}
         </span>
         <div className="min-w-0 flex-1">
-          <p className="truncate text-sm font-semibold text-[#1E293B]">
+          <p className="truncate text-sm font-semibold text-foreground">
             {displayName}
           </p>
-          <p className="truncate text-xs text-[#64748B] mt-0.5">
+          <p className="truncate text-xs text-muted-foreground mt-0.5">
             {formatPhoneBrazil(contact.phone || contact.jid)}
           </p>
         </div>
@@ -494,7 +475,7 @@ const BroadcastQueueListItem = memo(function BroadcastQueueListItem({
         className={`flex items-stretch rounded-xl border transition-all duration-200 overflow-hidden ${
           selected
             ? "border-blue-400/50 bg-blue-50/50 shadow-sm ring-1 ring-blue-300/30"
-            : "border-[#E2E8F0]/80 bg-white hover:border-[#CBD5E1] hover:shadow-sm"
+            : "border-border bg-card hover:border-border hover:bg-muted/50 hover:shadow-sm"
         } border-l-4 ${selected ? "border-l-blue-500" : "border-l-[#CBD5E1]"}`}
         role="button"
         tabIndex={0}
@@ -510,7 +491,7 @@ const BroadcastQueueListItem = memo(function BroadcastQueueListItem({
             className={`flex h-5 w-5 shrink-0 items-center justify-center rounded-full border-2 transition-all duration-150 ${
               selected
                 ? "border-blue-600 bg-blue-600 text-white shadow-sm"
-                : "border-[#CBD5E1] bg-white hover:border-blue-400"
+                : "border-border bg-card hover:border-blue-400"
             }`}
           >
             {selected && (
@@ -539,15 +520,15 @@ const BroadcastQueueListItem = memo(function BroadcastQueueListItem({
             </span>
             <div className="min-w-0 flex-1">
               <div className="flex items-center justify-between gap-2">
-                <p className="truncate text-sm font-semibold text-[#1E293B]">{displayName}</p>
+                <p className="truncate text-sm font-semibold text-foreground">{displayName}</p>
                 <ChannelTimeBadge channelName={item.channel_name} lastMessageAt={item.created_at} />
               </div>
-              <p className="mt-0.5 truncate text-xs text-[#64748B]">
+              <p className="mt-0.5 truncate text-xs text-muted-foreground">
                 {formatPhoneBrazil(contact?.phone ?? contact?.jid)}
               </p>
             </div>
           </div>
-          <footer className="flex flex-wrap items-center gap-x-3 gap-y-1.5 border-t border-[#F1F5F9] bg-[#F8FAFC]/80 px-3 py-2 text-[10px] text-[#64748B]">
+          <footer className="flex flex-wrap items-center gap-x-3 gap-y-1.5 border-t border-border bg-muted/30 px-3 py-2 text-[10px] text-muted-foreground">
             <span className="inline-flex items-center gap-1" title={`ID: ${item.id}`}>
               <Hash className="h-3.5 w-3.5 shrink-0 text-[#94A3B8]" />
               <span className="font-mono font-medium tracking-wide">{shortId}</span>
@@ -618,9 +599,9 @@ const GroupListItem = memo(function GroupListItem({
         type="button"
         onClick={handleClick}
         disabled={opening}
-        className="flex w-full items-center gap-3.5 p-3.5 text-left rounded-lg transition-all duration-150 hover:bg-[#F8FAFC] disabled:opacity-70"
+        className="flex w-full items-center gap-3.5 p-3.5 text-left rounded-lg transition-all duration-150 hover:bg-muted/40 disabled:opacity-70"
       >
-        <span className="flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-full bg-gradient-to-br from-[#E2E8F0] to-[#CBD5E1] text-sm font-semibold text-[#64748B] shadow-sm ring-1 ring-white/50">
+        <span className="flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-full bg-gradient-to-br from-muted to-muted/60 text-sm font-semibold text-muted-foreground shadow-sm ring-1 ring-border">
           {opening ? (
             <span className="inline-block h-4 w-4 animate-spin rounded-full border-2 border-[#64748B] border-t-transparent" />
           ) : avatarSrc ? (
@@ -638,10 +619,10 @@ const GroupListItem = memo(function GroupListItem({
           )}
         </span>
         <div className="min-w-0 flex-1">
-          <p className="truncate text-sm font-semibold text-[#1E293B]">
+          <p className="truncate text-sm font-semibold text-foreground">
             {group.name || group.topic || "Grupo"}
           </p>
-          <p className="truncate text-xs text-[#64748B] mt-0.5">{group.jid}</p>
+          <p className="truncate text-xs text-muted-foreground mt-0.5">{group.jid}</p>
         </div>
       </button>
     </li>
@@ -651,8 +632,7 @@ const GroupListItem = memo(function GroupListItem({
 export function ConversasSidebar() {
   const pathname = usePathname();
   const router = useRouter();
-  const segments = pathname?.split("/").filter(Boolean) ?? [];
-  const slug = segments[0];
+  const slug = getCompanySlugFromPath(pathname);
   const base = slug ? `/${slug}` : "";
   const apiHeaders = slug ? { "X-Company-Slug": slug } : undefined;
 
@@ -1188,7 +1168,7 @@ export function ConversasSidebar() {
             className={`relative flex min-w-[5rem] shrink-0 items-center justify-center gap-2 rounded-lg px-3 py-2 transition-all duration-200 ${
               activeTab === "contacts"
                 ? "bg-slate-100 text-slate-800 shadow-md shadow-slate-200/50 border border-slate-200/70"
-                : "text-[#64748B] hover:bg-slate-50 hover:text-[#1E293B]"
+                : "text-muted-foreground hover:bg-muted/40 hover:text-foreground"
             }`}
             title="Contatos (conversas individuais)"
             aria-label="Contatos"
@@ -1202,7 +1182,7 @@ export function ConversasSidebar() {
             className={`relative flex min-w-[5rem] shrink-0 items-center justify-center gap-2 rounded-lg px-3 py-2 transition-all duration-200 ${
               activeTab === "groups"
                 ? "bg-slate-100 text-slate-800 shadow-md shadow-slate-200/50 border border-slate-200/70"
-                : "text-[#64748B] hover:bg-slate-50 hover:text-[#1E293B]"
+                : "text-muted-foreground hover:bg-muted/40 hover:text-foreground"
             }`}
             title="Grupos"
             aria-label="Grupos"
@@ -1222,7 +1202,7 @@ export function ConversasSidebar() {
               className={`relative flex min-w-[5rem] shrink-0 items-center justify-center gap-2 rounded-lg px-3 py-2 transition-all duration-200 ${
                 activeTab === "broadcast_queue"
                   ? "bg-blue-50 text-blue-600 shadow-md shadow-blue-200/50 border border-blue-200/70"
-                  : "text-[#64748B] hover:bg-slate-50 hover:text-[#1E293B]"
+                  : "text-muted-foreground hover:bg-muted/40 hover:text-foreground"
               }`}
               title="Envio em fila"
               aria-label="Envio em fila"
@@ -1241,7 +1221,7 @@ export function ConversasSidebar() {
           type="button"
           onClick={() => scrollTabs("right")}
           disabled={!canScrollRight}
-          className="flex h-6 w-6 shrink-0 items-center justify-center rounded text-[#64748B] hover:bg-[#F1F5F9] hover:text-[#1E293B] transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+          className="flex h-6 w-6 shrink-0 items-center justify-center rounded text-muted-foreground hover:bg-muted/40 hover:text-foreground transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
           aria-label="Rolar para direita"
         >
           <ChevronRight className="h-4 w-4" />
@@ -1254,7 +1234,7 @@ export function ConversasSidebar() {
               type="button"
               onClick={() => scrollStatus("left")}
               disabled={!canStatusScrollLeft}
-              className="flex h-6 w-6 shrink-0 items-center justify-center rounded text-[#64748B] hover:bg-[#F1F5F9] hover:text-[#1E293B] transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+              className="flex h-6 w-6 shrink-0 items-center justify-center rounded text-muted-foreground hover:bg-muted/40 hover:text-foreground transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
               aria-label="Rolar filtros de status para esquerda"
             >
               <ChevronLeft className="h-4 w-4" />
@@ -1269,11 +1249,11 @@ export function ConversasSidebar() {
                 className={`inline-flex shrink-0 items-center gap-1 rounded-full px-2.5 py-1 text-xs font-medium ${
                   statusFilter === "all"
                     ? "bg-clicvend-orange/10 text-clicvend-orange border border-clicvend-orange/30"
-                    : "bg-white text-[#64748B] border border-[#E2E8F0] hover:bg-[#F8FAFC]"
+                    : "bg-card text-muted-foreground border border-border hover:bg-muted/40"
                 }`}
               >
                 Todos
-                <span className="rounded-full bg-[#E2E8F0] px-1.5 py-0.5 text-[10px] text-[#475569]">{conversationsForChannel.length}</span>
+                <span className="rounded-full bg-muted px-1.5 py-0.5 text-[10px] text-muted-foreground">{conversationsForChannel.length}</span>
               </button>
               {channelOptions.length > 1 && (
                 <button
@@ -1282,7 +1262,7 @@ export function ConversasSidebar() {
                   className={`inline-flex shrink-0 items-center gap-1 rounded-full px-2.5 py-1 text-xs font-medium ${
                     channelFilter === "all"
                       ? "bg-sky-50 text-sky-700 border border-sky-200"
-                      : "bg-white text-[#64748B] border border-[#E2E8F0] hover:bg-[#F8FAFC]"
+                      : "bg-card text-muted-foreground border border-border hover:bg-muted/40"
                   }`}
                   title="Mostrar todas as instâncias"
                 >
@@ -1299,13 +1279,13 @@ export function ConversasSidebar() {
                     className={`inline-flex shrink-0 items-center gap-1 rounded-full px-2.5 py-1 text-xs font-medium ${
                       channelFilter === opt.id
                         ? "bg-sky-50 text-sky-700 border border-sky-200"
-                        : "bg-white text-[#64748B] border border-[#E2E8F0] hover:bg-[#F8FAFC]"
+                        : "bg-card text-muted-foreground border border-border hover:bg-muted/40"
                     }`}
                     title={`Instância: ${opt.name}`}
                   >
                     <Plug className="h-3 w-3" />
                     <span className="max-w-[120px] truncate">{opt.name}</span>
-                    <span className="rounded-full bg-[#E2E8F0] px-1.5 py-0.5 text-[10px] text-[#475569]">
+                    <span className="rounded-full bg-muted px-1.5 py-0.5 text-[10px] text-muted-foreground">
                       {opt.count}
                     </span>
                   </button>
@@ -1318,7 +1298,7 @@ export function ConversasSidebar() {
                   className={`inline-flex shrink-0 items-center gap-1 rounded-full px-2.5 py-1 text-xs font-medium ${
                     statusFilter === opt.key
                       ? "border border-clicvend-orange/30 bg-clicvend-orange/10 text-clicvend-orange"
-                      : "border border-[#E2E8F0] bg-white text-[#64748B] hover:bg-[#F8FAFC]"
+                      : "border border-border bg-card text-muted-foreground hover:bg-muted/40"
                   }`}
                   title={`Filtrar por status: ${opt.label}`}
                 >
@@ -1327,7 +1307,7 @@ export function ConversasSidebar() {
                     style={{ backgroundColor: opt.color || "#94A3B8" }}
                   />
                   {opt.label}
-                  <span className="rounded-full bg-[#E2E8F0] px-1.5 py-0.5 text-[10px] text-[#475569]">{opt.count}</span>
+                  <span className="rounded-full bg-muted px-1.5 py-0.5 text-[10px] text-muted-foreground">{opt.count}</span>
                 </button>
               ))}
             </div>
@@ -1335,7 +1315,7 @@ export function ConversasSidebar() {
               type="button"
               onClick={() => scrollStatus("right")}
               disabled={!canStatusScrollRight}
-              className="flex h-6 w-6 shrink-0 items-center justify-center rounded text-[#64748B] hover:bg-[#F1F5F9] hover:text-[#1E293B] transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+              className="flex h-6 w-6 shrink-0 items-center justify-center rounded text-muted-foreground hover:bg-muted/40 hover:text-foreground transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
               aria-label="Rolar filtros de status para direita"
             >
               <ChevronRight className="h-4 w-4" />
@@ -1366,7 +1346,7 @@ export function ConversasSidebar() {
               }
             }}
             disabled={unassigning}
-            className="flex w-full items-center justify-center gap-2 rounded-lg border border-[#E2E8F0] bg-[#F8FAFC] py-2.5 text-xs font-semibold text-[#64748B] transition-all duration-200 hover:bg-[#F1F5F9] hover:text-[#1E293B] hover:border-[#CBD5E1] hover:shadow-sm disabled:opacity-60"
+            className="flex w-full items-center justify-center gap-2 rounded-lg border border-border bg-muted/40 py-2.5 text-xs font-semibold text-muted-foreground transition-all duration-200 hover:bg-muted/60 hover:text-foreground hover:border-border hover:shadow-sm disabled:opacity-60"
           >
             {unassigning ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : null}
             Esvaziar Meus
@@ -1379,8 +1359,8 @@ export function ConversasSidebar() {
           contactsLoading ? (
             <ConversationListSkeleton count={8} />
           ) : filteredContacts.length === 0 ? (
-            <div className="p-4 text-center text-sm text-[#64748B]">
-              <p className="font-medium text-[#1E293B]">Nenhum contato</p>
+            <div className="p-4 text-center text-sm text-muted-foreground">
+              <p className="font-medium text-foreground">Nenhum contato</p>
               <p className="mt-1 text-xs">
                 Sincronize contatos em <Link href={`${base}/contatos`} className="text-clicvend-orange hover:underline">Contatos e grupos</Link> ou conecte um número em <Link href={`${base}/conexoes`} className="text-clicvend-orange hover:underline">Conexões</Link>.
               </p>
@@ -1396,8 +1376,8 @@ export function ConversasSidebar() {
           broadcastQueueLoading ? (
             <ConversationListSkeleton count={8} />
           ) : broadcastQueueItems.length === 0 ? (
-            <div className="p-4 text-center text-sm text-[#64748B]">
-              <p className="font-medium text-[#1E293B]">Nenhum contato na fila</p>
+            <div className="p-4 text-center text-sm text-muted-foreground">
+              <p className="font-medium text-foreground">Nenhum contato na fila</p>
               <p className="mt-1 text-xs">
                 Em <Link href={`${base}/contatos`} className="text-clicvend-orange hover:underline">Contatos</Link>, selecione contatos e clique em <strong>Enviar pra todos</strong> para adicioná-los à fila de envio em massa.
               </p>
@@ -1407,7 +1387,7 @@ export function ConversasSidebar() {
               {(() => {
                 const allSelected = broadcastQueueItems.length > 0 && broadcastQueueItems.every((i) => selectedBroadcastIds.has(i.id));
                 return (
-                  <div className="flex items-center justify-between gap-2 px-4 py-2 border-b border-[#E2E8F0]/60 bg-[#F8FAFC]">
+                  <div className="flex items-center justify-between gap-2 px-4 py-2 border-b border-border bg-muted/30">
                     <button
                       type="button"
                       onClick={() => selectAllBroadcast(broadcastQueueItems.map((i) => i.id))}
@@ -1415,7 +1395,7 @@ export function ConversasSidebar() {
                       className={`inline-flex items-center gap-2 rounded-full px-3 py-1 text-sm font-semibold transition-all duration-200 border ${
                         allSelected
                           ? "bg-blue-600 text-white border-blue-600 shadow-sm"
-                          : "bg-white text-[#334155] border-[#CBD5E1] hover:border-blue-400 hover:text-blue-600"
+                          : "bg-card text-foreground border-border hover:border-blue-400 hover:text-blue-600"
                       }`}
                     >
                       <span className={`flex h-4 w-4 items-center justify-center rounded-full border-2 transition-all ${allSelected ? "border-white bg-white" : "border-current"}`}>
@@ -1451,8 +1431,8 @@ export function ConversasSidebar() {
           groupsLoading ? (
             <ConversationListSkeleton count={8} />
           ) : filteredGroups.length === 0 ? (
-            <div className="p-4 text-center text-sm text-[#64748B]">
-              <p className="font-medium text-[#1E293B]">Nenhum grupo</p>
+            <div className="p-4 text-center text-sm text-muted-foreground">
+              <p className="font-medium text-foreground">Nenhum grupo</p>
               {counts.groups > 0 && (
                 <p className="mt-1 text-xs text-[#64748B]">
                   Há {counts.groups} conversa(s) de grupo no inbox, mas sem grupos sincronizados para esta lista.
@@ -1487,8 +1467,8 @@ export function ConversasSidebar() {
             </button>
           </div>
           ) : filtered.length === 0 ? (
-          <div className="p-6 text-center text-sm text-[#64748B]">
-            <p className="font-semibold text-[#1E293B] text-base">Nenhuma conversa</p>
+          <div className="p-6 text-center text-sm text-muted-foreground">
+            <p className="font-semibold text-foreground text-base">Nenhuma conversa</p>
             <p className="mt-2 text-xs leading-relaxed">
               {activeTab === "mine" && "Você não tem conversas atribuídas. Novas conversas entram automaticamente pelas filas (não precisa sincronizar em Conexões)."}
               {activeTab === "queues" && "Nenhuma conversa pendente no momento."}
@@ -1515,8 +1495,8 @@ export function ConversasSidebar() {
                       credentials: "include",
                       headers: apiHeaders ?? {},
                     });
+                    const json = await res.json().catch(() => ({}));
                     if (res.ok) {
-                      const json = await res.json().catch(() => ({}));
                       const assignedToName = json?.assigned_to_name ?? null;
                       queryClient.invalidateQueries({ queryKey: queryKeys.conversationListInfinite(slug ?? "", viewMode) });
                       queryClient.invalidateQueries({ queryKey: queryKeys.conversationListInfinite(slug ?? "", "queues") });
@@ -1525,11 +1505,18 @@ export function ConversasSidebar() {
                       queryClient.invalidateQueries({ queryKey: queryKeys.counts(slug ?? "") });
                       window.dispatchEvent(new CustomEvent("conversations-status-reset"));
                       queryClient.refetchQueries({ queryKey: queryKeys.conversationListInfinite(slug ?? "", "mine") });
-                      if (assignedToName) {
-                        queryClient.setQueryData(queryKeys.conversation(conversationId), (prev: Record<string, unknown> | undefined) =>
-                          prev ? { ...prev, assigned_to: json?.assigned_to ?? null, assigned_to_name: assignedToName, status: "in_progress" } : prev
-                        );
-                      }
+                      queryClient.setQueryData(queryKeys.conversation(conversationId), (prev: Record<string, unknown> | undefined) =>
+                        prev
+                          ? {
+                              ...prev,
+                              assigned_to: json?.assigned_to ?? prev.assigned_to,
+                              assigned_to_name: assignedToName ?? prev.assigned_to_name,
+                              channel_id: json?.channel_id ?? prev.channel_id,
+                              status: "in_progress",
+                            }
+                          : prev
+                      );
+                      router.push(`${base}/conversas/${conversationId}`);
                     }
                   }}
                   onHover={slug ? (id) => {
@@ -1550,8 +1537,6 @@ export function ConversasSidebar() {
                       lastPrefetchedIdRef.current = id;
                     }, 120);
                   } : undefined}
-                  showQueueColors={activeTab === "queues" || activeTab === "novos" || activeTab === "mine" || activeTab === "mine_closed"}
-                  activeTab={activeTab}
                 />
               ))}
             </ul>
@@ -1562,7 +1547,7 @@ export function ConversasSidebar() {
                 type="button"
                 onClick={() => loadMore()}
                 disabled={loadingMore}
-                className="w-full rounded-lg border border-[#E2E8F0] bg-[#F8FAFC] py-2.5 text-sm font-semibold text-[#64748B] transition-all duration-200 hover:bg-[#F1F5F9] hover:border-[#CBD5E1] hover:shadow-sm disabled:opacity-60"
+                className="w-full rounded-lg border border-border bg-muted/40 py-2.5 text-sm font-semibold text-muted-foreground transition-all duration-200 hover:bg-muted/60 hover:border-border hover:shadow-sm disabled:opacity-60"
               >
                 {loadingMore ? "Carregando…" : `Carregar mais (${totalFromApi - allConversations.length} restantes)`}
               </button>
