@@ -13,6 +13,9 @@ Serviço exemplo: `controlzap-1` → https://controlzap-1.onrender.com
 | `NEXT_PUBLIC_SUPABASE_ANON_KEY` | **anon JWT** (`eyJ...`) em [Supabase API](https://supabase.com/dashboard/project/ncvwocdinqudlgivnmpz/settings/api) — **não** use `sb_publishable_...`; se der "Invalid API key", **apague** esta variável e redeploy |
 | `SUPABASE_SERVICE_ROLE_KEY` | service_role |
 | `USE_REDIS` | `false` no primeiro teste |
+| `UAZAPI_BASE_URL` | `https://controlzap.uazapi.com` |
+| `UAZAPI_ADMIN_TOKEN` | Admin Token do painel UAZ (secreto) |
+| `UAZAPI_WEBHOOK_SECRET` | string longa aleatória (webhook) |
 
 Marque **Available during build** nas `NEXT_PUBLIC_*`.
 
