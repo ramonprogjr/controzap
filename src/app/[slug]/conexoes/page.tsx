@@ -45,6 +45,8 @@ export default function ConexoesPage() {
   });
   const permissions = Array.isArray(permissionsData?.permissions) ? permissionsData.permissions : [];
   const canAccessChannels = permissions.includes("channels.view") || permissions.includes("channels.manage");
+  const canManageChannels = permissions.includes("channels.manage");
+  const [webhookConfigLoading, setWebhookConfigLoading] = useState(false);
 
   useEffect(() => {
     if (slug && permissionsData !== undefined && !canAccessChannels) {
@@ -204,6 +206,28 @@ export default function ConexoesPage() {
     fetchChannels();
   };
 
+  const configureGlobalWebhook = async () => {
+    setWebhookConfigLoading(true);
+    try {
+      const r = await fetch("/api/uazapi/global-webhook", {
+        method: "POST",
+        credentials: "include",
+        headers: apiHeaders,
+      });
+      const data = await r.json().catch(() => ({}));
+      setFeedback({
+        type: r.ok ? "success" : "error",
+        message: r.ok
+          ? `Webhook global configurado${data.webhookUrl ? `: ${data.webhookUrl}` : ""}.`
+          : (data.error ?? "Falha ao configurar webhook"),
+      });
+    } catch {
+      setFeedback({ type: "error", message: "Erro de rede ao configurar webhook." });
+    } finally {
+      setWebhookConfigLoading(false);
+    }
+  };
+
   const createInstance = async () => {
     const n = name.trim();
     if (!n) {
@@ -238,11 +262,17 @@ export default function ConexoesPage() {
         fetchStats();
         fetchStatus(createData.channel.id);
         setSideOverOpen(false);
+        const webhook = createData.webhook as { ok?: boolean; error?: string } | undefined;
+        const webhookNote =
+          webhook && webhook.ok === false
+            ? ` Aviso: webhook não configurado (${webhook.error ?? "erro UAZAPI"}). Use «Configurar webhook» ou contate o suporte.`
+            : "";
         setFeedback({
-          type: "success",
-          message: createData.reused
-            ? "Conexão vinculada a instância existente na UAZAPI."
-            : "Conexão criada com sucesso.",
+          type: webhook && webhook.ok === false ? "error" : "success",
+          message:
+            (createData.reused
+              ? "Conexão vinculada a instância existente na UAZAPI."
+              : "Conexão criada com sucesso.") + webhookNote,
         });
       });
     } catch {
@@ -485,6 +515,22 @@ export default function ConexoesPage() {
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-bold text-foreground">Conexões</h1>
         <div className="flex items-center gap-2">
+          {canManageChannels && (
+            <button
+              type="button"
+              onClick={configureGlobalWebhook}
+              disabled={webhookConfigLoading}
+              className="inline-flex items-center gap-1.5 rounded-lg border border-border px-3 py-2 text-sm font-medium text-foreground hover:bg-muted disabled:opacity-50 transition-colors"
+              title="Registra a URL do ControlZap no servidor UAZAPI para receber mensagens no inbox"
+            >
+              {webhookConfigLoading ? (
+                <Loader2 className="h-4 w-4 animate-spin" />
+              ) : (
+                <Link2 className="h-4 w-4" />
+              )}
+              Configurar webhook
+            </button>
+          )}
           <button
             type="button"
             onClick={openSideOver}

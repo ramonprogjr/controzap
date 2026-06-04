@@ -1,5 +1,8 @@
-import { getCompanyIdFromCookie } from "@/lib/auth/get-company";
+import { getCompanyIdFromRequest } from "@/lib/auth/get-company";
+import { requirePermission } from "@/lib/auth/get-profile";
+import { PERMISSIONS } from "@/lib/auth/permissions";
 import { setWebhook, UAZ_WEBHOOK_DEFAULT_EVENTS } from "@/lib/uazapi/client";
+import { resolveUazapiWebhookBaseUrl } from "@/lib/uazapi/ensure-global-webhook";
 import { buildUazapiWebhookPublicUrl } from "@/lib/uazapi/webhook-auth";
 import { createClient } from "@/lib/supabase/server";
 import { NextResponse } from "next/server";
@@ -8,12 +11,15 @@ import { NextResponse } from "next/server";
  * POST /api/uazapi/webhook
  * Configura webhook da instância para a URL do nosso backend.
  * Body: { channel_id: string } ou { token: string }
- * URL do webhook: {NEXT_PUBLIC_APP_URL ou request origin}/api/webhook/uazapi
  */
 export async function POST(request: Request) {
-  const companyId = await getCompanyIdFromCookie();
+  const companyId = await getCompanyIdFromRequest(request);
   if (!companyId) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+  const permErr = await requirePermission(companyId, PERMISSIONS.channels.manage);
+  if (permErr) {
+    return NextResponse.json({ error: permErr.error }, { status: permErr.status });
   }
 
   let body: { channel_id?: string; token?: string };
@@ -42,15 +48,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "token or channel_id is required" }, { status: 400 });
   }
 
-  const baseUrl =
-    process.env.NEXT_PUBLIC_APP_URL ||
-    process.env.VERCEL_URL ||
-    request.headers.get("x-forwarded-host") ||
-    request.headers.get("host") ||
-    "";
-  const protocol = baseUrl.includes("localhost") ? "http" : "https";
-  const host = baseUrl.replace(/^https?:\/\//, "").split("/")[0] || "localhost:3000";
-  const webhookUrl = buildUazapiWebhookPublicUrl(`${protocol}://${host}`);
+  const webhookUrl = buildUazapiWebhookPublicUrl(resolveUazapiWebhookBaseUrl(request));
 
   const result = await setWebhook(token, webhookUrl, {
     events: [...UAZ_WEBHOOK_DEFAULT_EVENTS],

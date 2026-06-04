@@ -2,6 +2,7 @@ import { getCompanyIdFromRequest } from "@/lib/auth/get-company";
 import { requirePermission } from "@/lib/auth/get-profile";
 import { PERMISSIONS } from "@/lib/auth/permissions";
 import { createInstance } from "@/lib/uazapi/client";
+import { ensureGlobalUazWebhook } from "@/lib/uazapi/ensure-global-webhook";
 import {
   findOrphanForCompany,
   getLinkedInstanceIds,
@@ -178,7 +179,22 @@ export async function POST(request: Request) {
       queueId: body.queue_id,
       reused,
     });
-    return NextResponse.json(channelResult.body, { status: channelResult.status });
+    if (!channelResult.ok) {
+      return NextResponse.json(channelResult.body, { status: channelResult.status });
+    }
+
+    const webhookResult = await ensureGlobalUazWebhook(request);
+    return NextResponse.json(
+      {
+        ...channelResult.body,
+        webhook: {
+          ok: webhookResult.ok,
+          url: webhookResult.webhookUrl,
+          ...(webhookResult.error ? { error: webhookResult.error } : {}),
+        },
+      },
+      { status: channelResult.status }
+    );
   }
 
   return NextResponse.json({

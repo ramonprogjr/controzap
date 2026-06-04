@@ -13,8 +13,13 @@ export async function GET() {
     ok: true,
     supabaseUrl: Boolean(getPublicSupabaseUrl()),
     supabaseAnon: Boolean(getPublicSupabaseAnonKey()),
-    serviceRole: Boolean(process.env.SUPABASE_SERVICE_ROLE_KEY),
-    appUrl: Boolean(process.env.NEXT_PUBLIC_APP_URL),
+    serviceRole: Boolean(process.env.SUPABASE_SERVICE_ROLE_KEY?.trim()),
+    appUrl: Boolean(process.env.NEXT_PUBLIC_APP_URL?.trim()),
+    uazapiBaseUrl: Boolean(process.env.UAZAPI_BASE_URL?.trim()),
+    uazapiAdminToken: Boolean(
+      process.env.UAZAPI_ADMIN_TOKEN?.trim() || process.env.UAZAPI_GLOBAL_TOKEN?.trim()
+    ),
+    uazapiWebhookSecret: Boolean(process.env.UAZAPI_WEBHOOK_SECRET?.trim()),
     redis: process.env.USE_REDIS === "true" ? Boolean(process.env.REDIS_URL || process.env.REDIS_HOST) : "disabled",
   };
   const ready =
