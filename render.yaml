@@ -33,6 +33,10 @@ services:
         sync: false
       - key: REDIS_NAMESPACE
         value: production
+      - key: UAZAPI_BASE_URL
+        value: https://controlzap.uazapi.com
+      - key: UAZAPI_ADMIN_TOKEN
+        sync: false
       - key: UAZAPI_WEBHOOK_SECRET
         sync: false
       - key: AI_API_KEY

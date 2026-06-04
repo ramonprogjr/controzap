@@ -1,5 +1,6 @@
 import { getCompanyIdFromRequest } from "@/lib/auth/get-company";
-import { requireAdmin } from "@/lib/auth/get-profile";
+import { requirePermission } from "@/lib/auth/get-profile";
+import { PERMISSIONS } from "@/lib/auth/permissions";
 import { deleteInstance, isUazInstanceAlreadyAbsent } from "@/lib/uazapi/client";
 import { invalidateUazInstanceWebhookCache } from "@/lib/redis/uaz-instance-webhook-cache";
 import { createClient } from "@/lib/supabase/server";
@@ -11,9 +12,9 @@ export async function DELETE(request: Request) {
   if (!companyId) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
-  const adminErr = await requireAdmin(companyId);
-  if (adminErr) {
-    return NextResponse.json({ error: adminErr.error }, { status: adminErr.status });
+  const permErr = await requirePermission(companyId, PERMISSIONS.channels.manage);
+  if (permErr) {
+    return NextResponse.json({ error: permErr.error }, { status: permErr.status });
   }
 
   const { searchParams } = new URL(request.url);

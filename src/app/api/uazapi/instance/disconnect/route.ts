@@ -1,5 +1,6 @@
 import { getCompanyIdFromRequest } from "@/lib/auth/get-company";
-import { requireAdmin } from "@/lib/auth/get-profile";
+import { requirePermission } from "@/lib/auth/get-profile";
+import { PERMISSIONS } from "@/lib/auth/permissions";
 import { getChannelToken } from "@/lib/uazapi/channel-token";
 import { disconnectInstance } from "@/lib/uazapi/client";
 import { NextResponse } from "next/server";
@@ -14,9 +15,9 @@ export async function POST(request: Request) {
   if (!companyId) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
-  const adminErr = await requireAdmin(companyId);
-  if (adminErr) {
-    return NextResponse.json({ error: adminErr.error }, { status: adminErr.status });
+  const permErr = await requirePermission(companyId, PERMISSIONS.channels.manage);
+  if (permErr) {
+    return NextResponse.json({ error: permErr.error }, { status: permErr.status });
   }
 
   let body: { channel_id?: string };

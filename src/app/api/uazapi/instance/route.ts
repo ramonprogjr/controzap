@@ -1,5 +1,6 @@
 import { getCompanyIdFromRequest } from "@/lib/auth/get-company";
-import { requireAdmin } from "@/lib/auth/get-profile";
+import { requirePermission } from "@/lib/auth/get-profile";
+import { PERMISSIONS } from "@/lib/auth/permissions";
 import { createInstance } from "@/lib/uazapi/client";
 import {
   findOrphanForCompany,
@@ -89,11 +90,14 @@ async function createChannelForInstance(
 export async function POST(request: Request) {
   const companyId = await getCompanyIdFromRequest(request);
   if (!companyId) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    return NextResponse.json(
+      { error: "Sessão ou empresa inválida. Recarregue a página e tente de novo." },
+      { status: 401 }
+    );
   }
-  const adminErr = await requireAdmin(companyId);
-  if (adminErr) {
-    return NextResponse.json({ error: adminErr.error }, { status: adminErr.status });
+  const permErr = await requirePermission(companyId, PERMISSIONS.channels.manage);
+  if (permErr) {
+    return NextResponse.json({ error: permErr.error }, { status: permErr.status });
   }
 
   let body: { name?: string; createChannel?: boolean; queue_id?: string };

@@ -17,12 +17,29 @@ Abrir: http://localhost:3003/login
 
 ## Produção (Render)
 
-1. [`docs/deploy-render.md`](docs/deploy-render.md) — variáveis e passos
-2. [`render.yaml`](render.yaml) — Blueprint opcional
-3. [`docs/qa-production-checklist.md`](docs/qa-production-checklist.md) — testes após deploy
-4. [`docs/supabase-production-audit.md`](docs/supabase-production-audit.md) — Supabase `ncvwocdinqudlgivnmpz`
-5. [`docs/security-trial-15d.md`](docs/security-trial-15d.md) — trial 15 dias com cliente
-6. [`docs/theme-tokens.md`](docs/theme-tokens.md) — cores e tokens do tema
+Serviço: `https://controlzap-1.onrender.com` — branch **`main`**, Node **20**.
+
+### Checklist de variáveis (Dashboard → Environment)
+
+| Variável | Obrigatório | Notas |
+|----------|-------------|--------|
+| `NODE_VERSION` | sim | `20` |
+| `NEXT_PUBLIC_APP_URL` | sim | URL pública do app (sem localhost em produção) |
+| `NEXT_PUBLIC_SUPABASE_URL` | sim | `https://ncvwocdinqudlgivnmpz.supabase.co` |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | sim | JWT anon (`eyJ...`), não `sb_publishable_*` |
+| `SUPABASE_SERVICE_ROLE_KEY` | sim | service_role — só no servidor |
+| `UAZAPI_BASE_URL` | sim | ex. `https://controlzap.uazapi.com` |
+| `UAZAPI_ADMIN_TOKEN` | sim | token admin UAZ — **não commitar** |
+| `UAZAPI_WEBHOOK_SECRET` | recomendado | validação do webhook (inbox em tempo real) |
+| `USE_REDIS` | opcional | `false` se não usar Redis |
+
+Marque `NEXT_PUBLIC_*` como **Available during build**. Após alterar env: **Manual Deploy**.
+
+### Supabase Auth
+
+Site URL e Redirect URLs: `https://controlzap-1.onrender.com` e `https://controlzap-1.onrender.com/auth/callback`.
+
+### Validar localmente antes do deploy
 
 ```powershell
 npm run check:production-env
@@ -30,7 +47,13 @@ npm run build
 npm run start
 ```
 
-Health check: `GET /api/health`
+### Após deploy
+
+1. `GET /api/health` → 200
+2. Login → `/[slug]/conversas`
+3. `/[slug]/conexoes` → criar conexão → QR → webhook apontando para `NEXT_PUBLIC_APP_URL`
+
+Blueprint opcional: [`render.yaml`](render.yaml). Docs extras em `docs/` (local; pasta no `.gitignore`).
 
 ## Supabase
 

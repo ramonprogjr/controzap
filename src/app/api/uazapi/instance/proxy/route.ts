@@ -1,5 +1,6 @@
-import { getCompanyIdFromCookie } from "@/lib/auth/get-company";
-import { requireAdmin } from "@/lib/auth/get-profile";
+import { getCompanyIdFromRequest } from "@/lib/auth/get-company";
+import { requirePermission } from "@/lib/auth/get-profile";
+import { PERMISSIONS } from "@/lib/auth/permissions";
 import { getChannelToken } from "@/lib/uazapi/channel-token";
 import {
   getProxyConfig,
@@ -13,7 +14,7 @@ import { NextResponse } from "next/server";
  * Retorna configuração de proxy da instância.
  */
 export async function GET(request: Request) {
-  const companyId = await getCompanyIdFromCookie();
+  const companyId = await getCompanyIdFromRequest(request);
   if (!companyId) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
@@ -44,13 +45,13 @@ export async function GET(request: Request) {
  * Configura ou altera proxy. Body: { channel_id, enable, proxy_url? }
  */
 export async function POST(request: Request) {
-  const companyId = await getCompanyIdFromCookie();
+  const companyId = await getCompanyIdFromRequest(request);
   if (!companyId) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
-  const adminErr = await requireAdmin(companyId);
-  if (adminErr) {
-    return NextResponse.json({ error: adminErr.error }, { status: adminErr.status });
+  const permErr = await requirePermission(companyId, PERMISSIONS.channels.manage);
+  if (permErr) {
+    return NextResponse.json({ error: permErr.error }, { status: permErr.status });
   }
 
   let body: { channel_id?: string; enable?: boolean; proxy_url?: string };
@@ -91,13 +92,13 @@ export async function POST(request: Request) {
  * Remove proxy (volta ao padrão).
  */
 export async function DELETE(request: Request) {
-  const companyId = await getCompanyIdFromCookie();
+  const companyId = await getCompanyIdFromRequest(request);
   if (!companyId) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
-  const adminErr = await requireAdmin(companyId);
-  if (adminErr) {
-    return NextResponse.json({ error: adminErr.error }, { status: adminErr.status });
+  const permErr = await requirePermission(companyId, PERMISSIONS.channels.manage);
+  if (permErr) {
+    return NextResponse.json({ error: permErr.error }, { status: permErr.status });
   }
 
   const { searchParams } = new URL(request.url);
