@@ -1,4 +1,7 @@
 import path from "path";
+import { applySupabasePublicDefaults } from "./scripts/supabase-public-defaults.mjs";
+
+applySupabasePublicDefaults();
 
 /**
  * distDir precisa ficar DENTRO da pasta do projeto. Se apontar para fora (ex.: AppData via ..\\..\\),
@@ -27,6 +30,10 @@ function resolveDistDir() {
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  env: {
+    NEXT_PUBLIC_SUPABASE_URL: process.env.NEXT_PUBLIC_SUPABASE_URL,
+    NEXT_PUBLIC_SUPABASE_ANON_KEY: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
+  },
   distDir: resolveDistDir(),
   webpack: (config, { dev }) => {
     if (dev) {

@@ -1,4 +1,8 @@
 import { NextResponse } from "next/server";
+import {
+  getPublicSupabaseAnonKey,
+  getPublicSupabaseUrl,
+} from "@/lib/env/supabase-public";
 
 /**
  * GET /api/health — health check para Render e monitoramento.
@@ -7,8 +11,8 @@ import { NextResponse } from "next/server";
 export async function GET() {
   const checks = {
     ok: true,
-    supabaseUrl: Boolean(process.env.NEXT_PUBLIC_SUPABASE_URL),
-    supabaseAnon: Boolean(process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY),
+    supabaseUrl: Boolean(getPublicSupabaseUrl()),
+    supabaseAnon: Boolean(getPublicSupabaseAnonKey()),
     serviceRole: Boolean(process.env.SUPABASE_SERVICE_ROLE_KEY),
     appUrl: Boolean(process.env.NEXT_PUBLIC_APP_URL),
     redis: process.env.USE_REDIS === "true" ? Boolean(process.env.REDIS_URL || process.env.REDIS_HOST) : "disabled",

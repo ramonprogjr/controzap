@@ -24,7 +24,7 @@ services:
       - key: NEXT_PUBLIC_SUPABASE_URL
         value: https://ncvwocdinqudlgivnmpz.supabase.co
       - key: NEXT_PUBLIC_SUPABASE_ANON_KEY
-        sync: false
+        value: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5jdndvY2RpbnF1ZGxnaXZubXB6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg5NTkzMDEsImV4cCI6MjA5NDUzNTMwMX0.u3iDJC9YmjWzLMI5CUGk3-MjZR9QhyxTADQtLaCaNIo
       - key: SUPABASE_SERVICE_ROLE_KEY
         sync: false
       - key: USE_REDIS

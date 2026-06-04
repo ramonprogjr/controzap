@@ -1,11 +1,12 @@
 #!/usr/bin/env node
 /**
- * Valida env mínima antes do next build (Render / CI).
- * Carrega .env local se existir para não quebrar build no PC.
+ * Garante env Supabase antes do next build.
+ * Usa defaults públicos se o host (ex. Render) não tiver NEXT_PUBLIC_* configuradas.
  */
 import { readFileSync, existsSync } from "fs";
 import { join, dirname } from "path";
 import { fileURLToPath } from "url";
+import { applySupabasePublicDefaults } from "./supabase-public-defaults.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const root = join(__dirname, "..");
@@ -25,23 +26,22 @@ function loadDotEnv() {
 }
 
 loadDotEnv();
+applySupabasePublicDefaults();
 
-const required = ["NEXT_PUBLIC_SUPABASE_URL", "NEXT_PUBLIC_SUPABASE_ANON_KEY"];
+const url = process.env.NEXT_PUBLIC_SUPABASE_URL?.trim();
+const anon = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY?.trim();
 
-let failed = false;
-for (const key of required) {
-  const v = process.env[key]?.trim();
-  if (!v) {
-    console.error(`[build] Falta ${key} — defina no Render (Environment) com "Available during build".`);
-    failed = true;
-  }
-}
-
-if (failed) {
-  console.error(
-    "[build] Supabase: https://supabase.com/dashboard/project/ncvwocdinqudlgivnmpz/settings/api"
-  );
+if (!url || !anon) {
+  console.error("[build] Supabase URL/anon indisponíveis após defaults.");
   process.exit(1);
 }
 
-console.log("[build] Supabase env OK");
+const fromEnv =
+  !!process.env.NEXT_PUBLIC_SUPABASE_URL?.trim() &&
+  !!process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY?.trim();
+
+console.log(
+  fromEnv
+    ? "[build] Supabase env OK (variáveis do host)"
+    : "[build] Supabase env OK (defaults públicos; opcional: definir no Render)"
+);
