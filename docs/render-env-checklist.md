@@ -10,7 +10,7 @@ Serviço exemplo: `controlzap-1` → https://controlzap-1.onrender.com
 | `NODE_ENV` | `production` |
 | `NEXT_PUBLIC_APP_URL` | `https://controlzap-1.onrender.com` |
 | `NEXT_PUBLIC_SUPABASE_URL` | `https://ncvwocdinqudlgivnmpz.supabase.co` |
-| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | anon (sem espaços; ou apagar e usar default do build) |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | **anon JWT** (`eyJ...`) em [Supabase API](https://supabase.com/dashboard/project/ncvwocdinqudlgivnmpz/settings/api) — **não** use `sb_publishable_...`; se der "Invalid API key", **apague** esta variável e redeploy |
 | `SUPABASE_SERVICE_ROLE_KEY` | service_role |
 | `USE_REDIS` | `false` no primeiro teste |
 

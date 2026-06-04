@@ -13,6 +13,10 @@ export function toHeaderSafeLatin1(value) {
     .replace(/[^\u0000-\u00FF]/g, "");
 }
 
+function isValidAnonJwt(key) {
+  return key.startsWith("eyJ") && key.split(".").length === 3 && key.length > 80;
+}
+
 function pickEnvOrDefault(raw, fallback) {
   const trimmed = raw?.trim();
   const candidate = trimmed ? toHeaderSafeLatin1(trimmed) : "";
@@ -21,12 +25,9 @@ function pickEnvOrDefault(raw, fallback) {
 }
 
 export function applySupabasePublicDefaults() {
-  process.env.NEXT_PUBLIC_SUPABASE_URL = pickEnvOrDefault(
-    process.env.NEXT_PUBLIC_SUPABASE_URL,
-    SUPABASE_URL
-  );
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY = pickEnvOrDefault(
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
-    SUPABASE_ANON_KEY
-  );
+  const url = pickEnvOrDefault(process.env.NEXT_PUBLIC_SUPABASE_URL, SUPABASE_URL);
+  process.env.NEXT_PUBLIC_SUPABASE_URL = url.includes("supabase.co") ? url : SUPABASE_URL;
+
+  const anon = pickEnvOrDefault(process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY, SUPABASE_ANON_KEY);
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY = isValidAnonJwt(anon) ? anon : SUPABASE_ANON_KEY;
 }
