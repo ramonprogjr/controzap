@@ -98,7 +98,10 @@ export async function POST(request: Request) {
   }
   const permErr = await requirePermission(companyId, PERMISSIONS.channels.manage);
   if (permErr) {
-    return NextResponse.json({ error: permErr.error }, { status: permErr.status });
+    return NextResponse.json(
+      { error: permErr.error, code: "code" in permErr ? permErr.code : undefined },
+      { status: permErr.status }
+    );
   }
 
   let body: { name?: string; createChannel?: boolean; queue_id?: string };
@@ -127,7 +130,19 @@ export async function POST(request: Request) {
     }
   }
 
-  const admin = createServiceRoleClient();
+  let admin: SupabaseAdmin;
+  try {
+    admin = createServiceRoleClient();
+  } catch {
+    return NextResponse.json(
+      {
+        error:
+          "Servidor sem SUPABASE_SERVICE_ROLE_KEY. Configure no Render (Environment) e faça redeploy.",
+        code: "missing_service_role",
+      },
+      { status: 503 }
+    );
+  }
   const listResult = await listUazInstances();
   const linkedIds = await getLinkedInstanceIds(admin);
   const orphan = listResult.ok

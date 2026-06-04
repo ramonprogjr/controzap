@@ -17,6 +17,13 @@ import {
   ChevronRight,
 } from "lucide-react";
 
+/** Paleta fixa do mock WhatsApp (legível em dark mode do app). */
+const WA_CHAT_BG = "#ECE5DD";
+const WA_BUBBLE_IN = "#FFFFFF";
+const WA_BUBBLE_OUT = "#D9FDD3";
+const WA_TEXT = "#111B21";
+const WA_META = "#667781";
+
 const ACTION_CHIPS = [
   { icon: "💊", label: "Lembrar minha mãe de tomar as vitaminas" },
   { icon: "⏳", label: "Programar uma mensagem de WhatsApp" },
@@ -132,7 +139,7 @@ export default function HomePage() {
       </section>
 
       {/* Action Chips - Melhor responsividade */}
-      <section className="border-b border-border bg-card py-8 md:py-12">
+      <section className="border-b border-border bg-[#0F172A] py-8 md:py-12">
         <div className="mx-auto w-[92%] max-w-6xl px-4">
           <div className="flex flex-wrap justify-center gap-2 md:gap-3">
             {ACTION_CHIPS.map((chip) => (
@@ -140,7 +147,7 @@ export default function HomePage() {
                 key={chip.label}
                 type="button"
                 aria-label={chip.label}
-                className="inline-flex items-center gap-1.5 rounded-full border border-[#C8E6C9] bg-[#E8F5E9] px-3 py-2 text-xs font-medium text-foreground transition-colors hover:border-[#A5D6A7] hover:bg-[#C8E6C9] md:gap-2 md:px-4 md:py-2.5 md:text-sm"
+                className="inline-flex items-center gap-1.5 rounded-full border border-[#C8E6C9] bg-[#E8F5E9] px-3 py-2 text-xs font-medium text-[#14532D] transition-colors hover:border-[#A5D6A7] hover:bg-[#C8E6C9] hover:text-[#0F3D2E] md:gap-2 md:px-4 md:py-2.5 md:text-sm"
               >
                 <span className="text-sm md:text-base" aria-hidden="true">{chip.icon}</span>
                 <span className="truncate">{chip.label}</span>
@@ -164,33 +171,50 @@ export default function HomePage() {
               >
                 <div className="relative bg-muted/60 px-6 pt-6 pb-4">
                   <div className="absolute inset-x-10 top-4 h-2 rounded-full bg-gradient-to-r from-[#22C55E]/30 via-[#34B097]/40 to-[#22C55E]/30 blur" />
-                  <div className="relative mx-auto max-w-xs rounded-2xl border border-border bg-card/95 p-3 shadow-sm">
-                    <div className="mb-2 flex items-center justify-between gap-2">
+                  <div
+                    className="relative mx-auto max-w-xs overflow-hidden rounded-2xl border border-[#D1D7DB] shadow-sm"
+                    style={{ backgroundColor: WA_CHAT_BG }}
+                  >
+                    <div className="flex items-center justify-between gap-2 border-b border-[#D1D7DB] bg-white px-3 py-2">
                       <div className="flex items-center gap-2">
-                        <span className="flex h-7 w-7 items-center justify-center rounded-full bg-[#22C55E] text-xs font-semibold text-white">
+                        <span className="flex h-7 w-7 items-center justify-center rounded-full bg-[#25D366] text-xs font-semibold text-white">
                           WA
                         </span>
                         <div className="text-xs">
-                          <p className="font-semibold text-foreground">WhatsApp</p>
-                          <p className="text-[10px] text-muted-foreground">Conectado ao {BRAND_NAME}</p>
+                          <p className="font-semibold" style={{ color: WA_TEXT }}>
+                            WhatsApp
+                          </p>
+                          <p className="text-[10px]" style={{ color: WA_META }}>
+                            Conectado ao {BRAND_NAME}
+                          </p>
                         </div>
                       </div>
                       <span className="rounded-full bg-[#E5F3FF] px-2 py-0.5 text-[10px] font-medium text-[#0369A1]">
                         Automação ativa
                       </span>
                     </div>
-                    <div className="space-y-1.5 text-[11px] leading-snug">
-                      <div className="inline-flex max-w-[80%] flex-col rounded-2xl bg-[#E5E7EB] px-3 py-1.5 text-[#111827]">
+                    <div className="space-y-1.5 p-3 text-[11px] leading-snug">
+                      <div
+                        className="inline-flex max-w-[80%] flex-col rounded-2xl px-3 py-1.5 shadow-sm"
+                        style={{ backgroundColor: WA_BUBBLE_IN, color: WA_TEXT }}
+                      >
                         <span>Não esqueça os documentos ✉️</span>
-                        <span className="mt-0.5 self-end text-[9px] text-[#6B7280]">17:45</span>
+                        <span className="mt-0.5 self-end text-[9px]" style={{ color: WA_META }}>
+                          17:45
+                        </span>
                       </div>
                       <div className="flex justify-end">
-                        <div className="inline-flex max-w-[80%] flex-col rounded-2xl bg-[#DCFCE7] px-3 py-1.5 text-[#065F46]">
+                        <div
+                          className="inline-flex max-w-[80%] flex-col rounded-2xl px-3 py-1.5"
+                          style={{ backgroundColor: WA_BUBBLE_OUT, color: WA_TEXT }}
+                        >
                           <span>Obrigada por me lembrar! ✅</span>
-                          <span className="mt-0.5 self-end text-[9px] text-[#16A34A]">17:46</span>
+                          <span className="mt-0.5 self-end text-[9px]" style={{ color: WA_META }}>
+                            17:46
+                          </span>
                         </div>
                       </div>
-                      <p className="pt-1 text-[10px] text-muted-foreground">
+                      <p className="pt-1 text-[10px]" style={{ color: WA_META }}>
                         Mensagem enviada automaticamente pelo {BRAND_NAME}.
                       </p>
                     </div>

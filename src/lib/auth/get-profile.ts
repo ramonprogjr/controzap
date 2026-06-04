@@ -81,12 +81,22 @@ export async function requirePermission(
   permission: PermissionKey
 ): Promise<{ error: string; status: number } | null> {
   const profile = await getProfileForCompany(companyId);
-  if (!profile) return { error: "Unauthorized", status: 401 };
+  if (!profile) {
+    return {
+      error: "Perfil não encontrado nesta empresa. Recarregue a página ou faça login de novo.",
+      status: 401,
+      code: "profile_not_found",
+    };
+  }
   if (profile.is_owner) return null;
   if (profile.role === "admin" && !profile.role_id) return null;
   const perms = profile.roles?.permissions ?? [];
   if (hasPermission(Array.isArray(perms) ? perms : [], permission)) return null;
-  return { error: "Forbidden", status: 403 };
+  return {
+    error: `Sem permissão (${permission}). Peça ao administrador para liberar em Cargos e usuários.`,
+    status: 403,
+    code: "forbidden",
+  };
 }
 
 /** Verifica se o usuário tem a permissão (retorno booleano). */

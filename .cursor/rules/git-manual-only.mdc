@@ -1,0 +1,18 @@
+---
+description: Git manual — sem commit/push automático; usuário valida antes
+alwaysApply: true
+---
+
+# Git: só com aprovação explícita do usuário
+
+- **NUNCA** executar `git commit`, `git push`, `git merge`, `git rebase` ou `gh pr create` a menos que o usuário peça **explicitamente** na mensagem atual (ex.: "faça o commit", "pode commitar", "push para origin").
+- Após alterar código, **não** commitar "para ajudar" ou "para fechar a tarefa". Mostrar resumo do que mudou e **perguntar** se deseja commit.
+- Antes de qualquer commit solicitado: rodar `git status` e `git diff` e propor **mensagem de commit** para o usuário validar.
+- **NUNCA** `git push --force` em `main`/`master` sem pedido explícito.
+- **NUNCA** alterar `git config` do usuário.
+- Deploy Render / produção: não assumir que push = deploy desejado; lembrar Auto-Deploy se relevante.
+
+## Alterações locais
+
+- Não descartar mudanças do usuário com `git checkout --`, `git reset --hard` ou `git clean` sem pedido explícito.
+- Se houver conflito com OneDrive ou branch, explicar antes de qualquer operação destrutiva.

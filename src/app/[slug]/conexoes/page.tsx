@@ -179,6 +179,14 @@ export default function ConexoesPage() {
 
   const openSideOver = () => {
     if (!canAddChannel) return;
+    if (!canManageChannels) {
+      setFeedback({
+        type: "error",
+        message:
+          "Seu cargo não tem permissão para gerenciar conexões (channels.manage). Peça ao administrador em Cargos e usuários.",
+      });
+      return;
+    }
     setName("");
     setQueueId("");
     setCreateError("");
@@ -239,7 +247,7 @@ export default function ConexoesPage() {
     try {
       const createRes = await fetch("/api/uazapi/instance", {
         method: "POST",
-        headers: { "Content-Type": "application/json", ...(slug ? { "X-Company-Slug": slug } : {}) },
+        headers: { "Content-Type": "application/json", ...apiHeaders },
         body: JSON.stringify({
           name: n,
           createChannel: true,
@@ -893,7 +901,7 @@ export default function ConexoesPage() {
           <button
             type="button"
             onClick={createInstance}
-            disabled={creating}
+            disabled={creating || !canManageChannels}
             className="inline-flex items-center gap-2 rounded-lg bg-clicvend-orange px-4 py-2 text-sm font-medium text-white hover:bg-clicvend-orange-dark disabled:opacity-60"
           >
             {creating ? (

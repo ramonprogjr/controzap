@@ -1,5 +1,5 @@
 import { cookies } from "next/headers";
-import { getProfileForCompany } from "@/lib/auth/get-profile";
+import { getCurrentUserProfiles, getProfileForCompany, type ProfileRow } from "@/lib/auth/get-profile";
 import { normalizeCompanySlug } from "@/lib/company-slug";
 import { createServiceRoleClient } from "@/lib/supabase/admin";
 import { createClient } from "@/lib/supabase/server";
@@ -42,6 +42,12 @@ async function resolveCompanyIdBySlug(slug: string): Promise<string | null> {
   }
 }
 
+function slugFromProfile(profile: ProfileRow): string {
+  const companies = profile.companies;
+  const row = Array.isArray(companies) ? companies[0] : companies;
+  return normalizeCompanySlug(row?.slug);
+}
+
 async function companyIdIfMember(companyId: string): Promise<string | null> {
   const profile = await getProfileForCompany(companyId);
   return profile ? companyId : null;
@@ -61,11 +67,24 @@ export async function getCompanyIdFromRequest(request: Request): Promise<string 
   const slugFromHeader = normalizeCompanySlug(request.headers.get(HEADER_COMPANY_SLUG));
   if (slugFromHeader) {
     const companyId = await resolveCompanyIdBySlug(slugFromHeader);
-    if (companyId) return companyIdIfMember(companyId);
+    if (companyId) {
+      const member = await companyIdIfMember(companyId);
+      if (member) return member;
+    }
+    const profiles = await getCurrentUserProfiles();
+    const bySlug = profiles.find((p) => slugFromProfile(p) === slugFromHeader);
+    if (bySlug?.company_id) return bySlug.company_id;
   }
 
   const fromCookie = await getCompanyIdFromCookie();
   if (fromCookie) return companyIdIfMember(fromCookie);
+
+  const cookieSlug = normalizeCompanySlug((await getSlugFromCookie()) ?? "");
+  if (cookieSlug) {
+    const profiles = await getCurrentUserProfiles();
+    const bySlug = profiles.find((p) => slugFromProfile(p) === cookieSlug);
+    if (bySlug?.company_id) return bySlug.company_id;
+  }
 
   return null;
 }
