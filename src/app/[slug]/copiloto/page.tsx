@@ -393,22 +393,22 @@ export default function CopilotoPage() {
 
   return (
     <div className="flex flex-col gap-4 p-6">
-      <div className="rounded-xl border border-[#E2E8F0] bg-white p-4 shadow-sm">
+      <div className="rounded-xl border border-border bg-card p-4 shadow-sm">
         <div className="flex flex-wrap items-start justify-between gap-3">
           <div className="flex items-start gap-3">
-            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-[#F1F5F9] text-[#475569]">
+            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-muted/60 text-muted-foreground">
               <Bot className="h-5 w-5" />
             </div>
             <div>
-              <h1 className="text-2xl font-bold text-[#1E293B]">Copiloto</h1>
-              <p className="mt-0.5 text-sm text-[#64748B]">
+              <h1 className="text-2xl font-bold text-foreground">Copiloto</h1>
+              <p className="mt-0.5 text-sm text-muted-foreground">
                 Total:{" "}
-                <span className="font-medium tabular-nums text-[#1E293B]">{filteredAgents.length}</span> agente
+                <span className="font-medium tabular-nums text-foreground">{filteredAgents.length}</span> agente
                 {filteredAgents.length !== 1 ? "s" : ""}
                 {search.trim() ? (
                   <>
                     {" "}
-                    de <span className="font-medium tabular-nums text-[#1E293B]">{agents.length}</span>
+                    de <span className="font-medium tabular-nums text-foreground">{agents.length}</span>
                   </>
                 ) : null}
                 . Na conversa vale a regra mais específica (conexão/fila).
@@ -417,18 +417,18 @@ export default function CopilotoPage() {
           </div>
           <div className="flex flex-wrap items-center gap-2">
             <div className="relative w-[260px] max-w-full">
-              <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#94A3B8]" />
+              <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
               <input
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 placeholder="Pesquisar agentes…"
-                className="h-9 w-full rounded-lg border border-[#E2E8F0] bg-white pl-9 pr-3 text-sm text-[#1E293B] placeholder:text-[#94A3B8] focus:border-clicvend-orange focus:outline-none focus:ring-1 focus:ring-clicvend-orange"
+                className="h-9 w-full rounded-lg border border-border bg-card pl-9 pr-3 text-sm text-foreground placeholder:text-muted-foreground focus:border-amber-500 focus:outline-none focus:ring-1 focus:ring-amber-500/20"
               />
             </div>
             <button
               type="button"
               onClick={() => void refresh()}
-              className="flex h-9 w-9 items-center justify-center rounded-lg bg-[#F1F5F9] text-[#64748B] transition-colors hover:bg-[#E2E8F0]"
+              className="flex h-9 w-9 items-center justify-center rounded-lg bg-muted/60 text-muted-foreground transition-colors hover:bg-muted/60"
               aria-label="Atualizar"
             >
               <RefreshCw className={`h-4 w-4 ${refreshing ? "animate-spin" : ""}`} />
@@ -473,15 +473,15 @@ export default function CopilotoPage() {
       {loading ? (
         <div className="flex justify-center py-12">
           <div className="flex flex-col items-center gap-3">
-            <Loader2 className="h-8 w-8 animate-spin text-clicvend-orange" />
-            <span className="text-sm text-[#64748B]">Carregando…</span>
+            <Loader2 className="h-8 w-8 animate-spin text-amber-600 dark:text-amber-400" />
+            <span className="text-sm text-muted-foreground">Carregando…</span>
           </div>
         </div>
       ) : agents.length === 0 && !loadError ? (
-        <div className="rounded-xl border border-[#E2E8F0] bg-white p-8 text-center shadow-sm">
-          <Bot className="mx-auto h-12 w-12 text-[#94A3B8]" />
-          <p className="mt-2 text-[#64748B]">Nenhum agente cadastrado.</p>
-          <p className="mt-1 text-xs text-[#94A3B8]">
+        <div className="rounded-xl border border-border bg-card p-8 text-center shadow-sm">
+          <Bot className="mx-auto h-12 w-12 text-muted-foreground" />
+          <p className="mt-2 text-muted-foreground">Nenhum agente cadastrado.</p>
+          <p className="mt-1 text-xs text-muted-foreground">
             Crie uma regra com instruções e modelo; não é necessário criar agente no painel da Mistral.
           </p>
           <button
@@ -494,15 +494,15 @@ export default function CopilotoPage() {
           </button>
         </div>
       ) : (
-        <div className="rounded-xl border border-[#E2E8F0] bg-white shadow-sm overflow-hidden">
-          <div className="flex flex-wrap items-center justify-between gap-4 border-b border-[#E2E8F0] bg-[#F8FAFC] px-4 py-3">
-            <p className="text-sm text-[#64748B]">
-              <span className="font-medium text-[#1E293B]">{filteredAgents.length}</span> agente
+        <div className="rounded-xl border border-border bg-card shadow-sm overflow-hidden">
+          <div className="flex flex-wrap items-center justify-between gap-4 border-b border-border bg-muted/40 px-4 py-3">
+            <p className="text-sm text-muted-foreground">
+              <span className="font-medium text-foreground">{filteredAgents.length}</span> agente
               {filteredAgents.length !== 1 ? "s" : ""}
               {search.trim() ? (
                 <>
                   {" "}
-                  de <span className="font-medium text-[#1E293B]">{agents.length}</span>
+                  de <span className="font-medium text-foreground">{agents.length}</span>
                 </>
               ) : null}
             </p>
@@ -511,23 +511,23 @@ export default function CopilotoPage() {
           <div className="max-h-[min(70vh,640px)] overflow-auto">
             <table className="w-full min-w-[1280px]">
               <thead>
-                <tr className="border-b border-[#E2E8F0] bg-[#F8FAFC]">
-                  <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-[#64748B]">
+                <tr className="border-b border-border bg-muted/40">
+                  <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                     Nome
                   </th>
-                  <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-[#64748B]">
+                  <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                     Onde vale
                   </th>
-                  <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-[#64748B]">
+                  <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                     Modo / ID
                   </th>
-                  <th className="px-4 py-3 text-center text-xs font-semibold uppercase tracking-wider text-[#64748B]">
+                  <th className="px-4 py-3 text-center text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                     v
                   </th>
-                  <th className="px-4 py-3 text-center text-xs font-semibold uppercase tracking-wider text-[#64748B]">
+                  <th className="px-4 py-3 text-center text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                     Ativo
                   </th>
-                  <th className="px-4 py-3 text-right text-xs font-semibold uppercase tracking-wider text-[#64748B]">
+                  <th className="px-4 py-3 text-right text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                     Ações
                   </th>
                 </tr>
@@ -535,7 +535,7 @@ export default function CopilotoPage() {
               <tbody>
                 {pagedAgents.length === 0 ? (
                   <tr>
-                    <td colSpan={6} className="px-4 py-8 text-center text-sm text-[#64748B]">
+                    <td colSpan={6} className="px-4 py-8 text-center text-sm text-muted-foreground">
                       {agents.length === 0
                         ? loadError
                           ? "Não foi possível carregar a lista. Verifique o aviso acima ou a conexão."
@@ -547,32 +547,32 @@ export default function CopilotoPage() {
                   pagedAgents.map((a) => (
                     <tr
                       key={a.id}
-                      className="border-b border-[#E2E8F0] last:border-0 transition-colors hover:bg-[#F8FAFC]"
+                      className="border-b border-border last:border-0 transition-colors hover:bg-muted/40"
                     >
                       <td className="px-4 py-3 align-top">
-                        <p className="font-medium text-[#1E293B]">{a.name}</p>
+                        <p className="font-medium text-foreground">{a.name}</p>
                       </td>
                       <td className="px-4 py-3 align-top">
-                        <div className="flex flex-col gap-0.5 text-sm text-[#475569]">
-                          <span className="text-[#334155]">{channelLabel(a.channel_id)}</span>
-                          <span className="text-xs text-[#64748B]">{queueLabel(a.queue_id)}</span>
+                        <div className="flex flex-col gap-0.5 text-sm text-muted-foreground">
+                          <span className="text-foreground">{channelLabel(a.channel_id)}</span>
+                          <span className="text-xs text-muted-foreground">{queueLabel(a.queue_id)}</span>
                         </div>
                       </td>
                       <td className="max-w-[28rem] px-4 py-3 align-top">
                         {a.provider_kind === "chat_completions" ? (
-                          <div className="flex flex-col gap-0.5 text-xs text-[#334155]">
-                            <span className="font-medium text-[#475569]">Chat (prompt)</span>
-                            <code className="block max-w-full overflow-x-auto whitespace-nowrap font-mono text-[11px] text-[#64748B] [scrollbar-width:thin]">
+                          <div className="flex flex-col gap-0.5 text-xs text-foreground">
+                            <span className="font-medium text-muted-foreground">Chat (prompt)</span>
+                            <code className="block max-w-full overflow-x-auto whitespace-nowrap font-mono text-[11px] text-muted-foreground [scrollbar-width:thin]">
                               {a.completion_model}
                             </code>
                           </div>
                         ) : (
-                          <code className="block max-w-full overflow-x-auto whitespace-nowrap text-xs font-mono text-[#334155] [scrollbar-width:thin]">
+                          <code className="block max-w-full overflow-x-auto whitespace-nowrap text-xs font-mono text-foreground [scrollbar-width:thin]">
                             {a.external_agent_id || "—"}
                           </code>
                         )}
                       </td>
-                      <td className="px-4 py-3 text-center tabular-nums text-sm text-[#475569] align-top">
+                      <td className="px-4 py-3 text-center tabular-nums text-sm text-muted-foreground align-top">
                         {a.provider_kind === "chat_completions" ? "—" : a.agent_version}
                       </td>
                       <td className="px-4 py-3 text-center align-top">
@@ -589,7 +589,7 @@ export default function CopilotoPage() {
                           <button
                             type="button"
                             onClick={() => openEdit(a)}
-                            className="rounded-lg p-2 text-[#64748B] hover:bg-[#F1F5F9] hover:text-[#334155]"
+                            className="rounded-lg p-2 text-muted-foreground hover:bg-muted/60 hover:text-foreground"
                             title="Editar"
                           >
                             <Pencil className="h-4 w-4" />
@@ -597,7 +597,7 @@ export default function CopilotoPage() {
                           <button
                             type="button"
                             onClick={() => setDeleteTarget(a)}
-                            className="rounded-lg p-2 text-[#64748B] hover:bg-red-50 hover:text-red-600"
+                            className="rounded-lg p-2 text-muted-foreground hover:bg-red-50 hover:text-red-600"
                             title="Remover"
                           >
                             <Trash2 className="h-4 w-4" />
@@ -611,10 +611,10 @@ export default function CopilotoPage() {
             </table>
           </div>
 
-          <div className="flex flex-wrap items-center justify-between gap-2 border-t border-[#E2E8F0] bg-[#F8FAFC] px-4 py-3">
-            <p className="text-sm text-[#64748B]">
-              Página <span className="font-medium text-[#1E293B] tabular-nums">{safePageIndex + 1}</span> de{" "}
-              <span className="font-medium text-[#1E293B] tabular-nums">{pageCount}</span> (
+          <div className="flex flex-wrap items-center justify-between gap-2 border-t border-border bg-muted/40 px-4 py-3">
+            <p className="text-sm text-muted-foreground">
+              Página <span className="font-medium text-foreground tabular-nums">{safePageIndex + 1}</span> de{" "}
+              <span className="font-medium text-foreground tabular-nums">{pageCount}</span> (
               {filteredAgents.length} agente{filteredAgents.length !== 1 ? "s" : ""})
             </p>
             <div className="flex items-center gap-2">
@@ -622,7 +622,7 @@ export default function CopilotoPage() {
                 type="button"
                 onClick={() => setPageIndex((p) => Math.max(0, p - 1))}
                 disabled={safePageIndex === 0}
-                className="inline-flex items-center gap-1 rounded-lg border border-[#E2E8F0] px-2.5 py-1.5 text-sm text-[#475569] hover:bg-[#F8FAFC] disabled:opacity-50"
+                className="inline-flex items-center gap-1 rounded-lg border border-border px-2.5 py-1.5 text-sm text-muted-foreground hover:bg-muted/40 disabled:opacity-50"
                 aria-label="Página anterior"
               >
                 <ChevronLeft className="h-4 w-4" />
@@ -632,7 +632,7 @@ export default function CopilotoPage() {
                 type="button"
                 onClick={() => setPageIndex((p) => Math.min(pageCount - 1, p + 1))}
                 disabled={safePageIndex >= pageCount - 1}
-                className="inline-flex items-center gap-1 rounded-lg border border-[#E2E8F0] px-2.5 py-1.5 text-sm text-[#475569] hover:bg-[#F8FAFC] disabled:opacity-50"
+                className="inline-flex items-center gap-1 rounded-lg border border-border px-2.5 py-1.5 text-sm text-muted-foreground hover:bg-muted/40 disabled:opacity-50"
                 aria-label="Próxima página"
               >
                 Próxima
@@ -654,52 +654,52 @@ export default function CopilotoPage() {
 
           {editingId ? (
             <>
-              <p className="text-xs text-[#64748B]">
+              <p className="text-xs text-muted-foreground">
                 {draft.provider_kind === "chat_completions"
                   ? "Esta regra usa apenas /v1/chat/completions (prompt + modelo) com a mesma chave de IA do servidor."
                   : "Modo legado: agente remoto na Mistral (Conversations API). Novas regras usam só chat/completions."}
               </p>
-              <label className="block text-xs font-medium text-[#475569]">
+              <label className="block text-xs font-medium text-muted-foreground">
                 Nome (interno)
                 <input
                   value={draft.name}
                   onChange={(e) => setDraft((d) => ({ ...d, name: e.target.value }))}
-                  className="mt-1 w-full rounded-lg border border-[#E2E8F0] px-3 py-2 text-sm"
+                  className="mt-1 w-full rounded-lg border border-border px-3 py-2 text-sm"
                 />
               </label>
               {draft.provider_kind === "chat_completions" ? (
                 <>
-                  <label className="block text-xs font-medium text-[#475569]">
+                  <label className="block text-xs font-medium text-muted-foreground">
                     Instruções (system)
                     <textarea
                       value={draft.system_instructions}
                       onChange={(e) => setDraft((d) => ({ ...d, system_instructions: e.target.value }))}
                       rows={4}
-                      className="mt-1 w-full rounded-lg border border-[#E2E8F0] px-3 py-2 text-sm"
+                      className="mt-1 w-full rounded-lg border border-border px-3 py-2 text-sm"
                     />
                   </label>
-                  <label className="block text-xs font-medium text-[#475569]">
+                  <label className="block text-xs font-medium text-muted-foreground">
                     Modelo
                     <input
                       value={draft.completion_model}
                       onChange={(e) => setDraft((d) => ({ ...d, completion_model: e.target.value }))}
                       placeholder="mistral-small-latest"
-                      className="mt-1 w-full rounded-lg border border-[#E2E8F0] px-3 py-2 text-sm font-mono"
+                      className="mt-1 w-full rounded-lg border border-border px-3 py-2 text-sm font-mono"
                     />
                   </label>
                 </>
               ) : (
                 <>
-                  <label className="block text-xs font-medium text-[#475569]">
+                  <label className="block text-xs font-medium text-muted-foreground">
                     ID do agente no provedor
                     <input
                       value={draft.external_agent_id}
                       onChange={(e) => setDraft((d) => ({ ...d, external_agent_id: e.target.value }))}
                       placeholder="ID devolvido pela Mistral"
-                      className="mt-1 w-full rounded-lg border border-[#E2E8F0] px-3 py-2 text-sm font-mono"
+                      className="mt-1 w-full rounded-lg border border-border px-3 py-2 text-sm font-mono"
                     />
                   </label>
-                  <label className="block text-xs font-medium text-[#475569]">
+                  <label className="block text-xs font-medium text-muted-foreground">
                     Versão
                     <input
                       type="number"
@@ -708,7 +708,7 @@ export default function CopilotoPage() {
                       onChange={(e) =>
                         setDraft((d) => ({ ...d, agent_version: parseInt(e.target.value, 10) || 0 }))
                       }
-                      className="mt-1 w-full rounded-lg border border-[#E2E8F0] px-3 py-2 text-sm"
+                      className="mt-1 w-full rounded-lg border border-border px-3 py-2 text-sm"
                     />
                   </label>
                 </>
@@ -716,47 +716,47 @@ export default function CopilotoPage() {
             </>
           ) : (
             <>
-              <p className="text-xs text-[#64748B]">
+              <p className="text-xs text-muted-foreground">
                 Grava uma regra com instruções e modelo. Na conversa, o copiloto chama /v1/chat/completions — sem criar
                 agente no painel da Mistral. Use a mesma chave válida que em Corrigir texto / test:mistral.
               </p>
-              <label className="block text-xs font-medium text-[#475569]">
+              <label className="block text-xs font-medium text-muted-foreground">
                 Nome (lista)
                 <input
                   value={draft.name}
                   onChange={(e) => setDraft((d) => ({ ...d, name: e.target.value }))}
-                  className="mt-1 w-full rounded-lg border border-[#E2E8F0] px-3 py-2 text-sm"
+                  className="mt-1 w-full rounded-lg border border-border px-3 py-2 text-sm"
                 />
               </label>
-              <label className="block text-xs font-medium text-[#475569]">
+              <label className="block text-xs font-medium text-muted-foreground">
                 Instruções (system)
                 <textarea
                   value={createInstructions}
                   onChange={(e) => setCreateInstructions(e.target.value)}
                   rows={4}
-                  className="mt-1 w-full rounded-lg border border-[#E2E8F0] px-3 py-2 text-sm"
+                  className="mt-1 w-full rounded-lg border border-border px-3 py-2 text-sm"
                 />
               </label>
-              <label className="block text-xs font-medium text-[#475569]">
+              <label className="block text-xs font-medium text-muted-foreground">
                 Modelo
                 <input
                   value={createModel}
                   onChange={(e) => setCreateModel(e.target.value)}
                   placeholder="mistral-medium-latest"
-                  className="mt-1 w-full rounded-lg border border-[#E2E8F0] px-3 py-2 text-sm font-mono"
+                  className="mt-1 w-full rounded-lg border border-border px-3 py-2 text-sm font-mono"
                 />
               </label>
             </>
           )}
 
-          <label className="block text-xs font-medium text-[#475569]">
+          <label className="block text-xs font-medium text-muted-foreground">
             Conexão
             <select
               value={draft.channel_id ?? ""}
               onChange={(e) =>
                 setDraft((d) => ({ ...d, channel_id: e.target.value ? e.target.value : null }))
               }
-              className="mt-1 w-full rounded-lg border border-[#E2E8F0] px-3 py-2 text-sm"
+              className="mt-1 w-full rounded-lg border border-border px-3 py-2 text-sm"
             >
               <option value="">Qualquer</option>
               {channels.map((c) => (
@@ -766,14 +766,14 @@ export default function CopilotoPage() {
               ))}
             </select>
           </label>
-          <label className="block text-xs font-medium text-[#475569]">
+          <label className="block text-xs font-medium text-muted-foreground">
             Fila
             <select
               value={draft.queue_id ?? ""}
               onChange={(e) =>
                 setDraft((d) => ({ ...d, queue_id: e.target.value ? e.target.value : null }))
               }
-              className="mt-1 w-full rounded-lg border border-[#E2E8F0] px-3 py-2 text-sm"
+              className="mt-1 w-full rounded-lg border border-border px-3 py-2 text-sm"
             >
               <option value="">Qualquer</option>
               {queues.map((q) => (
@@ -783,26 +783,26 @@ export default function CopilotoPage() {
               ))}
             </select>
           </label>
-          <p className="text-[11px] text-[#64748B]">
+          <p className="text-[11px] text-muted-foreground">
             A regra mais específica vence: preencha conexão e/ou fila para limitar onde este agente entra no chat
             interno da conversa.
           </p>
-          <label className="flex items-center gap-2 text-sm text-[#334155]">
+          <label className="flex items-center gap-2 text-sm text-foreground">
             <input
               type="checkbox"
               checked={draft.is_active}
               onChange={(e) => setDraft((d) => ({ ...d, is_active: e.target.checked }))}
-              className="h-4 w-4 rounded border-[#E2E8F0] text-clicvend-orange focus:ring-clicvend-orange"
+              className="h-4 w-4 rounded border-border text-amber-600 dark:text-amber-400 focus:ring-amber-500/20"
             />
             Agente ativo
           </label>
-          <label className="block text-xs font-medium text-[#475569]">
+          <label className="block text-xs font-medium text-muted-foreground">
             Instruções extras (só no 1.º turno, com o contexto do ticket)
             <textarea
               value={draft.prompt_extra}
               onChange={(e) => setDraft((d) => ({ ...d, prompt_extra: e.target.value }))}
               rows={4}
-              className="mt-1 w-full rounded-lg border border-[#E2E8F0] px-3 py-2 text-sm"
+              className="mt-1 w-full rounded-lg border border-border px-3 py-2 text-sm"
             />
           </label>
 
@@ -818,11 +818,11 @@ export default function CopilotoPage() {
             </button>
           ) : null}
 
-          <div className="mt-2 flex gap-2 border-t border-[#E2E8F0] pt-4">
+          <div className="mt-2 flex gap-2 border-t border-border pt-4">
             <button
               type="button"
               onClick={() => setPanelOpen(false)}
-              className="rounded-lg border border-[#E2E8F0] bg-white px-4 py-2 text-sm font-medium text-[#475569] hover:bg-[#F8FAFC]"
+              className="rounded-lg border border-border bg-card px-4 py-2 text-sm font-medium text-muted-foreground hover:bg-muted/40"
             >
               Cancelar
             </button>

@@ -603,8 +603,8 @@ export function ChannelConfigSideOver({
               onClick={() => setActiveTab(t.id)}
               className={`flex items-center gap-1.5 shrink-0 rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
                 activeTab === t.id
-                  ? "bg-clicvend-orange/10 text-clicvend-orange"
-                  : "text-[#64748B] hover:bg-[#F1F5F9]"
+                  ? "bg-clicvend-orange/10 text-amber-600 dark:text-amber-400"
+                  : "text-muted-foreground hover:bg-muted/60"
               }`}
             >
               {t.icon}
@@ -617,24 +617,24 @@ export function ChannelConfigSideOver({
           <p className="text-sm text-red-600 bg-red-50 rounded-lg px-3 py-2">{error}</p>
         )}
 
-        <div className="rounded-lg border border-[#E2E8F0] bg-[#F8FAFC] px-4 py-3 space-y-3">
+        <div className="rounded-lg border border-border bg-muted/40 px-4 py-3 space-y-3">
             <div className="flex items-center justify-between">
-              <h3 className="text-sm font-semibold text-[#334155]">Caixas de entrada (até 8)</h3>
-              {channelQueuesLoading && <Loader2 className="h-4 w-4 animate-spin text-clicvend-orange" />}
+              <h3 className="text-sm font-semibold text-foreground">Caixas de entrada (até 8)</h3>
+              {channelQueuesLoading && <Loader2 className="h-4 w-4 animate-spin text-amber-600 dark:text-amber-400" />}
             </div>
-            <p className="text-xs text-[#64748B]">Novas conversas deste número entram na caixa padrão. Vincule até 8 caixas e escolha qual é a padrão.</p>
+            <p className="text-xs text-muted-foreground">Novas conversas deste número entram na caixa padrão. Vincule até 8 caixas e escolha qual é a padrão.</p>
 
             {channelQueues.length > 0 ? (
               <ul className="space-y-2">
                 {channelQueues.map((cq) => (
                   <li
                     key={cq.queue_id}
-                    className="flex items-center justify-between gap-2 rounded-lg border border-[#E2E8F0] bg-white px-3 py-2"
+                    className="flex items-center justify-between gap-2 rounded-lg border border-border bg-card px-3 py-2"
                   >
-                    <span className="text-sm font-medium text-[#1E293B]">
+                    <span className="text-sm font-medium text-foreground">
                       {cq.queue?.name ?? cq.queue_id}
                       {cq.is_default && (
-                        <span className="ml-2 inline-flex items-center gap-1 rounded bg-clicvend-orange/15 px-1.5 py-0.5 text-xs font-medium text-clicvend-orange">
+                        <span className="ml-2 inline-flex items-center gap-1 rounded bg-clicvend-orange/15 px-1.5 py-0.5 text-xs font-medium text-amber-600 dark:text-amber-400">
                           <Star className="h-3 w-3 fill-current" /> Padrão
                         </span>
                       )}
@@ -663,7 +663,7 @@ export function ChannelConfigSideOver({
                               setError("Erro de rede");
                             }
                           }}
-                          className="rounded p-1.5 text-[#64748B] hover:bg-[#F1F5F9] hover:text-clicvend-orange"
+                          className="rounded p-1.5 text-muted-foreground hover:bg-muted/60 hover:text-amber-600 dark:hover:text-amber-400"
                           title="Definir como padrão"
                         >
                           <Star className="h-4 w-4" />
@@ -672,7 +672,7 @@ export function ChannelConfigSideOver({
                       <button
                         type="button"
                         onClick={() => setRemoveQueueConfirm({ queue_id: cq.queue_id, queue_name: cq.queue?.name ?? cq.queue_id })}
-                        className="rounded p-1.5 text-[#64748B] hover:bg-red-50 hover:text-red-600"
+                        className="rounded p-1.5 text-muted-foreground hover:bg-red-50 hover:text-red-600"
                         title="Remover caixa"
                       >
                         <Trash2 className="h-4 w-4" />
@@ -682,11 +682,11 @@ export function ChannelConfigSideOver({
                 ))}
               </ul>
             ) : (
-              <p className="text-sm text-[#94A3B8]">Nenhuma caixa vinculada. Adicione abaixo.</p>
+              <p className="text-sm text-muted-foreground">Nenhuma caixa vinculada. Adicione abaixo.</p>
             )}
 
             {channelQueues.length < 8 && queues.length > 0 && (
-              <div className="flex flex-wrap items-end gap-2 border-t border-[#E2E8F0] pt-2">
+              <div className="flex flex-wrap items-end gap-2 border-t border-border pt-2">
                 <select
                   value={addQueueId}
                   onChange={(e) => setAddQueueId(e.target.value)}
@@ -758,32 +758,32 @@ export function ChannelConfigSideOver({
                       })()}
                     </p>
                   )}
-                  <p className="mt-1 text-sm text-[#64748B]">Este número já está vinculado e pronto para receber mensagens. Novas mensagens e grupos entram automaticamente nas filas.</p>
+                  <p className="mt-1 text-sm text-muted-foreground">Este número já está vinculado e pronto para receber mensagens. Novas mensagens e grupos entram automaticamente nas filas.</p>
                 </div>
-                <p className="text-xs text-[#64748B]">
+                <p className="text-xs text-muted-foreground">
                   Mensagens antigas: em <strong>Conversas</strong>, abra o chat e use <strong>Carregar mensagens antigas</strong> no topo — busca o histórico só daquela conversa.
                 </p>
               </div>
             ) : connectStatus === "connecting" || qrcode || paircode ? (
               <>
-                <p className="text-sm text-[#64748B]">
+                <p className="text-sm text-muted-foreground">
                   Abra o WhatsApp no celular, vá em <strong>Aparelhos conectados</strong> e escaneie o QR Code ou use o código de pareamento.
                 </p>
                 {qrcode && (
                   <div className="flex justify-center">
-                    <img src={qrcode} alt="QR Code WhatsApp" className="max-h-64 w-auto rounded-lg border border-[#E2E8F0]" />
+                    <img src={qrcode} alt="QR Code WhatsApp" className="max-h-64 w-auto rounded-lg border border-border" />
                   </div>
                 )}
                 {paircode && (
-                  <p className="text-center text-lg font-mono font-semibold text-[#1E293B]">{paircode}</p>
+                  <p className="text-center text-lg font-mono font-semibold text-foreground">{paircode}</p>
                 )}
                 {!qrcode && !paircode && connectLoading && (
                   <div className="flex justify-center py-8">
-                    <Loader2 className="h-8 w-8 animate-spin text-clicvend-orange" />
+                    <Loader2 className="h-8 w-8 animate-spin text-amber-600 dark:text-amber-400" />
                   </div>
                 )}
-                <p className="text-center text-sm font-medium text-clicvend-orange">Conectando…</p>
-                <p className="text-center text-xs text-[#64748B]">
+                <p className="text-center text-sm font-medium text-amber-600 dark:text-amber-400">Conectando…</p>
+                <p className="text-center text-xs text-muted-foreground">
                   Quando o WhatsApp conectar, esta tela fechará sozinha e a lista será atualizada. Já conectou no celular? Clique em <strong>Verificar conexão</strong>.
                 </p>
                 <button
@@ -803,7 +803,7 @@ export function ChannelConfigSideOver({
                       setCheckingConnection(false);
                     }
                   }}
-                  className="mt-2 w-full rounded-lg border border-[#E2E8F0] bg-white px-4 py-2.5 text-sm font-medium text-[#334155] hover:bg-[#F8FAFC] disabled:opacity-60"
+                  className="mt-2 w-full rounded-lg border border-border bg-card px-4 py-2.5 text-sm font-medium text-foreground hover:bg-muted/40 disabled:opacity-60"
                 >
                   {checkingConnection ? (
                     <>
@@ -817,19 +817,19 @@ export function ChannelConfigSideOver({
               </>
             ) : (
               <>
-                <p className="text-sm text-[#64748B]">
+                <p className="text-sm text-muted-foreground">
                   Conecte este número ao WhatsApp. Escolha entre escanear o <strong>QR Code</strong> ou usar o <strong>número de telefone</strong> para receber um código de pareamento no celular.
                 </p>
-                <div className="flex gap-4 border-b border-[#E2E8F0] pb-3">
+                <div className="flex gap-4 border-b border-border pb-3">
                   <label className="flex cursor-pointer items-center gap-2">
                     <input
                       type="radio"
                       name="connectMode"
                       checked={connectMode === "qrcode"}
                       onChange={() => { setConnectMode("qrcode"); setConnectPhone(""); }}
-                      className="border-[#E2E8F0] text-clicvend-orange focus:ring-clicvend-orange"
+                      className="border-border text-amber-600 dark:text-amber-400 focus:ring-amber-500/20"
                     />
-                    <span className="text-sm font-medium text-[#1E293B]">QR Code</span>
+                    <span className="text-sm font-medium text-foreground">QR Code</span>
                   </label>
                   <label className="flex cursor-pointer items-center gap-2">
                     <input
@@ -837,14 +837,14 @@ export function ChannelConfigSideOver({
                       name="connectMode"
                       checked={connectMode === "phone"}
                       onChange={() => setConnectMode("phone")}
-                      className="border-[#E2E8F0] text-clicvend-orange focus:ring-clicvend-orange"
+                      className="border-border text-amber-600 dark:text-amber-400 focus:ring-amber-500/20"
                     />
-                    <span className="text-sm font-medium text-[#1E293B]">Número de telefone</span>
+                    <span className="text-sm font-medium text-foreground">Número de telefone</span>
                   </label>
                 </div>
                 {connectMode === "phone" && (
                   <div>
-                    <label className="block text-sm font-medium text-[#334155] mb-1">Número do WhatsApp (com DDD)</label>
+                    <label className="block text-sm font-medium text-foreground mb-1">Número do WhatsApp (com DDD)</label>
                     <input
                       type="tel"
                       value={connectPhone}
@@ -852,7 +852,7 @@ export function ChannelConfigSideOver({
                       placeholder="Ex: 11 99999-9999 ou 5511999999999"
                       className={formInputClass}
                     />
-                    <p className="mt-1 text-xs text-[#64748B]">Informe o número do celular que tem o WhatsApp. Será gerado um código de pareamento (até 5 min de validade). No WhatsApp, vá em Aparelhos conectados → Conectar um aparelho → Vincular com número de telefone e digite o código.</p>
+                    <p className="mt-1 text-xs text-muted-foreground">Informe o número do celular que tem o WhatsApp. Será gerado um código de pareamento (até 5 min de validade). No WhatsApp, vá em Aparelhos conectados → Conectar um aparelho → Vincular com número de telefone e digite o código.</p>
                   </div>
                 )}
                 <button
@@ -882,7 +882,7 @@ export function ChannelConfigSideOver({
         {activeTab === "perfil" && (
           <div className="space-y-4">
             <div>
-              <label className="block text-sm font-medium text-[#334155] mb-1">Nome do perfil WhatsApp (máx. 25 caracteres)</label>
+              <label className="block text-sm font-medium text-foreground mb-1">Nome do perfil WhatsApp (máx. 25 caracteres)</label>
               <input
                 type="text"
                 value={profileName}
@@ -893,11 +893,11 @@ export function ChannelConfigSideOver({
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-[#334155] mb-1">Foto de perfil</label>
+              <label className="block text-sm font-medium text-foreground mb-1">Foto de perfil</label>
               <div
                 onDrop={handleDrop}
                 onDragOver={handleDragOver}
-                className="flex flex-col items-center justify-center rounded-xl border-2 border-dashed border-[#E2E8F0] bg-[#F8FAFC] p-6 transition-colors hover:border-clicvend-orange/50 hover:bg-clicvend-orange/5"
+                className="flex flex-col items-center justify-center rounded-xl border-2 border-dashed border-border bg-muted/40 p-6 transition-colors hover:border-amber-500/50 hover:bg-clicvend-orange/5"
               >
                 {profileImage ? (
                   <div className="relative">
@@ -913,12 +913,12 @@ export function ChannelConfigSideOver({
                 ) : (
                   <>
                     {uploadingImage ? (
-                      <Loader2 className="h-12 w-12 animate-spin text-clicvend-orange" />
+                      <Loader2 className="h-12 w-12 animate-spin text-amber-600 dark:text-amber-400" />
                     ) : (
                       <>
-                        <ImageIcon className="h-12 w-12 text-[#94A3B8]" />
-                        <p className="mt-2 text-sm text-[#64748B]">Arraste uma imagem aqui ou clique para selecionar</p>
-                        <p className="text-xs text-[#94A3B8]">JPEG, PNG, GIF ou WebP (máx. 5MB)</p>
+                        <ImageIcon className="h-12 w-12 text-muted-foreground" />
+                        <p className="mt-2 text-sm text-muted-foreground">Arraste uma imagem aqui ou clique para selecionar</p>
+                        <p className="text-xs text-muted-foreground">JPEG, PNG, GIF ou WebP (máx. 5MB)</p>
                         <input
                           type="file"
                           accept="image/jpeg,image/png,image/gif,image/webp"
@@ -951,7 +951,7 @@ export function ChannelConfigSideOver({
           <div className="space-y-4">
             {PRIVACY_OPTIONS.map((opt) => (
               <div key={opt.key}>
-                <label className="block text-sm font-medium text-[#334155] mb-1">{opt.label}</label>
+                <label className="block text-sm font-medium text-foreground mb-1">{opt.label}</label>
                 <select
                   value={privacy[opt.key] ?? ""}
                   onChange={(e) => setPrivacy((p) => ({ ...p, [opt.key]: e.target.value }))}
@@ -978,21 +978,21 @@ export function ChannelConfigSideOver({
                 type="checkbox"
                 checked={chatbotEnabled}
                 onChange={(e) => setChatbotEnabled(e.target.checked)}
-                className="rounded border-[#E2E8F0] text-clicvend-orange focus:ring-clicvend-orange"
+                className="rounded border-border text-amber-600 dark:text-amber-400 focus:ring-amber-500/20"
               />
-              <span className="text-sm font-medium text-[#334155]">Respostas automáticas habilitadas</span>
+              <span className="text-sm font-medium text-foreground">Respostas automáticas habilitadas</span>
             </label>
             <label className="flex items-center gap-2">
               <input
                 type="checkbox"
                 checked={chatbotIgnoreGroups}
                 onChange={(e) => setChatbotIgnoreGroups(e.target.checked)}
-                className="rounded border-[#E2E8F0] text-clicvend-orange focus:ring-clicvend-orange"
+                className="rounded border-border text-amber-600 dark:text-amber-400 focus:ring-amber-500/20"
               />
-              <span className="text-sm font-medium text-[#334155]">Ignorar grupos</span>
+              <span className="text-sm font-medium text-foreground">Ignorar grupos</span>
             </label>
             <div>
-              <label className="block text-sm font-medium text-[#334155] mb-1">Palavra para parar e falar com atendente</label>
+              <label className="block text-sm font-medium text-foreground mb-1">Palavra para parar e falar com atendente</label>
               <input
                 type="text"
                 value={chatbotStopWord}
@@ -1002,7 +1002,7 @@ export function ChannelConfigSideOver({
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-[#334155] mb-1">Minutos pausado após cliente pedir atendente</label>
+              <label className="block text-sm font-medium text-foreground mb-1">Minutos pausado após cliente pedir atendente</label>
               <input
                 type="number"
                 min={0}
@@ -1012,7 +1012,7 @@ export function ChannelConfigSideOver({
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-[#334155] mb-1">Minutos pausado ao enviar mensagem manual</label>
+              <label className="block text-sm font-medium text-foreground mb-1">Minutos pausado ao enviar mensagem manual</label>
               <input
                 type="number"
                 min={0}
@@ -1022,19 +1022,19 @@ export function ChannelConfigSideOver({
               />
             </div>
 
-            <div className="pt-2 border-t border-[#E2E8F0] space-y-4">
+            <div className="pt-2 border-t border-border space-y-4">
               <div className="flex items-center justify-between">
-                <h3 className="text-sm font-semibold text-[#0F172A]">Triggers de respostas automáticas</h3>
-                {chatbotLoading && <Loader2 className="h-4 w-4 animate-spin text-clicvend-orange" />}
+                <h3 className="text-sm font-semibold text-foreground">Triggers de respostas automáticas</h3>
+                {chatbotLoading && <Loader2 className="h-4 w-4 animate-spin text-amber-600 dark:text-amber-400" />}
               </div>
-              <p className="text-xs text-[#64748B]">
+              <p className="text-xs text-muted-foreground">
                 Quando o cliente enviar uma das palavras abaixo, a UAZAPI enviará automaticamente a resposta rápida escolhida.
               </p>
 
               {triggers.length > 0 ? (
-                <div className="max-h-56 overflow-auto rounded-lg border border-[#E2E8F0]">
+                <div className="max-h-56 overflow-auto rounded-lg border border-border">
                   <table className="min-w-full text-xs">
-                    <thead className="bg-[#F8FAFC] text-[#64748B]">
+                    <thead className="bg-muted/40 text-muted-foreground">
                       <tr>
                         <th className="px-3 py-2 text-left font-medium">Ativo</th>
                         <th className="px-3 py-2 text-left font-medium">Palavras-chave</th>
@@ -1042,7 +1042,7 @@ export function ChannelConfigSideOver({
                         <th className="px-3 py-2 text-left font-medium">Prioridade</th>
                       </tr>
                     </thead>
-                    <tbody className="divide-y divide-[#E2E8F0]">
+                    <tbody className="divide-y divide-border">
                       {triggers.map((t) => (
                         <tr key={t.id ?? `${t.type}-${t.wordsToStart}-${t.quickreply_id}`}>
                           <td className="px-3 py-2">
@@ -1054,27 +1054,27 @@ export function ChannelConfigSideOver({
                               {t.active ? "Ativo" : "Inativo"}
                             </span>
                           </td>
-                          <td className="px-3 py-2 text-[#0F172A] break-words max-w-[220px]">
+                          <td className="px-3 py-2 text-foreground break-words max-w-[220px]">
                             {t.wordsToStart || "—"}
                           </td>
-                          <td className="px-3 py-2 text-[#64748B]">
+                          <td className="px-3 py-2 text-muted-foreground">
                             {t.type === "quickreply" ? "QuickReply" : t.type === "agent" ? "Agente IA" : t.type ?? "—"}
                           </td>
-                          <td className="px-3 py-2 text-[#64748B]">{t.priority ?? 0}</td>
+                          <td className="px-3 py-2 text-muted-foreground">{t.priority ?? 0}</td>
                         </tr>
                       ))}
                     </tbody>
                   </table>
                 </div>
               ) : (
-                <p className="text-xs text-[#94A3B8]">Nenhum trigger configurado ainda.</p>
+                <p className="text-xs text-muted-foreground">Nenhum trigger configurado ainda.</p>
               )}
 
-              <div className="rounded-lg border border-dashed border-[#CBD5E1] bg-[#F8FAFC] p-3 space-y-3">
-                <p className="text-xs font-medium text-[#0F172A]">Novo trigger (QuickReply)</p>
+              <div className="rounded-lg border border-dashed border-border bg-muted/40 p-3 space-y-3">
+                <p className="text-xs font-medium text-foreground">Novo trigger (QuickReply)</p>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
                   <div className="md:col-span-2">
-                    <label className="block text-[11px] font-medium text-[#64748B] mb-1">
+                    <label className="block text-[11px] font-medium text-muted-foreground mb-1">
                       Palavras-chave (separadas por | )
                     </label>
                     <input
@@ -1088,7 +1088,7 @@ export function ChannelConfigSideOver({
                     />
                   </div>
                   <div>
-                    <label className="block text-[11px] font-medium text-[#64748B] mb-1">
+                    <label className="block text-[11px] font-medium text-muted-foreground mb-1">
                       Prioridade
                     </label>
                     <input
@@ -1108,7 +1108,7 @@ export function ChannelConfigSideOver({
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-2 items-end">
                   <div className="md:col-span-2">
-                    <label className="block text-[11px] font-medium text-[#64748B] mb-1">
+                    <label className="block text-[11px] font-medium text-muted-foreground mb-1">
                       Resposta rápida a enviar
                     </label>
                     <select
@@ -1141,21 +1141,21 @@ export function ChannelConfigSideOver({
               </div>
 
               <div className="space-y-2">
-                <h3 className="text-sm font-semibold text-[#0F172A]">Respostas rápidas (QuickReply)</h3>
+                <h3 className="text-sm font-semibold text-foreground">Respostas rápidas (QuickReply)</h3>
                 {quickReplies.length > 0 ? (
-                  <div className="max-h-40 overflow-auto rounded-lg border border-[#E2E8F0]">
+                  <div className="max-h-40 overflow-auto rounded-lg border border-border">
                     <table className="min-w-full text-xs">
-                      <thead className="bg-[#F8FAFC] text-[#64748B]">
+                      <thead className="bg-muted/40 text-muted-foreground">
                         <tr>
                           <th className="px-3 py-2 text-left font-medium">Atalho</th>
                           <th className="px-3 py-2 text-left font-medium">Texto</th>
                         </tr>
                       </thead>
-                      <tbody className="divide-y divide-[#E2E8F0]">
+                      <tbody className="divide-y divide-border">
                         {quickReplies.map((qr) => (
                           <tr key={qr.id ?? qr.shortCut}>
-                            <td className="px-3 py-2 text-[#0F172A]">{qr.shortCut}</td>
-                            <td className="px-3 py-2 text-[#64748B]">
+                            <td className="px-3 py-2 text-foreground">{qr.shortCut}</td>
+                            <td className="px-3 py-2 text-muted-foreground">
                               {qr.text ? qr.text.slice(0, 80) : "—"}
                             </td>
                           </tr>
@@ -1164,14 +1164,14 @@ export function ChannelConfigSideOver({
                     </table>
                   </div>
                 ) : (
-                  <p className="text-xs text-[#94A3B8]">
+                  <p className="text-xs text-muted-foreground">
                     Nenhuma resposta rápida cadastrada ainda.
                   </p>
                 )}
 
                 <div className="rounded-lg border border-[#E0E7FF] bg-[#EEF2FF] p-3 space-y-2">
                   <p className="text-xs font-medium text-[#3730A3]">Assistente — sugestões de mensagens</p>
-                  <p className="text-[11px] text-[#64748B]">
+                  <p className="text-[11px] text-muted-foreground">
                     Clique em uma sugestão para usar no campo <strong>Texto</strong> da nova resposta rápida. Edite como quiser antes de salvar.
                   </p>
                   <div className="flex flex-wrap gap-1.5">
@@ -1187,7 +1187,7 @@ export function ChannelConfigSideOver({
                         key={suggestion}
                         type="button"
                         onClick={() => setNewQuickReply((cur) => ({ ...cur, text: suggestion }))}
-                        className="rounded-md border border-[#C7D2FE] bg-white px-2 py-1 text-[11px] text-[#334155] hover:bg-[#E0E7FF] hover:border-[#A5B4FC]"
+                        className="rounded-md border border-[#C7D2FE] bg-card px-2 py-1 text-[11px] text-foreground hover:bg-[#E0E7FF] hover:border-[#A5B4FC]"
                       >
                         {suggestion.length > 42 ? `${suggestion.slice(0, 42)}…` : suggestion}
                       </button>
@@ -1195,14 +1195,14 @@ export function ChannelConfigSideOver({
                   </div>
                 </div>
 
-                <div className="rounded-lg border border-dashed border-[#CBD5E1] bg-[#F8FAFC] p-3 space-y-3">
-                  <p className="text-xs font-medium text-[#0F172A]">Nova resposta rápida</p>
-                  <p className="text-[11px] text-[#64748B]">
-                    <strong>Criar:</strong> preencha atalho e texto abaixo. <strong>Na UAZAPI</strong> você pode atualizar (envie o <code className="bg-[#E2E8F0] px-0.5 rounded">id</code>) ou excluir (<code className="bg-[#E2E8F0] px-0.5 rounded">delete: true</code> + <code className="bg-[#E2E8F0] px-0.5 rounded">id</code>). Templates do WhatsApp não podem ser alterados.
+                <div className="rounded-lg border border-dashed border-border bg-muted/40 p-3 space-y-3">
+                  <p className="text-xs font-medium text-foreground">Nova resposta rápida</p>
+                  <p className="text-[11px] text-muted-foreground">
+                    <strong>Criar:</strong> preencha atalho e texto abaixo. <strong>Na UAZAPI</strong> você pode atualizar (envie o <code className="bg-muted px-0.5 rounded">id</code>) ou excluir (<code className="bg-muted px-0.5 rounded">delete: true</code> + <code className="bg-muted px-0.5 rounded">id</code>). Templates do WhatsApp não podem ser alterados.
                   </p>
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
                     <div>
-                      <label className="block text-[11px] font-medium text-[#64748B] mb-1">
+                      <label className="block text-[11px] font-medium text-muted-foreground mb-1">
                         Atalho
                       </label>
                       <input
@@ -1216,7 +1216,7 @@ export function ChannelConfigSideOver({
                       />
                     </div>
                     <div className="md:col-span-2">
-                      <label className="block text-[11px] font-medium text-[#64748B] mb-1">
+                      <label className="block text-[11px] font-medium text-muted-foreground mb-1">
                         Texto
                       </label>
                       <input
@@ -1251,7 +1251,7 @@ export function ChannelConfigSideOver({
         {activeTab === "presenca" && (
           <div className="space-y-4">
             <div>
-              <label className="block text-sm font-medium text-[#334155] mb-1">Status de presença</label>
+              <label className="block text-sm font-medium text-foreground mb-1">Status de presença</label>
               <select
                 value={presence}
                 onChange={(e) => setPresence(e.target.value as "available" | "unavailable")}
@@ -1264,7 +1264,7 @@ export function ChannelConfigSideOver({
           </div>
         )}
 
-        <div className="flex justify-end gap-2 pt-4 border-t border-[#E2E8F0]">
+        <div className="flex justify-end gap-2 pt-4 border-t border-border">
           {activeTab !== "conectar" && (
             <button
               type="button"

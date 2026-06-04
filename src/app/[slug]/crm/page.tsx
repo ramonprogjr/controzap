@@ -784,7 +784,7 @@ export default function CrmCommercialPage() {
         <div className="flex flex-wrap items-start justify-between gap-3">
           <div>
             <h1 className="flex items-center gap-2 text-2xl font-bold text-foreground">
-              <ChartLine className="h-5 w-5 text-clicvend-orange" />
+              <ChartLine className="h-5 w-5 text-amber-600 dark:text-amber-400" />
               CRM Comercial
             </h1>
             <p className="mt-0.5 text-sm text-muted-foreground">
@@ -795,7 +795,7 @@ export default function CrmCommercialPage() {
             <select
               value={queueId}
               onChange={(e) => setQueueId(e.target.value)}
-              className="h-9 rounded-lg border border-border bg-background px-3 text-sm text-foreground focus:border-clicvend-orange focus:outline-none focus:ring-1 focus:ring-clicvend-orange"
+              className="h-9 rounded-lg border border-border bg-background px-3 text-sm text-foreground focus:border-amber-500 focus:outline-none focus:ring-1 focus:ring-amber-500/20"
             >
               <option value="all">Todas as filas comerciais</option>
               {(overview?.queues ?? []).map((q) => (
@@ -807,7 +807,7 @@ export default function CrmCommercialPage() {
             <select
               value={days}
               onChange={(e) => setDays(Number(e.target.value))}
-              className="h-9 rounded-lg border border-border bg-background px-3 text-sm text-foreground focus:border-clicvend-orange focus:outline-none focus:ring-1 focus:ring-clicvend-orange"
+              className="h-9 rounded-lg border border-border bg-background px-3 text-sm text-foreground focus:border-amber-500 focus:outline-none focus:ring-1 focus:ring-amber-500/20"
             >
               <option value={7}>Últimos 7 dias</option>
               <option value={15}>Últimos 15 dias</option>
@@ -852,7 +852,7 @@ export default function CrmCommercialPage() {
                 onClick={() => setActiveTab(id as typeof activeTab)}
                 className={`flex items-center gap-2 border-b-2 px-4 py-2 text-sm font-medium transition-colors ${
                   activeTab === id
-                    ? "border-clicvend-orange text-clicvend-orange"
+                    ? "border-clicvend-orange text-amber-600 dark:text-amber-400"
                     : "border-transparent text-muted-foreground hover:text-foreground"
                 }`}
               >
@@ -917,19 +917,19 @@ export default function CrmCommercialPage() {
                 </div>
 
                 {portfolioMessage && (
-                  <div className="border-b border-[#E2E8F0] bg-[#F0FDF4] px-4 py-2 text-sm text-[#15803D]">
+                  <div className="border-b border-border bg-[#F0FDF4] px-4 py-2 text-sm text-[#15803D]">
                     {portfolioMessage}
                   </div>
                 )}
                 {portfolio?.readonly_fallback && (
-                  <div className="border-b border-[#E2E8F0] bg-amber-50 px-4 py-2 text-sm text-amber-700">
+                  <div className="border-b border-border bg-amber-50 px-4 py-2 text-sm text-amber-700">
                     {portfolio.fallback_reason ?? "Lista em modo de leitura por falta da tabela de carteiras comerciais."}
                   </div>
                 )}
 
                 <div className="max-h-[300px] overflow-auto">
                   <table className="min-w-full text-sm">
-                    <thead className="bg-[#F8FAFC] text-left text-xs uppercase tracking-wide text-[#64748B]">
+                    <thead className="bg-muted/40 text-left text-xs uppercase tracking-wide text-muted-foreground">
                       <tr>
                         <th className="px-4 py-3">Telefone</th>
                         <th className="px-4 py-3">Origem</th>
@@ -943,16 +943,16 @@ export default function CrmCommercialPage() {
                     <tbody>
                       {portfolioLoading && (
                         <tr>
-                          <td colSpan={7} className="px-4 py-8 text-center text-[#64748B]">
+                          <td colSpan={7} className="px-4 py-8 text-center text-muted-foreground">
                             Carregando carteira...
                           </td>
                         </tr>
                       )}
                       {!portfolioLoading && (portfolio?.data ?? []).map((c) => (
-                        <tr key={c.id} className="border-t border-[#E2E8F0] hover:bg-[#F8FAFC] transition-colors">
-                          <td className="px-4 py-3 font-mono text-[#0F172A]">{c.phone_canonical}</td>
+                        <tr key={c.id} className="border-t border-border hover:bg-muted/40 transition-colors">
+                          <td className="px-4 py-3 font-mono text-foreground">{c.phone_canonical}</td>
                           <td className="px-4 py-3">
-                            <span className="inline-flex rounded-full bg-clicvend-orange/10 px-2 py-0.5 text-xs font-medium text-clicvend-orange">
+                            <span className="inline-flex rounded-full bg-clicvend-orange/10 px-2 py-0.5 text-xs font-medium text-amber-600 dark:text-amber-400">
                               {c.source === "round_robin"
                                 ? "Round-robin"
                                 : c.source === "manual"
@@ -993,7 +993,7 @@ export default function CrmCommercialPage() {
                                 defaultValue={c.lead_score ?? ""}
                                 key={`sc-${c.id}-${c.lead_score ?? "x"}`}
                                 disabled={c.source === "conversation_fallback" || portfolio?.readonly_fallback}
-                                className="w-20 rounded border border-[#E2E8F0] px-2 py-1 text-xs font-mono text-[#0F172A] disabled:opacity-50"
+                                className="w-20 rounded border border-border px-2 py-1 text-xs font-mono text-foreground disabled:opacity-50"
                                 onBlur={async (e) => {
                                   if (c.source === "conversation_fallback" || portfolio?.readonly_fallback) return;
                                   const raw = e.target.value.trim();
@@ -1033,7 +1033,7 @@ export default function CrmCommercialPage() {
                               }
                               key={`vl-${c.id}-${c.estimated_value_cents ?? "x"}`}
                               disabled={c.source === "conversation_fallback" || portfolio?.readonly_fallback}
-                              className="w-28 rounded border border-[#E2E8F0] px-2 py-1 text-xs text-[#0F172A] disabled:opacity-50"
+                              className="w-28 rounded border border-border px-2 py-1 text-xs text-foreground disabled:opacity-50"
                               onBlur={async (e) => {
                                 if (c.source === "conversation_fallback" || portfolio?.readonly_fallback) return;
                                 const raw = e.target.value.replace(/\s/g, "").replace(",", ".").trim();
@@ -1068,8 +1068,8 @@ export default function CrmCommercialPage() {
                               }}
                             />
                           </td>
-                          <td className="px-4 py-3 text-[#64748B]">{c.notes ?? "—"}</td>
-                          <td className="px-4 py-3 text-[#64748B]">{formatDate(c.created_at)}</td>
+                          <td className="px-4 py-3 text-muted-foreground">{c.notes ?? "—"}</td>
+                          <td className="px-4 py-3 text-muted-foreground">{formatDate(c.created_at)}</td>
                           <td className="px-4 py-3">
                             <div className="flex items-center justify-end gap-1">
                               <button
@@ -1077,7 +1077,7 @@ export default function CrmCommercialPage() {
                                   setAppointmentContactPhone(c.phone_canonical);
                                   setAppointmentSideOverOpen(true);
                                 }}
-                                className="rounded p-1.5 text-[#64748B] transition-colors hover:bg-amber-50 hover:text-amber-700"
+                                className="rounded p-1.5 text-muted-foreground transition-colors hover:bg-amber-50 hover:text-amber-700"
                                 title="Agendamentos"
                               >
                                 <CalendarDays className="h-4 w-4" />
@@ -1085,7 +1085,7 @@ export default function CrmCommercialPage() {
                               <button
                                 onClick={() => { setSelectedContactId(c.id); setTransferContactOpen(true); }}
                                 disabled={c.source === "conversation_fallback"}
-                                className="rounded p-1.5 text-[#64748B] transition-colors hover:bg-clicvend-orange/10 hover:text-clicvend-orange"
+                                className="rounded p-1.5 text-muted-foreground transition-colors hover:bg-clicvend-orange/10 hover:text-amber-600 dark:hover:text-amber-400"
                                 title="Transferir contato"
                               >
                                 <ArrowLeftRight className="h-4 w-4" />
@@ -1093,7 +1093,7 @@ export default function CrmCommercialPage() {
                               <button
                                 onClick={() => setDeleteContactId(c.id)}
                                 disabled={c.source === "conversation_fallback"}
-                                className="rounded p-1.5 text-[#64748B] hover:bg-[#FEF2F2] hover:text-[#DC2626] transition-colors"
+                                className="rounded p-1.5 text-muted-foreground hover:bg-[#FEF2F2] hover:text-[#DC2626] transition-colors"
                                 title="Remover da carteira"
                               >
                                 <Trash2 className="h-4 w-4" />
@@ -1104,7 +1104,7 @@ export default function CrmCommercialPage() {
                       ))}
                       {!portfolioLoading && (portfolio?.data ?? []).length === 0 && (
                         <tr>
-                          <td colSpan={7} className="px-4 py-8 text-center text-[#64748B]">
+                          <td colSpan={7} className="px-4 py-8 text-center text-muted-foreground">
                             Nenhum contato na carteira. Adicione manualmente ou aguarde a chegada de novos leads via round-robin.
                           </td>
                         </tr>
@@ -1112,10 +1112,10 @@ export default function CrmCommercialPage() {
                     </tbody>
                   </table>
                 </div>
-                <div className="flex items-center justify-between border-t border-[#E2E8F0] bg-[#F8FAFC] px-4 py-2">
-                  <p className="text-sm text-[#64748B]">
-                    Página <span className="font-medium text-[#1E293B]">{portfolioPage + 1}</span> de{" "}
-                    <span className="font-medium text-[#1E293B]">
+                <div className="flex items-center justify-between border-t border-border bg-muted/40 px-4 py-2">
+                  <p className="text-sm text-muted-foreground">
+                    Página <span className="font-medium text-foreground">{portfolioPage + 1}</span> de{" "}
+                    <span className="font-medium text-foreground">
                       {Math.max(1, Math.ceil((portfolio?.total ?? 0) / portfolioPageSize))}
                     </span>{" "}
                     ({portfolio?.total ?? 0} contato{(portfolio?.total ?? 0) === 1 ? "" : "s"})
@@ -1125,7 +1125,7 @@ export default function CrmCommercialPage() {
                       type="button"
                       onClick={() => setPortfolioPage((p) => Math.max(0, p - 1))}
                       disabled={portfolioPage === 0}
-                      className="inline-flex items-center rounded-lg border border-[#E2E8F0] px-2.5 py-1.5 text-sm text-[#475569] hover:bg-[#F8FAFC] disabled:opacity-50"
+                      className="inline-flex items-center rounded-lg border border-border px-2.5 py-1.5 text-sm text-muted-foreground hover:bg-muted/40 disabled:opacity-50"
                     >
                       Anterior
                     </button>
@@ -1137,7 +1137,7 @@ export default function CrmCommercialPage() {
                         )
                       }
                       disabled={portfolioPage >= Math.max(0, Math.ceil((portfolio?.total ?? 0) / portfolioPageSize) - 1)}
-                      className="inline-flex items-center rounded-lg border border-[#E2E8F0] px-2.5 py-1.5 text-sm text-[#475569] hover:bg-[#F8FAFC] disabled:opacity-50"
+                      className="inline-flex items-center rounded-lg border border-border px-2.5 py-1.5 text-sm text-muted-foreground hover:bg-muted/40 disabled:opacity-50"
                     >
                       Próxima
                     </button>
@@ -1148,9 +1148,9 @@ export default function CrmCommercialPage() {
           )}
 
           {activeTab === "fluxo" && (
-            <div className="rounded-xl border border-[#E2E8F0] bg-white p-4 shadow-sm">
+            <div className="rounded-xl border border-border bg-card p-4 shadow-sm">
               {!selectedQueueId && (
-                <p className="mb-3 text-xs text-[#64748B]">
+                <p className="mb-3 text-xs text-muted-foreground">
                   Com <strong>Todas as filas</strong>, as colunas refletem os status encontrados no período. Escolha uma fila para alinhar ao mesmo Kanban de status configurado em Tickets.
                 </p>
               )}
@@ -1160,14 +1160,14 @@ export default function CrmCommercialPage() {
                 </div>
               )}
               {(overview?.board ?? []).length === 0 ? (
-                <div className="rounded-lg border border-dashed border-[#E2E8F0] bg-[#F8FAFC] px-4 py-10 text-center text-sm text-[#64748B]">
+                <div className="rounded-lg border border-dashed border-border bg-muted/40 px-4 py-10 text-center text-sm text-muted-foreground">
                   Sem leads no quadro para os filtros selecionados.
                 </div>
               ) : (
                 <div className="flex min-h-[420px] items-stretch gap-2">
                   <button
                     type="button"
-                    className="hidden shrink-0 self-center rounded border border-[#E2E8F0] bg-white p-2 text-[#64748B] hover:bg-[#F8FAFC] md:block"
+                    className="hidden shrink-0 self-center rounded border border-border bg-card p-2 text-muted-foreground hover:bg-muted/40 md:block"
                     aria-label="Rolar para a esquerda"
                     onClick={() =>
                       crmKanbanScrollRef.current?.scrollBy({ left: -280, behavior: "smooth" })
@@ -1182,7 +1182,7 @@ export default function CrmCommercialPage() {
                     {crmKanbanGrouped.map((col) => (
                       <div
                         key={col.key}
-                        className={`flex w-[280px] min-w-[280px] max-w-[280px] shrink-0 flex-col rounded-lg border-2 bg-[#F8FAFC] p-3 transition-colors ${
+                        className={`flex w-[280px] min-w-[280px] max-w-[280px] shrink-0 flex-col rounded-lg border-2 bg-muted/40 p-3 transition-colors ${
                           crmDragOverColumn === col.key ? "border-clicvend-orange bg-clicvend-orange/5" : "border-transparent"
                         }`}
                         onDragOver={(e) => {
@@ -1214,7 +1214,7 @@ export default function CrmCommercialPage() {
                           >
                             {col.title}
                           </span>
-                          <span className="rounded-full bg-[#E2E8F0] px-2.5 py-0.5 text-xs font-medium text-[#64748B]">
+                          <span className="rounded-full bg-muted px-2.5 py-0.5 text-xs font-medium text-muted-foreground">
                             {col.items.length}
                           </span>
                         </div>
@@ -1252,14 +1252,14 @@ export default function CrmCommercialPage() {
                                   ev.dataTransfer.effectAllowed = "move";
                                 }}
                                 onDragEnd={() => setCrmDraggingId(null)}
-                                className={`flex flex-shrink-0 flex-col overflow-hidden rounded-md border border-[#E2E8F0] bg-white text-sm shadow-sm transition-all ${
+                                className={`flex flex-shrink-0 flex-col overflow-hidden rounded-md border border-border bg-card text-sm shadow-sm transition-all ${
                                   canDragCrmKanban ? "cursor-grab active:cursor-grabbing" : ""
-                                } ${crmDraggingId === card.id ? "opacity-60 shadow-lg" : "hover:border-[#CBD5E1] hover:shadow-md"}`}
+                                } ${crmDraggingId === card.id ? "opacity-60 shadow-lg" : "hover:border-border hover:shadow-md"}`}
                               >
-                                <div className="flex shrink-0 items-center justify-between gap-1 border-b border-[#F1F5F9] bg-[#FAFBFC] px-2 py-1.5">
+                                <div className="flex shrink-0 items-center justify-between gap-1 border-b border-[#F1F5F9] bg-muted/40 px-2 py-1.5">
                                   <Link
                                     href={slug ? `/${slug}/conversas/${card.id}` : "#"}
-                                    className="inline-flex items-center gap-1 rounded px-2 py-1 text-xs font-medium text-[#64748B] hover:bg-[#E2E8F0] hover:text-[#0F172A]"
+                                    className="inline-flex items-center gap-1 rounded px-2 py-1 text-xs font-medium text-muted-foreground hover:bg-muted/60 hover:text-foreground"
                                     onClick={(ev) => ev.stopPropagation()}
                                   >
                                     <MessageSquare className="h-3.5 w-3.5" />
@@ -1270,10 +1270,10 @@ export default function CrmCommercialPage() {
                                   href={slug ? `/${slug}/conversas/${card.id}` : "#"}
                                   className="flex min-w-0 flex-1 flex-col cursor-pointer p-3"
                                 >
-                                  <p className="truncate font-medium text-[#0F172A]" title={displayName}>
+                                  <p className="truncate font-medium text-foreground" title={displayName}>
                                     {displayName}
                                   </p>
-                                  <p className="mt-0.5 text-[11px] text-[#64748B]">
+                                  <p className="mt-0.5 text-[11px] text-muted-foreground">
                                     {card.assigned_to_name ? `Consultor: ${card.assigned_to_name}` : "Sem responsável"}
                                     {card.queue_name ? ` · ${card.queue_name}` : ""}
                                   </p>
@@ -1285,12 +1285,12 @@ export default function CrmCommercialPage() {
                                     </span>
                                   )}
                                   {card.estimated_value_cents != null && (
-                                    <p className="mt-1 text-[11px] font-medium text-[#0F172A]">
+                                    <p className="mt-1 text-[11px] font-medium text-foreground">
                                       {formatMoneyCents(card.estimated_value_cents)}
                                     </p>
                                   )}
                                   {lastAt && (
-                                    <p className="mt-2 text-[10px] text-[#94A3B8]">Últ. msg: {lastAt}</p>
+                                    <p className="mt-2 text-[10px] text-muted-foreground">Últ. msg: {lastAt}</p>
                                   )}
                                 </Link>
                               </div>
@@ -1302,7 +1302,7 @@ export default function CrmCommercialPage() {
                   </div>
                   <button
                     type="button"
-                    className="hidden shrink-0 self-center rounded border border-[#E2E8F0] bg-white p-2 text-[#64748B] hover:bg-[#F8FAFC] md:block"
+                    className="hidden shrink-0 self-center rounded border border-border bg-card p-2 text-muted-foreground hover:bg-muted/40 md:block"
                     aria-label="Rolar para a direita"
                     onClick={() =>
                       crmKanbanScrollRef.current?.scrollBy({ left: 280, behavior: "smooth" })
@@ -1312,14 +1312,14 @@ export default function CrmCommercialPage() {
                   </button>
                 </div>
               )}
-              <p className="mt-3 text-xs text-[#94A3B8]">
+              <p className="mt-3 text-xs text-muted-foreground">
                 Exibindo até 150 conversas mais recentes. Arrastar um cartão para outra coluna atualiza o status (requer permissão de atribuir ou gerir tickets).
               </p>
             </div>
           )}
 
           {activeTab === "distribuicao" && (
-            <div className="rounded-xl border border-[#E2E8F0] bg-white shadow-sm overflow-hidden">
+            <div className="rounded-xl border border-border bg-card shadow-sm overflow-hidden">
               <div className="space-y-4 p-4">
                 {!canManage && (
                   <div className="rounded-lg border border-amber-200 bg-amber-50 p-3 text-sm text-amber-700">
@@ -1327,7 +1327,7 @@ export default function CrmCommercialPage() {
                   </div>
                 )}
                 {canManage && !selectedQueueId && (
-                  <div className="rounded-lg border border-[#E2E8F0] bg-[#F8FAFC] p-3 text-sm text-[#64748B]">
+                  <div className="rounded-lg border border-border bg-muted/40 p-3 text-sm text-muted-foreground">
                     Selecione uma fila específica para visualizar e operar o round-robin.
                   </div>
                 )}
@@ -1342,9 +1342,9 @@ export default function CrmCommercialPage() {
                     · Conversas sem responsável: <strong>{roundRobin.unassigned_count}</strong>
                   </div>
 
-                  <div className="max-h-[280px] overflow-auto rounded-lg border border-[#E2E8F0]">
+                  <div className="max-h-[280px] overflow-auto rounded-lg border border-border">
                     <table className="min-w-full text-sm">
-                      <thead className="bg-[#F8FAFC] text-left text-xs uppercase tracking-wide text-[#64748B]">
+                      <thead className="bg-muted/40 text-left text-xs uppercase tracking-wide text-muted-foreground">
                         <tr>
                           <th className="px-3 py-2">Consultor</th>
                           <th className="px-3 py-2 text-center">Total</th>
@@ -1355,12 +1355,12 @@ export default function CrmCommercialPage() {
                       </thead>
                       <tbody>
                         {pagedDistAgents.map((a) => (
-                          <tr key={a.user_id} className="border-t border-[#E2E8F0]">
+                          <tr key={a.user_id} className="border-t border-border">
                             <td className="px-3 py-2">
                               <div className="flex items-center gap-2">
-                                <span className="font-medium text-[#0F172A]">{a.full_name}</span>
+                                <span className="font-medium text-foreground">{a.full_name}</span>
                                 {a.is_next && (
-                                  <span className="rounded-full bg-clicvend-orange/10 px-2 py-0.5 text-xs font-medium text-clicvend-orange">
+                                  <span className="rounded-full bg-clicvend-orange/10 px-2 py-0.5 text-xs font-medium text-amber-600 dark:text-amber-400">
                                     Próximo
                                   </span>
                                 )}
@@ -1369,20 +1369,20 @@ export default function CrmCommercialPage() {
                             <td className="px-3 py-2 text-center font-semibold">{a.total_assigned}</td>
                             <td className="px-3 py-2 text-center text-[#0369A1]">{a.open_count}</td>
                             <td className="px-3 py-2 text-center text-[#15803D]">{a.closed_count}</td>
-                            <td className="px-3 py-2 text-[#64748B]">{formatDate(a.last_assigned_at)}</td>
+                            <td className="px-3 py-2 text-muted-foreground">{formatDate(a.last_assigned_at)}</td>
                           </tr>
                         ))}
                       </tbody>
                     </table>
                   </div>
-                  <div className="flex items-center justify-between rounded-lg border border-[#E2E8F0] bg-[#F8FAFC] px-3 py-2">
-                    <p className="text-sm text-[#64748B]">
-                      Página <span className="font-medium text-[#1E293B]">{safeDistPage + 1}</span> de{" "}
-                      <span className="font-medium text-[#1E293B]">{distPageCount}</span> ({distAgents.length} consultor{distAgents.length === 1 ? "" : "es"})
+                  <div className="flex items-center justify-between rounded-lg border border-border bg-muted/40 px-3 py-2">
+                    <p className="text-sm text-muted-foreground">
+                      Página <span className="font-medium text-foreground">{safeDistPage + 1}</span> de{" "}
+                      <span className="font-medium text-foreground">{distPageCount}</span> ({distAgents.length} consultor{distAgents.length === 1 ? "" : "es"})
                     </p>
                     <div className="flex items-center gap-2">
-                      <button type="button" onClick={() => setDistPage((p) => Math.max(0, p - 1))} disabled={safeDistPage === 0} className="inline-flex items-center rounded-lg border border-[#E2E8F0] px-2.5 py-1.5 text-sm text-[#475569] hover:bg-[#F8FAFC] disabled:opacity-50">Anterior</button>
-                      <button type="button" onClick={() => setDistPage((p) => Math.min(distPageCount - 1, p + 1))} disabled={safeDistPage >= distPageCount - 1} className="inline-flex items-center rounded-lg border border-[#E2E8F0] px-2.5 py-1.5 text-sm text-[#475569] hover:bg-[#F8FAFC] disabled:opacity-50">Próxima</button>
+                      <button type="button" onClick={() => setDistPage((p) => Math.max(0, p - 1))} disabled={safeDistPage === 0} className="inline-flex items-center rounded-lg border border-border px-2.5 py-1.5 text-sm text-muted-foreground hover:bg-muted/40 disabled:opacity-50">Anterior</button>
+                      <button type="button" onClick={() => setDistPage((p) => Math.min(distPageCount - 1, p + 1))} disabled={safeDistPage >= distPageCount - 1} className="inline-flex items-center rounded-lg border border-border px-2.5 py-1.5 text-sm text-muted-foreground hover:bg-muted/40 disabled:opacity-50">Próxima</button>
                     </div>
                   </div>
 
@@ -1396,7 +1396,7 @@ export default function CrmCommercialPage() {
                     </button>
                     <button
                       onClick={() => setRedistributeSideOverOpen(true)}
-                      className="inline-flex items-center gap-2 rounded-lg border border-[#E2E8F0] bg-white px-3 py-2 text-sm font-medium text-[#334155] hover:bg-[#F8FAFC] hover:text-clicvend-orange"
+                      className="inline-flex items-center gap-2 rounded-lg border border-border bg-card px-3 py-2 text-sm font-medium text-foreground hover:bg-muted/40 hover:text-amber-600 dark:hover:text-amber-400"
                     >
                       <ArrowRightLeft className="h-4 w-4" />
                       Redistribuir lead
@@ -1404,7 +1404,7 @@ export default function CrmCommercialPage() {
                   </div>
 
                     {actionMessage && (
-                      <div className="rounded-lg border border-[#E2E8F0] bg-[#F8FAFC] p-3 text-sm text-[#334155]">
+                      <div className="rounded-lg border border-border bg-muted/40 p-3 text-sm text-foreground">
                         {actionMessage}
                       </div>
                     )}
@@ -1415,84 +1415,84 @@ export default function CrmCommercialPage() {
           )}
 
           {activeTab === "performance" && (
-            <div className="rounded-xl border border-[#E2E8F0] bg-white shadow-sm overflow-hidden">
+            <div className="rounded-xl border border-border bg-card shadow-sm overflow-hidden">
               <div className="space-y-4 p-4">
-                <div className="overflow-x-auto rounded-lg border border-[#E2E8F0]">
+                <div className="overflow-x-auto rounded-lg border border-border">
                 <table className="w-full min-w-[760px]">
                   <thead>
-                    <tr className="border-b border-[#E2E8F0] bg-[#F8FAFC]">
-                      <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-[#64748B]">
+                    <tr className="border-b border-border bg-muted/40">
+                      <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                         Indicador
                       </th>
-                      <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-[#64748B]">
+                      <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                         Valor
                       </th>
                     </tr>
                   </thead>
                   <tbody>
-                    <tr className="border-b border-[#E2E8F0]">
-                      <td className="px-4 py-3 text-sm text-[#64748B]">Leads no período ({days} dias)</td>
-                      <td className="px-4 py-3 text-sm font-medium text-[#1E293B]">{performance?.totals.leads_total ?? 0}</td>
+                    <tr className="border-b border-border">
+                      <td className="px-4 py-3 text-sm text-muted-foreground">Leads no período ({days} dias)</td>
+                      <td className="px-4 py-3 text-sm font-medium text-foreground">{performance?.totals.leads_total ?? 0}</td>
                     </tr>
-                    <tr className="border-b border-[#E2E8F0]">
-                      <td className="px-4 py-3 text-sm text-[#64748B]">Taxa de conversão</td>
-                      <td className="px-4 py-3 text-sm font-medium text-[#1E293B]">{performance?.totals.conversion_rate ?? 0}%</td>
+                    <tr className="border-b border-border">
+                      <td className="px-4 py-3 text-sm text-muted-foreground">Taxa de conversão</td>
+                      <td className="px-4 py-3 text-sm font-medium text-foreground">{performance?.totals.conversion_rate ?? 0}%</td>
                     </tr>
-                    <tr className="border-b border-[#E2E8F0]">
-                      <td className="px-4 py-3 text-sm text-[#64748B]">Tempo médio de 1ª resposta</td>
-                      <td className="px-4 py-3 text-sm font-medium text-[#1E293B]">
+                    <tr className="border-b border-border">
+                      <td className="px-4 py-3 text-sm text-muted-foreground">Tempo médio de 1ª resposta</td>
+                      <td className="px-4 py-3 text-sm font-medium text-foreground">
                         {performance?.totals.avg_first_response_min != null
                           ? `${performance.totals.avg_first_response_min} min`
                           : "—"}
                       </td>
                     </tr>
                     <tr>
-                      <td className="px-4 py-3 text-sm text-[#64748B]">Filas comerciais no escopo</td>
-                      <td className="px-4 py-3 text-sm font-medium text-[#1E293B]">{overview?.queues.length ?? 0}</td>
+                      <td className="px-4 py-3 text-sm text-muted-foreground">Filas comerciais no escopo</td>
+                      <td className="px-4 py-3 text-sm font-medium text-foreground">{overview?.queues.length ?? 0}</td>
                     </tr>
                   </tbody>
                 </table>
               </div>
 
               <div className="grid gap-3 md:grid-cols-2">
-                <div className="overflow-x-auto rounded-lg border border-[#E2E8F0]">
+                <div className="overflow-x-auto rounded-lg border border-border">
                   <table className="w-full min-w-[420px]">
                     <thead>
-                      <tr className="border-b border-[#E2E8F0] bg-[#F8FAFC]">
-                        <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-[#64748B]">Dia</th>
-                        <th className="px-4 py-3 text-center text-xs font-semibold uppercase tracking-wider text-[#64748B]">Entraram</th>
-                        <th className="px-4 py-3 text-center text-xs font-semibold uppercase tracking-wider text-[#64748B]">Fechados</th>
+                      <tr className="border-b border-border bg-muted/40">
+                        <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-muted-foreground">Dia</th>
+                        <th className="px-4 py-3 text-center text-xs font-semibold uppercase tracking-wider text-muted-foreground">Entraram</th>
+                        <th className="px-4 py-3 text-center text-xs font-semibold uppercase tracking-wider text-muted-foreground">Fechados</th>
                       </tr>
                     </thead>
                     <tbody>
                       {(performance?.timeline ?? []).map((row) => (
-                        <tr key={row.day} className="border-b border-[#E2E8F0] last:border-0">
-                          <td className="px-4 py-3 text-sm text-[#1E293B]">{row.day}</td>
-                          <td className="px-4 py-3 text-center text-sm text-[#1E293B]">{row.leads}</td>
-                          <td className="px-4 py-3 text-center text-sm text-[#1E293B]">{row.closed}</td>
+                        <tr key={row.day} className="border-b border-border last:border-0">
+                          <td className="px-4 py-3 text-sm text-foreground">{row.day}</td>
+                          <td className="px-4 py-3 text-center text-sm text-foreground">{row.leads}</td>
+                          <td className="px-4 py-3 text-center text-sm text-foreground">{row.closed}</td>
                         </tr>
                       ))}
                     </tbody>
                   </table>
                 </div>
 
-                <div className="max-h-[280px] overflow-auto rounded-lg border border-[#E2E8F0]">
+                <div className="max-h-[280px] overflow-auto rounded-lg border border-border">
                   <table className="w-full min-w-[480px]">
                     <thead>
-                      <tr className="border-b border-[#E2E8F0] bg-[#F8FAFC]">
-                        <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-[#64748B]">Consultor</th>
-                        <th className="px-4 py-3 text-center text-xs font-semibold uppercase tracking-wider text-[#64748B]">Leads</th>
-                        <th className="px-4 py-3 text-center text-xs font-semibold uppercase tracking-wider text-[#64748B]">Conversão</th>
-                        <th className="px-4 py-3 text-center text-xs font-semibold uppercase tracking-wider text-[#64748B]">1ª resposta</th>
+                      <tr className="border-b border-border bg-muted/40">
+                        <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-muted-foreground">Consultor</th>
+                        <th className="px-4 py-3 text-center text-xs font-semibold uppercase tracking-wider text-muted-foreground">Leads</th>
+                        <th className="px-4 py-3 text-center text-xs font-semibold uppercase tracking-wider text-muted-foreground">Conversão</th>
+                        <th className="px-4 py-3 text-center text-xs font-semibold uppercase tracking-wider text-muted-foreground">1ª resposta</th>
                       </tr>
                     </thead>
                     <tbody>
                       {pagedPerfConsultants.map((row) => (
-                        <tr key={row.user_id} className="border-b border-[#E2E8F0] last:border-0">
-                          <td className="px-4 py-3 text-sm text-[#1E293B]">{row.full_name}</td>
-                          <td className="px-4 py-3 text-center text-sm text-[#1E293B]">{row.leads_total}</td>
-                          <td className="px-4 py-3 text-center text-sm text-[#1E293B]">{row.conversion_rate}%</td>
-                          <td className="px-4 py-3 text-center text-sm text-[#1E293B]">
+                        <tr key={row.user_id} className="border-b border-border last:border-0">
+                          <td className="px-4 py-3 text-sm text-foreground">{row.full_name}</td>
+                          <td className="px-4 py-3 text-center text-sm text-foreground">{row.leads_total}</td>
+                          <td className="px-4 py-3 text-center text-sm text-foreground">{row.conversion_rate}%</td>
+                          <td className="px-4 py-3 text-center text-sm text-foreground">
                             {row.avg_first_response_min != null ? `${row.avg_first_response_min} min` : "—"}
                           </td>
                         </tr>
@@ -1500,14 +1500,14 @@ export default function CrmCommercialPage() {
                     </tbody>
                   </table>
                 </div>
-                <div className="md:col-span-2 flex items-center justify-between rounded-lg border border-[#E2E8F0] bg-[#F8FAFC] px-3 py-2">
-                  <p className="text-sm text-[#64748B]">
-                    Página <span className="font-medium text-[#1E293B]">{safePerfPage + 1}</span> de{" "}
-                    <span className="font-medium text-[#1E293B]">{perfPageCount}</span> ({perfConsultants.length} consultor{perfConsultants.length === 1 ? "" : "es"})
+                <div className="md:col-span-2 flex items-center justify-between rounded-lg border border-border bg-muted/40 px-3 py-2">
+                  <p className="text-sm text-muted-foreground">
+                    Página <span className="font-medium text-foreground">{safePerfPage + 1}</span> de{" "}
+                    <span className="font-medium text-foreground">{perfPageCount}</span> ({perfConsultants.length} consultor{perfConsultants.length === 1 ? "" : "es"})
                   </p>
                   <div className="flex items-center gap-2">
-                    <button type="button" onClick={() => setPerfPage((p) => Math.max(0, p - 1))} disabled={safePerfPage === 0} className="inline-flex items-center rounded-lg border border-[#E2E8F0] px-2.5 py-1.5 text-sm text-[#475569] hover:bg-[#F8FAFC] disabled:opacity-50">Anterior</button>
-                    <button type="button" onClick={() => setPerfPage((p) => Math.min(perfPageCount - 1, p + 1))} disabled={safePerfPage >= perfPageCount - 1} className="inline-flex items-center rounded-lg border border-[#E2E8F0] px-2.5 py-1.5 text-sm text-[#475569] hover:bg-[#F8FAFC] disabled:opacity-50">Próxima</button>
+                    <button type="button" onClick={() => setPerfPage((p) => Math.max(0, p - 1))} disabled={safePerfPage === 0} className="inline-flex items-center rounded-lg border border-border px-2.5 py-1.5 text-sm text-muted-foreground hover:bg-muted/40 disabled:opacity-50">Anterior</button>
+                    <button type="button" onClick={() => setPerfPage((p) => Math.min(perfPageCount - 1, p + 1))} disabled={safePerfPage >= perfPageCount - 1} className="inline-flex items-center rounded-lg border border-border px-2.5 py-1.5 text-sm text-muted-foreground hover:bg-muted/40 disabled:opacity-50">Próxima</button>
                   </div>
                 </div>
               </div>
@@ -1522,15 +1522,15 @@ export default function CrmCommercialPage() {
           title="Atribuir em round-robin"
         >
           <div className="space-y-4">
-            <p className="text-sm text-[#64748B]">
+            <p className="text-sm text-muted-foreground">
               Selecione uma conversa da fila comercial atual para atribuir ao próximo consultor da rotação.
             </p>
             <div>
-              <label className="mb-1 block text-sm font-medium text-[#334155]">Conversa</label>
+              <label className="mb-1 block text-sm font-medium text-foreground">Conversa</label>
               <select
                 value={selectedConversationId}
                 onChange={(e) => setSelectedConversationId(e.target.value)}
-                className="w-full rounded-lg border border-[#E2E8F0] px-3 py-2 text-sm text-[#1E293B] focus:border-clicvend-orange focus:outline-none focus:ring-1 focus:ring-clicvend-orange"
+                className="w-full rounded-lg border border-border px-3 py-2 text-sm text-foreground focus:border-amber-500 focus:outline-none focus:ring-1 focus:ring-amber-500/20"
               >
                 <option value="">Selecione uma conversa</option>
                 {(overview?.board ?? [])
@@ -1546,7 +1546,7 @@ export default function CrmCommercialPage() {
               <button
                 type="button"
                 onClick={() => setAssignSideOverOpen(false)}
-                className="rounded-lg border border-[#E2E8F0] px-4 py-2 text-sm font-medium text-[#64748B] hover:bg-[#F8FAFC]"
+                className="rounded-lg border border-border px-4 py-2 text-sm font-medium text-muted-foreground hover:bg-muted/40"
               >
                 Cancelar
               </button>
@@ -1570,15 +1570,15 @@ export default function CrmCommercialPage() {
           title="Adicionar contato à carteira"
         >
           <div className="space-y-4">
-            <p className="text-sm text-[#64748B]">
+            <p className="text-sm text-muted-foreground">
               Adicione um número de WhatsApp à sua carteira. Próximas mensagens deste contato serão roteadas diretamente para você.
             </p>
             <div>
-              <label className="mb-1 block text-sm font-medium text-[#334155]">Fila comercial</label>
+              <label className="mb-1 block text-sm font-medium text-foreground">Fila comercial</label>
               <select
                 value={newQueueId}
                 onChange={(e) => setNewQueueId(e.target.value)}
-                className="w-full rounded-lg border border-[#E2E8F0] px-3 py-2 text-sm text-[#1E293B] focus:border-clicvend-orange focus:outline-none focus:ring-1 focus:ring-clicvend-orange"
+                className="w-full rounded-lg border border-border px-3 py-2 text-sm text-foreground focus:border-amber-500 focus:outline-none focus:ring-1 focus:ring-amber-500/20"
               >
                 <option value="">Selecione a fila</option>
                 {(overview?.queues ?? []).map((q) => (
@@ -1587,11 +1587,11 @@ export default function CrmCommercialPage() {
               </select>
             </div>
             <div>
-              <label className="mb-1 block text-sm font-medium text-[#334155]">Canal (instância)</label>
+              <label className="mb-1 block text-sm font-medium text-foreground">Canal (instância)</label>
               <select
                 value={newChannelId}
                 onChange={(e) => setNewChannelId(e.target.value)}
-                className="w-full rounded-lg border border-[#E2E8F0] px-3 py-2 text-sm text-[#1E293B] focus:border-clicvend-orange focus:outline-none focus:ring-1 focus:ring-clicvend-orange"
+                className="w-full rounded-lg border border-border px-3 py-2 text-sm text-foreground focus:border-amber-500 focus:outline-none focus:ring-1 focus:ring-amber-500/20"
               >
                 <option value="">Selecione uma instância</option>
                 {filteredChannels.map((channel) => (
@@ -1601,29 +1601,29 @@ export default function CrmCommercialPage() {
                 ))}
               </select>
               {filteredChannels.length === 0 && (
-                <p className="mt-1 text-xs text-[#64748B]">
+                <p className="mt-1 text-xs text-muted-foreground">
                   Nenhuma instância vinculada a fila comercial encontrada.
                 </p>
               )}
             </div>
             <div>
-              <label className="mb-1 block text-sm font-medium text-[#334155]">Telefone</label>
+              <label className="mb-1 block text-sm font-medium text-foreground">Telefone</label>
               <input
                 type="text"
                 value={newPhone}
                 onChange={(e) => setNewPhone(e.target.value)}
                 placeholder="Ex.: 5511999990000"
-                className="w-full rounded-lg border border-[#E2E8F0] px-3 py-2 text-sm text-[#1E293B] placeholder-[#94A3B8] focus:border-clicvend-orange focus:outline-none focus:ring-1 focus:ring-clicvend-orange"
+                className="w-full rounded-lg border border-border px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:border-amber-500 focus:outline-none focus:ring-1 focus:ring-amber-500/20"
               />
             </div>
             <div>
-              <label className="mb-1 block text-sm font-medium text-[#334155]">Notas (opcional)</label>
+              <label className="mb-1 block text-sm font-medium text-foreground">Notas (opcional)</label>
               <textarea
                 value={newNotes}
                 onChange={(e) => setNewNotes(e.target.value)}
                 rows={3}
                 placeholder="Observações sobre este contato..."
-                className="w-full rounded-lg border border-[#E2E8F0] px-3 py-2 text-sm text-[#1E293B] placeholder-[#94A3B8] focus:border-clicvend-orange focus:outline-none focus:ring-1 focus:ring-clicvend-orange"
+                className="w-full rounded-lg border border-border px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:border-amber-500 focus:outline-none focus:ring-1 focus:ring-amber-500/20"
               />
             </div>
             {portfolioMessage && (
@@ -1633,7 +1633,7 @@ export default function CrmCommercialPage() {
               <button
                 type="button"
                 onClick={() => { setAddContactOpen(false); setPortfolioMessage(""); }}
-                className="rounded-lg border border-[#E2E8F0] px-4 py-2 text-sm font-medium text-[#64748B] hover:bg-[#F8FAFC]"
+                className="rounded-lg border border-border px-4 py-2 text-sm font-medium text-muted-foreground hover:bg-muted/40"
               >
                 Cancelar
               </button>
@@ -1657,15 +1657,15 @@ export default function CrmCommercialPage() {
           title="Transferir contato"
         >
           <div className="space-y-4">
-            <p className="text-sm text-[#64748B]">
+            <p className="text-sm text-muted-foreground">
               Transfira este contato para outro consultor da mesma fila. As conversas abertas também serão reatribuídas.
             </p>
             <div>
-              <label className="mb-1 block text-sm font-medium text-[#334155]">Consultor de destino</label>
+              <label className="mb-1 block text-sm font-medium text-foreground">Consultor de destino</label>
               <select
                 value={transferToUserId}
                 onChange={(e) => setTransferToUserId(e.target.value)}
-                className="w-full rounded-lg border border-[#E2E8F0] px-3 py-2 text-sm text-[#1E293B] focus:border-clicvend-orange focus:outline-none focus:ring-1 focus:ring-clicvend-orange"
+                className="w-full rounded-lg border border-border px-3 py-2 text-sm text-foreground focus:border-amber-500 focus:outline-none focus:ring-1 focus:ring-amber-500/20"
               >
                 <option value="">Selecione o consultor</option>
                 {(overview?.consultants ?? []).map((c) => (
@@ -1674,13 +1674,13 @@ export default function CrmCommercialPage() {
               </select>
             </div>
             <div>
-              <label className="mb-1 block text-sm font-medium text-[#334155]">Motivo (opcional)</label>
+              <label className="mb-1 block text-sm font-medium text-foreground">Motivo (opcional)</label>
               <textarea
                 value={transferReason}
                 onChange={(e) => setTransferReason(e.target.value)}
                 rows={2}
                 placeholder="Ex.: Consultor de férias, redistribuição de carteira..."
-                className="w-full rounded-lg border border-[#E2E8F0] px-3 py-2 text-sm text-[#1E293B] placeholder-[#94A3B8] focus:border-clicvend-orange focus:outline-none focus:ring-1 focus:ring-clicvend-orange"
+                className="w-full rounded-lg border border-border px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:border-amber-500 focus:outline-none focus:ring-1 focus:ring-amber-500/20"
               />
             </div>
             {portfolioMessage && (
@@ -1690,7 +1690,7 @@ export default function CrmCommercialPage() {
               <button
                 type="button"
                 onClick={() => { setTransferContactOpen(false); setPortfolioMessage(""); }}
-                className="rounded-lg border border-[#E2E8F0] px-4 py-2 text-sm font-medium text-[#64748B] hover:bg-[#F8FAFC]"
+                className="rounded-lg border border-border px-4 py-2 text-sm font-medium text-muted-foreground hover:bg-muted/40"
               >
                 Cancelar
               </button>
@@ -1713,15 +1713,15 @@ export default function CrmCommercialPage() {
           title="Redistribuir lead"
         >
           <div className="space-y-4">
-            <p className="text-sm text-[#64748B]">
+            <p className="text-sm text-muted-foreground">
               Reatribua uma conversa para outro consultor da mesma fila comercial.
             </p>
             <div>
-              <label className="mb-1 block text-sm font-medium text-[#334155]">Conversa</label>
+              <label className="mb-1 block text-sm font-medium text-foreground">Conversa</label>
               <select
                 value={redistributeConversationId}
                 onChange={(e) => setRedistributeConversationId(e.target.value)}
-                className="w-full rounded-lg border border-[#E2E8F0] px-3 py-2 text-sm text-[#1E293B] focus:border-clicvend-orange focus:outline-none focus:ring-1 focus:ring-clicvend-orange"
+                className="w-full rounded-lg border border-border px-3 py-2 text-sm text-foreground focus:border-amber-500 focus:outline-none focus:ring-1 focus:ring-amber-500/20"
               >
                 <option value="">Selecione a conversa</option>
                 {(overview?.board ?? [])
@@ -1735,11 +1735,11 @@ export default function CrmCommercialPage() {
               </select>
             </div>
             <div>
-              <label className="mb-1 block text-sm font-medium text-[#334155]">Novo consultor</label>
+              <label className="mb-1 block text-sm font-medium text-foreground">Novo consultor</label>
               <select
                 value={redistributeUserId}
                 onChange={(e) => setRedistributeUserId(e.target.value)}
-                className="w-full rounded-lg border border-[#E2E8F0] px-3 py-2 text-sm text-[#1E293B] focus:border-clicvend-orange focus:outline-none focus:ring-1 focus:ring-clicvend-orange"
+                className="w-full rounded-lg border border-border px-3 py-2 text-sm text-foreground focus:border-amber-500 focus:outline-none focus:ring-1 focus:ring-amber-500/20"
               >
                 <option value="">Selecione o consultor</option>
                 {(roundRobin?.agents ?? []).map((a) => (
@@ -1753,7 +1753,7 @@ export default function CrmCommercialPage() {
               <button
                 type="button"
                 onClick={() => setRedistributeSideOverOpen(false)}
-                className="rounded-lg border border-[#E2E8F0] px-4 py-2 text-sm font-medium text-[#64748B] hover:bg-[#F8FAFC]"
+                className="rounded-lg border border-border px-4 py-2 text-sm font-medium text-muted-foreground hover:bg-muted/40"
               >
                 Cancelar
               </button>

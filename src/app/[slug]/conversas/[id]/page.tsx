@@ -167,7 +167,7 @@ function renderHighlightedText(
     nodes.push(
       <mark
         key={`${hit}-${end}`}
-        className={`rounded px-0.5 ${isActive ? "bg-yellow-300 text-[#1E293B]" : "bg-yellow-200 text-[#1E293B]"}`}
+        className={`rounded px-0.5 ${isActive ? "bg-yellow-300 text-foreground" : "bg-yellow-200 text-foreground"}`}
       >
         {text.slice(hit, end)}
       </mark>
@@ -215,7 +215,7 @@ function resolveConversationStatusVisual(conv: ConversationDetail | null | undef
   const colorHex = (conv?.ticket_status_color_hex ?? "").trim() || fallbackHex;
   const badgeClass =
     effectiveStatus === "closed"
-      ? "bg-[#64748B]/15 text-[#64748B]"
+      ? "bg-[#64748B]/15 text-muted-foreground"
       : effectiveStatus === "in_progress"
         ? "bg-[#8B5CF6]/15 text-[#7C3AED]"
         : effectiveStatus === "waiting"
@@ -318,7 +318,7 @@ function RecordingPreviewBar({
     return (
       <div className="flex items-center justify-between gap-4 rounded-xl bg-gradient-to-r from-violet-400 via-purple-300 to-fuchsia-300 px-5 py-3 shadow-lg text-white">
         <div className="flex items-center gap-3">
-          <div className="flex h-10 w-10 items-center justify-center rounded-full bg-white/20">
+          <div className="flex h-10 w-10 items-center justify-center rounded-full bg-card/20">
             <Loader2 className="h-5 w-5 animate-spin text-white" />
           </div>
           <div className="flex flex-col">
@@ -329,7 +329,7 @@ function RecordingPreviewBar({
         <button
           type="button"
           onClick={onDiscard}
-          className="rounded-full border border-white/60 px-4 py-1.5 text-xs font-medium text-violet-900/90 hover:bg-white/10"
+          className="rounded-full border border-white/60 px-4 py-1.5 text-xs font-medium text-violet-900/90 hover:bg-card/10"
         >
           Cancelar
         </button>
@@ -343,7 +343,7 @@ function RecordingPreviewBar({
       <button
         type="button"
         onClick={togglePlay}
-        className="flex h-11 w-11 items-center justify-center rounded-full bg-white text-violet-600 shadow-md hover:scale-105 transition-transform"
+        className="flex h-11 w-11 items-center justify-center rounded-full bg-card text-violet-600 shadow-md hover:scale-105 transition-transform"
         aria-label={playing ? "Pausar pré-visualização" : "Reproduzir pré-visualização"}
       >
         {playing ? <Pause className="h-5 w-5" /> : <Play className="h-5 w-5 ml-0.5" />}
@@ -357,11 +357,11 @@ function RecordingPreviewBar({
           <span>{duration ? formatDuration(duration) : "–:––"}</span>
         </div>
         <div
-          className="mt-1.5 h-1.5 w-full rounded-full bg-white/30 overflow-hidden cursor-pointer"
+          className="mt-1.5 h-1.5 w-full rounded-full bg-card/30 overflow-hidden cursor-pointer"
           onClick={handleSeek}
         >
           <div
-            className="h-full rounded-full bg-white shadow-[0_0_8px_rgba(255,255,255,0.8)] transition-all"
+            className="h-full rounded-full bg-card shadow-[0_0_8px_rgba(255,255,255,0.8)] transition-all"
             style={{ width: `${progress}%` }}
           />
         </div>
@@ -371,7 +371,7 @@ function RecordingPreviewBar({
           type="button"
           onClick={onSend}
           disabled={sending}
-          className="flex h-9 w-9 items-center justify-center rounded-full bg-white text-violet-600 shadow-md hover:bg-violet-50 disabled:opacity-60"
+          className="flex h-9 w-9 items-center justify-center rounded-full bg-card text-violet-600 shadow-md hover:bg-violet-50 disabled:opacity-60"
           title="Enviar áudio gravado"
           aria-label="Enviar áudio gravado"
         >
@@ -380,7 +380,7 @@ function RecordingPreviewBar({
         <button
           type="button"
           onClick={onDiscard}
-          className="flex h-9 w-9 items-center justify-center rounded-full border border-white/70 text-white/90 hover:bg-white/10"
+          className="flex h-9 w-9 items-center justify-center rounded-full border border-white/70 text-white/90 hover:bg-card/10"
           title="Descartar gravação"
           aria-label="Descartar gravação"
         >
@@ -416,7 +416,7 @@ function RecordingInProgressBar({
         <button
           type="button"
           onClick={onStop}
-          className="flex h-11 w-11 items-center justify-center rounded-full bg-white text-violet-600 shadow-md hover:bg-violet-50"
+          className="flex h-11 w-11 items-center justify-center rounded-full bg-card text-violet-600 shadow-md hover:bg-violet-50"
           aria-label="Parar gravação"
         >
           <Square className="h-5 w-5" />
@@ -436,7 +436,7 @@ function RecordingInProgressBar({
             <div
               // eslint-disable-next-line react/no-array-index-key
               key={idx}
-              className="flex-1 rounded-full bg-white/40 transition-all"
+              className="flex-1 rounded-full bg-card/40 transition-all"
               style={{ height: `${h * 100}%` }}
             />
           ))}
@@ -487,7 +487,7 @@ function VideoPlayerWithFallback({
             href={url}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-xs text-clicvend-orange hover:underline"
+            className="text-xs text-amber-600 dark:text-amber-400 hover:underline"
           >
             Abrir em nova aba
           </a>
@@ -556,14 +556,14 @@ function MediaListThumbnail({
 
   if (type === "image" && url) {
     return (
-      <div className={`overflow-hidden rounded bg-[#E2E8F0] ${sizeClass}`}>
+      <div className={`overflow-hidden rounded bg-muted ${sizeClass}`}>
         <img src={url} alt="" className="h-full w-full object-cover" />
       </div>
     );
   }
   if (type === "video") {
     return (
-      <div className={`relative flex items-center justify-center overflow-hidden rounded bg-[#E2E8F0] text-[#64748B] ${sizeClass}`}>
+      <div className={`relative flex items-center justify-center overflow-hidden rounded bg-muted text-muted-foreground ${sizeClass}`}>
         <Video className={variant === "carousel" ? "h-10 w-10" : "h-5 w-5"} />
         <div className="absolute inset-0 flex items-center justify-center bg-black/20 rounded">
           <Play className={`${variant === "carousel" ? "h-6 w-6" : "h-3 w-3"} text-white drop-shadow`} />
@@ -573,7 +573,7 @@ function MediaListThumbnail({
   }
   const Icon = type === "document" ? FileText : Music;
   return (
-    <div className={`flex items-center justify-center rounded bg-[#E2E8F0] text-[#64748B] ${sizeClass}`}>
+    <div className={`flex items-center justify-center rounded bg-muted text-muted-foreground ${sizeClass}`}>
       <Icon className={variant === "carousel" ? "h-10 w-10" : "h-5 w-5"} />
     </div>
   );
@@ -892,7 +892,7 @@ function MessageBubble({
 
   if (displayType === "internal_note") {
     return (
-      <div className={`rounded-lg bg-purple-50 border border-purple-100 text-[#1E293B] max-w-[69%] px-3 py-2 ${isActiveSearchHit ? "ring-2 ring-clicvend-orange/60" : ""}`}>
+      <div className={`rounded-lg bg-purple-50 border border-purple-100 text-foreground max-w-[69%] px-3 py-2 ${isActiveSearchHit ? "ring-2 ring-clicvend-orange/60" : ""}`}>
         <div className="flex items-center gap-1.5 mb-1 text-purple-600">
           <FileText className="h-3 w-3" />
           <span className="text-[10px] font-bold uppercase tracking-wider">Comentário Interno</span>
@@ -911,10 +911,10 @@ function MessageBubble({
     <div
       className={`rounded-lg ${
         ["audio", "ptt"].includes(resolvedDisplayType)
-          ? "bg-transparent border-0 text-[#1E293B]"
+          ? "bg-transparent border-0 text-foreground"
           : m.direction === "out"
-            ? "bg-[#E2E8F0] border border-[#CBD5E1] text-[#1E293B]"
-            : "bg-white border border-[#E2E8F0] text-[#1E293B]"
+            ? "bg-muted border border-border text-foreground"
+            : "bg-card border border-border text-foreground"
       } ${
         resolvedDisplayType === "document"
           ? "max-w-[41%] min-w-0 w-full px-1 py-0.5"
@@ -925,10 +925,10 @@ function MessageBubble({
               : "max-w-[69%] px-3 py-2"
       } ${isActiveSearchHit ? "ring-2 ring-clicvend-orange/60" : ""}`}
     >
-      <p className="text-xs font-medium text-[#64748B] mb-0.5 flex items-center gap-2">
+      <p className="text-xs font-medium text-muted-foreground mb-0.5 flex items-center gap-2">
         {m.direction === "out" ? "Você" : name}
         {typeof m.id === "string" && m.id.startsWith("temp-") && (
-          <span className="text-[#64748B] font-normal animate-pulse">Enviando…</span>
+          <span className="text-muted-foreground font-normal animate-pulse">Enviando…</span>
         )}
       </p>
       {resolvedDisplayType === "image" && (effectiveMediaUrl || needsDownloadForMedia) && (
@@ -939,7 +939,7 @@ function MessageBubble({
                 href={effectiveMediaUrl || "#"}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="block rounded-xl overflow-hidden border border-[#E2E8F0] shadow-sm hover:shadow-md transition-shadow focus:outline-none focus:ring-2 focus:ring-clicvend-orange/50"
+                className="block rounded-xl overflow-hidden border border-border shadow-sm hover:shadow-md transition-shadow focus:outline-none focus:ring-2 focus:ring-amber-500/20/50"
               >
                 <img
                   src={effectiveMediaUrl || ""}
@@ -948,14 +948,14 @@ function MessageBubble({
                 />
               </a>
               {canFetchDownload && (
-                <button type="button" onClick={handleDownloadClick} disabled={downloadLoading} className="inline-flex items-center gap-1.5 text-xs text-clicvend-orange hover:underline disabled:opacity-50">
+                <button type="button" onClick={handleDownloadClick} disabled={downloadLoading} className="inline-flex items-center gap-1.5 text-xs text-amber-600 dark:text-amber-400 hover:underline disabled:opacity-50">
                   {downloadLoading ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Download className="h-3.5 w-3.5" />}
                   Baixar
                 </button>
               )}
             </>
           ) : (
-            <div className="flex items-center gap-2 py-4 text-sm text-[#64748B]">
+            <div className="flex items-center gap-2 py-4 text-sm text-muted-foreground">
               <Loader2 className="h-5 w-5 animate-spin shrink-0" /> Carregando imagem…
             </div>
           )}
@@ -965,20 +965,20 @@ function MessageBubble({
       {resolvedDisplayType === "video" && (effectiveMediaUrl || needsDownloadForMedia || canFetchDownload) && (
         <div className="w-full space-y-0.5">
           {mediaLoadFailed && effectiveMediaUrl ? (
-            <div className="flex flex-col items-center justify-center gap-3 rounded-lg border border-[#E2E8F0] bg-[#F8FAFC] px-4 py-6 text-center">
-              <p className="text-sm text-[#64748B]">Link expirado. Clique para carregar de novo.</p>
+            <div className="flex flex-col items-center justify-center gap-3 rounded-lg border border-border bg-muted/40 px-4 py-6 text-center">
+              <p className="text-sm text-muted-foreground">Link expirado. Clique para carregar de novo.</p>
               <button
                 type="button"
                 onClick={handleRefreshMedia}
                 disabled={downloadLoading}
-                className="text-sm font-medium text-clicvend-orange hover:underline disabled:opacity-50"
+                className="text-sm font-medium text-amber-600 dark:text-amber-400 hover:underline disabled:opacity-50"
               >
                 {downloadLoading ? "Carregando…" : "Carregar de novo"}
               </button>
             </div>
           ) : effectiveMediaUrl ? (
             <>
-              <div className="relative rounded-lg overflow-hidden border border-[#E2E8F0] shadow-sm w-full bg-[#0F172A] group">
+              <div className="relative rounded-lg overflow-hidden border border-border shadow-sm w-full bg-[#0F172A] group">
                 <span className="absolute top-1.5 left-1.5 z-10 rounded bg-black/60 px-1.5 py-0.5 text-[10px] font-medium text-white uppercase tracking-wide">
                   Vídeo
                 </span>
@@ -991,35 +991,35 @@ function MessageBubble({
                 />
               </div>
               {canFetchDownload && !effectiveMediaUrl && downloadLoading && (
-                <button type="button" disabled className="inline-flex items-center gap-1.5 text-xs text-[#64748B]">
+                <button type="button" disabled className="inline-flex items-center gap-1.5 text-xs text-muted-foreground">
                   <Loader2 className="h-3.5 w-3.5 animate-spin" /> Baixar…
                 </button>
               )}
             </>
           ) : (
-            <div className="flex items-center gap-2 rounded-lg border border-[#E2E8F0] bg-[#F8FAFC] px-3 py-4 w-full">
-              <Loader2 className="h-6 w-6 animate-spin shrink-0 text-clicvend-orange" />
+            <div className="flex items-center gap-2 rounded-lg border border-border bg-muted/40 px-3 py-4 w-full">
+              <Loader2 className="h-6 w-6 animate-spin shrink-0 text-amber-600 dark:text-amber-400" />
               <div>
-                <p className="text-sm font-medium text-[#475569]">Carregando vídeo…</p>
-                <p className="text-xs text-[#64748B]">A miniatura aparecerá em instantes.</p>
+                <p className="text-sm font-medium text-muted-foreground">Carregando vídeo…</p>
+                <p className="text-xs text-muted-foreground">A miniatura aparecerá em instantes.</p>
               </div>
             </div>
           )}
           {showCaptionForMedia && (
-            <p className="whitespace-pre-wrap text-sm text-[#1E293B]">{renderHighlightedText(displayCaptionForMedia, searchTerm, isActiveSearchHit)}</p>
+            <p className="whitespace-pre-wrap text-sm text-foreground">{renderHighlightedText(displayCaptionForMedia, searchTerm, isActiveSearchHit)}</p>
           )}
         </div>
       )}
       {(resolvedDisplayType === "audio" || resolvedDisplayType === "ptt") && (audioSrc || downloadLoading || mediaUrl || canFetchDownload) && (
         <div className="w-full space-y-0.5">
           {mediaLoadFailed && audioSrc ? (
-            <div className="flex flex-col items-center justify-center gap-3 rounded-lg border border-[#E2E8F0] bg-[#F8FAFC] px-4 py-4 text-center">
-              <p className="text-sm text-[#64748B]">Link expirado. Clique para carregar de novo.</p>
+            <div className="flex flex-col items-center justify-center gap-3 rounded-lg border border-border bg-muted/40 px-4 py-4 text-center">
+              <p className="text-sm text-muted-foreground">Link expirado. Clique para carregar de novo.</p>
               <button
                 type="button"
                 onClick={handleRefreshMedia}
                 disabled={downloadLoading}
-                className="text-sm font-medium text-clicvend-orange hover:underline disabled:opacity-50"
+                className="text-sm font-medium text-amber-600 dark:text-amber-400 hover:underline disabled:opacity-50"
               >
                 {downloadLoading ? "Carregando…" : "Carregar de novo"}
               </button>
@@ -1039,21 +1039,21 @@ function MessageBubble({
       {resolvedDisplayType === "document" && (
         <div className="w-full space-y-0 min-w-0">
           {/* Miniatura: preview do PDF ou ícone genérico */}
-          <div className="rounded-t-lg overflow-hidden border border-b-0 border-[#E2E8F0] bg-white">
+          <div className="rounded-t-lg overflow-hidden border border-b-0 border-border bg-card">
             {effectiveMediaUrl && mayBePdf(m.file_name) && documentPreviewFailed ? (
-              <div className="flex flex-col items-center justify-center gap-3 h-[200px] bg-[#F8FAFC] px-4 text-center">
-                <p className="text-sm text-[#64748B]">Link expirado. Clique para carregar de novo.</p>
+              <div className="flex flex-col items-center justify-center gap-3 h-[200px] bg-muted/40 px-4 text-center">
+                <p className="text-sm text-muted-foreground">Link expirado. Clique para carregar de novo.</p>
                 <button
                   type="button"
                   onClick={handleRefreshDocumentPreview}
                   disabled={downloadLoading}
-                  className="text-sm font-medium text-clicvend-orange hover:underline disabled:opacity-50"
+                  className="text-sm font-medium text-amber-600 dark:text-amber-400 hover:underline disabled:opacity-50"
                 >
                   {downloadLoading ? "Carregando…" : "Carregar de novo"}
                 </button>
               </div>
             ) : effectiveMediaUrl && mayBePdf(m.file_name) ? (
-              <div className="relative w-full h-[200px] bg-white overflow-hidden">
+              <div className="relative w-full h-[200px] bg-card overflow-hidden">
                 <iframe
                   key={effectiveMediaUrl}
                   src={effectiveMediaUrl}
@@ -1062,46 +1062,46 @@ function MessageBubble({
                 />
               </div>
             ) : effectiveMediaUrl ? (
-              <div className="flex items-center justify-center h-[140px] bg-[#F8FAFC]">
-                <div className="flex flex-col items-center gap-2 text-[#94A3B8]">
+              <div className="flex items-center justify-center h-[140px] bg-muted/40">
+                <div className="flex flex-col items-center gap-2 text-muted-foreground">
                   <div className="flex h-14 w-14 items-center justify-center rounded-xl bg-red-100 text-red-600">
                     <FileText className="h-7 w-7" />
                   </div>
-                  <span className="text-xs font-medium text-[#64748B]">{getDocumentTypeBadge(m.file_name)}</span>
+                  <span className="text-xs font-medium text-muted-foreground">{getDocumentTypeBadge(m.file_name)}</span>
                 </div>
               </div>
             ) : needsDownloadForDocument && downloadLoading ? (
-              <div className="flex items-center justify-center h-[140px] bg-[#F8FAFC]">
-                <Loader2 className="h-8 w-8 animate-spin text-clicvend-orange" />
+              <div className="flex items-center justify-center h-[140px] bg-muted/40">
+                <Loader2 className="h-8 w-8 animate-spin text-amber-600 dark:text-amber-400" />
               </div>
             ) : (
-              <div className="flex items-center justify-center h-[140px] bg-[#F8FAFC]">
-                <div className="flex flex-col items-center gap-2 text-[#94A3B8]">
+              <div className="flex items-center justify-center h-[140px] bg-muted/40">
+                <div className="flex flex-col items-center gap-2 text-muted-foreground">
                   <div className="flex h-14 w-14 items-center justify-center rounded-xl bg-red-100 text-red-600">
                     <FileText className="h-7 w-7" />
                   </div>
-                  <span className="text-xs font-medium text-[#64748B]">{getDocumentTypeBadge(m.file_name)}</span>
+                  <span className="text-xs font-medium text-muted-foreground">{getDocumentTypeBadge(m.file_name)}</span>
                 </div>
               </div>
             )}
           </div>
           {/* Info: badge do tipo e nome do arquivo (sem botões) */}
           <div
-            className={`flex items-center gap-3 border-x border-[#E2E8F0] py-2.5 px-3 min-w-0 ${
-              m.direction === "out" ? "bg-[#E2E8F0]" : "bg-[#F1F5F9]"
+            className={`flex items-center gap-3 border-x border-border py-2.5 px-3 min-w-0 ${
+              m.direction === "out" ? "bg-muted" : "bg-muted/60"
             }`}
           >
             <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-red-600 text-white text-xs font-bold">
               {getDocumentTypeBadge(m.file_name)}
             </div>
-            <p className="truncate text-sm font-medium text-[#1E293B] min-w-0 flex-1">
+            <p className="truncate text-sm font-medium text-foreground min-w-0 flex-1">
               {m.file_name || "Documento"}
             </p>
           </div>
           {/* Footer: botões Abrir e Salvar como */}
           <div
-            className={`flex items-center justify-end gap-4 rounded-b-lg border border-[#E2E8F0] py-2.5 px-3 ${
-              m.direction === "out" ? "bg-[#E2E8F0]" : "bg-[#F1F5F9]"
+            className={`flex items-center justify-end gap-4 rounded-b-lg border border-border py-2.5 px-3 ${
+              m.direction === "out" ? "bg-muted" : "bg-muted/60"
             }`}
           >
             {effectiveMediaUrl ? (
@@ -1110,7 +1110,7 @@ function MessageBubble({
                   href={effectiveMediaUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-xs font-medium text-clicvend-orange hover:underline"
+                  className="text-xs font-medium text-amber-600 dark:text-amber-400 hover:underline"
                 >
                   Abrir
                 </a>
@@ -1119,7 +1119,7 @@ function MessageBubble({
                   download={m.file_name || "documento"}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-xs font-medium text-clicvend-orange hover:underline"
+                  className="text-xs font-medium text-amber-600 dark:text-amber-400 hover:underline"
                 >
                   Salvar como…
                 </a>
@@ -1130,7 +1130,7 @@ function MessageBubble({
                   type="button"
                   onClick={handleDownloadClick}
                   disabled={downloadLoading}
-                  className="text-xs font-medium text-clicvend-orange hover:underline disabled:opacity-50"
+                  className="text-xs font-medium text-amber-600 dark:text-amber-400 hover:underline disabled:opacity-50"
                 >
                   {downloadLoading ? "Carregando…" : "Abrir"}
                 </button>
@@ -1138,7 +1138,7 @@ function MessageBubble({
                   type="button"
                   onClick={handleDownloadClick}
                   disabled={downloadLoading}
-                  className="text-xs font-medium text-clicvend-orange hover:underline disabled:opacity-50"
+                  className="text-xs font-medium text-amber-600 dark:text-amber-400 hover:underline disabled:opacity-50"
                 >
                   {downloadLoading ? "…" : "Salvar como…"}
                 </button>
@@ -1147,10 +1147,10 @@ function MessageBubble({
           </div>
           {needsDownloadForDocument && !effectiveMediaUrl && !downloadLoading && (
             <div className="flex justify-end gap-4 py-2">
-              <button type="button" onClick={handleDownloadClick} className="text-xs font-medium text-clicvend-orange hover:underline">
+              <button type="button" onClick={handleDownloadClick} className="text-xs font-medium text-amber-600 dark:text-amber-400 hover:underline">
                 Abrir
               </button>
-              <button type="button" onClick={handleDownloadClick} className="text-xs font-medium text-clicvend-orange hover:underline">
+              <button type="button" onClick={handleDownloadClick} className="text-xs font-medium text-amber-600 dark:text-amber-400 hover:underline">
                 Salvar como…
               </button>
             </div>
@@ -1162,11 +1162,11 @@ function MessageBubble({
       )}
       {displayType === "sticker" && effectiveMediaUrl && (
         <div>
-          <div className="rounded-xl overflow-hidden border border-[#E2E8F0] shadow-sm inline-block">
+          <div className="rounded-xl overflow-hidden border border-border shadow-sm inline-block">
             <img src={effectiveMediaUrl} alt="" className="max-h-32 w-auto block" />
           </div>
           {canFetchDownload && (
-            <button type="button" onClick={handleDownloadClick} disabled={downloadLoading} className="mt-1 inline-flex items-center gap-1.5 text-xs text-clicvend-orange hover:underline disabled:opacity-50">
+            <button type="button" onClick={handleDownloadClick} disabled={downloadLoading} className="mt-1 inline-flex items-center gap-1.5 text-xs text-amber-600 dark:text-amber-400 hover:underline disabled:opacity-50">
               {downloadLoading ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Download className="h-3.5 w-3.5" />}
               Baixar
             </button>
@@ -1176,9 +1176,9 @@ function MessageBubble({
       {displayType === "text" && (
         <p className="whitespace-pre-wrap text-sm">{renderHighlightedText(m.content, searchTerm, isActiveSearchHit)}</p>
       )}
-      <footer className={`${["video", "audio", "ptt", "image", "document"].includes(resolvedDisplayType) ? "mt-1 pt-1" : "mt-2 pt-1.5"} border-t border-[#E2E8F0]/60 flex items-center justify-between gap-2 flex-wrap`}>
+      <footer className={`${["video", "audio", "ptt", "image", "document"].includes(resolvedDisplayType) ? "mt-1 pt-1" : "mt-2 pt-1.5"} border-t border-border/60 flex items-center justify-between gap-2 flex-wrap`}>
         <div className="flex items-center gap-1.5 min-w-0 flex-wrap">
-          <span className="text-xs text-[#64748B]">
+          <span className="text-xs text-muted-foreground">
             {new Date(m.sent_at).toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" })}
           </span>
           {m.reaction && (
@@ -1189,32 +1189,32 @@ function MessageBubble({
         </div>
         <div className="flex items-center gap-0.5">
           {m.direction === "out" && (
-            <CheckCheck className="h-3.5 w-3.5 text-[#64748B] shrink-0" aria-hidden />
+            <CheckCheck className="h-3.5 w-3.5 text-muted-foreground shrink-0" aria-hidden />
           )}
           {conversationId && apiHeaders && onDeleteMessage && !String(m.id).startsWith("temp-") && (
             <div className="relative" ref={deleteMenuRef}>
               <button
                 type="button"
                 onClick={(e) => { e.stopPropagation(); setDeleteMenuOpen((v) => !v); }}
-                className="p-1 rounded hover:bg-black/10 text-[#64748B] hover:text-red-600 transition-colors"
+                className="p-1 rounded hover:bg-black/10 text-muted-foreground hover:text-red-600 transition-colors"
                 title="Apagar mensagem"
                 aria-label="Apagar mensagem"
               >
                 <Trash2 className="h-3.5 w-3.5" />
               </button>
               {deleteMenuOpen && (
-                <div className="absolute right-0 bottom-full mb-1 rounded-lg border border-[#E2E8F0] bg-white shadow-lg py-1 min-w-[160px] z-50">
+                <div className="absolute right-0 bottom-full mb-1 rounded-lg border border-border bg-card shadow-lg py-1 min-w-[160px] z-50">
                   <button
                     type="button"
                     onClick={() => { onDeleteMessage(m.id, false); setDeleteMenuOpen(false); }}
-                    className="w-full flex items-center gap-2 px-3 py-2 text-sm text-[#64748B] hover:bg-[#F1F5F9] hover:text-[#1E293B] text-left"
+                    className="w-full flex items-center gap-2 px-3 py-2 text-sm text-muted-foreground hover:bg-muted/60 hover:text-foreground text-left"
                   >
                     <Trash2 className="h-4 w-4 shrink-0" /> Apagar para mim
                   </button>
                   <button
                     type="button"
                     onClick={() => { onDeleteMessage(m.id, true); setDeleteMenuOpen(false); }}
-                    className="w-full flex items-center gap-2 px-3 py-2 text-sm text-[#64748B] hover:bg-red-50 hover:text-red-600 text-left"
+                    className="w-full flex items-center gap-2 px-3 py-2 text-sm text-muted-foreground hover:bg-red-50 hover:text-red-600 text-left"
                   >
                     <Trash2 className="h-4 w-4 shrink-0" /> Apagar para todos
                   </button>
@@ -1227,7 +1227,7 @@ function MessageBubble({
               <button
                 type="button"
                 onClick={(e) => { e.stopPropagation(); setReactionPickerOpen((v) => !v); }}
-                className="p-1 rounded hover:bg-black/10 text-[#64748B] hover:text-[#1E293B] transition-colors"
+                className="p-1 rounded hover:bg-black/10 text-muted-foreground hover:text-foreground transition-colors"
                 title="Reagir"
                 aria-label="Reagir"
               >
@@ -1236,7 +1236,7 @@ function MessageBubble({
               {reactionPickerOpen && (
                 <div
                   ref={pickerPortalRef}
-                  className={`absolute top-0 z-50 rounded-xl bg-white border border-[#E2E8F0] shadow-xl overflow-hidden w-[300px] ${
+                  className={`absolute top-0 z-50 rounded-xl bg-card border border-border shadow-xl overflow-hidden w-[300px] ${
                     m.direction === "out" ? "right-full mr-2" : "left-full ml-2"
                   }`}
                   role="dialog"
@@ -2879,7 +2879,7 @@ export default function ConversaThreadPage({
         {convQueryError instanceof Error && (
           <p className="mt-1 text-xs text-muted-foreground/80">{convQueryError.message}</p>
         )}
-        <a href={`${base}/conversas`} className="mt-2 text-clicvend-orange hover:underline">
+        <a href={`${base}/conversas`} className="mt-2 text-amber-600 dark:text-amber-400 hover:underline">
           Voltar
         </a>
       </div>
@@ -2903,22 +2903,22 @@ export default function ConversaThreadPage({
   const headerStatusVisual = resolveConversationStatusVisual(conv);
 
   return (
-    <div className="flex min-h-0 flex-1 flex-col overflow-hidden bg-[#F1F5F9]">
+    <div className="flex min-h-0 flex-1 flex-col overflow-hidden bg-muted/60">
       <header
-        className="flex shrink-0 items-center gap-3 border-b border-[#E2E8F0] px-4 py-3"
+        className="flex shrink-0 items-center gap-3 border-b border-border px-4 py-3"
         style={{ backgroundColor: `${headerStatusVisual.colorHex}14` }}
       >
         <button
           type="button"
           onClick={() => setFocusMode(!focusMode)}
-          className="shrink-0 rounded p-1 text-[#64748B] hover:bg-[#F1F5F9] hover:text-[#1E293B] transition-colors"
+          className="shrink-0 rounded p-1 text-muted-foreground hover:bg-muted/60 hover:text-foreground transition-colors"
           aria-label={focusMode ? "Sair do modo foco" : "Modo foco"}
           title={focusMode ? "Sair do modo foco (mostrar sidebar)" : "Modo foco: sidebar recolhida, abas com suas conversas"}
         >
           <ArrowLeft className="h-5 w-5" />
         </button>
         <span className="relative shrink-0 rounded-full p-0.5" style={{ backgroundColor: headerStatusVisual.colorHex }}>
-          <span className="flex h-10 w-10 items-center justify-center overflow-hidden rounded-full bg-[#E2E8F0] text-sm font-medium text-[#64748B]">
+          <span className="flex h-10 w-10 items-center justify-center overflow-hidden rounded-full bg-muted text-sm font-medium text-muted-foreground">
             {isLoading ? (
               <Skeleton className="h-10 w-10 rounded-full" />
             ) : imageUrl ? (
@@ -2930,11 +2930,11 @@ export default function ConversaThreadPage({
         </span>
         <div className="min-w-0 flex-1">
           <div className="flex items-center gap-2">
-            <p className="font-medium text-[#1E293B] truncate">{isLoading ? "Carregando…" : (displayName || name)}</p>
+            <p className="font-medium text-foreground truncate">{isLoading ? "Carregando…" : (displayName || name)}</p>
           </div>
           <div className="mt-1.5 flex flex-wrap items-center gap-1.5">
             {!isLoading && displayPhone && displayPhone !== "—" && (
-              <span className="rounded bg-[#F1F5F9] px-1.5 py-0.5 text-xs font-medium text-[#64748B]" title="Número normalizado para envio">
+              <span className="rounded bg-muted/60 px-1.5 py-0.5 text-xs font-medium text-muted-foreground" title="Número normalizado para envio">
                 {displayPhone}
               </span>
             )}
@@ -2945,12 +2945,12 @@ export default function ConversaThreadPage({
               </span>
             )}
             {!isLoading && conv?.queue_name && (
-              <span className="rounded bg-[#E2E8F0] px-1.5 py-0.5 text-xs text-[#64748B]">
+              <span className="rounded bg-muted px-1.5 py-0.5 text-xs text-muted-foreground">
                 Fila: {conv.queue_name}
               </span>
             )}
             {!isLoading && (
-              <span className="rounded bg-[#E2E8F0] px-1.5 py-0.5 text-xs text-[#64748B]">
+              <span className="rounded bg-muted px-1.5 py-0.5 text-xs text-muted-foreground">
                 Atendente:{" "}
                 {conv?.assigned_to
                   ? (conv.assigned_to_name && String(conv.assigned_to_name).trim() !== ""
@@ -2987,7 +2987,7 @@ export default function ConversaThreadPage({
                 return next;
               });
             }}
-            className={`rounded p-2 ${messageSearchOpen ? "bg-[#E2E8F0] text-[#1E293B]" : "text-[#64748B] hover:bg-[#F1F5F9] hover:text-[#1E293B]"}`}
+            className={`rounded p-2 ${messageSearchOpen ? "bg-muted text-foreground" : "text-muted-foreground hover:bg-muted/60 hover:text-foreground"}`}
             aria-label="Buscar mensagens"
           >
             <Search className="h-4 w-4" />
@@ -2997,7 +2997,7 @@ export default function ConversaThreadPage({
               type="button"
               onClick={() => void handleLoadMoreChat()}
               disabled={loadingOlderMessages || pullingRemoteHistory}
-              className="rounded p-2 text-[#64748B] hover:bg-[#F1F5F9] hover:text-[#1E293B] disabled:opacity-50"
+              className="rounded p-2 text-muted-foreground hover:bg-muted/60 hover:text-foreground disabled:opacity-50"
               aria-label="Carregar mais mensagens (servidor ou histórico sincronizado)"
               title="Sincroniza um lote do WhatsApp (instância) e carrega mensagens mais antigas no chat."
             >
@@ -3012,7 +3012,7 @@ export default function ConversaThreadPage({
             <button
               type="button"
               onClick={openTransferSideOver}
-              className="rounded p-2 text-[#64748B] hover:bg-[#F1F5F9] hover:text-[#1E293B]"
+              className="rounded p-2 text-muted-foreground hover:bg-muted/60 hover:text-foreground"
               aria-label="Transferir para outra fila"
             >
               <ArrowRightLeft className="h-4 w-4" />
@@ -3021,7 +3021,7 @@ export default function ConversaThreadPage({
           <button
             type="button"
             onClick={() => setInfoOpen(true)}
-            className="rounded p-2 text-[#64748B] hover:bg-[#F1F5F9] hover:text-[#1E293B]"
+            className="rounded p-2 text-muted-foreground hover:bg-muted/60 hover:text-foreground"
             aria-label="Ver informações do contato"
           >
             <User className="h-4 w-4" />
@@ -3031,7 +3031,7 @@ export default function ConversaThreadPage({
               type="button"
               onClick={() => void handleStatusChange(closedStatusSlug)}
               disabled={!!chatActionLoading}
-              className="inline-flex shrink-0 items-center gap-1.5 rounded-lg border border-red-300 bg-white px-2.5 py-1.5 text-xs font-semibold text-red-600 shadow-sm transition-colors hover:bg-red-50 hover:border-red-400 hover:text-red-700 disabled:opacity-50"
+              className="inline-flex shrink-0 items-center gap-1.5 rounded-lg border border-red-300 bg-card px-2.5 py-1.5 text-xs font-semibold text-red-600 shadow-sm transition-colors hover:bg-red-50 hover:border-red-400 hover:text-red-700 disabled:opacity-50"
               title="Encerrar chamado (vai para o status Encerrado no Kanban)"
               aria-label="Encerrar chamado"
             >
@@ -3047,19 +3047,19 @@ export default function ConversaThreadPage({
             <button
               type="button"
               onClick={() => setChatMenuOpen((o) => !o)}
-              className="rounded p-2 text-[#64748B] hover:bg-[#F1F5F9] hover:text-[#1E293B]"
+              className="rounded p-2 text-muted-foreground hover:bg-muted/60 hover:text-foreground"
               aria-label="Mais opções"
               aria-expanded={chatMenuOpen}
             >
               <MoreVertical className="h-4 w-4" />
             </button>
             {chatMenuOpen && (
-              <div className="absolute right-0 top-full z-50 mt-1 w-56 rounded-lg border border-[#E2E8F0] bg-white py-1 shadow-lg">
+              <div className="absolute right-0 top-full z-50 mt-1 w-56 rounded-lg border border-border bg-card py-1 shadow-lg">
                 <button
                   type="button"
                   onClick={() => chatAction("read", { read: true })}
                   disabled={!!chatActionLoading}
-                  className="flex w-full items-center gap-2 px-3 py-2 text-left text-sm text-[#1E293B] hover:bg-[#F8FAFC] disabled:opacity-60"
+                  className="flex w-full items-center gap-2 px-3 py-2 text-left text-sm text-foreground hover:bg-muted/40 disabled:opacity-60"
                 >
                   <Check className="h-4 w-4 shrink-0" />
                   Marcar como lido
@@ -3068,7 +3068,7 @@ export default function ConversaThreadPage({
                   type="button"
                   onClick={() => chatAction("archive", { archive: true })}
                   disabled={!!chatActionLoading}
-                  className="flex w-full items-center gap-2 px-3 py-2 text-left text-sm text-[#1E293B] hover:bg-[#F8FAFC] disabled:opacity-60"
+                  className="flex w-full items-center gap-2 px-3 py-2 text-left text-sm text-foreground hover:bg-muted/40 disabled:opacity-60"
                 >
                   <Archive className="h-4 w-4 shrink-0" />
                   Arquivar conversa
@@ -3080,7 +3080,7 @@ export default function ConversaThreadPage({
                     setChatMenuOpen(false);
                   }}
                   disabled={!!chatActionLoading}
-                  className="flex w-full items-center gap-2 px-3 py-2 text-left text-sm text-[#1E293B] hover:bg-[#F8FAFC] disabled:opacity-60"
+                  className="flex w-full items-center gap-2 px-3 py-2 text-left text-sm text-foreground hover:bg-muted/40 disabled:opacity-60"
                 >
                   <User className="h-4 w-4 shrink-0" />
                   Alterar status no perfil
@@ -3089,7 +3089,7 @@ export default function ConversaThreadPage({
                   type="button"
                   onClick={() => chatAction("mute", { muteEndTime: 8 })}
                   disabled={!!chatActionLoading}
-                  className="flex w-full items-center gap-2 px-3 py-2 text-left text-sm text-[#1E293B] hover:bg-[#F8FAFC] disabled:opacity-60"
+                  className="flex w-full items-center gap-2 px-3 py-2 text-left text-sm text-foreground hover:bg-muted/40 disabled:opacity-60"
                 >
                   <BellOff className="h-4 w-4 shrink-0" />
                   Silenciar (8h)
@@ -3098,17 +3098,17 @@ export default function ConversaThreadPage({
                   type="button"
                   onClick={() => chatAction("pin", { pin: true })}
                   disabled={!!chatActionLoading}
-                  className="flex w-full items-center gap-2 px-3 py-2 text-left text-sm text-[#1E293B] hover:bg-[#F8FAFC] disabled:opacity-60"
+                  className="flex w-full items-center gap-2 px-3 py-2 text-left text-sm text-foreground hover:bg-muted/40 disabled:opacity-60"
                 >
                   <Pin className="h-4 w-4 shrink-0" />
                   Fixar conversa
                 </button>
-                <hr className="my-1 border-[#E2E8F0]" />
+                <hr className="my-1 border-border" />
                 <button
                   type="button"
                   onClick={openDeleteConfirm}
                   disabled={!!chatActionLoading}
-                  className="flex w-full items-center gap-2 px-3 py-2 text-left text-sm text-[#EF4444] hover:bg-[#FEF2F2] disabled:opacity-60"
+                  className="flex w-full items-center gap-2 px-3 py-2 text-left text-sm text-[#EF4444] hover:bg-destructive/10 disabled:opacity-60"
                 >
                   <Trash2 className="h-4 w-4 shrink-0" />
                   Excluir conversa
@@ -3142,7 +3142,7 @@ export default function ConversaThreadPage({
                   }
                 }}
                 placeholder="Buscar texto nas mensagens desta conversa"
-                className="h-9 w-full rounded-lg border border-border bg-background pl-8 pr-3 text-sm text-foreground outline-none focus:border-clicvend-orange"
+                className="h-9 w-full rounded-lg border border-border bg-background pl-8 pr-3 text-sm text-foreground outline-none focus:border-amber-500"
               />
             </div>
             <span className="min-w-[72px] text-center text-xs font-medium text-muted-foreground">
@@ -3230,7 +3230,7 @@ export default function ConversaThreadPage({
                       type="button"
                       onClick={() => void handleLoadMoreChat()}
                       disabled={loadingOlderMessages || pullingRemoteHistory}
-                      className="inline-flex items-center gap-1.5 text-sm font-medium text-clicvend-orange hover:underline disabled:cursor-not-allowed disabled:opacity-50 disabled:no-underline"
+                      className="inline-flex items-center gap-1.5 text-sm font-medium text-amber-600 dark:text-amber-400 hover:underline disabled:cursor-not-allowed disabled:opacity-50 disabled:no-underline"
                       title="Sincroniza com a instância (WhatsApp) e traz mensagens mais antigas. Pode clicar de novo."
                     >
                       {pullingRemoteHistory || loadingOlderMessages ? (
@@ -3252,7 +3252,7 @@ export default function ConversaThreadPage({
                     <p className="text-sm text-muted-foreground">Nenhuma mensagem carregada ainda.</p>
                     <p className="max-w-md text-xs text-muted-foreground/80">
                       Esta conversa não está vinculada a um canal WhatsApp. Sem canal, não dá para pedir histórico na UAZAPI.{" "}
-                      <Link href={`${base}/conexoes`} className="text-clicvend-orange hover:underline font-medium">
+                      <Link href={`${base}/conexoes`} className="text-amber-600 dark:text-amber-400 hover:underline font-medium">
                         Vincule em Conexões
                       </Link>
                       .
@@ -3323,14 +3323,14 @@ export default function ConversaThreadPage({
               onDiscard={discardRecordedAudio}
             />
           ) : isTicketClosed ? (
-          <div className="border-t border-[#E2E8F0] bg-[#F8FAFC] px-4 py-5">
-            <p className="mb-3 text-sm leading-relaxed text-[#475569]">
+          <div className="border-t border-border bg-muted/40 px-4 py-5">
+            <p className="mb-3 text-sm leading-relaxed text-muted-foreground">
               Este chamado já foi <strong>encerrado</strong>. Não é possível enviar mensagens neste ticket.
             </p>
             <button
               type="button"
               onClick={() => setTimelineOpen(true)}
-              className="inline-flex items-center gap-2 rounded-lg border border-[#E2E8F0] bg-white px-4 py-2.5 text-sm font-medium text-[#1E293B] shadow-sm transition-colors hover:bg-[#F1F5F9]"
+              className="inline-flex items-center gap-2 rounded-lg border border-border bg-card px-4 py-2.5 text-sm font-medium text-foreground shadow-sm transition-colors hover:bg-muted/60"
             >
               <History className="h-4 w-4 shrink-0" aria-hidden />
               Ver histórico do atendimento
@@ -3368,7 +3368,7 @@ export default function ConversaThreadPage({
   {canSendMessages && !conv?.channel_id && (
     <div className="border-b border-border bg-muted/30 px-4 py-2 text-xs text-muted-foreground">
       Sem canal WhatsApp vinculado — mensagens podem não ser entregues.{" "}
-      <Link href={`${base}/conexoes`} className="font-medium text-clicvend-orange hover:underline">
+      <Link href={`${base}/conexoes`} className="font-medium text-amber-600 dark:text-amber-400 hover:underline">
         Configurar em Conexões
       </Link>
     </div>
@@ -3377,7 +3377,7 @@ export default function ConversaThreadPage({
     <button
       type="button"
       onClick={() => setInputTab('write')}
-      className={`px-4 py-2 text-sm font-medium transition-colors border-b-2 flex items-center gap-2 ${inputTab === 'write' ? 'border-clicvend-orange text-clicvend-orange bg-card' : 'border-transparent text-muted-foreground hover:text-foreground hover:bg-muted/40'}`}
+      className={`px-4 py-2 text-sm font-medium transition-colors border-b-2 flex items-center gap-2 ${inputTab === 'write' ? 'border-clicvend-orange text-amber-600 dark:text-amber-400 bg-card' : 'border-transparent text-muted-foreground hover:text-foreground hover:bg-muted/40'}`}
     >
       <MessageSquare className="h-4 w-4" />
       Responder
@@ -3385,7 +3385,7 @@ export default function ConversaThreadPage({
     <button
       type="button"
       onClick={() => setInputTab('quick')}
-      className={`px-4 py-2 text-sm font-medium transition-colors border-b-2 flex items-center gap-2 ${inputTab === 'quick' ? 'border-clicvend-orange text-clicvend-orange bg-card' : 'border-transparent text-muted-foreground hover:text-foreground hover:bg-muted/40'}`}
+      className={`px-4 py-2 text-sm font-medium transition-colors border-b-2 flex items-center gap-2 ${inputTab === 'quick' ? 'border-clicvend-orange text-amber-600 dark:text-amber-400 bg-card' : 'border-transparent text-muted-foreground hover:text-foreground hover:bg-muted/40'}`}
     >
       <Zap className="h-4 w-4" />
       Respostas Rápidas
@@ -3444,16 +3444,16 @@ export default function ConversaThreadPage({
         />
 
         {quickSearch !== null && filteredQuickReplies.length > 0 && (
-            <div className="absolute bottom-full left-0 mb-2 w-full rounded-xl bg-white border border-[#E2E8F0] shadow-xl overflow-hidden max-h-[300px] overflow-y-auto z-50">
+            <div className="absolute bottom-full left-0 mb-2 w-full rounded-xl bg-card border border-border shadow-xl overflow-hidden max-h-[300px] overflow-y-auto z-50">
                 {filteredQuickReplies.map((qr: any, i: number) => (
                 <button
                     key={qr.id}
                     type="button"
                     onClick={() => selectQuickReply(qr)}
-                    className={`w-full text-left px-4 py-2 text-sm hover:bg-[#F8FAFC] flex items-center justify-between gap-2 border-b border-[#F1F5F9] last:border-0 ${i === quickIndex ? "bg-[#F1F5F9]" : ""}`}
+                    className={`w-full text-left px-4 py-2 text-sm hover:bg-muted/40 flex items-center justify-between gap-2 border-b border-[#F1F5F9] last:border-0 ${i === quickIndex ? "bg-muted/60" : ""}`}
                 >
-                    <span className="font-medium text-[#1E293B] shrink-0">/{qr.shortCut}</span>
-                    <span className="truncate text-[#64748B] flex-1 min-w-0 text-xs">{qr.text}</span>
+                    <span className="font-medium text-foreground shrink-0">/{qr.shortCut}</span>
+                    <span className="truncate text-muted-foreground flex-1 min-w-0 text-xs">{qr.text}</span>
                 </button>
                 ))}
             </div>
@@ -3529,21 +3529,21 @@ export default function ConversaThreadPage({
                     <button
                         type="button"
                         onClick={() => setAttachOpen(!attachOpen)}
-                        className="p-2 text-[#64748B] hover:bg-[#E2E8F0] transition-colors"
+                        className="p-2 text-muted-foreground hover:bg-muted/60 transition-colors"
                         title="Anexar arquivo"
                         disabled={inputTab === 'note'}
                     >
                         <Paperclip className="h-5 w-5" />
                     </button>
                      {attachOpen && (
-                        <div className="flex items-center border-l border-[#E2E8F0] flex-wrap">
-                            <button type="button" onClick={() => { fileInputRef.current?.click(); setAttachOpen(false); }} className="px-3 py-1.5 text-xs text-[#64748B] hover:bg-[#F8FAFC] font-medium">Imagem</button>
-                            <button type="button" onClick={() => { videoInputRef.current?.click(); setAttachOpen(false); }} className="px-3 py-1.5 text-xs text-[#64748B] hover:bg-[#F8FAFC] font-medium">Vídeo</button>
-                            <button type="button" onClick={() => { startRecordingVideo(); }} className="px-3 py-1.5 text-xs text-[#64748B] hover:bg-[#F8FAFC] flex items-center gap-1 font-medium">
+                        <div className="flex items-center border-l border-border flex-wrap">
+                            <button type="button" onClick={() => { fileInputRef.current?.click(); setAttachOpen(false); }} className="px-3 py-1.5 text-xs text-muted-foreground hover:bg-muted/40 font-medium">Imagem</button>
+                            <button type="button" onClick={() => { videoInputRef.current?.click(); setAttachOpen(false); }} className="px-3 py-1.5 text-xs text-muted-foreground hover:bg-muted/40 font-medium">Vídeo</button>
+                            <button type="button" onClick={() => { startRecordingVideo(); }} className="px-3 py-1.5 text-xs text-muted-foreground hover:bg-muted/40 flex items-center gap-1 font-medium">
                                 <Video className="h-3.5 w-3.5" /> Gravar vídeo
                             </button>
-                            <button type="button" onClick={() => { audioInputRef.current?.click(); setAttachOpen(false); }} className="px-3 py-1.5 text-xs text-[#64748B] hover:bg-[#F8FAFC] font-medium">Áudio</button>
-                            <button type="button" onClick={() => { docInputRef.current?.click(); setAttachOpen(false); }} className="px-3 py-1.5 text-xs text-[#64748B] hover:bg-[#F8FAFC] font-medium">Documento</button>
+                            <button type="button" onClick={() => { audioInputRef.current?.click(); setAttachOpen(false); }} className="px-3 py-1.5 text-xs text-muted-foreground hover:bg-muted/40 font-medium">Áudio</button>
+                            <button type="button" onClick={() => { docInputRef.current?.click(); setAttachOpen(false); }} className="px-3 py-1.5 text-xs text-muted-foreground hover:bg-muted/40 font-medium">Documento</button>
                         </div>
                     )}
                  </div>
@@ -3553,7 +3553,7 @@ export default function ConversaThreadPage({
                         ref={inputEmojiButtonRef}
                         type="button"
                         onClick={() => setInputEmojiPickerOpen((v) => !v)}
-                        className="p-2 text-[#64748B] hover:bg-[#E2E8F0] rounded-lg transition-colors"
+                        className="p-2 text-muted-foreground hover:bg-muted/60 rounded-lg transition-colors"
                         title="Inserir emoji"
                     >
                         <Smile className="h-5 w-5" />
@@ -3561,7 +3561,7 @@ export default function ConversaThreadPage({
                     {inputEmojiPickerOpen && (
                         <div
                             ref={inputEmojiPickerRef}
-                            className="absolute bottom-full left-0 mb-2 z-50 rounded-xl bg-white border border-[#E2E8F0] shadow-xl overflow-hidden w-[320px]"
+                            className="absolute bottom-full left-0 mb-2 z-50 rounded-xl bg-card border border-border shadow-xl overflow-hidden w-[320px]"
                         >
                              <div className="max-h-[320px] overflow-auto">
                                 <EmojiReactionPicker
@@ -3579,20 +3579,20 @@ export default function ConversaThreadPage({
                      <button
                         type="button"
                         onClick={startRecording}
-                        className="p-2 text-[#64748B] hover:bg-[#E2E8F0] rounded-lg transition-colors"
+                        className="p-2 text-muted-foreground hover:bg-muted/60 rounded-lg transition-colors"
                         title="Gravar áudio"
                      >
                          <Mic className="h-5 w-5" />
                      </button>
                  )}
 
-                 <div className="h-5 w-px bg-[#E2E8F0] mx-1" />
+                 <div className="h-5 w-px bg-muted mx-1" />
 
                  <button
                     type="button"
                     onClick={handleAICorrection}
                     disabled={correctingText || !sendValue.trim()}
-                    className="p-2 text-[#64748B] hover:text-clicvend-orange hover:bg-[#E2E8F0] rounded-lg transition-colors group disabled:opacity-50"
+                    className="p-2 text-muted-foreground hover:text-amber-600 dark:hover:text-amber-400 hover:bg-muted/60 rounded-lg transition-colors group disabled:opacity-50"
                     title="Corrigir com IA"
                  >
                      {correctingText ? <Loader2 className="h-5 w-5 animate-spin" /> : <Sparkles className="h-5 w-5" />}
@@ -3607,7 +3607,7 @@ export default function ConversaThreadPage({
             className={`flex h-10 w-10 items-center justify-center rounded-full text-white transition-all shadow-sm disabled:cursor-not-allowed ${
               inputTab === 'note' 
                 ? 'bg-purple-600 hover:bg-purple-700 disabled:bg-purple-300' 
-                : 'bg-clicvend-orange hover:bg-clicvend-orange-dark disabled:bg-[#94A3B8]'
+                : 'bg-clicvend-orange hover:bg-clicvend-orange-dark disabled:bg-muted'
             }`}
             title={inputTab === 'note' ? "Salvar comentário" : "Enviar"}
           >
@@ -3617,15 +3617,15 @@ export default function ConversaThreadPage({
         </div>
       </>
     ) : inputTab === "copilot" ? (
-      <div className="flex min-h-[340px] max-h-[min(640px,62vh)] flex-col border-t border-[#E2E8F0] bg-white">
-        <div className="flex flex-wrap items-center justify-between gap-2 border-b border-[#E2E8F0] bg-[#F8FAFC] px-3 py-2.5">
+      <div className="flex min-h-[340px] max-h-[min(640px,62vh)] flex-col border-t border-border bg-card">
+        <div className="flex flex-wrap items-center justify-between gap-2 border-b border-border bg-muted/40 px-3 py-2.5">
           <div className="flex min-w-0 items-center gap-2">
-            <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-white shadow-sm ring-1 ring-[#E2E8F0]">
-              <Bot className="h-4 w-4 text-[#475569]" aria-hidden />
+            <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-card shadow-sm ring-1 ring-border">
+              <Bot className="h-4 w-4 text-muted-foreground" aria-hidden />
             </div>
             <div className="min-w-0">
-              <p className="text-sm font-semibold text-[#1E293B]">Chat com o agente</p>
-              <p className="text-[11px] leading-snug text-[#64748B]">
+              <p className="text-sm font-semibold text-foreground">Chat com o agente</p>
+              <p className="text-[11px] leading-snug text-muted-foreground">
                 Interno — o cliente não vê. Na 1ª mensagem do fio o contexto do chamado é enviado automaticamente.
               </p>
             </div>
@@ -3635,19 +3635,19 @@ export default function ConversaThreadPage({
               type="button"
               onClick={resetCopilotAgentThread}
               disabled={copilotAgentLoading}
-              className="rounded-lg border border-[#E2E8F0] bg-white px-2.5 py-1.5 text-xs font-medium text-[#475569] hover:bg-[#F1F5F9] disabled:opacity-50"
+              className="rounded-lg border border-border bg-card px-2.5 py-1.5 text-xs font-medium text-muted-foreground hover:bg-muted/60 disabled:opacity-50"
             >
               Novo fio
             </button>
             {slug && canManageCopilotAgent ? (
               <a
                 href={`/${slug}/copiloto`}
-                className="rounded-lg px-2.5 py-1.5 text-xs font-medium text-clicvend-orange hover:underline"
+                className="rounded-lg px-2.5 py-1.5 text-xs font-medium text-amber-600 dark:text-amber-400 hover:underline"
               >
                 Agentes e filas
               </a>
             ) : slug ? (
-              <span className="text-[11px] text-[#94A3B8]">Copiloto</span>
+              <span className="text-[11px] text-muted-foreground">Copiloto</span>
             ) : null}
           </div>
         </div>
@@ -3655,12 +3655,12 @@ export default function ConversaThreadPage({
         <div className="flex min-h-0 flex-1 flex-col p-3">
           <div
             ref={copilotAgentScrollRef}
-            className="min-h-[160px] flex-1 overflow-y-auto rounded-xl border border-[#E2E8F0] bg-[#F8FAFC] px-3 py-3 space-y-3 [scrollbar-width:thin]"
+            className="min-h-[160px] flex-1 overflow-y-auto rounded-xl border border-border bg-muted/40 px-3 py-3 space-y-3 [scrollbar-width:thin]"
           >
             {copilotAgentMessages.length === 0 ? (
               <div className="flex h-full min-h-[120px] flex-col items-center justify-center px-4 text-center">
-                <p className="text-sm text-[#64748B]">Converse com o agente desta conexão/fila.</p>
-                <p className="mt-1 max-w-sm text-xs text-[#94A3B8]">
+                <p className="text-sm text-muted-foreground">Converse com o agente desta conexão/fila.</p>
+                <p className="mt-1 max-w-sm text-xs text-muted-foreground">
                   Pergunte o que precisar (tom, objeção, próximo passo…). Cada fio mantém o histórico até &quot;Novo fio&quot;.
                 </p>
               </div>
@@ -3674,7 +3674,7 @@ export default function ConversaThreadPage({
                     className={`max-w-[min(100%,28rem)] whitespace-pre-wrap rounded-2xl px-3 py-2 text-sm leading-relaxed shadow-sm ${
                       m.role === "user"
                         ? "rounded-br-md bg-clicvend-orange text-white"
-                        : "rounded-bl-md border border-[#E2E8F0] bg-white text-[#1e293b]"
+                        : "rounded-bl-md border border-border bg-card text-[#1e293b]"
                     }`}
                   >
                     {m.content}
@@ -3684,7 +3684,7 @@ export default function ConversaThreadPage({
             )}
             {copilotAgentLoading ? (
               <div className="flex justify-start">
-                <div className="flex items-center gap-2 rounded-2xl border border-[#E2E8F0] bg-white px-3 py-2 text-sm text-[#64748B] shadow-sm">
+                <div className="flex items-center gap-2 rounded-2xl border border-border bg-card px-3 py-2 text-sm text-muted-foreground shadow-sm">
                   <Loader2 className="h-4 w-4 animate-spin shrink-0" />
                   Pensando…
                 </div>
@@ -3705,7 +3705,7 @@ export default function ConversaThreadPage({
               placeholder="Escreva para o agente… (Enter envia, Shift+Enter quebra linha)"
               rows={2}
               disabled={copilotAgentLoading || !canSendMessages}
-              className="min-h-[44px] min-w-0 flex-1 resize-y rounded-xl border border-[#E2E8F0] bg-white px-3 py-2.5 text-sm text-[#1E293B] placeholder:text-[#94A3B8] focus:border-clicvend-orange focus:outline-none focus:ring-2 focus:ring-clicvend-orange/20 disabled:opacity-60"
+              className="min-h-[44px] min-w-0 flex-1 resize-y rounded-xl border border-border bg-card px-3 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:border-amber-500 focus:outline-none focus:ring-2 focus:ring-amber-500/20/20 disabled:opacity-60"
             />
             <button
               type="button"
@@ -3724,7 +3724,7 @@ export default function ConversaThreadPage({
           <div className="flex-1 overflow-y-auto">
              {tabQuickReplies.length > 0 ? (
                  <table className="w-full text-sm text-left">
-                     <thead className="text-xs text-[#64748B] uppercase bg-[#F8FAFC] sticky top-0 z-10">
+                     <thead className="text-xs text-muted-foreground uppercase bg-muted/40 sticky top-0 z-10">
                          <tr>
                              <th className="px-4 py-2 font-medium w-1/4">Atalho</th>
                              <th className="px-4 py-2 font-medium">Mensagem</th>
@@ -3737,13 +3737,13 @@ export default function ConversaThreadPage({
                          {tabQuickReplies.map((qr: any) => (
                              <tr 
                                  key={qr.id} 
-                                 className="hover:bg-[#F1F5F9] cursor-pointer group transition-colors"
+                                 className="hover:bg-muted/60 cursor-pointer group transition-colors"
                                  onClick={() => {
                                      selectQuickReply(qr);
                                      setInputTab('write');
                                  }}
                              >
-                                 <td className="px-4 py-2 font-medium text-[#1E293B]">
+                                 <td className="px-4 py-2 font-medium text-foreground">
                                      <div className="flex items-center gap-2">
                                          <span>/{qr.shortCut}</span>
                                          <button
@@ -3752,30 +3752,30 @@ export default function ConversaThreadPage({
                                                  e.stopPropagation();
                                                  navigator.clipboard.writeText(`/${qr.shortCut}`);
                                              }}
-                                             className="text-[#94A3B8] hover:text-[#1E293B] opacity-0 group-hover:opacity-100 transition-opacity"
+                                             className="text-muted-foreground hover:text-foreground opacity-0 group-hover:opacity-100 transition-opacity"
                                              title="Copiar atalho"
                                          >
                                              <Copy className="h-3.5 w-3.5" />
                                          </button>
                                      </div>
                                  </td>
-                                 <td className="px-4 py-2 text-[#64748B]">
+                                 <td className="px-4 py-2 text-muted-foreground">
                                      <div className="relative group/tooltip">
                                          <span className="line-clamp-1 max-w-[300px]">{qr.text}</span>
-                                         <div className="absolute left-0 bottom-full mb-2 hidden w-[300px] rounded-lg bg-[#1E293B] p-2 text-xs text-white shadow-lg group-hover/tooltip:block z-50 whitespace-pre-wrap">
+                                         <div className="absolute left-0 bottom-full mb-2 hidden w-[300px] rounded-lg bg-popover p-2 text-xs text-popover-foreground border border-border shadow-lg group-hover/tooltip:block z-50 whitespace-pre-wrap">
                                              {qr.text}
-                                             <div className="absolute -bottom-1 left-4 h-2 w-2 rotate-45 bg-[#1E293B]"></div>
+                                             <div className="absolute -bottom-1 left-4 h-2 w-2 rotate-45 bg-popover"></div>
                                          </div>
                                      </div>
                                  </td>
-                                 <td className="px-4 py-2 text-xs text-[#64748B]">
+                                 <td className="px-4 py-2 text-xs text-muted-foreground">
                                      {qr.createdAt ? new Date(qr.createdAt).toLocaleDateString("pt-BR") : "—"}
                                  </td>
-                                 <td className="px-4 py-2 text-xs text-[#64748B]">
+                                 <td className="px-4 py-2 text-xs text-muted-foreground">
                                      {qr.updatedAt ? new Date(qr.updatedAt).toLocaleDateString("pt-BR") : "—"}
                                  </td>
                                  <td className="px-4 py-2 text-right">
-                                     <button type="button" className="text-clicvend-orange opacity-0 group-hover:opacity-100 transition-opacity" title="Usar resposta">
+                                     <button type="button" className="text-amber-600 dark:text-amber-400 opacity-0 group-hover:opacity-100 transition-opacity" title="Usar resposta">
                                          <Check className="h-4 w-4" />
                                      </button>
                                  </td>
@@ -3784,7 +3784,7 @@ export default function ConversaThreadPage({
                      </tbody>
                  </table>
              ) : (
-                 <div className="flex flex-col items-center justify-center h-full text-[#94A3B8] text-sm gap-2">
+                 <div className="flex flex-col items-center justify-center h-full text-muted-foreground text-sm gap-2">
                      <p>Nenhuma resposta encontrada.</p>
                  </div>
              )}
@@ -3805,22 +3805,22 @@ export default function ConversaThreadPage({
         width={560}
       >
         <div className="space-y-4">
-          <div className="rounded-lg bg-[#F8FAFC] p-3 text-sm">
-            <p className="font-medium text-[#1E293B]">{displayName || name || "Conversa"}</p>
-            <p className="mt-1 text-[#64748B]">
-              Fila atual: <span className="font-medium text-[#1E293B]">{conv?.queue_name || "Sem fila"}</span>
+          <div className="rounded-lg bg-muted/40 p-3 text-sm">
+            <p className="font-medium text-foreground">{displayName || name || "Conversa"}</p>
+            <p className="mt-1 text-muted-foreground">
+              Fila atual: <span className="font-medium text-foreground">{conv?.queue_name || "Sem fila"}</span>
             </p>
-            <p className="mt-1 text-xs text-[#64748B]">
+            <p className="mt-1 text-xs text-muted-foreground">
               Ao transferir, o atendimento vai para a nova fila como <strong>Novo</strong> e sem atendente atribuído.
             </p>
           </div>
 
           <div>
-            <label className="mb-2 block text-sm font-medium text-[#334155]">Nova fila</label>
+            <label className="mb-2 block text-sm font-medium text-foreground">Nova fila</label>
             <select
               value={transferQueueId}
               onChange={(e) => setTransferQueueId(e.target.value)}
-              className="w-full rounded-lg border border-[#E2E8F0] px-3 py-2 text-sm text-[#1E293B]"
+              className="w-full rounded-lg border border-border px-3 py-2 text-sm text-foreground"
             >
               <option value="">Selecione uma fila</option>
               {transferQueueOptions.map((q) => (
@@ -3831,7 +3831,7 @@ export default function ConversaThreadPage({
               ))}
             </select>
             {transferQueueOptions.length === 0 && (
-              <p className="mt-2 text-xs text-[#94A3B8]">Nenhuma fila disponível. Cadastre filas em Filas (caixas de entrada).</p>
+              <p className="mt-2 text-xs text-muted-foreground">Nenhuma fila disponível. Cadastre filas em Filas (caixas de entrada).</p>
             )}
           </div>
 
@@ -3840,7 +3840,7 @@ export default function ConversaThreadPage({
               type="button"
               onClick={() => setTransferOpen(false)}
               disabled={transferSaving}
-              className="flex-1 rounded-lg border border-[#E2E8F0] bg-white px-3 py-2 text-sm font-medium text-[#64748B] hover:bg-[#F8FAFC] disabled:opacity-60"
+              className="flex-1 rounded-lg border border-border bg-card px-3 py-2 text-sm font-medium text-muted-foreground hover:bg-muted/40 disabled:opacity-60"
             >
               Cancelar
             </button>
@@ -3863,37 +3863,37 @@ export default function ConversaThreadPage({
         title="Histórico do atendimento"
         width={520}
       >
-        <div className="space-y-4 text-sm text-[#1E293B]">
+        <div className="space-y-4 text-sm text-foreground">
           {timelineLoading ? (
-            <div className="flex items-center gap-2 text-[#64748B]">
+            <div className="flex items-center gap-2 text-muted-foreground">
               <Loader2 className="h-5 w-5 animate-spin shrink-0" aria-hidden />
               Carregando…
             </div>
           ) : timelineData ? (
             <>
-              <div className="space-y-2 rounded-lg border border-[#E2E8F0] bg-[#F8FAFC] p-3">
-                <p className="text-xs font-semibold uppercase tracking-wide text-[#64748B]">Resumo</p>
-                <ul className="space-y-1.5 text-[#334155]">
+              <div className="space-y-2 rounded-lg border border-border bg-muted/40 p-3">
+                <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Resumo</p>
+                <ul className="space-y-1.5 text-foreground">
                   <li>
-                    <span className="text-[#64748B]">Aberto em:</span>{" "}
+                    <span className="text-muted-foreground">Aberto em:</span>{" "}
                     {new Date(timelineData.conversation.created_at).toLocaleString("pt-BR")}
                   </li>
                   {timelineData.conversation.channel_name ? (
                     <li>
-                      <span className="text-[#64748B]">Conexão (instância):</span> {timelineData.conversation.channel_name}
+                      <span className="text-muted-foreground">Conexão (instância):</span> {timelineData.conversation.channel_name}
                     </li>
                   ) : null}
                   {timelineData.conversation.queue_name ? (
                     <li>
-                      <span className="text-[#64748B]">Fila:</span> {timelineData.conversation.queue_name}
+                      <span className="text-muted-foreground">Fila:</span> {timelineData.conversation.queue_name}
                     </li>
                   ) : null}
                   <li>
-                    <span className="text-[#64748B]">Atendente (atribuição atual):</span>{" "}
+                    <span className="text-muted-foreground">Atendente (atribuição atual):</span>{" "}
                     {timelineData.conversation.assigned_to_name ?? "—"}
                   </li>
                   <li>
-                    <span className="text-[#64748B]">Status atual:</span>{" "}
+                    <span className="text-muted-foreground">Status atual:</span>{" "}
                     {resolveTimelineStatusDisplay(
                       timelineData.conversation.status ?? "",
                       timelineData.status_labels_by_slug ?? {}
@@ -3902,26 +3902,26 @@ export default function ConversaThreadPage({
                 </ul>
               </div>
               <div>
-                <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-[#64748B]">
+                <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
                   Linha do tempo — mudanças de status
                 </p>
                 {timelineData.status_changes.length === 0 ? (
-                  <p className="text-[#64748B]">
+                  <p className="text-muted-foreground">
                     Nenhuma mudança de status registrada neste ticket (histórico pode ser anterior ao registro automático).
                   </p>
                 ) : (
-                  <ul className="relative space-y-4 border-l-2 border-[#E2E8F0] pl-4">
+                  <ul className="relative space-y-4 border-l-2 border-border pl-4">
                     {timelineData.status_changes.map((row) => (
                       <li key={row.id} className="relative">
                         <span className="absolute -left-[9px] top-1.5 h-3 w-3 rounded-full bg-clicvend-orange ring-2 ring-white" />
-                        <p className="text-xs text-[#94A3B8]">
+                        <p className="text-xs text-muted-foreground">
                           {new Date(row.created_at).toLocaleString("pt-BR")}
                         </p>
-                        <p className="font-medium text-[#1E293B]">
+                        <p className="font-medium text-foreground">
                           {resolveTimelineStatusDisplay(row.from_status, timelineData.status_labels_by_slug ?? {})} →{" "}
                           {resolveTimelineStatusDisplay(row.to_status, timelineData.status_labels_by_slug ?? {})}
                         </p>
-                        <p className="text-xs text-[#64748B]">
+                        <p className="text-xs text-muted-foreground">
                           {row.changed_by
                             ? row.changed_by_name?.trim()
                               ? `Por: ${row.changed_by_name}`
@@ -3935,7 +3935,7 @@ export default function ConversaThreadPage({
               </div>
             </>
           ) : (
-            <p className="text-[#64748B]">Não foi possível carregar o histórico.</p>
+            <p className="text-muted-foreground">Não foi possível carregar o histórico.</p>
           )}
         </div>
       </SideOver>
@@ -4031,7 +4031,7 @@ export default function ConversaThreadPage({
           <div className="flex-1 overflow-y-auto min-h-0">
             {contactDetailsLoading && (
               <div className="flex items-center justify-center py-12">
-                <Loader2 className="h-8 w-8 animate-spin text-clicvend-orange" />
+                <Loader2 className="h-8 w-8 animate-spin text-amber-600 dark:text-amber-400" />
               </div>
             )}
             {contactDetailsError && !contactDetailsLoading && (
@@ -4047,29 +4047,29 @@ export default function ConversaThreadPage({
                   const statusBg = kanbanColor || "#64748B";
                   const statusTitle = kanbanColor ? "Status do ticket (Kanban)" : "Status";
                   return (
-                <div className="flex flex-col items-center gap-3 border-b border-[#E2E8F0] pb-4">
+                <div className="flex flex-col items-center gap-3 border-b border-border pb-4">
                   <div className="relative p-2 rounded-full shadow-lg ring-2 ring-black/10" style={{ backgroundColor: statusBg }} title={statusTitle}>
-                    <div className="relative h-24 w-24 shrink-0 overflow-hidden rounded-full bg-white ring-2 ring-white shadow-inner">
+                    <div className="relative h-24 w-24 shrink-0 overflow-hidden rounded-full bg-card ring-2 ring-white shadow-inner">
                       {imageUrl ? (
                         <img src={imageUrl} alt="" className="h-full w-full object-cover" />
                       ) : (
-                        <div className="flex h-full w-full items-center justify-center text-3xl text-[#94A3B8] bg-[#E2E8F0]">
+                        <div className="flex h-full w-full items-center justify-center text-3xl text-muted-foreground bg-muted">
                           <User className="h-12 w-12" />
                         </div>
                       )}
                     </div>
                   </div>
                   <div className="text-center">
-                    <p className="font-semibold text-[#1E293B]">{displayName}</p>
+                    <p className="font-semibold text-foreground">{displayName}</p>
                     <a
                       href={telHref}
-                      className="mt-1 flex items-center justify-center gap-2 text-sm text-[#64748B] hover:text-clicvend-orange"
+                      className="mt-1 flex items-center justify-center gap-2 text-sm text-muted-foreground hover:text-amber-600 dark:hover:text-amber-400"
                     >
                       <Phone className="h-3.5 w-3.5" />
                       {displayPhone}
                     </a>
                     {conv?.channel_name && (
-                      <p className="mt-1 text-xs text-[#94A3B8]">{conv.channel_name}</p>
+                      <p className="mt-1 text-xs text-muted-foreground">{conv.channel_name}</p>
                     )}
                   </div>
                 </div>
@@ -4077,11 +4077,11 @@ export default function ConversaThreadPage({
                 })()}
                 <div className="space-y-3">
                   <div className="flex items-center justify-between gap-2">
-                    <h3 className="text-xs font-semibold uppercase tracking-wider text-[#64748B]">Mídias e documentos</h3>
+                    <h3 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Mídias e documentos</h3>
                     {(() => {
                       const mediaList = getMediaMessages(conv?.messages);
                       return mediaList.length > 0 ? (
-                        <span className="text-xs font-medium text-[#64748B] shrink-0">
+                        <span className="text-xs font-medium text-muted-foreground shrink-0">
                           {mediaList.length} {mediaList.length === 1 ? "arquivo" : "arquivos"}
                         </span>
                       ) : null;
@@ -4090,7 +4090,7 @@ export default function ConversaThreadPage({
                   {(() => {
                     const mediaList = getMediaMessages(conv?.messages);
                     if (mediaList.length === 0) {
-                      return <p className="text-sm text-[#94A3B8]">Nenhuma mídia ou documento nesta conversa.</p>;
+                      return <p className="text-sm text-muted-foreground">Nenhuma mídia ou documento nesta conversa.</p>;
                     }
                     return (
                       <div className="overflow-x-auto overflow-y-hidden pb-2 -mx-1 px-1 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
@@ -4101,11 +4101,11 @@ export default function ConversaThreadPage({
                             return (
                               <li
                                 key={msg.id}
-                                className="flex flex-col shrink-0 w-28 snap-start rounded-lg border border-[#E2E8F0] bg-[#F8FAFC] overflow-hidden hover:border-[#CBD5E1] transition-colors"
+                                className="flex flex-col shrink-0 w-28 snap-start rounded-lg border border-border bg-muted/40 overflow-hidden hover:border-border transition-colors"
                               >
                                 <button
                                   type="button"
-                                  className="block w-full text-left focus:outline-none focus:ring-2 focus:ring-clicvend-orange/30 rounded-t-lg overflow-hidden"
+                                  className="block w-full text-left focus:outline-none focus:ring-2 focus:ring-amber-500/20/30 rounded-t-lg overflow-hidden"
                                   onClick={async () => {
                                     if (!resolved?.id || !apiHeaders) return;
                                     try {
@@ -4117,7 +4117,7 @@ export default function ConversaThreadPage({
                                     }
                                   }}
                                 >
-                                  <div className="h-24 w-full bg-[#E2E8F0]">
+                                  <div className="h-24 w-full bg-muted">
                                     <MediaListThumbnail
                                       type={type}
                                       msgId={msg.id}
@@ -4128,8 +4128,8 @@ export default function ConversaThreadPage({
                                     />
                                   </div>
                                   <div className="px-2 py-1.5 min-h-0">
-                                    <p className="text-xs font-medium text-[#1E293B] truncate" title={label}>{label}</p>
-                                    <p className="text-[10px] text-[#94A3B8]">
+                                    <p className="text-xs font-medium text-foreground truncate" title={label}>{label}</p>
+                                    <p className="text-[10px] text-muted-foreground">
                                       {new Date(msg.sent_at).toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" })}
                                     </p>
                                   </div>
@@ -4147,7 +4147,7 @@ export default function ConversaThreadPage({
                                       // ignorar
                                     }
                                   }}
-                                  className="flex items-center justify-center gap-1 py-1.5 text-[10px] text-[#64748B] hover:bg-[#E2E8F0] hover:text-clicvend-orange transition-colors"
+                                  className="flex items-center justify-center gap-1 py-1.5 text-[10px] text-muted-foreground hover:bg-muted/60 hover:text-amber-600 dark:hover:text-amber-400 transition-colors"
                                   title="Ver e baixar"
                                 >
                                   <Download className="h-3.5 w-3.5" />
@@ -4162,55 +4162,55 @@ export default function ConversaThreadPage({
                   })()}
                 </div>
                 <div className="space-y-2">
-                  <h3 className="text-xs font-semibold uppercase tracking-wider text-[#64748B]">Pessoa</h3>
-                  <p className="text-sm text-[#94A3B8]">Selecione</p>
+                  <h3 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Pessoa</h3>
+                  <p className="text-sm text-muted-foreground">Selecione</p>
                 </div>
                 {contactDetails && (
                   <div className="space-y-3">
-                    <h3 className="text-xs font-semibold uppercase tracking-wider text-[#64748B]">Outras informações</h3>
+                    <h3 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Outras informações</h3>
                     <dl className="space-y-2 text-sm">
                       {contactDetails.wa_isBlocked != null && (
                         <div>
-                          <dt className="text-[#64748B]">Bloqueado</dt>
-                          <dd className="font-medium text-[#1E293B]">{contactDetails.wa_isBlocked ? "Sim" : "Não"}</dd>
+                          <dt className="text-muted-foreground">Bloqueado</dt>
+                          <dd className="font-medium text-foreground">{contactDetails.wa_isBlocked ? "Sim" : "Não"}</dd>
                         </div>
                       )}
                       {contactDetails.lead_email && (
                         <div>
-                          <dt className="text-[#64748B]">E-mail (lead)</dt>
-                          <dd className="font-medium text-[#1E293B]">{contactDetails.lead_email}</dd>
+                          <dt className="text-muted-foreground">E-mail (lead)</dt>
+                          <dd className="font-medium text-foreground">{contactDetails.lead_email}</dd>
                         </div>
                       )}
                       {contactDetails.lead_status && (
                         <div>
-                          <dt className="text-[#64748B]">Status (lead)</dt>
-                          <dd className="font-medium text-[#1E293B]">{contactDetails.lead_status}</dd>
+                          <dt className="text-muted-foreground">Status (lead)</dt>
+                          <dd className="font-medium text-foreground">{contactDetails.lead_status}</dd>
                         </div>
                       )}
                       {contactDetails.common_groups && (
                         <div>
-                          <dt className="text-[#64748B]">Grupos em comum</dt>
-                          <dd className="font-medium text-[#1E293B] break-words">{contactDetails.common_groups}</dd>
+                          <dt className="text-muted-foreground">Grupos em comum</dt>
+                          <dd className="font-medium text-foreground break-words">{contactDetails.common_groups}</dd>
                         </div>
                       )}
                       {contactDetails.lead_notes && (
                         <div>
-                          <dt className="text-[#64748B]">Observações</dt>
-                          <dd className="font-medium text-[#1E293B] whitespace-pre-wrap">{contactDetails.lead_notes}</dd>
+                          <dt className="text-muted-foreground">Observações</dt>
+                          <dd className="font-medium text-foreground whitespace-pre-wrap">{contactDetails.lead_notes}</dd>
                         </div>
                       )}
                     </dl>
                   </div>
                 )}
                 <div className="flex items-center justify-between py-2">
-                  <span className="text-sm text-[#64748B]">Silenciar</span>
-                  <span className="text-xs text-[#94A3B8]">Off</span>
+                  <span className="text-sm text-muted-foreground">Silenciar</span>
+                  <span className="text-xs text-muted-foreground">Off</span>
                 </div>
                 {(canChangeStatus || canClose) && (
-                  <div className="space-y-2 rounded-lg border border-[#E2E8F0] bg-[#F8FAFC] p-3">
+                  <div className="space-y-2 rounded-lg border border-border bg-muted/40 p-3">
                     <div className="flex items-center justify-between gap-2">
-                      <p className="text-xs font-semibold uppercase tracking-wider text-[#64748B]">Status do ticket</p>
-                      <span className="text-[11px] text-[#94A3B8]">{conv?.queue_name ? `Fila ${conv.queue_name}` : "Status da empresa"}</span>
+                      <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Status do ticket</p>
+                      <span className="text-[11px] text-muted-foreground">{conv?.queue_name ? `Fila ${conv.queue_name}` : "Status da empresa"}</span>
                     </div>
                     <div className="flex flex-wrap gap-2">
                       {(() => {
@@ -4227,8 +4227,8 @@ export default function ConversaThreadPage({
                               disabled={!!chatActionLoading || active}
                               className={`inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-xs font-medium transition-colors disabled:opacity-60 ${
                                 active
-                                  ? "border-clicvend-orange/40 bg-clicvend-orange/10 text-clicvend-orange"
-                                  : "border-[#E2E8F0] bg-white text-[#334155] hover:bg-[#F1F5F9]"
+                                  ? "border-clicvend-orange/40 bg-clicvend-orange/10 text-amber-600 dark:text-amber-400"
+                                  : "border-border bg-card text-foreground hover:bg-muted/60"
                               }`}
                             >
                               <span className="h-2 w-2 rounded-full" style={{ backgroundColor: s.color_hex ?? "#64748B" }} />
@@ -4240,11 +4240,11 @@ export default function ConversaThreadPage({
                       })()}
                     </div>
                     {availableTicketStatuses.length === 0 && (
-                      <p className="text-xs text-[#94A3B8]">Nenhum status configurado para esta fila.</p>
+                      <p className="text-xs text-muted-foreground">Nenhum status configurado para esta fila.</p>
                     )}
                   </div>
                 )}
-                <button type="button" className="w-full rounded-lg border border-[#E2E8F0] py-2 text-sm text-[#64748B] hover:bg-[#F8FAFC]">
+                <button type="button" className="w-full rounded-lg border border-border py-2 text-sm text-muted-foreground hover:bg-muted/40">
                   Marcar como não lida
                 </button>
                 {infoOpen && conv && (
@@ -4295,7 +4295,7 @@ export default function ConversaThreadPage({
               </div>
             )}
             {!conv?.channel_id && !contactDetailsLoading && (
-              <p className="text-sm text-[#64748B]">Canal não disponível para detalhes.</p>
+              <p className="text-sm text-muted-foreground">Canal não disponível para detalhes.</p>
             )}
           </div>
         </div>
@@ -4309,7 +4309,7 @@ export default function ConversaThreadPage({
         width={560}
       >
         <div className="space-y-4">
-          <p className="text-sm text-[#64748B]">
+          <p className="text-sm text-muted-foreground">
             Escolha o que deseja remover. Pode marcar mais de uma opção.
           </p>
           <label className="flex items-center gap-2 cursor-pointer">
@@ -4317,33 +4317,33 @@ export default function ConversaThreadPage({
               type="checkbox"
               checked={deleteOptions.deleteChatDB}
               onChange={(e) => setDeleteOptions((o) => ({ ...o, deleteChatDB: e.target.checked }))}
-              className="rounded border-[#E2E8F0] text-clicvend-orange focus:ring-clicvend-orange"
+              className="rounded border-border text-amber-600 dark:text-amber-400 focus:ring-amber-500/20"
             />
-            <span className="text-sm text-[#1E293B]">Remover conversa do painel (banco de dados)</span>
+            <span className="text-sm text-foreground">Remover conversa do painel (banco de dados)</span>
           </label>
           <label className="flex items-center gap-2 cursor-pointer">
             <input
               type="checkbox"
               checked={deleteOptions.deleteMessagesDB}
               onChange={(e) => setDeleteOptions((o) => ({ ...o, deleteMessagesDB: e.target.checked }))}
-              className="rounded border-[#E2E8F0] text-clicvend-orange focus:ring-clicvend-orange"
+              className="rounded border-border text-amber-600 dark:text-amber-400 focus:ring-amber-500/20"
             />
-            <span className="text-sm text-[#1E293B]">Remover mensagens do banco de dados</span>
+            <span className="text-sm text-foreground">Remover mensagens do banco de dados</span>
           </label>
           <label className="flex items-center gap-2 cursor-pointer">
             <input
               type="checkbox"
               checked={deleteOptions.deleteChatWhatsApp}
               onChange={(e) => setDeleteOptions((o) => ({ ...o, deleteChatWhatsApp: e.target.checked }))}
-              className="rounded border-[#E2E8F0] text-clicvend-orange focus:ring-clicvend-orange"
+              className="rounded border-border text-amber-600 dark:text-amber-400 focus:ring-amber-500/20"
             />
-            <span className="text-sm text-[#1E293B]">Remover também no WhatsApp</span>
+            <span className="text-sm text-foreground">Remover também no WhatsApp</span>
           </label>
           <div className="flex gap-2 pt-2">
             <button
               type="button"
               onClick={() => setDeleteConfirmOpen(false)}
-              className="flex-1 rounded-lg border border-[#E2E8F0] bg-white px-3 py-2 text-sm font-medium text-[#64748B] hover:bg-[#F8FAFC]"
+              className="flex-1 rounded-lg border border-border bg-card px-3 py-2 text-sm font-medium text-muted-foreground hover:bg-muted/40"
             >
               Cancelar
             </button>
@@ -4373,7 +4373,7 @@ export default function ConversaThreadPage({
           <button
             type="button"
             onClick={() => setTransferToast(null)}
-            className="ml-2 rounded-full p-1 text-[#E2E8F0] hover:bg-white/10"
+            className="ml-2 rounded-full p-1 text-muted-foreground hover:bg-card/10"
             aria-label="Fechar aviso"
           >
             <X className="h-3 w-3" />

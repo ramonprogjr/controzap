@@ -297,7 +297,7 @@ export function QueueConfigSideOver({
               type="button"
               onClick={() => setActiveTab(t.id)}
               className={`flex items-center gap-1.5 shrink-0 rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
-                activeTab === t.id ? "bg-clicvend-orange/10 text-clicvend-orange" : "text-[#64748B] hover:bg-[#F1F5F9]"
+                activeTab === t.id ? "bg-clicvend-orange/10 text-amber-600 dark:text-amber-400" : "text-muted-foreground hover:bg-muted/60"
               }`}
             >
               {t.icon}
@@ -312,8 +312,8 @@ export function QueueConfigSideOver({
 
         {queueLoading ? (
           <div className="flex flex-col items-center justify-center py-12">
-            <Loader2 className="h-10 w-10 animate-spin text-clicvend-orange" />
-            <span className="mt-3 text-sm text-[#64748B]">Carregando…</span>
+            <Loader2 className="h-10 w-10 animate-spin text-amber-600 dark:text-amber-400" />
+            <span className="mt-3 text-sm text-muted-foreground">Carregando…</span>
           </div>
         ) : (
           <>
@@ -321,36 +321,36 @@ export function QueueConfigSideOver({
             {activeTab === "configuracoes" && (
               <div className="space-y-4">
                 <div>
-                  <label className="mb-1 block text-sm font-medium text-[#334155]">Nome da fila</label>
+                  <label className="mb-1 block text-sm font-medium text-foreground">Nome da fila</label>
                   <input
                     type="text"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
-                    className="w-full rounded-lg border border-[#E2E8F0] px-3 py-2 text-[#1E293B] focus:border-clicvend-orange focus:outline-none focus:ring-1 focus:ring-clicvend-orange"
+                    className="w-full rounded-lg border border-border px-3 py-2 text-foreground focus:border-amber-500 focus:outline-none focus:ring-1 focus:ring-amber-500/20"
                   />
                 </div>
                 <div>
-                  <label className="mb-1 block text-sm font-medium text-[#334155]">Slug</label>
+                  <label className="mb-1 block text-sm font-medium text-foreground">Slug</label>
                   <input
                     type="text"
                     value={slug}
                     onChange={(e) => setSlug(e.target.value)}
                     placeholder="ex: comercial"
-                    className="w-full rounded-lg border border-[#E2E8F0] px-3 py-2 font-mono text-sm text-[#1E293B] focus:border-clicvend-orange focus:outline-none focus:ring-1 focus:ring-clicvend-orange"
+                    className="w-full rounded-lg border border-border px-3 py-2 font-mono text-sm text-foreground focus:border-amber-500 focus:outline-none focus:ring-1 focus:ring-amber-500/20"
                   />
-                  <p className="mt-1 text-xs text-[#64748B]">Somente letras minúsculas, números e hífens.</p>
+                  <p className="mt-1 text-xs text-muted-foreground">Somente letras minúsculas, números e hífens.</p>
                 </div>
                 <div>
-                  <label className="mb-1 block text-sm font-medium text-[#334155]">Tipo da fila</label>
+                  <label className="mb-1 block text-sm font-medium text-foreground">Tipo da fila</label>
                   <select
                     value={queueType}
                     onChange={(e) => setQueueType(e.target.value === "commercial" ? "commercial" : "standard")}
-                    className="w-full rounded-lg border border-[#E2E8F0] px-3 py-2 text-sm text-[#1E293B] focus:border-clicvend-orange focus:outline-none focus:ring-1 focus:ring-clicvend-orange"
+                    className="w-full rounded-lg border border-border px-3 py-2 text-sm text-foreground focus:border-amber-500 focus:outline-none focus:ring-1 focus:ring-amber-500/20"
                   >
                     <option value="standard">Padrao</option>
                     <option value="commercial">Comercial (carteira privada + round-robin)</option>
                   </select>
-                  <p className="mt-1 text-xs text-[#64748B]">
+                  <p className="mt-1 text-xs text-muted-foreground">
                     Em filas comerciais, consultores veem apenas a propria carteira. Gestor continua com visao completa.
                   </p>
                 </div>
@@ -358,7 +358,7 @@ export function QueueConfigSideOver({
                   <button
                     type="button"
                     onClick={onClose}
-                    className="rounded-lg border border-[#E2E8F0] px-4 py-2 text-sm font-medium text-[#64748B] hover:bg-[#F8FAFC]"
+                    className="rounded-lg border border-border px-4 py-2 text-sm font-medium text-muted-foreground hover:bg-muted/40"
                   >
                     Cancelar
                   </button>
@@ -378,7 +378,7 @@ export function QueueConfigSideOver({
             {/* Aba Atribuições */}
             {activeTab === "atribuicoes" && (
               <div className="space-y-4">
-                <p className="text-sm text-[#64748B]">
+                <p className="text-sm text-muted-foreground">
                   Atendentes atribuídos a esta caixa poderão ver e atender as conversas (incluindo grupos, se for a caixa Grupos).
                 </p>
                 {assignmentsError && (
@@ -387,19 +387,19 @@ export function QueueConfigSideOver({
                   </div>
                 )}
                 {assignmentsLoading ? (
-                  <div className="flex items-center justify-center gap-2 py-8 text-[#64748B]">
+                  <div className="flex items-center justify-center gap-2 py-8 text-muted-foreground">
                     <Loader2 className="h-5 w-5 animate-spin" />
                     Carregando…
                   </div>
                 ) : companyUsers.length === 0 && !assignmentsError ? (
-                  <div className="rounded-xl border border-[#E2E8F0] bg-[#F8FAFC] p-6 text-center">
-                    <Users className="mx-auto h-10 w-10 text-[#94A3B8]" />
-                    <p className="mt-2 text-sm text-[#64748B]">Nenhum usuário cadastrado na empresa.</p>
-                    <p className="mt-1 text-xs text-[#94A3B8]">Cadastre atendentes em Cargos e usuários.</p>
+                  <div className="rounded-xl border border-border bg-muted/40 p-6 text-center">
+                    <Users className="mx-auto h-10 w-10 text-muted-foreground" />
+                    <p className="mt-2 text-sm text-muted-foreground">Nenhum usuário cadastrado na empresa.</p>
+                    <p className="mt-1 text-xs text-muted-foreground">Cadastre atendentes em Cargos e usuários.</p>
                   </div>
                 ) : (
                   <>
-                    <ul className="space-y-2 rounded-lg border border-[#E2E8F0] bg-white divide-y divide-[#E2E8F0]">
+                    <ul className="space-y-2 rounded-lg border border-border bg-card divide-y divide-border">
                       {companyUsers.map((u) => (
                         <li key={u.user_id} className="flex items-center gap-3 px-3 py-2.5">
                           <input
@@ -407,13 +407,13 @@ export function QueueConfigSideOver({
                             id={`assign-${u.user_id}`}
                             checked={assignedUserIds.has(u.user_id)}
                             onChange={() => toggleAssignment(u.user_id)}
-                            className="h-4 w-4 rounded border-[#E2E8F0] text-clicvend-orange focus:ring-clicvend-orange"
+                            className="h-4 w-4 rounded border-border text-amber-600 dark:text-amber-400 focus:ring-amber-500/20"
                           />
                           <label htmlFor={`assign-${u.user_id}`} className="flex-1 cursor-pointer">
-                            <div className="text-sm font-medium text-[#1E293B]">
+                            <div className="text-sm font-medium text-foreground">
                               {getAttendantName(u.full_name, u.email, u.user_id)}
                             </div>
-                            <div className="text-xs text-[#64748B]">
+                            <div className="text-xs text-muted-foreground">
                               {u.email?.trim() || "Sem e-mail cadastrado"}
                             </div>
                           </label>
@@ -440,19 +440,19 @@ export function QueueConfigSideOver({
             {/* Aba Programações (horários + datas específicas) */}
             {activeTab === "programacoes" && (
               <div className="space-y-6">
-                <p className="text-sm text-[#64748B]">
+                <p className="text-sm text-muted-foreground">
                   Horários por dia da semana e datas específicas (feriados, exceções). Deixe horários semanais vazios para 24h.
                 </p>
 
                 <div>
-                  <h3 className="text-sm font-semibold text-[#334155] flex items-center gap-2 mb-2">
+                  <h3 className="text-sm font-semibold text-foreground flex items-center gap-2 mb-2">
                     <Clock className="h-4 w-4" />
                     Por dia da semana
                   </h3>
                 {businessHours.length === 0 ? (
-                  <div className="rounded-lg border border-dashed border-[#E2E8F0] bg-[#F8FAFC] p-6 text-center">
-                    <Clock className="mx-auto h-10 w-10 text-[#94A3B8]" />
-                    <p className="mt-2 text-sm text-[#64748B]">Nenhum horário definido (24h)</p>
+                  <div className="rounded-lg border border-dashed border-border bg-muted/40 p-6 text-center">
+                    <Clock className="mx-auto h-10 w-10 text-muted-foreground" />
+                    <p className="mt-2 text-sm text-muted-foreground">Nenhum horário definido (24h)</p>
                     <button
                       type="button"
                       onClick={addBusinessHour}
@@ -467,12 +467,12 @@ export function QueueConfigSideOver({
                       {businessHours.map((item, index) => (
                         <li
                           key={index}
-                          className="flex flex-wrap items-center gap-2 rounded-lg border border-[#E2E8F0] bg-white p-3"
+                          className="flex flex-wrap items-center gap-2 rounded-lg border border-border bg-card p-3"
                         >
                           <select
                             value={item.day}
                             onChange={(e) => updateBusinessHour(index, "day", parseInt(e.target.value, 10))}
-                            className="rounded-lg border border-[#E2E8F0] px-2 py-1.5 text-sm text-[#1E293B] focus:border-clicvend-orange focus:outline-none focus:ring-1 focus:ring-clicvend-orange"
+                            className="rounded-lg border border-border px-2 py-1.5 text-sm text-foreground focus:border-amber-500 focus:outline-none focus:ring-1 focus:ring-amber-500/20"
                           >
                             {DAY_NAMES.map((label, d) => (
                               <option key={d} value={d}>
@@ -484,19 +484,19 @@ export function QueueConfigSideOver({
                             type="time"
                             value={item.open}
                             onChange={(e) => updateBusinessHour(index, "open", e.target.value)}
-                            className="rounded-lg border border-[#E2E8F0] px-2 py-1.5 text-sm focus:border-clicvend-orange focus:outline-none focus:ring-1 focus:ring-clicvend-orange"
+                            className="rounded-lg border border-border px-2 py-1.5 text-sm focus:border-amber-500 focus:outline-none focus:ring-1 focus:ring-amber-500/20"
                           />
-                          <span className="text-[#64748B]">até</span>
+                          <span className="text-muted-foreground">até</span>
                           <input
                             type="time"
                             value={item.close}
                             onChange={(e) => updateBusinessHour(index, "close", e.target.value)}
-                            className="rounded-lg border border-[#E2E8F0] px-2 py-1.5 text-sm focus:border-clicvend-orange focus:outline-none focus:ring-1 focus:ring-clicvend-orange"
+                            className="rounded-lg border border-border px-2 py-1.5 text-sm focus:border-amber-500 focus:outline-none focus:ring-1 focus:ring-amber-500/20"
                           />
                           <button
                             type="button"
                             onClick={() => removeBusinessHour(index)}
-                            className="ml-auto rounded p-1.5 text-[#64748B] hover:bg-red-50 hover:text-red-600"
+                            className="ml-auto rounded p-1.5 text-muted-foreground hover:bg-red-50 hover:text-red-600"
                             title="Remover"
                           >
                             ×
@@ -509,7 +509,7 @@ export function QueueConfigSideOver({
                         type="button"
                         onClick={addBusinessHour}
                         disabled={businessHours.length >= 7}
-                        className="inline-flex items-center gap-2 rounded-lg border border-dashed border-[#E2E8F0] px-3 py-2 text-sm font-medium text-[#64748B] hover:border-clicvend-orange hover:text-clicvend-orange disabled:opacity-50"
+                        className="inline-flex items-center gap-2 rounded-lg border border-dashed border-border px-3 py-2 text-sm font-medium text-muted-foreground hover:border-clicvend-orange hover:text-amber-600 dark:hover:text-amber-400 disabled:opacity-50"
                       >
                         + Adicionar horário
                       </button>
@@ -528,29 +528,29 @@ export function QueueConfigSideOver({
                 </div>
 
                 <div>
-                  <h3 className="text-sm font-semibold text-[#334155] flex items-center gap-2 mb-2">
+                  <h3 className="text-sm font-semibold text-foreground flex items-center gap-2 mb-2">
                     <Calendar className="h-4 w-4" />
                     Datas específicas
                   </h3>
-                  <p className="text-xs text-[#64748B] mb-3">
+                  <p className="text-xs text-muted-foreground mb-3">
                     Feriados, folgas ou horários diferentes em um dia (ex.: 25/12 fechado, 01/01 10h–14h).
                   </p>
-                  <div className="flex flex-wrap items-end gap-2 rounded-lg border border-[#E2E8F0] bg-[#F8FAFC] p-3 mb-3">
+                  <div className="flex flex-wrap items-end gap-2 rounded-lg border border-border bg-muted/40 p-3 mb-3">
                     <div className="flex-1 min-w-[140px]">
-                      <label className="block text-xs font-medium text-[#64748B] mb-1">Data</label>
+                      <label className="block text-xs font-medium text-muted-foreground mb-1">Data</label>
                       <input
                         type="date"
                         value={newDateValue}
                         onChange={(e) => setNewDateValue(e.target.value)}
-                        className="w-full rounded-lg border border-[#E2E8F0] px-2 py-1.5 text-sm text-[#1E293B] focus:border-clicvend-orange focus:outline-none focus:ring-1 focus:ring-clicvend-orange"
+                        className="w-full rounded-lg border border-border px-2 py-1.5 text-sm text-foreground focus:border-amber-500 focus:outline-none focus:ring-1 focus:ring-amber-500/20"
                       />
                     </div>
-                    <label className="flex items-center gap-2 text-sm text-[#334155]">
+                    <label className="flex items-center gap-2 text-sm text-foreground">
                       <input
                         type="checkbox"
                         checked={newDateClosed}
                         onChange={(e) => setNewDateClosed(e.target.checked)}
-                        className="rounded border-[#E2E8F0] text-clicvend-orange focus:ring-clicvend-orange"
+                        className="rounded border-border text-amber-600 dark:text-amber-400 focus:ring-amber-500/20"
                       />
                       Fechado
                     </label>
@@ -560,14 +560,14 @@ export function QueueConfigSideOver({
                           type="time"
                           value={newDateOpen}
                           onChange={(e) => setNewDateOpen(e.target.value)}
-                          className="rounded-lg border border-[#E2E8F0] px-2 py-1.5 text-sm w-24 focus:border-clicvend-orange focus:outline-none focus:ring-1 focus:ring-clicvend-orange"
+                          className="rounded-lg border border-border px-2 py-1.5 text-sm w-24 focus:border-amber-500 focus:outline-none focus:ring-1 focus:ring-amber-500/20"
                         />
-                        <span className="text-[#64748B] text-sm">até</span>
+                        <span className="text-muted-foreground text-sm">até</span>
                         <input
                           type="time"
                           value={newDateClose}
                           onChange={(e) => setNewDateClose(e.target.value)}
-                          className="rounded-lg border border-[#E2E8F0] px-2 py-1.5 text-sm w-24 focus:border-clicvend-orange focus:outline-none focus:ring-1 focus:ring-clicvend-orange"
+                          className="rounded-lg border border-border px-2 py-1.5 text-sm w-24 focus:border-amber-500 focus:outline-none focus:ring-1 focus:ring-amber-500/20"
                         />
                       </>
                     )}
@@ -590,9 +590,9 @@ export function QueueConfigSideOver({
                       {specialDates.map((item, index) => (
                         <li
                           key={`${item.date}-${index}`}
-                          className="flex flex-wrap items-center gap-2 rounded-lg border border-[#E2E8F0] bg-white p-2 text-sm"
+                          className="flex flex-wrap items-center gap-2 rounded-lg border border-border bg-card p-2 text-sm"
                         >
-                          <span className="font-medium text-[#1E293B]">{item.date}</span>
+                          <span className="font-medium text-foreground">{item.date}</span>
                           {"closed" in item && item.closed ? (
                             <span className="text-red-600">Fechado</span>
                           ) : (
@@ -601,21 +601,21 @@ export function QueueConfigSideOver({
                                 type="time"
                                 value={"open" in item ? item.open : "09:00"}
                                 onChange={(e) => updateSpecialDate(index, { open: e.target.value, close: "close" in item ? (item as { close: string }).close : "18:00" })}
-                                className="rounded border border-[#E2E8F0] px-1.5 py-1 text-xs w-20 focus:border-clicvend-orange focus:outline-none"
+                                className="rounded border border-border px-1.5 py-1 text-xs w-20 focus:border-amber-500 focus:outline-none"
                               />
-                              <span className="text-[#64748B]">até</span>
+                              <span className="text-muted-foreground">até</span>
                               <input
                                 type="time"
                                 value={"close" in item ? (item as { close: string }).close : "18:00"}
                                 onChange={(e) => updateSpecialDate(index, { open: "open" in item ? (item as { open: string }).open : "09:00", close: e.target.value })}
-                                className="rounded border border-[#E2E8F0] px-1.5 py-1 text-xs w-20 focus:border-clicvend-orange focus:outline-none"
+                                className="rounded border border-border px-1.5 py-1 text-xs w-20 focus:border-amber-500 focus:outline-none"
                               />
                             </>
                           )}
                           <button
                             type="button"
                             onClick={() => removeSpecialDate(index)}
-                            className="ml-auto rounded p-1 text-[#64748B] hover:bg-red-50 hover:text-red-600"
+                            className="ml-auto rounded p-1 text-muted-foreground hover:bg-red-50 hover:text-red-600"
                             title="Remover"
                           >
                             ×
@@ -624,11 +624,11 @@ export function QueueConfigSideOver({
                       ))}
                     </ul>
                   ) : (
-                    <p className="text-xs text-[#94A3B8]">Nenhuma data específica. Use o calendário acima para adicionar.</p>
+                    <p className="text-xs text-muted-foreground">Nenhuma data específica. Use o calendário acima para adicionar.</p>
                   )}
                 </div>
 
-                <div className="flex flex-wrap items-center gap-2 pt-2 border-t border-[#E2E8F0]">
+                <div className="flex flex-wrap items-center gap-2 pt-2 border-t border-border">
                   <button
                     type="button"
                     onClick={saveProgramacoes}

@@ -435,14 +435,14 @@ export default function TagsPage() {
     <div className="flex flex-col gap-4 px-4 py-6 sm:px-6">
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-[#1E293B]">Tags e formulários</h1>
-          <p className="mt-0.5 text-sm text-[#64748B]">
+          <h1 className="text-2xl font-bold text-foreground">Tags e formulários</h1>
+          <p className="mt-0.5 text-sm text-muted-foreground">
             Configure tags para contatos e atendimentos, e formulários de tabulação usados pelos agentes.
           </p>
         </div>
         <div className="flex flex-wrap items-center gap-2">
         <div className="relative">
-            <Filter className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#94A3B8]" />
+            <Filter className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
           <input
             type="search"
               value={search}
@@ -452,7 +452,7 @@ export default function TagsPage() {
                   ? "Buscar tags ou categorias…"
                   : "Buscar formulários…"
               }
-              className="rounded-lg border border-[#E2E8F0] bg-white pl-9 pr-4 py-2 text-sm text-[#1E293B] placeholder:text-[#94A3B8] focus:border-clicvend-orange focus:outline-none focus:ring-1 focus:ring-clicvend-orange min-w-[220px]"
+              className="rounded-lg border border-border bg-card pl-9 pr-4 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:border-amber-500 focus:outline-none focus:ring-1 focus:ring-amber-500/20 min-w-[220px]"
             />
           </div>
           {activeTab === "tags" ? (
@@ -477,14 +477,14 @@ export default function TagsPage() {
         </div>
       </div>
 
-      <div className="flex gap-2 border-b border-[#E2E8F0]">
+      <div className="flex gap-2 border-b border-border">
         <button
           type="button"
           onClick={() => setActiveTab("tags")}
           className={`flex items-center gap-2 border-b-2 px-4 py-2 text-sm font-medium transition-colors ${
             activeTab === "tags"
-              ? "border-clicvend-orange text-clicvend-orange"
-              : "border-transparent text-[#64748B] hover:text-[#1E293B]"
+              ? "border-clicvend-orange text-amber-600 dark:text-amber-400"
+              : "border-transparent text-muted-foreground hover:text-foreground"
           }`}
         >
           <Tag className="h-4 w-4" />
@@ -495,8 +495,8 @@ export default function TagsPage() {
           onClick={() => setActiveTab("forms")}
           className={`flex items-center gap-2 border-b-2 px-4 py-2 text-sm font-medium transition-colors ${
             activeTab === "forms"
-              ? "border-clicvend-orange text-clicvend-orange"
-              : "border-transparent text-[#64748B] hover:text-[#1E293B]"
+              ? "border-clicvend-orange text-amber-600 dark:text-amber-400"
+              : "border-transparent text-muted-foreground hover:text-foreground"
           }`}
         >
           <FileText className="h-4 w-4" />
@@ -512,13 +512,13 @@ export default function TagsPage() {
 
       {loading ? (
         <div className="flex justify-center py-12">
-          <Loader2 className="h-8 w-8 animate-spin text-clicvend-orange" />
+          <Loader2 className="h-8 w-8 animate-spin text-amber-600 dark:text-amber-400" />
         </div>
       ) : activeTab === "tags" ? (
-        <div className="rounded-xl border border-[#E2E8F0] bg-white shadow-sm overflow-hidden flex flex-col">
+        <div className="rounded-xl border border-border bg-card shadow-sm overflow-hidden flex flex-col">
           {filteredTags.length === 0 ? (
-            <div className="p-8 text-center text-[#64748B]">
-              <Tag className="mx-auto h-10 w-10 text-[#94A3B8]" />
+            <div className="p-8 text-center text-muted-foreground">
+              <Tag className="mx-auto h-10 w-10 text-muted-foreground" />
               <p className="mt-2">Nenhuma tag cadastrada.</p>
               <p className="mt-1 text-sm">
                 Crie tags para classificar contatos e atendimentos por tipo, assunto ou motivo.
@@ -527,38 +527,38 @@ export default function TagsPage() {
           ) : (
             <>
               {selectedTagIds.size > 0 && (
-                <div className="flex flex-wrap items-center justify-between gap-4 px-4 py-3 bg-clicvend-orange/10 border-b border-[#E2E8F0]">
-                  <span className="text-sm font-medium text-[#1E293B]">
+                <div className="flex flex-wrap items-center justify-between gap-4 px-4 py-3 bg-clicvend-orange/10 border-b border-border">
+                  <span className="text-sm font-medium text-foreground">
                     {selectedTagIds.size} tag
                     {selectedTagIds.size > 1 ? "s" : ""} selecionada
                     {selectedTagIds.size > 1 ? "s" : ""}.
                   </span>
-                  <div className="inline-flex flex-wrap rounded-lg border border-[#E2E8F0] bg-white overflow-hidden shadow-sm">
+                  <div className="inline-flex flex-wrap rounded-lg border border-border bg-card overflow-hidden shadow-sm">
                     <button
                       type="button"
                       onClick={() => handleBulkUpdateTags(true)}
-                      className="inline-flex items-center gap-1.5 border-r border-[#E2E8F0] bg-emerald-50 px-3 py-2 text-sm font-medium text-emerald-700 hover:bg-emerald-100"
+                      className="inline-flex items-center gap-1.5 border-r border-border bg-emerald-50 px-3 py-2 text-sm font-medium text-emerald-700 hover:bg-emerald-100"
                     >
                       Ativar
                     </button>
                     <button
                       type="button"
                       onClick={() => handleBulkUpdateTags(false)}
-                      className="inline-flex items-center gap-1.5 border-r border-[#E2E8F0] bg-slate-50 px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100"
+                      className="inline-flex items-center gap-1.5 border-r border-border bg-slate-50 px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100"
                     >
                       Desativar
                     </button>
                     <button
                       type="button"
                       onClick={() => handleBulkUpdateTags(null)}
-                      className="inline-flex items-center gap-1.5 border-r border-[#E2E8F0] bg-red-50 px-3 py-2 text-sm font-medium text-red-700 hover:bg-red-100"
+                      className="inline-flex items-center gap-1.5 border-r border-border bg-red-50 px-3 py-2 text-sm font-medium text-red-700 hover:bg-red-100"
                     >
                       Excluir
                     </button>
                     <button
                       type="button"
                       onClick={() => setSelectedTagIds(new Set())}
-                      className="px-3 py-2 text-xs font-medium text-[#64748B] hover:bg-[#F8FAFC]"
+                      className="px-3 py-2 text-xs font-medium text-muted-foreground hover:bg-muted/40"
                     >
                       Limpar seleção
                     </button>
@@ -567,12 +567,12 @@ export default function TagsPage() {
               )}
               <div className="overflow-auto max-h-[60vh] min-h-[200px]">
                 <table className="w-full min-w-[640px] border-collapse">
-                  <thead className="sticky top-0 z-10 bg-[#F8FAFC]">
-                    <tr className="border-b border-[#E2E8F0]">
+                  <thead className="sticky top-0 z-10 bg-muted/40">
+                    <tr className="border-b border-border">
                       <th className="w-10 px-3 py-3 text-left">
                         <input
                           type="checkbox"
-                          className="h-4 w-4 rounded border-[#CBD5E1] text-clicvend-orange focus:ring-clicvend-orange"
+                          className="h-4 w-4 rounded border-border text-amber-600 dark:text-amber-400 focus:ring-amber-500/20"
                           checked={
                             filteredTags.length > 0 &&
                             selectedTagIds.size === filteredTags.length
@@ -588,22 +588,22 @@ export default function TagsPage() {
                           }}
                         />
                       </th>
-                      <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-[#64748B]">
+                      <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                         Tag
                       </th>
-                      <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-[#64748B]">
+                      <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                         Categoria
                       </th>
-                      <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-[#64748B]">
+                      <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                         Tipo
                       </th>
-                      <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-[#64748B]">
+                      <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                         Filas
                       </th>
-                      <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-[#64748B]">
+                      <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                         Status
                       </th>
-                      <th className="px-4 py-3 text-right text-xs font-semibold uppercase tracking-wider text-[#64748B]">
+                      <th className="px-4 py-3 text-right text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                         Ações
                       </th>
                     </tr>
@@ -612,12 +612,12 @@ export default function TagsPage() {
                     {filteredTags.map((row) => (
                       <tr
                         key={row.id}
-                        className="border-b border-[#E2E8F0] transition-colors hover:bg-[#F8FAFC]"
+                        className="border-b border-border transition-colors hover:bg-muted/40"
                       >
                         <td className="px-3 py-3">
                           <input
                             type="checkbox"
-                            className="h-4 w-4 rounded border-[#CBD5E1] text-clicvend-orange focus:ring-clicvend-orange"
+                            className="h-4 w-4 rounded border-border text-amber-600 dark:text-amber-400 focus:ring-amber-500/20"
                             checked={selectedTagIds.has(row.id)}
                             onChange={() => toggleSelectTag(row.id)}
                           />
@@ -628,20 +628,20 @@ export default function TagsPage() {
                               className="inline-flex h-5 w-5 items-center justify-center rounded-full"
                               style={{ backgroundColor: row.color_hex ?? "#0EA5E9" }}
                             />
-                            <span className="font-semibold text-[#1E293B]">
+                            <span className="font-semibold text-foreground">
                               {row.name}
                             </span>
                           </div>
                         </td>
-                        <td className="px-4 py-3 text-sm text-[#64748B]">
+                        <td className="px-4 py-3 text-sm text-muted-foreground">
                           {row.category_name}
                         </td>
-                        <td className="px-4 py-3 text-sm text-[#64748B]">
+                        <td className="px-4 py-3 text-sm text-muted-foreground">
                           {row.category_type === "contact"
                             ? "Contato"
                             : "Atendimento"}
                         </td>
-                        <td className="px-4 py-3 text-sm text-[#64748B]">
+                        <td className="px-4 py-3 text-sm text-muted-foreground">
                           {row.queues.length === 0
                             ? "Todas as filas"
                             : row.queues.map((q) => q.name).join(", ")}
@@ -662,7 +662,7 @@ export default function TagsPage() {
                             <button
                               type="button"
                               onClick={() => openEditTag(row)}
-                              className="rounded-lg p-2 text-[#64748B] hover:bg-[#F1F5F9] hover:text-[#1E293B]"
+                              className="rounded-lg p-2 text-muted-foreground hover:bg-muted/60 hover:text-foreground"
                               title="Editar tag"
                             >
                               <Edit3 className="h-4 w-4" />
@@ -670,7 +670,7 @@ export default function TagsPage() {
                             <button
                               type="button"
                               onClick={() => setTagToDelete(row)}
-                              className="rounded-lg p-2 text-[#64748B] hover:bg-red-50 hover:text-red-600"
+                              className="rounded-lg p-2 text-muted-foreground hover:bg-red-50 hover:text-red-600"
                               title="Excluir tag"
                             >
                               <Trash2 className="h-4 w-4" />
@@ -686,10 +686,10 @@ export default function TagsPage() {
           )}
         </div>
       ) : (
-        <div className="rounded-xl border border-[#E2E8F0] bg-white shadow-sm overflow-hidden flex flex-col">
+        <div className="rounded-xl border border-border bg-card shadow-sm overflow-hidden flex flex-col">
           {filteredForms.length === 0 ? (
-            <div className="p-8 text-center text-[#64748B]">
-              <FileText className="mx-auto h-10 w-10 text-[#94A3B8]" />
+            <div className="p-8 text-center text-muted-foreground">
+              <FileText className="mx-auto h-10 w-10 text-muted-foreground" />
               <p className="mt-2">Nenhum formulário de tabulação criado.</p>
               <p className="mt-1 text-sm">
                 Crie formulários para padronizar a tabulação dos atendimentos por fila.
@@ -698,38 +698,38 @@ export default function TagsPage() {
           ) : (
             <>
               {selectedFormIds.size > 0 && (
-                <div className="flex flex-wrap items-center justify-between gap-4 px-4 py-3 bg-clicvend-orange/10 border-b border-[#E2E8F0]">
-                  <span className="text-sm font-medium text-[#1E293B]">
+                <div className="flex flex-wrap items-center justify-between gap-4 px-4 py-3 bg-clicvend-orange/10 border-b border-border">
+                  <span className="text-sm font-medium text-foreground">
                     {selectedFormIds.size} formulário
                     {selectedFormIds.size > 1 ? "s" : ""} selecionado
                     {selectedFormIds.size > 1 ? "s" : ""}.
                   </span>
-                  <div className="inline-flex flex-wrap rounded-lg border border-[#E2E8F0] bg-white overflow-hidden shadow-sm">
+                  <div className="inline-flex flex-wrap rounded-lg border border-border bg-card overflow-hidden shadow-sm">
                     <button
                       type="button"
                       onClick={() => handleBulkUpdateForms(true)}
-                      className="inline-flex items-center gap-1.5 border-r border-[#E2E8F0] bg-emerald-50 px-3 py-2 text-sm font-medium text-emerald-700 hover:bg-emerald-100"
+                      className="inline-flex items-center gap-1.5 border-r border-border bg-emerald-50 px-3 py-2 text-sm font-medium text-emerald-700 hover:bg-emerald-100"
                     >
                       Ativar
                     </button>
                     <button
                       type="button"
                       onClick={() => handleBulkUpdateForms(false)}
-                      className="inline-flex items-center gap-1.5 border-r border-[#E2E8F0] bg-slate-50 px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100"
+                      className="inline-flex items-center gap-1.5 border-r border-border bg-slate-50 px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100"
                     >
                       Desativar
                     </button>
                     <button
                       type="button"
                       onClick={() => handleBulkUpdateForms(null)}
-                      className="inline-flex items-center gap-1.5 border-r border-[#E2E8F0] bg-red-50 px-3 py-2 text-sm font-medium text-red-700 hover:bg-red-100"
+                      className="inline-flex items-center gap-1.5 border-r border-border bg-red-50 px-3 py-2 text-sm font-medium text-red-700 hover:bg-red-100"
                     >
                       Excluir
                     </button>
                     <button
                       type="button"
                       onClick={() => setSelectedFormIds(new Set())}
-                      className="px-3 py-2 text-xs font-medium text-[#64748B] hover:bg-[#F8FAFC]"
+                      className="px-3 py-2 text-xs font-medium text-muted-foreground hover:bg-muted/40"
                     >
                       Limpar seleção
                     </button>
@@ -738,12 +738,12 @@ export default function TagsPage() {
               )}
               <div className="overflow-auto max-h-[60vh] min-h-[200px]">
                 <table className="w-full min-w-[640px] border-collapse">
-                  <thead className="sticky top-0 z-10 bg-[#F8FAFC]">
-                    <tr className="border-b border-[#E2E8F0]">
+                  <thead className="sticky top-0 z-10 bg-muted/40">
+                    <tr className="border-b border-border">
                       <th className="w-10 px-3 py-3 text-left">
                         <input
                           type="checkbox"
-                          className="h-4 w-4 rounded border-[#CBD5E1] text-clicvend-orange focus:ring-clicvend-orange"
+                          className="h-4 w-4 rounded border-border text-amber-600 dark:text-amber-400 focus:ring-amber-500/20"
                           checked={
                             filteredForms.length > 0 &&
                             selectedFormIds.size === filteredForms.length
@@ -759,16 +759,16 @@ export default function TagsPage() {
                           }}
                         />
                       </th>
-                      <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-[#64748B]">
+                      <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                         Formulário
                       </th>
-                      <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-[#64748B]">
+                      <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                         Filas
                       </th>
-                      <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-[#64748B]">
+                      <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                         Status
                       </th>
-                      <th className="px-4 py-3 text-right text-xs font-semibold uppercase tracking-wider text-[#64748B]">
+                      <th className="px-4 py-3 text-right text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                         Ações
                       </th>
                     </tr>
@@ -777,12 +777,12 @@ export default function TagsPage() {
                     {filteredForms.map((row) => (
                       <tr
                         key={row.id}
-                        className="border-b border-[#E2E8F0] transition-colors hover:bg-[#F8FAFC]"
+                        className="border-b border-border transition-colors hover:bg-muted/40"
                       >
                         <td className="px-3 py-3">
                           <input
                             type="checkbox"
-                            className="h-4 w-4 rounded border-[#CBD5E1] text-clicvend-orange focus:ring-clicvend-orange"
+                            className="h-4 w-4 rounded border-border text-amber-600 dark:text-amber-400 focus:ring-amber-500/20"
                             checked={selectedFormIds.has(row.id)}
                             onChange={() => toggleSelectForm(row.id)}
                           />
@@ -793,18 +793,18 @@ export default function TagsPage() {
                               <FileText className="h-4 w-4" />
                             </div>
                             <div className="min-w-0">
-                              <p className="font-semibold text-[#1E293B]">
+                              <p className="font-semibold text-foreground">
                                 {row.name}
                               </p>
                               {row.description && (
-                                <p className="mt-0.5 line-clamp-2 text-xs text-[#64748B]">
+                                <p className="mt-0.5 line-clamp-2 text-xs text-muted-foreground">
                                   {row.description}
                                 </p>
                               )}
                             </div>
                           </div>
                         </td>
-                        <td className="px-4 py-3 text-sm text-[#64748B]">
+                        <td className="px-4 py-3 text-sm text-muted-foreground">
                           {row.queues.length === 0
                             ? "Todas as filas"
                             : row.queues.map((q) => q.name).join(", ")}
@@ -835,7 +835,7 @@ export default function TagsPage() {
                                 });
                                 setFormSideOverOpen(true);
                               }}
-                              className="rounded-lg p-2 text-[#64748B] hover:bg-[#F1F5F9] hover:text-[#1E293B]"
+                              className="rounded-lg p-2 text-muted-foreground hover:bg-muted/60 hover:text-foreground"
                               title="Editar formulário"
                             >
                               <Edit3 className="h-4 w-4" />
@@ -843,7 +843,7 @@ export default function TagsPage() {
                             <button
                               type="button"
                               onClick={() => setFormToDelete(row)}
-                              className="rounded-lg p-2 text-[#64748B] hover:bg-red-50 hover:text-red-600"
+                              className="rounded-lg p-2 text-muted-foreground hover:bg-red-50 hover:text-red-600"
                               title="Excluir formulário"
                             >
                               <Trash2 className="h-4 w-4" />
@@ -867,14 +867,14 @@ export default function TagsPage() {
         width={520}
       >
         <div className="flex flex-col gap-4">
-          <p className="text-sm text-[#64748B]">
+          <p className="text-sm text-muted-foreground">
             Use tags de <strong>contato</strong> para classificar perfis e tags de{" "}
             <strong>atendimento</strong> para tabular motivos dos chamados.
           </p>
 
           <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
             <div className="space-y-1">
-              <label className="block text-sm font-medium text-[#334155]">Tipo de tag</label>
+              <label className="block text-sm font-medium text-foreground">Tipo de tag</label>
               <select
                 value={tagForm.categoryType}
                 onChange={(e) =>
@@ -883,14 +883,14 @@ export default function TagsPage() {
                     categoryType: e.target.value === "conversation" ? "conversation" : "contact",
                   }))
                 }
-                className="w-full rounded-lg border border-[#E2E8F0] px-3 py-2 text-sm text-[#1E293B] focus:border-clicvend-orange focus:outline-none focus:ring-1 focus:ring-clicvend-orange"
+                className="w-full rounded-lg border border-border px-3 py-2 text-sm text-foreground focus:border-amber-500 focus:outline-none focus:ring-1 focus:ring-amber-500/20"
               >
                 <option value="contact">Contato</option>
                 <option value="conversation">Atendimento</option>
               </select>
             </div>
             <div className="space-y-1">
-              <label className="block text-sm font-medium text-[#334155]">Cor (hex)</label>
+              <label className="block text-sm font-medium text-foreground">Cor (hex)</label>
               <div className="flex items-center gap-2">
                 <input
                   type="color"
@@ -898,7 +898,7 @@ export default function TagsPage() {
                   onChange={(e) =>
                     setTagForm((cur) => ({ ...cur, colorHex: e.target.value || "#0EA5E9" }))
                   }
-                  className="h-9 w-9 cursor-pointer rounded border border-[#E2E8F0]"
+                  className="h-9 w-9 cursor-pointer rounded border border-border"
                 />
                 <input
                   type="text"
@@ -906,25 +906,25 @@ export default function TagsPage() {
                   onChange={(e) =>
                     setTagForm((cur) => ({ ...cur, colorHex: e.target.value || "#0EA5E9" }))
                   }
-                  className="flex-1 rounded-lg border border-[#E2E8F0] px-3 py-2 text-sm text-[#1E293B] focus:border-clicvend-orange focus:outline-none focus:ring-1 focus:ring-clicvend-orange"
+                  className="flex-1 rounded-lg border border-border px-3 py-2 text-sm text-foreground focus:border-amber-500 focus:outline-none focus:ring-1 focus:ring-amber-500/20"
                 />
               </div>
             </div>
           </div>
 
           <div className="space-y-1">
-            <label className="block text-sm font-medium text-[#334155]">Nome da tag</label>
+            <label className="block text-sm font-medium text-foreground">Nome da tag</label>
             <input
               type="text"
               value={tagForm.name}
               onChange={(e) => setTagForm((cur) => ({ ...cur, name: e.target.value }))}
               placeholder="Ex.: Lead quente, Boleto, Upgrade de plano…"
-              className="w-full rounded-lg border border-[#E2E8F0] px-3 py-2 text-sm text-[#1E293B] placeholder:text-[#94A3B8] focus:border-clicvend-orange focus:outline-none focus:ring-1 focus:ring-clicvend-orange"
+              className="w-full rounded-lg border border-border px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:border-amber-500 focus:outline-none focus:ring-1 focus:ring-amber-500/20"
             />
           </div>
 
           <div className="space-y-1">
-            <label className="block text-sm font-medium text-[#334155]">Categoria</label>
+            <label className="block text-sm font-medium text-foreground">Categoria</label>
             <input
               type="text"
               value={tagForm.categoryName}
@@ -934,18 +934,18 @@ export default function TagsPage() {
                   ? "Ex.: Perfil, Jornada, Segmento…"
                   : "Ex.: Motivo, Resultado, Tipo de solicitação…"
               }
-              className="w-full rounded-lg border border-[#E2E8F0] px-3 py-2 text-sm text-[#1E293B] placeholder:text-[#94A3B8] focus:border-clicvend-orange focus:outline-none focus:ring-1 focus:ring-clicvend-orange"
+              className="w-full rounded-lg border border-border px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:border-amber-500 focus:outline-none focus:ring-1 focus:ring-amber-500/20"
             />
           </div>
 
           <div className="space-y-2">
-            <label className="block text-sm font-medium text-[#334155]">Filas</label>
-            <p className="text-xs text-[#64748B]">
+            <label className="block text-sm font-medium text-foreground">Filas</label>
+            <p className="text-xs text-muted-foreground">
               Se nenhuma fila for selecionada, a tag ficará disponível em{" "}
               <strong>todas</strong> as filas da empresa.
             </p>
             {queues.length === 0 ? (
-              <p className="rounded-lg border border-[#E2E8F0] bg-[#F8FAFC] px-3 py-3 text-sm text-[#64748B]">
+              <p className="rounded-lg border border-border bg-muted/40 px-3 py-3 text-sm text-muted-foreground">
                 Nenhuma fila configurada. Cadastre filas na área de Filas.
               </p>
             ) : (
@@ -956,7 +956,7 @@ export default function TagsPage() {
                   const selected = Array.from(e.target.selectedOptions, (o) => o.value);
                   setTagForm((cur) => ({ ...cur, queueIds: selected }));
                 }}
-                className="h-28 w-full rounded-lg border border-[#E2E8F0] px-3 py-2 text-sm text-[#1E293B] focus:border-clicvend-orange focus:outline-none focus:ring-1 focus:ring-clicvend-orange"
+                className="h-28 w-full rounded-lg border border-border px-3 py-2 text-sm text-foreground focus:border-amber-500 focus:outline-none focus:ring-1 focus:ring-amber-500/20"
               >
                 {queues.map((q) => (
                   <option key={q.id} value={q.id}>
@@ -968,25 +968,25 @@ export default function TagsPage() {
           </div>
 
           <div className="flex items-center justify-between">
-            <label className="flex items-center gap-2 text-sm text-[#334155]">
+            <label className="flex items-center gap-2 text-sm text-foreground">
               <input
                 type="checkbox"
                 checked={tagForm.active}
                 onChange={(e) =>
                   setTagForm((cur) => ({ ...cur, active: e.target.checked }))
                 }
-                className="h-4 w-4 rounded border-[#E2E8F0] text-clicvend-orange focus:ring-clicvend-orange"
+                className="h-4 w-4 rounded border-border text-amber-600 dark:text-amber-400 focus:ring-amber-500/20"
               />
               Tag ativa
             </label>
           </div>
 
-          <div className="mt-2 flex justify-end gap-2 border-t border-[#E2E8F0] pt-3">
+          <div className="mt-2 flex justify-end gap-2 border-t border-border pt-3">
             <button
               type="button"
               onClick={() => setTagSideOverOpen(false)}
               disabled={savingTag}
-              className="rounded-lg border border-[#E2E8F0] bg-white px-4 py-2 text-sm font-medium text-[#64748B] hover:bg-[#F8FAFC]"
+              className="rounded-lg border border-border bg-card px-4 py-2 text-sm font-medium text-muted-foreground hover:bg-muted/40"
             >
               Cancelar
             </button>
@@ -1010,13 +1010,13 @@ export default function TagsPage() {
         width={560}
       >
         <div className="flex flex-col gap-4">
-          <p className="text-sm text-[#64748B]">
+          <p className="text-sm text-muted-foreground">
             Formulários de tabulação são exibidos para o agente ao encerrar o atendimento, para
             registrar motivo, solução e outras informações importantes.
           </p>
 
           <div className="space-y-1">
-            <label className="block text-sm font-medium text-[#334155]">Nome</label>
+            <label className="block text-sm font-medium text-foreground">Nome</label>
             <input
               type="text"
               value={formBuilder.name}
@@ -1024,12 +1024,12 @@ export default function TagsPage() {
                 setFormBuilder((cur) => ({ ...cur, name: e.target.value }))
               }
               placeholder="Ex.: Pós-atendimento WhatsApp, Reclamações, Suporte nível 1…"
-              className="w-full rounded-lg border border-[#E2E8F0] px-3 py-2 text-sm text-[#1E293B] placeholder:text-[#94A3B8] focus:border-clicvend-orange focus:outline-none focus:ring-1 focus:ring-clicvend-orange"
+              className="w-full rounded-lg border border-border px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:border-amber-500 focus:outline-none focus:ring-1 focus:ring-amber-500/20"
             />
           </div>
 
           <div className="space-y-1">
-            <label className="block text-sm font-medium text-[#334155]">Descrição (opcional)</label>
+            <label className="block text-sm font-medium text-foreground">Descrição (opcional)</label>
             <textarea
               value={formBuilder.description}
               onChange={(e) =>
@@ -1037,18 +1037,18 @@ export default function TagsPage() {
               }
               rows={2}
               placeholder="Explique quando este formulário deve ser usado pelos agentes."
-              className="w-full resize-none rounded-lg border border-[#E2E8F0] px-3 py-2 text-sm text-[#1E293B] placeholder:text-[#94A3B8] focus:border-clicvend-orange focus:outline-none focus:ring-1 focus:ring-clicvend-orange"
+              className="w-full resize-none rounded-lg border border-border px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:border-amber-500 focus:outline-none focus:ring-1 focus:ring-amber-500/20"
             />
           </div>
 
           <div className="space-y-2">
-            <label className="block text-sm font-medium text-[#334155]">Filas</label>
-            <p className="text-xs text-[#64748B]">
+            <label className="block text-sm font-medium text-foreground">Filas</label>
+            <p className="text-xs text-muted-foreground">
               Se nenhuma fila for selecionada, o formulário ficará disponível para{" "}
               <strong>todas</strong> as filas.
             </p>
             {queues.length === 0 ? (
-              <p className="rounded-lg border border-[#E2E8F0] bg-[#F8FAFC] px-3 py-3 text-sm text-[#64748B]">
+              <p className="rounded-lg border border-border bg-muted/40 px-3 py-3 text-sm text-muted-foreground">
                 Nenhuma fila configurada. Cadastre filas na área de Filas.
               </p>
             ) : (
@@ -1059,7 +1059,7 @@ export default function TagsPage() {
                   const selected = Array.from(e.target.selectedOptions, (o) => o.value);
                   setFormBuilder((cur) => ({ ...cur, queueIds: selected }));
                 }}
-                className="h-28 w-full rounded-lg border border-[#E2E8F0] px-3 py-2 text-sm text-[#1E293B] focus:border-clicvend-orange focus:outline-none focus:ring-1 focus:ring-clicvend-orange"
+                className="h-28 w-full rounded-lg border border-border px-3 py-2 text-sm text-foreground focus:border-amber-500 focus:outline-none focus:ring-1 focus:ring-amber-500/20"
               >
                 {queues.map((q) => (
                   <option key={q.id} value={q.id}>
@@ -1072,7 +1072,7 @@ export default function TagsPage() {
 
           <div className="space-y-2">
             <div className="flex items-center justify-between">
-              <label className="block text-sm font-medium text-[#334155]">
+              <label className="block text-sm font-medium text-foreground">
                 Campos do formulário
               </label>
               <button
@@ -1092,14 +1092,14 @@ export default function TagsPage() {
                     ],
                   }))
                 }
-                className="inline-flex items-center gap-1.5 rounded-full border border-[#E2E8F0] bg-white px-3 py-1.5 text-xs font-medium text-[#334155] hover:bg-[#F8FAFC]"
+                className="inline-flex items-center gap-1.5 rounded-full border border-border bg-card px-3 py-1.5 text-xs font-medium text-foreground hover:bg-muted/40"
               >
                 <Plus className="h-3 w-3" />
                 Adicionar campo
               </button>
             </div>
             {formBuilder.fields.length === 0 ? (
-              <p className="rounded-lg border border-dashed border-[#E2E8F0] bg-[#F8FAFC] px-3 py-3 text-sm text-[#64748B]">
+              <p className="rounded-lg border border-dashed border-border bg-muted/40 px-3 py-3 text-sm text-muted-foreground">
                 Nenhum campo adicionado. Crie ao menos um campo para começar a tabular.
               </p>
             ) : (
@@ -1107,9 +1107,9 @@ export default function TagsPage() {
                 {formBuilder.fields.map((field, index) => (
                   <div
                     key={field.id}
-                    className="flex items-start gap-2 rounded-lg border border-[#E2E8F0] bg-[#F8FAFC] px-3 py-2"
+                    className="flex items-start gap-2 rounded-lg border border-border bg-muted/40 px-3 py-2"
                   >
-                    <span className="mt-1 text-xs font-medium text-[#94A3B8]">
+                    <span className="mt-1 text-xs font-medium text-muted-foreground">
                       {index + 1}.
                     </span>
                     <div className="flex-1 space-y-2">
@@ -1124,7 +1124,7 @@ export default function TagsPage() {
                             ),
                           }))
                         }
-                        className="w-full rounded-lg border border-[#E2E8F0] px-3 py-1.5 text-sm text-[#1E293B] placeholder:text-[#94A3B8] focus:border-clicvend-orange focus:outline-none focus:ring-1 focus:ring-clicvend-orange"
+                        className="w-full rounded-lg border border-border px-3 py-1.5 text-sm text-foreground placeholder:text-muted-foreground focus:border-amber-500 focus:outline-none focus:ring-1 focus:ring-amber-500/20"
                         placeholder="Título do campo (ex.: Motivo principal, Resultado, Satisfação…)"
                       />
                       <div className="flex flex-wrap items-center gap-2">
@@ -1150,14 +1150,14 @@ export default function TagsPage() {
                               ),
                             }))
                           }
-                          className="rounded-lg border border-[#E2E8F0] bg-white px-2 py-1.5 text-xs text-[#1E293B] focus:border-clicvend-orange focus:outline-none focus:ring-1 focus:ring-clicvend-orange"
+                          className="rounded-lg border border-border bg-card px-2 py-1.5 text-xs text-foreground focus:border-amber-500 focus:outline-none focus:ring-1 focus:ring-amber-500/20"
                         >
                           <option value="select">Seleção única</option>
                           <option value="multiselect">Seleção múltipla</option>
                           <option value="text">Texto</option>
                           <option value="number">Número</option>
                         </select>
-                        <label className="flex items-center gap-1 text-xs text-[#334155]">
+                        <label className="flex items-center gap-1 text-xs text-foreground">
                           <input
                             type="checkbox"
                             checked={field.required}
@@ -1171,15 +1171,15 @@ export default function TagsPage() {
                                 ),
                               }))
                             }
-                            className="h-3.5 w-3.5 rounded border-[#E2E8F0] text-clicvend-orange focus:ring-clicvend-orange"
+                            className="h-3.5 w-3.5 rounded border-border text-amber-600 dark:text-amber-400 focus:ring-amber-500/20"
                           />
                           Obrigatório
                         </label>
                       </div>
                       {(field.type === "select" || field.type === "multiselect") && (
-                        <div className="space-y-1 rounded-lg border border-dashed border-[#CBD5E1] bg-white px-3 py-2">
+                        <div className="space-y-1 rounded-lg border border-dashed border-border bg-card px-3 py-2">
                           <div className="flex items-center justify-between">
-                            <span className="text-xs font-medium text-[#334155]">
+                            <span className="text-xs font-medium text-foreground">
                               Opções ({field.options.length || 0})
                             </span>
                             <button
@@ -1197,21 +1197,21 @@ export default function TagsPage() {
                                   ),
                                 }))
                               }
-                              className="inline-flex items-center gap-1 rounded-full border border-[#E2E8F0] bg-[#F8FAFC] px-2 py-1 text-[11px] font-medium text-[#334155] hover:bg-[#E2E8F0]"
+                              className="inline-flex items-center gap-1 rounded-full border border-border bg-muted/40 px-2 py-1 text-[11px] font-medium text-foreground hover:bg-muted/60"
                             >
                               <Plus className="h-3 w-3" />
                               Adicionar opção
                             </button>
                           </div>
                           {field.options.length === 0 ? (
-                            <p className="text-[11px] text-[#94A3B8]">
+                            <p className="text-[11px] text-muted-foreground">
                               Adicione opções como &quot;Sim&quot;, &quot;Não&quot;, &quot;Parcialmente&quot;…
                             </p>
                           ) : (
                             <div className="space-y-1">
                               {field.options.map((opt, idx) => (
                                 <div key={idx} className="flex items-center gap-2">
-                                  <span className="w-4 text-[11px] text-[#94A3B8]">
+                                  <span className="w-4 text-[11px] text-muted-foreground">
                                     {idx + 1}.
                                   </span>
                                   <input
@@ -1233,7 +1233,7 @@ export default function TagsPage() {
                                       }))
                                     }
                                     placeholder="Texto da opção"
-                                    className="flex-1 rounded-lg border border-[#E2E8F0] px-2 py-1 text-xs text-[#1E293B] placeholder:text-[#94A3B8] focus:border-clicvend-orange focus:outline-none focus:ring-1 focus:ring-clicvend-orange"
+                                    className="flex-1 rounded-lg border border-border px-2 py-1 text-xs text-foreground placeholder:text-muted-foreground focus:border-amber-500 focus:outline-none focus:ring-1 focus:ring-amber-500/20"
                                   />
                                   <button
                                     type="button"
@@ -1250,7 +1250,7 @@ export default function TagsPage() {
                                         ),
                                       }))
                                     }
-                                    className="rounded-full p-1 text-[#64748B] hover:bg-red-50 hover:text-red-600"
+                                    className="rounded-full p-1 text-muted-foreground hover:bg-red-50 hover:text-red-600"
                                     title="Remover opção"
                                   >
                                     <Trash2 className="h-3 w-3" />
@@ -1270,7 +1270,7 @@ export default function TagsPage() {
                           fields: cur.fields.filter((f) => f.id !== field.id),
                         }))
                       }
-                      className="mt-1 rounded-lg p-1.5 text-[#64748B] hover:bg-red-50 hover:text-red-600"
+                      className="mt-1 rounded-lg p-1.5 text-muted-foreground hover:bg-red-50 hover:text-red-600"
                       title="Remover campo"
                     >
                       <Trash2 className="h-3.5 w-3.5" />
@@ -1282,25 +1282,25 @@ export default function TagsPage() {
           </div>
 
           <div className="flex items-center justify-between">
-            <label className="flex items-center gap-2 text-sm text-[#334155]">
+            <label className="flex items-center gap-2 text-sm text-foreground">
               <input
                 type="checkbox"
                 checked={formBuilder.active}
                 onChange={(e) =>
                   setFormBuilder((cur) => ({ ...cur, active: e.target.checked }))
                 }
-                className="h-4 w-4 rounded border-[#E2E8F0] text-clicvend-orange focus:ring-clicvend-orange"
+                className="h-4 w-4 rounded border-border text-amber-600 dark:text-amber-400 focus:ring-amber-500/20"
               />
               Formulário ativo
             </label>
           </div>
 
-          <div className="mt-2 flex justify-end gap-2 border-t border-[#E2E8F0] pt-3">
+          <div className="mt-2 flex justify-end gap-2 border-t border-border pt-3">
             <button
               type="button"
               onClick={() => setFormSideOverOpen(false)}
               disabled={savingForm}
-              className="rounded-lg border border-[#E2E8F0] bg-white px-4 py-2 text-sm font-medium text-[#64748B] hover:bg-[#F8FAFC]"
+              className="rounded-lg border border-border bg-card px-4 py-2 text-sm font-medium text-muted-foreground hover:bg-muted/40"
             >
               Cancelar
             </button>

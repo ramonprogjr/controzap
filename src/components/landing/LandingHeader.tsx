@@ -5,7 +5,7 @@ import { ClicVendLogo } from "@/components/ClicVendLogo";
 
 export function LandingHeader() {
   return (
-    <header className="sticky top-0 z-50 border-b border-[#E2E8F0]/40 bg-white">
+    <header className="sticky top-0 z-50 border-b border-border/40 bg-card">
       <div className="mx-auto flex w-[92%] max-w-6xl items-center justify-between py-4">
         <Link href="/" className="rounded focus:outline-none focus:ring-2 focus:ring-[#34B097] focus:ring-offset-2">
           <ClicVendLogo size="lg" />
@@ -13,7 +13,7 @@ export function LandingHeader() {
         <nav className="flex items-center gap-3">
           <Link
             href="/login"
-            className="rounded-full border-2 border-[#1E293B] bg-white px-5 py-2.5 text-sm font-semibold text-[#1E293B] transition-colors hover:bg-[#F8FAFC]"
+            className="rounded-full border-2 border-foreground bg-card px-5 py-2.5 text-sm font-semibold text-foreground transition-colors hover:bg-muted/40"
           >
             Login
           </Link>

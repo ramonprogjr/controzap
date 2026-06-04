@@ -188,15 +188,15 @@
   width: 8px;
 }
 .scroll-area::-webkit-scrollbar-track {
-  background: #f1f5f9;
+  background: hsl(var(--muted));
   border-radius: 4px;
 }
 .scroll-area::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
+  background: hsl(var(--border));
   border-radius: 4px;
 }
 .scroll-area::-webkit-scrollbar-thumb:hover {
-  background: #94a3b8;
+  background: hsl(var(--muted-foreground) / 0.5);
 }
 
 /* Lista de conversas: rolagem só aqui, scrollbar fina */
@@ -209,15 +209,15 @@
   width: 4px;
 }
 .scroll-area-conversas::-webkit-scrollbar-track {
-  background: #e2e8f0;
+  background: hsl(var(--muted));
   border-radius: 2px;
 }
 .scroll-area-conversas::-webkit-scrollbar-thumb {
-  background: #cedbee;
+  background: hsl(var(--border));
   border-radius: 2px;
 }
 .scroll-area-conversas::-webkit-scrollbar-thumb:hover {
-  background: #64748b;
+  background: hsl(var(--muted-foreground) / 0.55);
 }
 
 /* Scrollbar transparente para container de tabs (rolagem apenas dos botões internamente) */
@@ -252,10 +252,10 @@
 
   /**
    * Compatibilidade Dark Mode (legado):
-   * Parte do app ainda usa classes Tailwind com cores fixas (bg-white, bg-[#F8FAFC], border-[#E2E8F0], etc.).
+   * Parte do app ainda usa classes Tailwind com cores fixas (bg-card, bg-muted/40, border-border, etc.).
    * Essas regras garantem contraste no tema escuro sem “sumir” botões/textos.
    */
-  .dark .bg-white {
+  .dark .bg-card {
     background-color: hsl(var(--card)) !important;
   }
   .dark .bg-\[\#F8FAFC\],
@@ -280,7 +280,7 @@
   }
 
   /**
-   * Form controls legados: garante contraste mesmo com classes text-[#...] / bg-white antigas.
+   * Form controls legados: garante contraste mesmo com classes text-[#...] / bg-card antigas.
    */
   .dark input:not([type="checkbox"]):not([type="radio"]):not([type="button"]):not([type="submit"]):not([type="reset"]):not([type="file"]),
   .dark textarea,
@@ -298,7 +298,7 @@
 }
 
 /**
- * Form controls — fora de @layer para vencer utilitários Tailwind legados (bg-white, text-foreground, etc.).
+ * Form controls — fora de @layer para vencer utilitários Tailwind legados (bg-card, text-foreground, etc.).
  */
 html.dark input:not([type="checkbox"]):not([type="radio"]):not([type="button"]):not([type="submit"]):not([type="reset"]):not([type="file"]),
 html.dark textarea,

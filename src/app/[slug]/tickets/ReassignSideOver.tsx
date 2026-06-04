@@ -156,12 +156,12 @@ export function ReassignSideOver({
   return (
     <SideOver open={open} onClose={onClose} title="Reatribuir ticket" width={560}>
       <div className="flex flex-col gap-4">
-        <div className="rounded-lg bg-[#F8FAFC] p-3 text-sm">
-          <p className="font-medium text-[#1E293B]">
+        <div className="rounded-lg bg-muted/40 p-3 text-sm">
+          <p className="font-medium text-foreground">
             {ticketCustomerName || "Ticket"}
           </p>
           {currentAssignedToName && (
-            <p className="mt-1 text-[#64748B]">
+            <p className="mt-1 text-muted-foreground">
               Atual: {currentAssignedToName}
             </p>
           )}
@@ -173,18 +173,18 @@ export function ReassignSideOver({
 
         {loading ? (
           <div className="flex items-center justify-center py-8">
-            <Loader2 className="h-8 w-8 animate-spin text-clicvend-orange" />
+            <Loader2 className="h-8 w-8 animate-spin text-amber-600 dark:text-amber-400" />
           </div>
         ) : (
           <>
             <div>
-              <label className="mb-2 block text-sm font-medium text-[#334155]">
+              <label className="mb-2 block text-sm font-medium text-foreground">
                 Atribuir a
               </label>
               <select
                 value={selectedUserId}
                 onChange={(e) => setSelectedUserId(e.target.value)}
-                className="w-full rounded-lg border border-[#E2E8F0] px-3 py-2 text-sm text-[#1E293B]"
+                className="w-full rounded-lg border border-border px-3 py-2 text-sm text-foreground"
               >
                 <option value="">Selecione um agente</option>
                 {agents.map((a) => (
@@ -195,7 +195,7 @@ export function ReassignSideOver({
                 ))}
               </select>
               {agents.length === 0 && (
-                <p className="mt-2 text-xs text-[#94A3B8]">
+                <p className="mt-2 text-xs text-muted-foreground">
                   Não há agentes listados para esta fila/empresa no momento.
                 </p>
               )}
@@ -206,7 +206,7 @@ export function ReassignSideOver({
                 type="button"
                 onClick={handleUnassign}
                 disabled={saving}
-                className="flex-1 rounded-lg border border-[#E2E8F0] px-3 py-2 text-sm font-medium text-[#64748B] hover:bg-[#F1F5F9] disabled:opacity-60"
+                className="flex-1 rounded-lg border border-border px-3 py-2 text-sm font-medium text-muted-foreground hover:bg-muted/60 disabled:opacity-60"
               >
                 Desatribuir
               </button>

@@ -19,6 +19,8 @@ npm run dev -- -p 3003
 2. [`render.yaml`](render.yaml) — Blueprint opcional
 3. [`docs/qa-production-checklist.md`](docs/qa-production-checklist.md) — testes após deploy
 4. [`docs/supabase-production-audit.md`](docs/supabase-production-audit.md) — Supabase `ncvwocdinqudlgivnmpz`
+5. [`docs/security-trial-15d.md`](docs/security-trial-15d.md) — trial 15 dias com cliente
+6. [`docs/theme-tokens.md`](docs/theme-tokens.md) — cores e tokens do tema
 
 ```powershell
 npm run check:production-env

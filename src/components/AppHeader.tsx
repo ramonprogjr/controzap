@@ -224,7 +224,7 @@ export function AppHeader() {
         {canViewCalendar && (
           <Link
             href={`${base}/calendario`}
-            className="relative flex items-center justify-center rounded-md p-2.5 text-muted-foreground hover:bg-amber-50 hover:text-amber-700 transition-colors focus:outline-none focus:ring-2 focus:ring-amber-200 dark:hover:bg-white/[0.06] dark:hover:text-foreground dark:focus:ring-amber-400/30"
+            className="relative flex items-center justify-center rounded-md p-2.5 text-muted-foreground hover:bg-amber-50 hover:text-amber-700 transition-colors focus:outline-none focus:ring-2 focus:ring-amber-200 dark:hover:bg-card/[0.06] dark:hover:text-foreground dark:focus:ring-amber-400/30"
             aria-label="Calendário"
             title="Agendamentos de hoje"
           >
@@ -241,7 +241,7 @@ export function AppHeader() {
             <button
               type="button"
               onClick={() => setNotificationsOpen((o) => !o)}
-              className="relative flex items-center justify-center rounded-md p-2.5 text-muted-foreground hover:bg-amber-50 hover:text-amber-700 transition-colors focus:outline-none focus:ring-2 focus:ring-amber-200 dark:hover:bg-white/[0.06] dark:hover:text-foreground dark:focus:ring-amber-400/30"
+              className="relative flex items-center justify-center rounded-md p-2.5 text-muted-foreground hover:bg-amber-50 hover:text-amber-700 transition-colors focus:outline-none focus:ring-2 focus:ring-amber-200 dark:hover:bg-card/[0.06] dark:hover:text-foreground dark:focus:ring-amber-400/30"
               aria-label="Notificações"
               title="Notificações"
             >
@@ -311,7 +311,7 @@ export function AppHeader() {
                             {href ? (
                               <Link
                                 href={href}
-                                className="flex items-start gap-3 px-4 py-3 transition-colors hover:bg-amber-50/60 dark:hover:bg-white/[0.05]"
+                                className="flex items-start gap-3 px-4 py-3 transition-colors hover:bg-amber-50/60 dark:hover:bg-card/[0.05]"
                                 onClick={() => setNotificationsOpen(false)}
                               >
                                 {inner}

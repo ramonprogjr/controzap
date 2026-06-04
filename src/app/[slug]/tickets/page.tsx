@@ -559,21 +559,21 @@ export default function TicketsPage() {
   }
 
   return (
-    <div className="flex h-full flex-col gap-4 bg-[#F1F5F9] p-4">
+    <div className="flex h-full flex-col gap-4 bg-muted/60 p-4">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
-          <h1 className="text-xl font-semibold text-[#0F172A]">Tickets</h1>
-          <p className="text-sm text-[#64748B]">
+          <h1 className="text-xl font-semibold text-foreground">Tickets</h1>
+          <p className="text-sm text-muted-foreground">
             Visão em quadro dos atendimentos por status. {canManageTickets ? "Você vê todos os tickets e pode reatribuir e mudar status." : "Você vê apenas seus tickets."}
           </p>
         </div>
         <div className="flex flex-wrap items-center gap-2">
-          <div className="flex rounded-lg border border-[#E2E8F0] bg-white p-0.5">
+          <div className="flex rounded-lg border border-border bg-card p-0.5">
             <button
               type="button"
               onClick={() => setViewMode("kanban")}
               className={`flex items-center gap-1.5 rounded-md px-3 py-1.5 text-sm font-medium transition-colors ${
-                viewMode === "kanban" ? "bg-clicvend-orange text-white" : "text-[#64748B] hover:bg-[#F1F5F9]"
+                viewMode === "kanban" ? "bg-clicvend-orange text-white" : "text-muted-foreground hover:bg-muted/60"
               }`}
             >
               <LayoutGrid className="h-4 w-4" />
@@ -583,7 +583,7 @@ export default function TicketsPage() {
               type="button"
               onClick={() => setViewMode("table")}
               className={`flex items-center gap-1.5 rounded-md px-3 py-1.5 text-sm font-medium transition-colors ${
-                viewMode === "table" ? "bg-clicvend-orange text-white" : "text-[#64748B] hover:bg-[#F1F5F9]"
+                viewMode === "table" ? "bg-clicvend-orange text-white" : "text-muted-foreground hover:bg-muted/60"
               }`}
             >
               <Table2 className="h-4 w-4" />
@@ -594,19 +594,19 @@ export default function TicketsPage() {
             <button
               type="button"
               onClick={() => setStatusConfigOpen(true)}
-              className="inline-flex items-center gap-1.5 rounded-lg border border-[#E2E8F0] bg-white px-3 py-1.5 text-sm font-medium text-[#64748B] hover:bg-[#F8FAFC] hover:text-[#0F172A]"
+              className="inline-flex items-center gap-1.5 rounded-lg border border-border bg-card px-3 py-1.5 text-sm font-medium text-muted-foreground hover:bg-muted/40 hover:text-foreground"
               title="Configurar status"
             >
               <Settings2 className="h-4 w-4" />
               Configurar status
             </button>
           )}
-          <label className="flex items-center gap-2 text-sm text-[#64748B]">
+          <label className="flex items-center gap-2 text-sm text-muted-foreground">
             <span>Fila:</span>
             <select
               value={queueId}
               onChange={(e) => setQueueId(e.target.value)}
-              className="rounded-lg border border-[#E2E8F0] bg-white px-3 py-1.5 text-sm font-medium text-[#1E293B] hover:border-[#CBD5E1]"
+              className="rounded-lg border border-border bg-card px-3 py-1.5 text-sm font-medium text-foreground hover:border-border"
               title="Filtrar Kanban por fila. Todas = status padrão. Fila específica = status padrão + exclusivos da fila."
             >
               <option value="">Todas</option>
@@ -640,44 +640,44 @@ export default function TicketsPage() {
       {loading ? (
         <div className="flex min-h-0 flex-1 gap-4 overflow-x-auto pb-2">
           {statusColumns.map((col) => (
-            <div key={col.key} className="flex w-[300px] min-w-[300px] max-w-[300px] shrink-0 flex-col gap-3 rounded-lg border-2 border-transparent bg-[#F8FAFC] p-3">
+            <div key={col.key} className="flex w-[300px] min-w-[300px] max-w-[300px] shrink-0 flex-col gap-3 rounded-lg border-2 border-transparent bg-muted/40 p-3">
               <div className="flex items-center justify-between gap-2">
-                <div className="h-6 w-24 animate-pulse rounded-full bg-[#E2E8F0]" />
-                <div className="h-5 w-8 animate-pulse rounded-full bg-[#E2E8F0]" />
+                <div className="h-6 w-24 animate-pulse rounded-full bg-muted" />
+                <div className="h-5 w-8 animate-pulse rounded-full bg-muted" />
               </div>
               <div className="flex flex-1 flex-col gap-2">
                 {[1, 2, 3].map((i) => (
-                  <div key={i} className="h-20 animate-pulse rounded-md bg-[#E2E8F0]" />
+                  <div key={i} className="h-20 animate-pulse rounded-md bg-muted" />
                 ))}
               </div>
             </div>
           ))}
         </div>
       ) : tickets.length === 0 ? (
-        <div className="flex flex-1 flex-col items-center justify-center rounded-xl border-2 border-dashed border-[#E2E8F0] bg-white/80 p-8 text-center">
-          <p className="text-base font-medium text-[#1E293B]">
+        <div className="flex flex-1 flex-col items-center justify-center rounded-xl border-2 border-dashed border-border bg-card/80 p-8 text-center">
+          <p className="text-base font-medium text-foreground">
             {queueId ? "Nenhum ticket nesta fila" : "Nenhum ticket"}
           </p>
-          <p className="mt-2 max-w-md text-sm text-[#64748B]">
+          <p className="mt-2 max-w-md text-sm text-muted-foreground">
             {queueId ? (
-              <>Tente selecionar <strong>Todas</strong> no filtro de fila ou conecte o número em <Link href={slug ? `/${slug}/conexoes` : "#"} className="text-clicvend-orange hover:underline">Conexões</Link>.</>
+              <>Tente selecionar <strong>Todas</strong> no filtro de fila ou conecte o número em <Link href={slug ? `/${slug}/conexoes` : "#"} className="text-amber-600 dark:text-amber-400 hover:underline">Conexões</Link>.</>
             ) : (
-              <>Ao conectar o número em <Link href={slug ? `/${slug}/conexoes` : "#"} className="text-clicvend-orange hover:underline">Conexões</Link>, o histórico é sincronizado automaticamente.</>
+              <>Ao conectar o número em <Link href={slug ? `/${slug}/conexoes` : "#"} className="text-amber-600 dark:text-amber-400 hover:underline">Conexões</Link>, o histórico é sincronizado automaticamente.</>
             )}
           </p>
-          {!canManageTickets && <p className="mt-2 text-xs text-[#94A3B8]">Você vê apenas tickets atribuídos a você. Pegue chamados no Chat para que apareçam aqui.</p>}
+          {!canManageTickets && <p className="mt-2 text-xs text-muted-foreground">Você vê apenas tickets atribuídos a você. Pegue chamados no Chat para que apareçam aqui.</p>}
         </div>
       ) : viewMode === "table" ? (
-        <div className="flex flex-1 flex-col overflow-hidden rounded-xl border border-[#E2E8F0] bg-white">
+        <div className="flex flex-1 flex-col overflow-hidden rounded-xl border border-border bg-card">
           {selectedTicketIds.size > 0 && (
-            <div className="shrink-0 flex flex-wrap items-center justify-between gap-4 px-4 py-3 bg-clicvend-orange/10 border-b border-[#E2E8F0]">
-              <span className="text-sm font-medium text-[#1E293B]">
+            <div className="shrink-0 flex flex-wrap items-center justify-between gap-4 px-4 py-3 bg-clicvend-orange/10 border-b border-border">
+              <span className="text-sm font-medium text-foreground">
                 {selectedTicketIds.size} ticket(s) selecionado(s)
               </span>
-              <div className="inline-flex flex-wrap rounded-lg border border-[#E2E8F0] bg-white overflow-hidden shadow-sm">
+              <div className="inline-flex flex-wrap rounded-lg border border-border bg-card overflow-hidden shadow-sm">
                 {canManageTickets && (
                   <select
-                    className="inline-flex items-center gap-1.5 border-r border-[#E2E8F0] bg-white px-3 py-2 text-sm font-medium text-[#334155] hover:bg-[#F8FAFC] disabled:opacity-60"
+                    className="inline-flex items-center gap-1.5 border-r border-border bg-card px-3 py-2 text-sm font-medium text-foreground hover:bg-muted/40 disabled:opacity-60"
                     defaultValue=""
                     onChange={async (e) => {
                       const slugStatus = e.target.value;
@@ -720,7 +720,7 @@ export default function TicketsPage() {
                       const first = tableTickets.find((t) => selectedTicketIds.has(t.id));
                       if (first) setReassignTicket(first);
                     }}
-                    className="inline-flex items-center gap-1.5 border-r border-[#E2E8F0] bg-white px-3 py-2 text-sm font-medium text-[#334155] hover:bg-[#F8FAFC] hover:text-clicvend-orange disabled:opacity-60"
+                    className="inline-flex items-center gap-1.5 border-r border-border bg-card px-3 py-2 text-sm font-medium text-foreground hover:bg-muted/40 hover:text-amber-600 dark:hover:text-amber-400 disabled:opacity-60"
                     title="Reatribuir selecionados (abre o primeiro)"
                   >
                     <UserPlus className="h-4 w-4" />
@@ -730,7 +730,7 @@ export default function TicketsPage() {
                 <button
                   type="button"
                   onClick={() => setSelectedTicketIds(new Set())}
-                  className="inline-flex items-center gap-1.5 bg-white px-3 py-2 text-sm font-medium text-[#64748B] hover:bg-[#F1F5F9] disabled:opacity-60 last:border-r-0"
+                  className="inline-flex items-center gap-1.5 bg-card px-3 py-2 text-sm font-medium text-muted-foreground hover:bg-muted/60 disabled:opacity-60 last:border-r-0"
                   title="Desmarcar todos os tickets selecionados"
                 >
                   <X className="h-4 w-4" />
@@ -742,12 +742,12 @@ export default function TicketsPage() {
           <div className="flex-1 min-h-0 overflow-auto">
             {tableLoading ? (
               <div className="flex items-center justify-center py-12">
-                <Loader2 className="h-10 w-10 animate-spin text-clicvend-orange" />
+                <Loader2 className="h-10 w-10 animate-spin text-amber-600 dark:text-amber-400" />
               </div>
             ) : (
               <table className="w-full min-w-[640px] border-collapse text-sm">
-                <thead className="sticky top-0 z-10 bg-[#F8FAFC]">
-                  <tr className="border-b border-[#E2E8F0]">
+                <thead className="sticky top-0 z-10 bg-muted/40">
+                  <tr className="border-b border-border">
                     <th className="w-10 px-4 py-3 text-left">
                       <input
                         ref={tableSelectAllRef}
@@ -768,17 +768,17 @@ export default function TicketsPage() {
                             });
                           }
                         }}
-                        className="h-4 w-4 rounded border-[#E2E8F0] text-clicvend-orange focus:ring-clicvend-orange"
+                        className="h-4 w-4 rounded border-border text-amber-600 dark:text-amber-400 focus:ring-amber-500/20"
                         aria-label="Selecionar todos da página"
                       />
                     </th>
-                    <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-[#64748B]">Cliente</th>
-                    <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-[#64748B]">Status</th>
-                    <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-[#64748B]">Últ. msg</th>
-                    <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-[#64748B]">Atendente</th>
-                    <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-[#64748B]">Entrou</th>
+                    <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-muted-foreground">Cliente</th>
+                    <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-muted-foreground">Status</th>
+                    <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-muted-foreground">Últ. msg</th>
+                    <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-muted-foreground">Atendente</th>
+                    <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-muted-foreground">Entrou</th>
                     {canManageTickets && (
-                      <th className="w-12 px-4 py-3 text-center text-xs font-semibold uppercase tracking-wider text-[#64748B]">Reatribuir</th>
+                      <th className="w-12 px-4 py-3 text-center text-xs font-semibold uppercase tracking-wider text-muted-foreground">Reatribuir</th>
                     )}
                   </tr>
                 </thead>
@@ -799,7 +799,7 @@ export default function TicketsPage() {
                               ? "Encerrado"
                               : statusKey);
                     return (
-                      <tr key={t.id} className="border-b border-[#E2E8F0] hover:bg-[#F8FAFC]">
+                      <tr key={t.id} className="border-b border-border hover:bg-muted/40">
                         <td className="w-10 px-2 py-3">
                           <input
                             type="checkbox"
@@ -812,12 +812,12 @@ export default function TicketsPage() {
                                 return next;
                               });
                             }}
-                            className="h-4 w-4 rounded border-[#E2E8F0] text-clicvend-orange focus:ring-clicvend-orange"
+                            className="h-4 w-4 rounded border-border text-amber-600 dark:text-amber-400 focus:ring-amber-500/20"
                             aria-label={`Selecionar ${t.customer_name || t.customer_phone}`}
                           />
                         </td>
                         <td className="px-4 py-3">
-                          <Link href={slug ? `/${slug}/conversas/${t.id}` : "#"} className="font-medium text-[#0F172A] hover:text-clicvend-orange">
+                          <Link href={slug ? `/${slug}/conversas/${t.id}` : "#"} className="font-medium text-foreground hover:text-amber-600 dark:hover:text-amber-400">
                             {t.customer_name || t.customer_phone}
                           </Link>
                         </td>
@@ -829,7 +829,7 @@ export default function TicketsPage() {
                             {statusLabel}
                           </span>
                         </td>
-                        <td className="px-4 py-3 text-[#64748B]">
+                        <td className="px-4 py-3 text-muted-foreground">
                           {t.last_message_at
                             ? new Date(t.last_message_at).toLocaleString("pt-BR", {
                                 day: "2-digit",
@@ -839,14 +839,14 @@ export default function TicketsPage() {
                               })
                             : "—"}
                         </td>
-                        <td className="px-4 py-3 text-[#64748B]">
+                        <td className="px-4 py-3 text-muted-foreground">
                           {t.assigned_to_name && t.assigned_to_name.trim() !== ""
                             ? t.assigned_to_name
                             : t.assigned_to && t.assigned_to === currentUserId
                               ? "Você"
                               : "—"}
                         </td>
-                        <td className="px-4 py-3 text-[#64748B]">
+                        <td className="px-4 py-3 text-muted-foreground">
                           {new Date(t.created_at).toLocaleDateString("pt-BR", {
                             day: "2-digit",
                             month: "2-digit",
@@ -858,7 +858,7 @@ export default function TicketsPage() {
                             <button
                               type="button"
                               onClick={() => setReassignTicket(t)}
-                              className="inline-flex items-center justify-center rounded p-2 text-[#64748B] hover:bg-[#E2E8F0] hover:text-clicvend-orange"
+                              className="inline-flex items-center justify-center rounded p-2 text-muted-foreground hover:bg-muted/60 hover:text-amber-600 dark:hover:text-amber-400"
                               title="Reatribuir a outro agente"
                             >
                               <UserPlus className="h-4 w-4" />
@@ -872,8 +872,8 @@ export default function TicketsPage() {
               </table>
             )}
           </div>
-          <div className="shrink-0 flex items-center justify-between gap-2 border-t border-[#E2E8F0] bg-[#F8FAFC] px-4 py-2">
-            <span className="text-sm text-[#64748B]">
+          <div className="shrink-0 flex items-center justify-between gap-2 border-t border-border bg-muted/40 px-4 py-2">
+            <span className="text-sm text-muted-foreground">
               Página {tablePageIndex + 1} de {tablePageCount} ({tableTotal} ticket{tableTotal !== 1 ? "s" : ""})
             </span>
             <div className="flex items-center gap-1">
@@ -881,7 +881,7 @@ export default function TicketsPage() {
                 type="button"
                 onClick={() => { setTablePageIndex((i) => Math.max(0, i - 1)); setSelectedTicketIds(new Set()); }}
                 disabled={tablePageIndex === 0}
-                className="rounded p-2 text-[#64748B] hover:bg-white hover:text-[#1E293B] disabled:opacity-40 disabled:pointer-events-none"
+                className="rounded p-2 text-muted-foreground hover:bg-card hover:text-foreground disabled:opacity-40 disabled:pointer-events-none"
                 aria-label="Página anterior"
               >
                 <ChevronLeft className="h-4 w-4" />
@@ -890,7 +890,7 @@ export default function TicketsPage() {
                 type="button"
                 onClick={() => { setTablePageIndex((i) => Math.min(tablePageCount - 1, i + 1)); setSelectedTicketIds(new Set()); }}
                 disabled={tablePageIndex >= tablePageCount - 1}
-                className="rounded p-2 text-[#64748B] hover:bg-white hover:text-[#1E293B] disabled:opacity-40 disabled:pointer-events-none"
+                className="rounded p-2 text-muted-foreground hover:bg-card hover:text-foreground disabled:opacity-40 disabled:pointer-events-none"
                 aria-label="Próxima página"
               >
                 <ChevronRight className="h-4 w-4" />
@@ -905,7 +905,7 @@ export default function TicketsPage() {
               type="button"
               onClick={() => scrollKanban("left")}
               disabled={!canKanbanScrollLeft}
-              className="shrink-0 self-center rounded border border-[#E2E8F0] bg-white p-2 text-[#64748B] hover:bg-[#F8FAFC] hover:text-[#1E293B] disabled:pointer-events-none disabled:opacity-40"
+              className="shrink-0 self-center rounded border border-border bg-card p-2 text-muted-foreground hover:bg-muted/40 hover:text-foreground disabled:pointer-events-none disabled:opacity-40"
               aria-label="Rolar colunas para esquerda"
             >
               <ChevronLeft className="h-4 w-4" />
@@ -918,7 +918,7 @@ export default function TicketsPage() {
           {columns.map((col, colIndex) => (
             <div
               key={col.key}
-              className={`flex w-[300px] min-w-[300px] max-w-[300px] shrink-0 flex-col min-h-0 rounded-lg border-2 bg-[#F8FAFC] p-3 transition-colors ${
+              className={`flex w-[300px] min-w-[300px] max-w-[300px] shrink-0 flex-col min-h-0 rounded-lg border-2 bg-muted/40 p-3 transition-colors ${
                 dragOverColumn === col.key ? "border-clicvend-orange bg-clicvend-orange/5" : "border-transparent"
               } ${draggingColumnKey === col.key ? "opacity-70" : ""}`}
               onDragOver={(e) => {
@@ -969,7 +969,7 @@ export default function TicketsPage() {
                 title={canManageStatuses ? "Arraste para reordenar as colunas" : undefined}
               >
                 {canManageStatuses && (
-                  <GripVertical className="h-4 w-4 shrink-0 text-[#94A3B8]" aria-hidden />
+                  <GripVertical className="h-4 w-4 shrink-0 text-muted-foreground" aria-hidden />
                 )}
                 <span
                   className="inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-semibold uppercase text-white"
@@ -977,7 +977,7 @@ export default function TicketsPage() {
                 >
                   {col.title}
                 </span>
-                <span className="rounded-full bg-[#E2E8F0] px-2.5 py-0.5 text-xs font-medium text-[#64748B]">
+                <span className="rounded-full bg-muted px-2.5 py-0.5 text-xs font-medium text-muted-foreground">
                   {col.items.length}
                 </span>
               </div>
@@ -1022,14 +1022,14 @@ export default function TicketsPage() {
                       e.dataTransfer.effectAllowed = "move";
                     }}
                     onDragEnd={() => setDraggingId(null)}
-                    className={`group relative flex flex-shrink-0 flex-col rounded-md border border-[#E2E8F0] bg-white text-sm shadow-sm transition-all overflow-hidden ${
+                    className={`group relative flex flex-shrink-0 flex-col rounded-md border border-border bg-card text-sm shadow-sm transition-all overflow-hidden ${
                       canManageTickets ? "cursor-grab active:cursor-grabbing" : ""
-                    } ${draggingId === t.id ? "opacity-60 shadow-lg" : "hover:shadow-md hover:border-[#CBD5E1]"}`}
+                    } ${draggingId === t.id ? "opacity-60 shadow-lg" : "hover:shadow-md hover:border-border"}`}
                   >
-                    <div className="flex shrink-0 items-center justify-between gap-1 border-b border-[#F1F5F9] bg-[#FAFBFC] px-2 py-1.5">
+                    <div className="flex shrink-0 items-center justify-between gap-1 border-b border-[#F1F5F9] bg-muted/40 px-2 py-1.5">
                       <Link
                         href={slug ? `/${slug}/conversas/${t.id}` : "#"}
-                        className="inline-flex items-center gap-1 rounded px-2 py-1 text-xs font-medium text-[#64748B] hover:bg-[#E2E8F0] hover:text-[#0F172A]"
+                        className="inline-flex items-center gap-1 rounded px-2 py-1 text-xs font-medium text-muted-foreground hover:bg-muted/60 hover:text-foreground"
                         onClick={(e) => e.stopPropagation()}
                       >
                         <MessageSquare className="h-3.5 w-3.5" />
@@ -1043,7 +1043,7 @@ export default function TicketsPage() {
                             e.stopPropagation();
                             setReassignTicket(t);
                           }}
-                          className="inline-flex items-center justify-center rounded p-1.5 text-[#64748B] hover:bg-[#E2E8F0] hover:text-clicvend-orange"
+                          className="inline-flex items-center justify-center rounded p-1.5 text-muted-foreground hover:bg-muted/60 hover:text-amber-600 dark:hover:text-amber-400"
                           title="Reatribuir a outro agente"
                         >
                           <UserPlus className="h-4 w-4" />
@@ -1056,7 +1056,7 @@ export default function TicketsPage() {
                     >
                       <div className="p-3">
                         <div className="flex items-start gap-2 mb-1.5">
-                          <div className="flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-full bg-gradient-to-br from-[#F1F5F9] to-[#E2E8F0] text-[#64748B] ring-1 ring-white/80">
+                          <div className="flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-full bg-gradient-to-br from-muted/60 to-border text-muted-foreground ring-1 ring-card/80">
                             {t.avatar_url ? (
                               <img
                                 src={t.avatar_url.startsWith("http") ? `/api/contacts/avatar?url=${encodeURIComponent(t.avatar_url)}` : t.avatar_url}
@@ -1073,7 +1073,7 @@ export default function TicketsPage() {
                           </div>
                           <div className="min-w-0 flex-1">
                             <div className="flex items-center justify-between gap-1.5">
-                              <p className="truncate font-medium text-[#0F172A]" title={displayName}>
+                              <p className="truncate font-medium text-foreground" title={displayName}>
                                 {displayName}
                               </p>
                               <ChannelIcon variant="outline" channelName={t.channel_name} size={18} title={t.channel_name ?? "WhatsApp"} />
@@ -1086,7 +1086,7 @@ export default function TicketsPage() {
                             </span>
                           </div>
                         </div>
-                        <div className="text-[11px] text-[#64748B] space-y-0.5">
+                        <div className="text-[11px] text-muted-foreground space-y-0.5">
                           {lastMsgAt && <span title="Última mensagem">Últ. msg: {lastMsgAt}</span>}
                           <span>
                             Entrou:{" "}
@@ -1098,14 +1098,14 @@ export default function TicketsPage() {
                           </span>
                         </div>
                       </div>
-                      <footer className="flex flex-wrap items-center gap-x-2 gap-y-1 border-t border-[#F1F5F9] bg-[#F8FAFC]/80 px-3 py-2 text-[10px] text-[#64748B]">
+                      <footer className="flex flex-wrap items-center gap-x-2 gap-y-1 border-t border-[#F1F5F9] bg-muted/40/80 px-3 py-2 text-[10px] text-muted-foreground">
                         <span className="inline-flex items-center gap-1" title={`ID: ${t.id}`}>
-                          <Hash className="h-3.5 w-3.5 shrink-0 text-[#94A3B8]" />
+                          <Hash className="h-3.5 w-3.5 shrink-0 text-muted-foreground" />
                           <span className="font-mono font-medium">{t.id.replace(/-/g, "").slice(0, 8).toUpperCase()}</span>
                         </span>
                         {t.channel_name && (
                           <span className="inline-flex items-center gap-1 truncate max-w-[90px]" title={t.channel_name}>
-                            <Layers className="h-3.5 w-3.5 shrink-0 text-[#94A3B8]" />
+                            <Layers className="h-3.5 w-3.5 shrink-0 text-muted-foreground" />
                             {t.channel_name}
                           </span>
                         )}
@@ -1121,9 +1121,9 @@ export default function TicketsPage() {
                               : "Ninguém pegou ainda"
                           }
                         >
-                          <UserCheck className="h-3.5 w-3.5 shrink-0 text-[#94A3B8]" />
+                          <UserCheck className="h-3.5 w-3.5 shrink-0 text-muted-foreground" />
                           <span className="truncate max-w-[72px]">
-                            <span className="text-[#94A3B8]">Atendente:</span>{" "}
+                            <span className="text-muted-foreground">Atendente:</span>{" "}
                             {t.assigned_to_name && t.assigned_to_name.trim() !== ""
                               ? t.assigned_to_name
                               : t.assigned_to && t.assigned_to === currentUserId
@@ -1144,7 +1144,7 @@ export default function TicketsPage() {
                   aria-hidden
                 >
                   {hasNextPage && (loadingMore || loading) && col.key === columns[0]?.key && (
-                    <div className="flex items-center justify-center py-2 text-[#64748B]">
+                    <div className="flex items-center justify-center py-2 text-muted-foreground">
                       <Loader2 className="h-5 w-5 animate-spin" />
                     </div>
                   )}
@@ -1158,7 +1158,7 @@ export default function TicketsPage() {
               type="button"
               onClick={() => scrollKanban("right")}
               disabled={!canKanbanScrollRight}
-              className="shrink-0 self-center rounded border border-[#E2E8F0] bg-white p-2 text-[#64748B] hover:bg-[#F8FAFC] hover:text-[#1E293B] disabled:pointer-events-none disabled:opacity-40"
+              className="shrink-0 self-center rounded border border-border bg-card p-2 text-muted-foreground hover:bg-muted/40 hover:text-foreground disabled:pointer-events-none disabled:opacity-40"
               aria-label="Rolar colunas para direita"
             >
               <ChevronRight className="h-4 w-4" />

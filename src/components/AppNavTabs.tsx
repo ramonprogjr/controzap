@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { useMemo, useRef } from "react";
 import useSWR from "swr";
 import { getCompanySlugFromPath } from "@/lib/company-slug";
+import { tabActive, tabInactive } from "@/lib/ui/theme-classes";
 import {
   MessageSquare,
   Plug,
@@ -152,10 +153,10 @@ export function AppNavTabs() {
         const isCalendario = href === "/calendario";
         const activeClass = isMulticalculo
           ? "bg-gradient-to-r from-violet-600 to-violet-500 text-white shadow-lg shadow-violet-500/25 ring-1 ring-violet-400/40"
-          : "bg-gradient-to-r from-amber-600 to-amber-500 text-white shadow-lg shadow-amber-500/25 ring-1 ring-amber-400/40";
+          : tabActive;
         const inactiveHover = isMulticalculo
           ? "hover:bg-violet-500/15 hover:text-violet-700 dark:hover:text-violet-200"
-          : "hover:bg-muted/60 hover:text-amber-700 dark:hover:text-amber-200";
+          : tabInactive;
         return (
           <Link
             key={href}

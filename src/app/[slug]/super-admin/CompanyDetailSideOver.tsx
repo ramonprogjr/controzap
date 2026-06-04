@@ -471,7 +471,7 @@ export function CompanyDetailSideOver({
 
   const tabModulos = (
     <div className="space-y-5">
-      <p className="text-sm text-[#64748B]">
+      <p className="text-sm text-muted-foreground">
         Ative ou desative módulos do menu desta empresa. Alterações valem após salvar — usuários podem precisar atualizar a
         página.
       </p>
@@ -486,12 +486,12 @@ export function CompanyDetailSideOver({
               setMulticalculoDraft(v);
               setModulesDraft((prev) => ({ ...prev, multicalculo: v }));
             }}
-            className="mt-1 h-4 w-4 rounded border-[#E2E8F0] text-emerald-600 focus:ring-emerald-500"
+            className="mt-1 h-4 w-4 rounded border-border text-emerald-600 focus:ring-emerald-500"
           />
           <span>
-            <span className="font-medium text-[#1E293B]">Seguros — Multicalculo</span>
-            <span className="mt-0.5 block text-xs text-[#64748B]">
-              Habilita a aba Multicalculo e integrações de seguros. Sincroniza com o flag <code className="rounded bg-white px-1">multicalculo_seguros_enabled</code> e o módulo <code className="rounded bg-white px-1">multicalculo</code> no JSON.
+            <span className="font-medium text-foreground">Seguros — Multicalculo</span>
+            <span className="mt-0.5 block text-xs text-muted-foreground">
+              Habilita a aba Multicalculo e integrações de seguros. Sincroniza com o flag <code className="rounded bg-card px-1">multicalculo_seguros_enabled</code> e o módulo <code className="rounded bg-card px-1">multicalculo</code> no JSON.
             </span>
           </span>
         </label>
@@ -501,7 +501,7 @@ export function CompanyDetailSideOver({
         {COMPANY_MODULE_LABELS.map((row) => (
           <label
             key={row.key}
-            className="flex cursor-pointer items-start gap-3 rounded-lg border border-[#E2E8F0] bg-[#F8FAFC] p-3 transition-colors hover:bg-[#F1F5F9]"
+            className="flex cursor-pointer items-start gap-3 rounded-lg border border-border bg-muted/40 p-3 transition-colors hover:bg-muted/60"
           >
             <input
               type="checkbox"
@@ -512,11 +512,11 @@ export function CompanyDetailSideOver({
                   [row.key]: e.target.checked,
                 }))
               }
-              className="mt-0.5 h-4 w-4 shrink-0 rounded border-[#E2E8F0] text-emerald-600 focus:ring-emerald-500"
+              className="mt-0.5 h-4 w-4 shrink-0 rounded border-border text-emerald-600 focus:ring-emerald-500"
             />
             <span className="min-w-0">
-              <span className="font-medium text-[#1E293B]">{row.label}</span>
-              {row.description ? <span className="mt-0.5 block text-xs text-[#64748B]">{row.description}</span> : null}
+              <span className="font-medium text-foreground">{row.label}</span>
+              {row.description ? <span className="mt-0.5 block text-xs text-muted-foreground">{row.description}</span> : null}
             </span>
           </label>
         ))}
@@ -540,19 +540,19 @@ export function CompanyDetailSideOver({
 
   const tabBoletos = (
     <div className="space-y-4">
-      <div className="rounded-lg border border-[#E2E8F0] bg-[#F8FAFC] p-4">
-        <div className="flex items-center gap-2 text-sm font-medium text-[#1E293B]">
-          <FileText className="h-4 w-4 text-[#64748B]" />
+      <div className="rounded-lg border border-border bg-muted/40 p-4">
+        <div className="flex items-center gap-2 text-sm font-medium text-foreground">
+          <FileText className="h-4 w-4 text-muted-foreground" />
           Emitir boletos (Cora)
         </div>
-        <p className="mt-1 text-xs text-[#64748B]">
+        <p className="mt-1 text-xs text-muted-foreground">
           Gera boletos para os próximos meses. Requer CNPJ e endereço cadastrados.
         </p>
         <div className="mt-3 flex items-center gap-2">
           <select
             value={emitMonths}
             onChange={(e) => setEmitMonths(Number(e.target.value))}
-            className="rounded-lg border border-[#E2E8F0] bg-white px-3 py-2 text-sm text-[#1E293B] focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500"
+            className="rounded-lg border border-border bg-card px-3 py-2 text-sm text-foreground focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500"
           >
             {[1, 3, 6, 12].map((n) => (
               <option key={n} value={n}>
@@ -584,31 +584,31 @@ export function CompanyDetailSideOver({
       </div>
 
       <div>
-        <h3 className="mb-2 text-sm font-medium text-[#1E293B]">Boletos emitidos</h3>
+        <h3 className="mb-2 text-sm font-medium text-foreground">Boletos emitidos</h3>
         {invoicesError && (
           <p className="mb-2 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
             {invoicesError}
           </p>
         )}
         {invoicesLoading ? (
-          <div className="flex items-center gap-2 rounded-lg border border-[#E2E8F0] bg-white px-4 py-4 text-sm text-[#64748B]">
+          <div className="flex items-center gap-2 rounded-lg border border-border bg-card px-4 py-4 text-sm text-muted-foreground">
             <Loader2 className="h-4 w-4 animate-spin" />
             Carregando...
           </div>
         ) : invoices.length === 0 ? (
-          <p className="rounded-lg border border-[#E2E8F0] bg-[#F8FAFC] px-4 py-6 text-center text-sm text-[#94A3B8]">
+          <p className="rounded-lg border border-border bg-muted/40 px-4 py-6 text-center text-sm text-muted-foreground">
             Nenhum boleto emitido ainda.
           </p>
         ) : (
-          <div className="overflow-hidden rounded-lg border border-[#E2E8F0]">
+          <div className="overflow-hidden rounded-lg border border-border">
             <table className="w-full min-w-[400px] text-sm">
               <thead>
-                <tr className="border-b border-[#E2E8F0] bg-[#F8FAFC]">
-                  <th className="px-4 py-2 text-left text-xs font-medium text-[#64748B]">Mês/Ano</th>
-                  <th className="px-4 py-2 text-left text-xs font-medium text-[#64748B]">Vencimento</th>
-                  <th className="px-4 py-2 text-left text-xs font-medium text-[#64748B]">Status</th>
-                  <th className="px-4 py-2 text-right text-xs font-medium text-[#64748B]">Valor</th>
-                  <th className="px-4 py-2 text-left text-xs font-medium text-[#64748B]">Ação</th>
+                <tr className="border-b border-border bg-muted/40">
+                  <th className="px-4 py-2 text-left text-xs font-medium text-muted-foreground">Mês/Ano</th>
+                  <th className="px-4 py-2 text-left text-xs font-medium text-muted-foreground">Vencimento</th>
+                  <th className="px-4 py-2 text-left text-xs font-medium text-muted-foreground">Status</th>
+                  <th className="px-4 py-2 text-right text-xs font-medium text-muted-foreground">Valor</th>
+                  <th className="px-4 py-2 text-left text-xs font-medium text-muted-foreground">Ação</th>
                 </tr>
               </thead>
               <tbody>
@@ -621,17 +621,17 @@ export function CompanyDetailSideOver({
                       ? "bg-emerald-100 text-emerald-700"
                       : inv.status === "OPEN"
                         ? "bg-amber-100 text-amber-700"
-                        : "bg-[#F1F5F9] text-[#64748B]";
+                        : "bg-muted/60 text-muted-foreground";
                   return (
-                    <tr key={inv.id} className="border-b border-[#E2E8F0] last:border-0">
-                      <td className="px-4 py-2 font-medium text-[#1E293B]">{label}</td>
-                      <td className="px-4 py-2 text-[#64748B]">{due}</td>
+                    <tr key={inv.id} className="border-b border-border last:border-0">
+                      <td className="px-4 py-2 font-medium text-foreground">{label}</td>
+                      <td className="px-4 py-2 text-muted-foreground">{due}</td>
                       <td className="px-4 py-2">
                         <span className={`rounded-full px-2 py-0.5 text-xs font-medium ${statusColor}`}>
                           {inv.status === "PAID" ? "Pago" : inv.status === "OPEN" ? "Aberto" : inv.status}
                         </span>
                       </td>
-                      <td className="px-4 py-2 text-right font-medium text-[#1E293B]">
+                      <td className="px-4 py-2 text-right font-medium text-foreground">
                         R$ {(inv.amount_cents / 100).toLocaleString("pt-BR")}
                       </td>
                       <td className="px-4 py-2">
@@ -646,7 +646,7 @@ export function CompanyDetailSideOver({
                             <FileDown className="h-4 w-4" />
                           </a>
                         ) : (
-                          <span className="text-[#94A3B8]">—</span>
+                          <span className="text-muted-foreground">—</span>
                         )}
                       </td>
                     </tr>
@@ -662,18 +662,18 @@ export function CompanyDetailSideOver({
 
   const tabImplantacao = (
     <div className="space-y-4">
-      <div className="rounded-lg border border-[#E2E8F0] bg-[#F8FAFC] p-4">
-        <div className="flex items-center gap-2 text-sm font-medium text-[#1E293B]">
-          <FileText className="h-4 w-4 text-[#64748B]" />
+      <div className="rounded-lg border border-border bg-muted/40 p-4">
+        <div className="flex items-center gap-2 text-sm font-medium text-foreground">
+          <FileText className="h-4 w-4 text-muted-foreground" />
           Cobrança - Taxa de Implantação
         </div>
-        <p className="mt-1 text-xs text-[#64748B]">
+        <p className="mt-1 text-xs text-muted-foreground">
           Gere um link de pagamento (boleto/pix) para a taxa de implantação preenchendo o valor e o vencimento.
         </p>
 
         <div className="mt-4 space-y-3">
           <div>
-            <label className="block text-sm font-medium text-[#1E293B]">Valor (R$)</label>
+            <label className="block text-sm font-medium text-foreground">Valor (R$)</label>
             <input
               type="text"
               value={implantValueDisplay}
@@ -689,17 +689,17 @@ export function CompanyDetailSideOver({
                 setImplantValue(parsed ?? 0);
               }}
               placeholder="R$ 0,00"
-              className="mt-2 w-full rounded-lg border border-[#E2E8F0] bg-white px-3 py-2 text-sm text-[#1E293B] focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500"
+              className="mt-2 w-full rounded-lg border border-border bg-card px-3 py-2 text-sm text-foreground focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500"
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-[#1E293B]">Vencimento</label>
+            <label className="block text-sm font-medium text-foreground">Vencimento</label>
             <input
               type="date"
               value={implantDueDate}
               onChange={(e) => setImplantDueDate(e.target.value)}
-              className="mt-2 w-full rounded-lg border border-[#E2E8F0] bg-white px-3 py-2 text-sm text-[#1E293B] focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500"
+              className="mt-2 w-full rounded-lg border border-border bg-card px-3 py-2 text-sm text-foreground focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500"
             />
           </div>
 
@@ -720,29 +720,29 @@ export function CompanyDetailSideOver({
       {implantResult && (
         <div className="space-y-3">
           <div>
-            <h3 className="mb-2 text-sm font-medium text-[#1E293B]">Cobrança gerada</h3>
+            <h3 className="mb-2 text-sm font-medium text-foreground">Cobrança gerada</h3>
             {implantResult.error ? (
               <p className="text-sm text-red-700">{implantResult.error}</p>
             ) : (
-              <div className="overflow-hidden rounded-lg border border-[#E2E8F0] bg-white">
+              <div className="overflow-hidden rounded-lg border border-border bg-card">
                 <table className="w-full min-w-[420px] text-sm">
                   <thead>
-                    <tr className="border-b border-[#E2E8F0] bg-[#F8FAFC]">
-                      <th className="px-4 py-2 text-left text-xs font-medium text-[#64748B]">Mês/Ano</th>
-                      <th className="px-4 py-2 text-left text-xs font-medium text-[#64748B]">Vencimento</th>
-                      <th className="px-4 py-2 text-left text-xs font-medium text-[#64748B]">Status</th>
-                      <th className="px-4 py-2 text-right text-xs font-medium text-[#64748B]">Valor</th>
-                      <th className="px-4 py-2 text-left text-xs font-medium text-[#64748B]">Ação</th>
+                    <tr className="border-b border-border bg-muted/40">
+                      <th className="px-4 py-2 text-left text-xs font-medium text-muted-foreground">Mês/Ano</th>
+                      <th className="px-4 py-2 text-left text-xs font-medium text-muted-foreground">Vencimento</th>
+                      <th className="px-4 py-2 text-left text-xs font-medium text-muted-foreground">Status</th>
+                      <th className="px-4 py-2 text-right text-xs font-medium text-muted-foreground">Valor</th>
+                      <th className="px-4 py-2 text-left text-xs font-medium text-muted-foreground">Ação</th>
                     </tr>
                   </thead>
                   <tbody>
-                    <tr className="border-b border-[#E2E8F0] last:border-0">
-                      <td className="px-4 py-2 font-medium text-[#1E293B]">
+                    <tr className="border-b border-border last:border-0">
+                      <td className="px-4 py-2 font-medium text-foreground">
                         {implantResult.month && implantResult.year
                           ? `${MONTH_NAMES[implantResult.month - 1]} ${implantResult.year}`
                           : "—"}
                       </td>
-                      <td className="px-4 py-2 text-[#64748B]">{formatDate(implantResult.due_date ?? null)}</td>
+                      <td className="px-4 py-2 text-muted-foreground">{formatDate(implantResult.due_date ?? null)}</td>
                       <td className="px-4 py-2">
                         <span
                           className={`rounded-full px-2 py-0.5 text-xs font-medium ${
@@ -750,7 +750,7 @@ export function CompanyDetailSideOver({
                               ? "bg-emerald-100 text-emerald-700"
                               : implantResult.status === "OPEN"
                                 ? "bg-amber-100 text-amber-700"
-                                : "bg-[#F1F5F9] text-[#64748B]"
+                                : "bg-muted/60 text-muted-foreground"
                           }`}
                         >
                           {implantResult.status === "PAID"
@@ -760,7 +760,7 @@ export function CompanyDetailSideOver({
                               : implantResult.status ?? "—"}
                         </span>
                       </td>
-                      <td className="px-4 py-2 text-right font-medium text-[#1E293B]">
+                      <td className="px-4 py-2 text-right font-medium text-foreground">
                         R$ {((implantResult.amount_cents ?? 0) / 100).toLocaleString("pt-BR")}
                       </td>
                       <td className="px-4 py-2">
@@ -798,13 +798,13 @@ export function CompanyDetailSideOver({
           {implantCopyToast && <p className="text-xs text-emerald-700">{implantCopyToast}</p>}
 
           {implantResult.pix_emv && (
-            <div className="rounded-lg border border-[#E2E8F0] bg-white p-4">
-              <p className="text-xs font-medium text-[#64748B]">Pix (copia e cola)</p>
+            <div className="rounded-lg border border-border bg-card p-4">
+              <p className="text-xs font-medium text-muted-foreground">Pix (copia e cola)</p>
               <textarea
                 readOnly
                 value={implantResult.pix_emv}
                 rows={4}
-                className="mt-2 w-full rounded-lg border border-[#E2E8F0] bg-[#F8FAFC] px-3 py-2 text-xs text-[#1E293B] font-mono"
+                className="mt-2 w-full rounded-lg border border-border bg-muted/40 px-3 py-2 text-xs text-foreground font-mono"
               />
             </div>
           )}
@@ -816,7 +816,7 @@ export function CompanyDetailSideOver({
   const tabConfig = (
     <div className="space-y-6">
       <div>
-        <div className="flex items-center gap-2 text-sm text-[#64748B]">
+        <div className="flex items-center gap-2 text-sm text-muted-foreground">
           <Building2 className="h-4 w-4" />
           <a
             href={`/${company.slug}`}
@@ -827,13 +827,13 @@ export function CompanyDetailSideOver({
             /{company.slug}
           </a>
         </div>
-        <p className="mt-1 text-xs text-[#94A3B8]">Criada em {formatDate(company.created_at)}</p>
+        <p className="mt-1 text-xs text-muted-foreground">Criada em {formatDate(company.created_at)}</p>
       </div>
 
-      <div className="flex items-center justify-between rounded-lg border border-[#E2E8F0] bg-[#F8FAFC] px-4 py-3">
+      <div className="flex items-center justify-between rounded-lg border border-border bg-muted/40 px-4 py-3">
         <div>
-          <p className="text-sm font-medium text-[#1E293B]">Status da empresa</p>
-          <p className="text-xs text-[#64748B]">Ativar ou desativar acesso à plataforma</p>
+          <p className="text-sm font-medium text-foreground">Status da empresa</p>
+          <p className="text-xs text-muted-foreground">Ativar ou desativar acesso à plataforma</p>
         </div>
         <div className="flex items-center gap-2">
           <span
@@ -864,14 +864,14 @@ export function CompanyDetailSideOver({
       </div>
 
       <div>
-        <label className="flex items-center gap-2 text-sm font-medium text-[#1E293B]">
-          <DollarSign className="h-4 w-4 text-[#64748B]" />
+        <label className="flex items-center gap-2 text-sm font-medium text-foreground">
+          <DollarSign className="h-4 w-4 text-muted-foreground" />
           Status de pagamento
         </label>
         <select
           value={billingStatus}
           onChange={(e) => setBillingStatus(e.target.value)}
-          className="mt-2 w-full rounded-lg border border-[#E2E8F0] bg-white px-3 py-2 text-sm text-[#1E293B] focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500"
+          className="mt-2 w-full rounded-lg border border-border bg-card px-3 py-2 text-sm text-foreground focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500"
         >
           {Object.entries(BILLING_LABELS).map(([k, v]) => (
             <option key={k} value={k}>
@@ -882,11 +882,11 @@ export function CompanyDetailSideOver({
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-[#1E293B]">Plano / Mensalidade</label>
+        <label className="block text-sm font-medium text-foreground">Plano / Mensalidade</label>
         <select
           value={billingPlan}
           onChange={(e) => setBillingPlan(e.target.value)}
-          className="mt-2 w-full rounded-lg border border-[#E2E8F0] bg-white px-3 py-2 text-sm text-[#1E293B] focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500"
+          className="mt-2 w-full rounded-lg border border-border bg-card px-3 py-2 text-sm text-foreground focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500"
         >
           <option value="basic">Basic — R$ 350/mês</option>
           <option value="plus">Plus — R$ 600/mês</option>
@@ -895,13 +895,13 @@ export function CompanyDetailSideOver({
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-[#1E293B]">Notas de pagamento</label>
+        <label className="block text-sm font-medium text-foreground">Notas de pagamento</label>
         <textarea
           value={billingNotes}
           onChange={(e) => setBillingNotes(e.target.value)}
           placeholder="Observações sobre pagamento/mensalidade..."
           rows={4}
-          className="mt-2 w-full rounded-lg border border-[#E2E8F0] bg-white px-3 py-2 text-sm text-[#1E293B] placeholder-[#94A3B8] focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 resize-none"
+          className="mt-2 w-full rounded-lg border border-border bg-card px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 resize-none"
         />
       </div>
 
@@ -923,14 +923,14 @@ export function CompanyDetailSideOver({
 
   return (
     <SideOver open={open} onClose={onClose} title={company.name} width="780px">
-      <div className="flex border-b border-[#E2E8F0]">
+      <div className="flex border-b border-border">
         <button
           type="button"
           onClick={() => setActiveTab("modulos")}
           className={`flex items-center gap-2 px-4 py-3 text-sm font-medium transition-colors ${
             activeTab === "modulos"
               ? "border-b-2 border-emerald-600 text-emerald-600"
-              : "text-[#64748B] hover:text-[#1E293B]"
+              : "text-muted-foreground hover:text-foreground"
           }`}
         >
           <LayoutGrid className="h-4 w-4" />
@@ -942,7 +942,7 @@ export function CompanyDetailSideOver({
           className={`flex items-center gap-2 px-4 py-3 text-sm font-medium transition-colors ${
             activeTab === "config"
               ? "border-b-2 border-emerald-600 text-emerald-600"
-              : "text-[#64748B] hover:text-[#1E293B]"
+              : "text-muted-foreground hover:text-foreground"
           }`}
         >
           <Settings className="h-4 w-4" />
@@ -954,7 +954,7 @@ export function CompanyDetailSideOver({
           className={`flex items-center gap-2 px-4 py-3 text-sm font-medium transition-colors ${
             activeTab === "boletos"
               ? "border-b-2 border-emerald-600 text-emerald-600"
-              : "text-[#64748B] hover:text-[#1E293B]"
+              : "text-muted-foreground hover:text-foreground"
           }`}
         >
           <FileText className="h-4 w-4" />
@@ -966,7 +966,7 @@ export function CompanyDetailSideOver({
           className={`flex items-center gap-2 px-4 py-3 text-sm font-medium transition-colors ${
             activeTab === "implantacao"
               ? "border-b-2 border-emerald-600 text-emerald-600"
-              : "text-[#64748B] hover:text-[#1E293B]"
+              : "text-muted-foreground hover:text-foreground"
           }`}
         >
           <ExternalLink className="h-4 w-4" />

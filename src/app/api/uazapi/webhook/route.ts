@@ -1,5 +1,6 @@
 import { getCompanyIdFromCookie } from "@/lib/auth/get-company";
 import { setWebhook, UAZ_WEBHOOK_DEFAULT_EVENTS } from "@/lib/uazapi/client";
+import { buildUazapiWebhookPublicUrl } from "@/lib/uazapi/webhook-auth";
 import { createClient } from "@/lib/supabase/server";
 import { NextResponse } from "next/server";
 
@@ -49,7 +50,7 @@ export async function POST(request: Request) {
     "";
   const protocol = baseUrl.includes("localhost") ? "http" : "https";
   const host = baseUrl.replace(/^https?:\/\//, "").split("/")[0] || "localhost:3000";
-  const webhookUrl = `${protocol}://${host}/api/webhook/uazapi`;
+  const webhookUrl = buildUazapiWebhookPublicUrl(`${protocol}://${host}`);
 
   const result = await setWebhook(token, webhookUrl, {
     events: [...UAZ_WEBHOOK_DEFAULT_EVENTS],

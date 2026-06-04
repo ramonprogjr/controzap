@@ -82,7 +82,7 @@ export default function HomePage() {
   }, []);
 
   return (
-    <main className="min-h-screen bg-white flex flex-col">
+    <main className="min-h-screen bg-card flex flex-col">
       <LandingHeader />
 
       {/* Hero - Menos verde, fundo neutro */}
@@ -122,7 +122,7 @@ export default function HomePage() {
               </Link>
               <Link
                 href="/login"
-                className="inline-flex items-center justify-center gap-2 rounded-full border-2 border-white px-8 py-4 text-base font-semibold text-white transition-all hover:bg-white/10"
+                className="inline-flex items-center justify-center gap-2 rounded-full border-2 border-white px-8 py-4 text-base font-semibold text-white transition-all hover:bg-card/10"
               >
                 <span className="font-display">Login</span>
               </Link>
@@ -132,7 +132,7 @@ export default function HomePage() {
       </section>
 
       {/* Action Chips - Melhor responsividade */}
-      <section className="border-b border-[#E2E8F0] bg-white py-8 md:py-12">
+      <section className="border-b border-border bg-card py-8 md:py-12">
         <div className="mx-auto w-[92%] max-w-6xl px-4">
           <div className="flex flex-wrap justify-center gap-2 md:gap-3">
             {ACTION_CHIPS.map((chip) => (
@@ -140,7 +140,7 @@ export default function HomePage() {
                 key={chip.label}
                 type="button"
                 aria-label={chip.label}
-                className="inline-flex items-center gap-1.5 rounded-full border border-[#C8E6C9] bg-[#E8F5E9] px-3 py-2 text-xs font-medium text-[#1E293B] transition-colors hover:border-[#A5D6A7] hover:bg-[#C8E6C9] md:gap-2 md:px-4 md:py-2.5 md:text-sm"
+                className="inline-flex items-center gap-1.5 rounded-full border border-[#C8E6C9] bg-[#E8F5E9] px-3 py-2 text-xs font-medium text-foreground transition-colors hover:border-[#A5D6A7] hover:bg-[#C8E6C9] md:gap-2 md:px-4 md:py-2.5 md:text-sm"
               >
                 <span className="text-sm md:text-base" aria-hidden="true">{chip.icon}</span>
                 <span className="truncate">{chip.label}</span>
@@ -151,28 +151,28 @@ export default function HomePage() {
       </section>
 
       {/* O que você pode fazer */}
-      <section className="bg-white py-20">
+      <section className="bg-card py-20">
         <div className="mx-auto w-[92%] max-w-6xl">
-          <h2 className="mb-12 text-center text-3xl font-bold text-[#1E293B] md:text-4xl">
+          <h2 className="mb-12 text-center text-3xl font-bold text-foreground md:text-4xl">
             Recursos poderosos para transformar seu atendimento
           </h2>
           <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
             {FEATURE_CARDS.map(({ title, desc }) => (
               <div
                 key={title}
-                className="flex h-full flex-col overflow-hidden rounded-3xl border border-[#E2E8F0] bg-white shadow-lg shadow-[#E2E8F0]/40 transition-all hover:-translate-y-1 hover:shadow-2xl"
+                className="flex h-full flex-col overflow-hidden rounded-3xl border border-border bg-card shadow-lg shadow-[#E2E8F0]/40 transition-all hover:-translate-y-1 hover:shadow-2xl"
               >
-                <div className="relative bg-[#F1F5F9] px-6 pt-6 pb-4">
+                <div className="relative bg-muted/60 px-6 pt-6 pb-4">
                   <div className="absolute inset-x-10 top-4 h-2 rounded-full bg-gradient-to-r from-[#22C55E]/30 via-[#34B097]/40 to-[#22C55E]/30 blur" />
-                  <div className="relative mx-auto max-w-xs rounded-2xl border border-[#E2E8F0] bg-white/95 p-3 shadow-sm">
+                  <div className="relative mx-auto max-w-xs rounded-2xl border border-border bg-card/95 p-3 shadow-sm">
                     <div className="mb-2 flex items-center justify-between gap-2">
                       <div className="flex items-center gap-2">
                         <span className="flex h-7 w-7 items-center justify-center rounded-full bg-[#22C55E] text-xs font-semibold text-white">
                           WA
                         </span>
                         <div className="text-xs">
-                          <p className="font-semibold text-[#0F172A]">WhatsApp</p>
-                          <p className="text-[10px] text-[#64748B]">Conectado ao {BRAND_NAME}</p>
+                          <p className="font-semibold text-foreground">WhatsApp</p>
+                          <p className="text-[10px] text-muted-foreground">Conectado ao {BRAND_NAME}</p>
                         </div>
                       </div>
                       <span className="rounded-full bg-[#E5F3FF] px-2 py-0.5 text-[10px] font-medium text-[#0369A1]">
@@ -190,15 +190,15 @@ export default function HomePage() {
                           <span className="mt-0.5 self-end text-[9px] text-[#16A34A]">17:46</span>
                         </div>
                       </div>
-                      <p className="pt-1 text-[10px] text-[#94A3B8]">
+                      <p className="pt-1 text-[10px] text-muted-foreground">
                         Mensagem enviada automaticamente pelo {BRAND_NAME}.
                       </p>
                     </div>
                   </div>
                 </div>
                 <div className="flex flex-1 flex-col p-6">
-                  <h3 className="text-lg font-bold text-[#1E293B]">{title}</h3>
-                  <p className="mt-3 text-sm leading-relaxed text-[#64748B]">{desc}</p>
+                  <h3 className="text-lg font-bold text-foreground">{title}</h3>
+                  <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{desc}</p>
                 </div>
               </div>
             ))}
@@ -207,13 +207,13 @@ export default function HomePage() {
       </section>
 
       {/* Parceiros / Destaque - card só com texto, logos na faixa cinza, finco na cor do hero */}
-      <section className="relative border-t-4 border-t-[#1E293B] bg-[#F8FAFC] py-16">
+      <section className="relative border-t-4 border-t-[#1E293B] bg-muted/40 py-16">
         <div className="mx-auto w-[92%] max-w-4xl space-y-10">
-          <div className="overflow-hidden rounded-2xl border border-[#E2E8F0] bg-white p-8 shadow-lg">
-            <h3 className="text-xl font-bold text-[#1E293B] md:text-2xl">
+          <div className="overflow-hidden rounded-2xl border border-border bg-card p-8 shadow-lg">
+            <h3 className="text-xl font-bold text-foreground md:text-2xl">
               Inteligência Artificial para potencializar seus resultados
             </h3>
-            <p className="mt-4 text-[#64748B] leading-relaxed">
+            <p className="mt-4 text-muted-foreground leading-relaxed">
               Tecnologia de ponta das principais plataformas de IA integrada para automatizar atendimentos, 
               gerar respostas inteligentes e aumentar a eficiência da sua equipe.
             </p>
@@ -240,10 +240,10 @@ export default function HomePage() {
       </section>
 
       {/* Newsletter */}
-      <section className="border-t border-[#E2E8F0] bg-white py-20 pb-24">
+      <section className="border-t border-border bg-card py-20 pb-24">
         <div className="mx-auto w-[92%] max-w-xl text-center">
-          <h2 className="text-2xl font-bold text-[#1E293B]">Assine nossa newsletter</h2>
-          <p className="mt-2 text-[#64748B]">Receba novidades e dicas para melhorar seu atendimento</p>
+          <h2 className="text-2xl font-bold text-foreground">Assine nossa newsletter</h2>
+          <p className="mt-2 text-muted-foreground">Receba novidades e dicas para melhorar seu atendimento</p>
           <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:justify-center">
             <input
               type="email"
@@ -251,7 +251,7 @@ export default function HomePage() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               aria-label="Email para newsletter"
-              className="rounded-xl border border-[#E2E8F0] bg-white px-5 py-3.5 text-[#1E293B] placeholder-[#94A3B8] focus:border-[#34B097] focus:outline-none focus:ring-2 focus:ring-[#34B097]/20 sm:min-w-[280px]"
+              className="rounded-xl border border-border bg-card px-5 py-3.5 text-foreground placeholder:text-muted-foreground focus:border-[#34B097] focus:outline-none focus:ring-2 focus:ring-[#34B097]/20 sm:min-w-[280px]"
             />
             <button
               type="button"
@@ -281,12 +281,12 @@ export default function HomePage() {
               initial={{ opacity: 0, scale: 0.95, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
-              className="relative max-h-[85vh] w-full max-w-2xl overflow-hidden rounded-2xl border border-[#E2E8F0] bg-white shadow-2xl"
+              className="relative max-h-[85vh] w-full max-w-2xl overflow-hidden rounded-2xl border border-border bg-card shadow-2xl"
               onClick={(e) => e.stopPropagation()}
             >
-              <div className="flex items-center justify-between border-b border-[#E2E8F0] px-6 py-4">
-                <h2 className="text-lg font-bold text-[#0F172A]">Termos de uso</h2>
-                <button type="button" onClick={() => setModal(null)} className="rounded-lg p-2 text-[#64748B] hover:bg-[#F1F5F9]">
+              <div className="flex items-center justify-between border-b border-border px-6 py-4">
+                <h2 className="text-lg font-bold text-foreground">Termos de uso</h2>
+                <button type="button" onClick={() => setModal(null)} className="rounded-lg p-2 text-muted-foreground hover:bg-muted/60">
                   <X className="h-5 w-5" />
                 </button>
               </div>
@@ -294,15 +294,15 @@ export default function HomePage() {
                 <p className="mb-4">
                   Ao utilizar o {BRAND_NAME}, você concorda com estes Termos de Uso. O serviço destina-se a empresas e profissionais que desejam centralizar o atendimento via WhatsApp.
                 </p>
-                <h3 className="mb-2 font-semibold text-[#0F172A]">1. Uso do serviço</h3>
+                <h3 className="mb-2 font-semibold text-foreground">1. Uso do serviço</h3>
                 <p className="mb-4">
                   Você é responsável por manter a confidencialidade de sua conta e por todas as atividades realizadas sob seu login. O uso deve estar em conformidade com as políticas do WhatsApp e da legislação aplicável.
                 </p>
-                <h3 className="mb-2 font-semibold text-[#0F172A]">2. Dados e privacidade</h3>
+                <h3 className="mb-2 font-semibold text-foreground">2. Dados e privacidade</h3>
                 <p className="mb-4">
                   O tratamento de dados pessoais é regido pela nossa Política de Privacidade. Ao cadastrar sua empresa e conectar canais, você garante que possui base legal para o processamento dos dados dos seus clientes.
                 </p>
-                <h3 className="mb-2 font-semibold text-[#0F172A]">3. Alterações</h3>
+                <h3 className="mb-2 font-semibold text-foreground">3. Alterações</h3>
                 <p>
                   Podemos atualizar estes termos periodicamente. O uso continuado do serviço após alterações constitui aceite das novas condições. Em caso de dúvidas, entre em contato conosco.
                 </p>
@@ -327,12 +327,12 @@ export default function HomePage() {
               initial={{ opacity: 0, scale: 0.95, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
-              className="relative max-h-[85vh] w-full max-w-2xl overflow-hidden rounded-2xl border border-[#E2E8F0] bg-white shadow-2xl"
+              className="relative max-h-[85vh] w-full max-w-2xl overflow-hidden rounded-2xl border border-border bg-card shadow-2xl"
               onClick={(e) => e.stopPropagation()}
             >
-              <div className="flex items-center justify-between border-b border-[#E2E8F0] px-6 py-4">
-                <h2 className="text-lg font-bold text-[#0F172A]">Política de Privacidade</h2>
-                <button type="button" onClick={() => setModal(null)} className="rounded-lg p-2 text-[#64748B] hover:bg-[#F1F5F9]">
+              <div className="flex items-center justify-between border-b border-border px-6 py-4">
+                <h2 className="text-lg font-bold text-foreground">Política de Privacidade</h2>
+                <button type="button" onClick={() => setModal(null)} className="rounded-lg p-2 text-muted-foreground hover:bg-muted/60">
                   <X className="h-5 w-5" />
                 </button>
               </div>
@@ -340,15 +340,15 @@ export default function HomePage() {
                 <p className="mb-4">
                   O {BRAND_NAME} respeita sua privacidade e está em conformidade com a Lei Geral de Proteção de Dados (LGPD). Esta política descreve como coletamos, usamos e protegemos suas informações.
                 </p>
-                <h3 className="mb-2 font-semibold text-[#0F172A]">Dados que coletamos</h3>
+                <h3 className="mb-2 font-semibold text-foreground">Dados que coletamos</h3>
                 <p className="mb-4">
                   Coletamos dados de cadastro (e-mail, dados da empresa, endereço), dados de uso do painel e dados de conversas gerenciadas pela plataforma, conforme necessário para a prestação do serviço.
                 </p>
-                <h3 className="mb-2 font-semibold text-[#0F172A]">Finalidade</h3>
+                <h3 className="mb-2 font-semibold text-foreground">Finalidade</h3>
                 <p className="mb-4">
                   Os dados são utilizados para operar o serviço, melhorar a experiência, cumprir obrigações legais e comunicar atualizações. Não vendemos seus dados a terceiros.
                 </p>
-                <h3 className="mb-2 font-semibold text-[#0F172A]">Segurança e seus direitos</h3>
+                <h3 className="mb-2 font-semibold text-foreground">Segurança e seus direitos</h3>
                 <p>
                   Adotamos medidas técnicas e organizacionais para proteger seus dados. Você pode acessar, corrigir ou solicitar a exclusão dos seus dados entrando em contato conosco.
                 </p>

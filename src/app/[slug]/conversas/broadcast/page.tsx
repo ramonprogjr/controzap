@@ -86,7 +86,7 @@ function PipelineFlowMini({ status, isRunning }: { status?: string; isRunning?: 
     if (nextState === "completed") return "bg-emerald-400";
     if (nextState === "active") return "bg-blue-500";
     if (nextState === "failed") return "bg-red-400";
-    return "bg-[#E2E8F0]";
+    return "bg-muted";
   };
 
   return (
@@ -127,7 +127,7 @@ function PipelineFlowMini({ status, isRunning }: { status?: string; isRunning?: 
                   <span className="text-sm font-bold text-white">{i + 1}</span>
                 )}
               </div>
-              <p className="mt-1.5 text-[10px] font-bold uppercase tracking-wide text-[#64748B] text-center whitespace-nowrap">
+              <p className="mt-1.5 text-[10px] font-bold uppercase tracking-wide text-muted-foreground text-center whitespace-nowrap">
                 {node.label}
               </p>
               <span
@@ -138,7 +138,7 @@ function PipelineFlowMini({ status, isRunning }: { status?: string; isRunning?: 
                       ? "bg-blue-100 text-blue-700"
                       : state === "failed"
                         ? "bg-red-100 text-red-700"
-                        : "bg-[#F1F5F9] text-[#64748B]"
+                        : "bg-muted/60 text-muted-foreground"
                 }`}
               >
                 {badgeText}
@@ -247,12 +247,12 @@ function RecordingPreviewBar({
     return (
       <div className="flex items-center justify-between gap-4 rounded-xl bg-gradient-to-r from-violet-400 via-purple-300 to-fuchsia-300 px-5 py-3 shadow-lg text-white">
         <div className="flex items-center gap-3">
-          <div className="flex h-10 w-10 items-center justify-center rounded-full bg-white/20">
+          <div className="flex h-10 w-10 items-center justify-center rounded-full bg-card/20">
             <Loader2 className="h-5 w-5 animate-spin text-white" />
           </div>
           <span className="text-sm font-semibold text-violet-900/90">Preparando áudio…</span>
         </div>
-        <button type="button" onClick={onDiscard} className="rounded-full border border-white/60 px-4 py-1.5 text-xs font-medium text-violet-900/90 hover:bg-white/10">Cancelar</button>
+        <button type="button" onClick={onDiscard} className="rounded-full border border-white/60 px-4 py-1.5 text-xs font-medium text-violet-900/90 hover:bg-card/10">Cancelar</button>
       </div>
     );
   }
@@ -260,7 +260,7 @@ function RecordingPreviewBar({
   return (
     <div className="flex items-center gap-4 rounded-xl bg-gradient-to-r from-violet-400 via-purple-300 to-fuchsia-300 px-5 py-3 shadow-lg text-white">
       {src && <audio ref={audioRef} src={src} preload="metadata" className="hidden" />}
-      <button type="button" onClick={togglePlay} className="flex h-11 w-11 items-center justify-center rounded-full bg-white text-violet-600 shadow-md hover:scale-105 transition-transform" aria-label={playing ? "Pausar" : "Reproduzir"}>
+      <button type="button" onClick={togglePlay} className="flex h-11 w-11 items-center justify-center rounded-full bg-card text-violet-600 shadow-md hover:scale-105 transition-transform" aria-label={playing ? "Pausar" : "Reproduzir"}>
         {playing ? <Pause className="h-5 w-5" /> : <Play className="h-5 w-5 ml-0.5" />}
       </button>
       <div className="flex-1 min-w-0">
@@ -269,15 +269,15 @@ function RecordingPreviewBar({
           <span>{formatDuration(currentTime)}</span>
           <span>{duration ? formatDuration(duration) : "–:––"}</span>
         </div>
-        <div className="mt-1.5 h-1.5 w-full rounded-full bg-white/30 overflow-hidden cursor-pointer" onClick={handleSeek}>
-          <div className="h-full rounded-full bg-white shadow-[0_0_8px_rgba(255,255,255,0.8)] transition-all" style={{ width: `${progress}%` }} />
+        <div className="mt-1.5 h-1.5 w-full rounded-full bg-card/30 overflow-hidden cursor-pointer" onClick={handleSeek}>
+          <div className="h-full rounded-full bg-card shadow-[0_0_8px_rgba(255,255,255,0.8)] transition-all" style={{ width: `${progress}%` }} />
         </div>
       </div>
       <div className="flex flex-col items-center gap-2 ml-1 shrink-0">
-        <button type="button" onClick={onSend} disabled={sending} className="flex h-9 w-9 items-center justify-center rounded-full bg-white text-violet-600 shadow-md hover:bg-violet-50 disabled:opacity-60" title="Enviar áudio">
+        <button type="button" onClick={onSend} disabled={sending} className="flex h-9 w-9 items-center justify-center rounded-full bg-card text-violet-600 shadow-md hover:bg-violet-50 disabled:opacity-60" title="Enviar áudio">
           {sending ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="h-4 w-4" />}
         </button>
-        <button type="button" onClick={onDiscard} className="flex h-9 w-9 items-center justify-center rounded-full border border-white/70 text-white/90 hover:bg-white/10" title="Descartar">
+        <button type="button" onClick={onDiscard} className="flex h-9 w-9 items-center justify-center rounded-full border border-white/70 text-white/90 hover:bg-card/10" title="Descartar">
           <Trash2 className="h-4 w-4" />
         </button>
       </div>
@@ -295,7 +295,7 @@ function RecordingInProgressBar({ seconds, onStop }: { seconds: number; onStop: 
   return (
     <div className="flex items-center gap-4 rounded-xl bg-gradient-to-r from-violet-500 via-purple-400 to-fuchsia-400 px-5 py-3 shadow-lg text-white">
       <div className="flex items-center gap-3">
-        <button type="button" onClick={onStop} className="flex h-11 w-11 items-center justify-center rounded-full bg-white text-violet-600 shadow-md hover:bg-violet-50" aria-label="Parar gravação">
+        <button type="button" onClick={onStop} className="flex h-11 w-11 items-center justify-center rounded-full bg-card text-violet-600 shadow-md hover:bg-violet-50" aria-label="Parar gravação">
           <Square className="h-5 w-5" />
         </button>
         <div className="flex flex-col gap-1">
@@ -306,7 +306,7 @@ function RecordingInProgressBar({ seconds, onStop }: { seconds: number; onStop: 
       <div className="flex-1 flex items-center justify-center">
         <div className="flex items-end gap-1 h-8 w-full max-w-xs">
           {levels.map((h, idx) => (
-            <div key={idx} className="flex-1 rounded-full bg-white/40 transition-all" style={{ height: `${h * 100}%` }} />
+            <div key={idx} className="flex-1 rounded-full bg-card/40 transition-all" style={{ height: `${h * 100}%` }} />
           ))}
         </div>
       </div>
@@ -845,13 +845,13 @@ export default function BroadcastPage() {
   }
 
   return (
-    <div className="flex h-full flex-col bg-white">
+    <div className="flex h-full flex-col bg-card">
       {/* Header */}
-      <header className="flex shrink-0 items-center gap-3 border-b border-[#E2E8F0] px-4 py-3">
+      <header className="flex shrink-0 items-center gap-3 border-b border-border px-4 py-3">
         <button
           type="button"
           onClick={() => router.push(`${base}/conversas`)}
-          className="rounded-lg p-2 text-[#64748B] hover:bg-[#F1F5F9] hover:text-[#1E293B]"
+          className="rounded-lg p-2 text-muted-foreground hover:bg-muted/60 hover:text-foreground"
           aria-label="Voltar"
         >
           <ArrowLeft className="h-5 w-5" />
@@ -860,17 +860,17 @@ export default function BroadcastPage() {
           <Users className="h-5 w-5" />
         </div>
         <div className="min-w-0 flex-1">
-          <h1 className="truncate text-lg font-semibold text-[#1E293B]">Fluxo de envio</h1>
-          <p className="truncate text-sm text-[#64748B]">
+          <h1 className="truncate text-lg font-semibold text-foreground">Fluxo de envio</h1>
+          <p className="truncate text-sm text-muted-foreground">
             {selectedItems.length} contato(s) selecionado(s)
             {useUazapiQueue ? " · envio otimizado (delay 25–45s)" : " · envio manual (~35s)"}
           </p>
         </div>
-        <div className="flex shrink-0 items-center gap-1 rounded-lg border border-[#E2E8F0] bg-[#F8FAFC] p-1">
+        <div className="flex shrink-0 items-center gap-1 rounded-lg border border-border bg-muted/40 p-1">
           <button
             type="button"
             onClick={() => setViewTab("fluxo")}
-            className={`flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium transition-colors ${viewTab === "fluxo" ? "bg-white text-[#1E293B] shadow-sm" : "text-[#64748B] hover:text-[#1E293B]"}`}
+            className={`flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium transition-colors ${viewTab === "fluxo" ? "bg-card text-foreground shadow-sm" : "text-muted-foreground hover:text-foreground"}`}
           >
             <GitBranch className="h-4 w-4" />
             Fluxo
@@ -878,7 +878,7 @@ export default function BroadcastPage() {
           <button
             type="button"
             onClick={() => setViewTab("envio")}
-            className={`flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium transition-colors ${viewTab === "envio" ? "bg-white text-[#1E293B] shadow-sm" : "text-[#64748B] hover:text-[#1E293B]"}`}
+            className={`flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium transition-colors ${viewTab === "envio" ? "bg-card text-foreground shadow-sm" : "text-muted-foreground hover:text-foreground"}`}
           >
             <Send className="h-4 w-4" />
             Envio rápido
@@ -886,12 +886,12 @@ export default function BroadcastPage() {
           <button
             type="button"
             onClick={() => { setViewTab("fluxos"); setFlowSaveError(null); }}
-            className={`flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium transition-colors ${viewTab === "fluxos" ? "bg-white text-[#1E293B] shadow-sm" : "text-[#64748B] hover:text-[#1E293B]"}`}
+            className={`flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium transition-colors ${viewTab === "fluxos" ? "bg-card text-foreground shadow-sm" : "text-muted-foreground hover:text-foreground"}`}
           >
             <FolderOpen className="h-4 w-4" />
             Fluxos salvos
             {pipelines.length > 0 && (
-              <span className="rounded-full bg-clicvend-orange/20 px-1.5 py-0.5 text-[10px] font-semibold text-clicvend-orange">
+              <span className="rounded-full bg-clicvend-orange/20 px-1.5 py-0.5 text-[10px] font-semibold text-amber-600 dark:text-amber-400">
                 {pipelines.length}
               </span>
             )}
@@ -941,17 +941,17 @@ export default function BroadcastPage() {
 
         {selectedItems.length > 0 && viewTab === "envio" && (
           <>
-            <div className="border-b border-[#E2E8F0] px-4 py-3">
+            <div className="border-b border-border px-4 py-3">
               <div className="mb-2 flex items-center justify-between">
-                <p className="text-xs font-semibold uppercase tracking-wider text-[#64748B]">
+                <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                   Destinatários ({selectedItems.length})
                 </p>
-                <label className="flex cursor-pointer items-center gap-2 text-xs text-[#64748B]">
+                <label className="flex cursor-pointer items-center gap-2 text-xs text-muted-foreground">
                   <input
                     type="checkbox"
                     checked={useUazapiQueue}
                     onChange={(e) => setUseUazapiQueue(e.target.checked)}
-                    className="h-4 w-4 rounded border-[#E2E8F0] text-clicvend-orange focus:ring-clicvend-orange"
+                    className="h-4 w-4 rounded border-border text-amber-600 dark:text-amber-400 focus:ring-amber-500/20"
                   />
                   <span className="flex items-center gap-1">
                     {useUazapiQueue ? <Zap className="h-4 w-4 text-amber-500" /> : <ZapOff className="h-4 w-4" />}
@@ -963,7 +963,7 @@ export default function BroadcastPage() {
                 {selectedItems.map((item: { id: string; channel_name?: string | null; contact?: { contact_name?: string | null; first_name?: string | null; phone?: string | null; jid?: string | null } | null }) => (
                   <span
                     key={item.id}
-                    className="inline-flex items-center gap-1.5 rounded-full bg-white border border-[#E2E8F0] px-3 py-1.5 text-sm text-[#334155] shadow-sm"
+                    className="inline-flex items-center gap-1.5 rounded-full bg-card border border-border px-3 py-1.5 text-sm text-foreground shadow-sm"
                   >
                     <ChannelIcon variant="outline" provider="generic" channelName={item.channel_name} size={16} />
                     {item.contact?.contact_name || item.contact?.first_name || formatPhoneBrazil(item.contact?.phone ?? item.contact?.jid)}
@@ -999,18 +999,18 @@ export default function BroadcastPage() {
                 )}
               </div>
             )}
-            <h2 className="text-sm font-semibold text-[#334155] mb-3">Fluxos salvos</h2>
-            <p className="text-sm text-[#64748B] mb-4">
+            <h2 className="text-sm font-semibold text-foreground mb-3">Fluxos salvos</h2>
+            <p className="text-sm text-muted-foreground mb-4">
               Clique em &quot;Executar&quot; para enviar agora. Para envio automático no horário configurado, marque &quot;Agendar execução no horário configurado&quot; ao salvar. O horário é em Brasília.
             </p>
-            <p className="text-xs text-[#94A3B8] mb-4">
+            <p className="text-xs text-muted-foreground mb-4">
               O status &quot;Enviado para fila&quot; significa que as mensagens foram aceitas pelo WhatsApp. A entrega pode levar alguns minutos e pode falhar em alguns casos (número não cadastrado, bloqueado, etc.).
             </p>
             {pipelines.length === 0 ? (
-              <div className="flex flex-col items-center justify-center py-12 text-center rounded-lg border border-[#E2E8F0] bg-[#F8FAFC]">
-                <GitBranch className="h-12 w-12 text-[#94A3B8] mb-3" />
-                <p className="text-sm font-medium text-[#64748B]">Nenhum fluxo salvo</p>
-                <p className="text-xs text-[#94A3B8] mt-1">
+              <div className="flex flex-col items-center justify-center py-12 text-center rounded-lg border border-border bg-muted/40">
+                <GitBranch className="h-12 w-12 text-muted-foreground mb-3" />
+                <p className="text-sm font-medium text-muted-foreground">Nenhum fluxo salvo</p>
+                <p className="text-xs text-muted-foreground mt-1">
                   Configure um fluxo na aba &quot;Fluxo&quot; e clique em &quot;Salvar fluxo&quot;.
                 </p>
               </div>
@@ -1028,19 +1028,19 @@ export default function BroadcastPage() {
                     <div
                       key={p.id}
                       className={`rounded-xl border overflow-hidden shadow-sm transition-all ${
-                        isRunning ? "border-clicvend-orange bg-orange-50/30" : "border-[#E2E8F0] bg-white"
+                        isRunning ? "border-clicvend-orange bg-orange-50/30" : "border-border bg-card"
                       }`}
                     >
                       {/* Header: título + botões */}
-                      <div className="flex items-center justify-between gap-4 px-4 py-3 border-b border-[#E2E8F0] bg-[#F8FAFC]">
-                        <h3 className="font-semibold text-[#1E293B] truncate">{p.name}</h3>
+                      <div className="flex items-center justify-between gap-4 px-4 py-3 border-b border-border bg-muted/40">
+                        <h3 className="font-semibold text-foreground truncate">{p.name}</h3>
                         <div className="flex shrink-0 items-center gap-1">
                           {canManageBroadcast && canEdit && (
                             <button
                               type="button"
                               onClick={() => handleEditFlow({ id: p.id, name: p.name, config: p.config })}
                               title="Editar fluxo"
-                              className="flex items-center justify-center rounded-lg p-2 text-[#64748B] hover:bg-white hover:text-clicvend-orange transition-colors"
+                              className="flex items-center justify-center rounded-lg p-2 text-muted-foreground hover:bg-card hover:text-amber-600 dark:hover:text-amber-400 transition-colors"
                             >
                               <Pencil className="h-4 w-4" />
                             </button>
@@ -1053,7 +1053,7 @@ export default function BroadcastPage() {
                               className={`flex items-center justify-center rounded-lg p-2 transition-colors ${
                                 isScheduled
                                   ? "bg-amber-100 text-amber-800 hover:bg-amber-200"
-                                  : "text-[#64748B] hover:bg-white hover:text-[#1E293B]"
+                                  : "text-muted-foreground hover:bg-card hover:text-foreground"
                               }`}
                             >
                               {isScheduled ? <Power className="h-4 w-4" /> : <PowerOff className="h-4 w-4" />}
@@ -1073,7 +1073,7 @@ export default function BroadcastPage() {
                               type="button"
                               onClick={() => handleDeletePipeline(p.id, p.name)}
                               title="Excluir fluxo"
-                              className="flex items-center justify-center rounded-lg p-2 text-[#94A3B8] hover:bg-white hover:text-red-600 transition-colors"
+                              className="flex items-center justify-center rounded-lg p-2 text-muted-foreground hover:bg-card hover:text-red-600 transition-colors"
                             >
                               <Trash2 className="h-4 w-4" />
                             </button>
@@ -1083,7 +1083,7 @@ export default function BroadcastPage() {
                       {/* Conteúdo: stepper + resumo */}
                       <div className="p-4">
                         <PipelineFlowMini status={p.status} isRunning={isRunning} />
-                        <p className="text-xs text-[#64748B] mt-4">
+                        <p className="text-xs text-muted-foreground mt-4">
                           {count} contato(s) · {horario.inicio && horario.fim ? `${horario.inicio}–${horario.fim}` : "Sem horário"}
                           {p.status === "scheduled" && (
                             <span className="ml-2 inline-flex items-center gap-1 text-amber-600">
@@ -1118,8 +1118,8 @@ export default function BroadcastPage() {
         {selectedItems.length === 0 && viewTab !== "fluxos" && (
           <div className="flex flex-col items-center justify-center p-12 text-center">
             <Users className="h-16 w-16 text-[#E2E8F0]" />
-            <p className="mt-4 text-lg font-medium text-[#64748B]">Nenhum contato selecionado</p>
-            <p className="mt-2 text-sm text-[#94A3B8]">
+            <p className="mt-4 text-lg font-medium text-muted-foreground">Nenhum contato selecionado</p>
+            <p className="mt-2 text-sm text-muted-foreground">
               Na lista à esquerda, marque os checkboxes dos contatos que deseja enviar.
             </p>
           </div>
@@ -1128,7 +1128,7 @@ export default function BroadcastPage() {
 
       {/* Input area — apenas na aba Envio rápido */}
       {selectedItems.length > 0 && viewTab === "envio" && (
-      <div className="shrink-0 border-t border-[#E2E8F0] p-0 bg-white">
+      <div className="shrink-0 border-t border-border p-0 bg-card">
         {recording ? (
           <RecordingInProgressBar seconds={recordingSeconds} onStop={stopRecording} />
         ) : recordedAudioBlob ? (
@@ -1140,13 +1140,13 @@ export default function BroadcastPage() {
             onDiscard={discardRecordedAudio}
           />
         ) : (
-          <div className="flex flex-col bg-white overflow-hidden">
+          <div className="flex flex-col bg-card overflow-hidden">
             {/* Tabs */}
-            <div className="flex items-center border-b border-[#E2E8F0] bg-[#F8FAFC]">
+            <div className="flex items-center border-b border-border bg-muted/40">
               <button
                 type="button"
                 onClick={() => setInputTab("write")}
-                className={`px-4 py-2 text-sm font-medium transition-colors border-b-2 flex items-center gap-2 ${inputTab === "write" ? "border-clicvend-orange text-clicvend-orange bg-white" : "border-transparent text-[#64748B] hover:text-[#1E293B] hover:bg-gray-50"}`}
+                className={`px-4 py-2 text-sm font-medium transition-colors border-b-2 flex items-center gap-2 ${inputTab === "write" ? "border-clicvend-orange text-amber-600 dark:text-amber-400 bg-card" : "border-transparent text-muted-foreground hover:text-foreground hover:bg-gray-50"}`}
               >
                 <MessageSquare className="h-4 w-4" />
                 Responder
@@ -1154,7 +1154,7 @@ export default function BroadcastPage() {
               <button
                 type="button"
                 onClick={() => setInputTab("quick")}
-                className={`px-4 py-2 text-sm font-medium transition-colors border-b-2 flex items-center gap-2 ${inputTab === "quick" ? "border-clicvend-orange text-clicvend-orange bg-white" : "border-transparent text-[#64748B] hover:text-[#1E293B] hover:bg-gray-50"}`}
+                className={`px-4 py-2 text-sm font-medium transition-colors border-b-2 flex items-center gap-2 ${inputTab === "quick" ? "border-clicvend-orange text-amber-600 dark:text-amber-400 bg-card" : "border-transparent text-muted-foreground hover:text-foreground hover:bg-gray-50"}`}
               >
                 <Zap className="h-4 w-4" />
                 Respostas Rápidas
@@ -1162,14 +1162,14 @@ export default function BroadcastPage() {
               <button
                 type="button"
                 onClick={() => setInputTab("note")}
-                className={`px-4 py-2 text-sm font-medium transition-colors border-b-2 flex items-center gap-2 ${inputTab === "note" ? "border-purple-500 text-purple-600 bg-purple-50" : "border-transparent text-[#64748B] hover:text-[#1E293B] hover:bg-gray-50"}`}
+                className={`px-4 py-2 text-sm font-medium transition-colors border-b-2 flex items-center gap-2 ${inputTab === "note" ? "border-purple-500 text-purple-600 bg-purple-50" : "border-transparent text-muted-foreground hover:text-foreground hover:bg-gray-50"}`}
               >
                 <FileText className="h-4 w-4" />
                 Comentário Interno
               </button>
             </div>
 
-            <div className="p-0 relative bg-white">
+            <div className="p-0 relative bg-card">
               {inputTab === "write" || inputTab === "note" ? (
                 <>
                   {/* Hidden file inputs */}
@@ -1180,8 +1180,8 @@ export default function BroadcastPage() {
 
                   {/* Pending media badge */}
                   {pendingMedia && (
-                    <div className="flex items-center justify-between border-b border-[#E2E8F0] px-4 py-2 bg-[#F8FAFC]">
-                      <span className="text-sm text-[#64748B]">
+                    <div className="flex items-center justify-between border-b border-border px-4 py-2 bg-muted/40">
+                      <span className="text-sm text-muted-foreground">
                         Anexo: {pendingMedia.type} {pendingMedia.docName ? `(${pendingMedia.docName})` : ""}
                       </span>
                       <button type="button" onClick={() => setPendingMedia(null)} className="text-xs text-red-600 hover:underline">Remover</button>
@@ -1190,16 +1190,16 @@ export default function BroadcastPage() {
 
                   {/* Quick reply autocomplete */}
                   {quickSearch !== null && filteredQuickReplies.length > 0 && (
-                    <div className="absolute bottom-full left-0 mb-2 w-full rounded-xl bg-white border border-[#E2E8F0] shadow-xl overflow-hidden max-h-[300px] overflow-y-auto z-50">
+                    <div className="absolute bottom-full left-0 mb-2 w-full rounded-xl bg-card border border-border shadow-xl overflow-hidden max-h-[300px] overflow-y-auto z-50">
                       {filteredQuickReplies.map((qr, i) => (
                         <button
                           key={qr.id}
                           type="button"
                           onClick={() => selectQuickReply(qr)}
-                          className={`w-full text-left px-4 py-2 text-sm hover:bg-[#F8FAFC] flex items-center justify-between gap-2 border-b border-[#F1F5F9] last:border-0 ${i === quickIndex ? "bg-[#F1F5F9]" : ""}`}
+                          className={`w-full text-left px-4 py-2 text-sm hover:bg-muted/40 flex items-center justify-between gap-2 border-b border-[#F1F5F9] last:border-0 ${i === quickIndex ? "bg-muted/60" : ""}`}
                         >
-                          <span className="font-medium text-[#1E293B] shrink-0">/{qr.shortCut}</span>
-                          <span className="truncate text-[#64748B] flex-1 min-w-0 text-xs">{qr.text}</span>
+                          <span className="font-medium text-foreground shrink-0">/{qr.shortCut}</span>
+                          <span className="truncate text-muted-foreground flex-1 min-w-0 text-xs">{qr.text}</span>
                         </button>
                       ))}
                     </div>
@@ -1231,28 +1231,28 @@ export default function BroadcastPage() {
                       }
                     }}
                     placeholder={inputTab === "note" ? "Escreva um comentário interno (não será enviado ao cliente)..." : "Digite sua mensagem…"}
-                    className={`w-full resize-none border-0 p-4 text-sm text-[#1E293B] placeholder-[#94A3B8] focus:ring-0 min-h-[56px] focus:outline-none ${inputTab === "note" ? "bg-purple-50" : "bg-[#F0FDF4]"}`}
+                    className={`w-full resize-none border-0 p-4 text-sm text-foreground placeholder:text-muted-foreground focus:ring-0 min-h-[56px] focus:outline-none ${inputTab === "note" ? "bg-purple-50" : "bg-[#F0FDF4]"}`}
                     disabled={sending}
                   />
 
-                  <div className="flex items-center justify-between px-3 py-2 border-t border-[#E2E8F0] bg-[#F8FAFC]">
+                  <div className="flex items-center justify-between px-3 py-2 border-t border-border bg-muted/40">
                     <div className="flex items-center gap-2">
-                      <div className="flex shrink-0 items-center gap-0.5 border border-[#E2E8F0] rounded-lg overflow-hidden bg-white">
+                      <div className="flex shrink-0 items-center gap-0.5 border border-border rounded-lg overflow-hidden bg-card">
                         <button
                           type="button"
                           onClick={() => setAttachOpen(!attachOpen)}
-                          className="p-2 text-[#64748B] hover:bg-[#E2E8F0] transition-colors"
+                          className="p-2 text-muted-foreground hover:bg-muted/60 transition-colors"
                           title="Anexar arquivo"
                           disabled={inputTab === "note"}
                         >
                           <Paperclip className="h-5 w-5" />
                         </button>
                         {attachOpen && (
-                          <div className="flex items-center border-l border-[#E2E8F0] flex-wrap">
-                            <button type="button" onClick={() => { fileInputRef.current?.click(); setAttachOpen(false); }} className="px-3 py-1.5 text-xs text-[#64748B] hover:bg-[#F8FAFC] font-medium">Imagem</button>
-                            <button type="button" onClick={() => { videoInputRef.current?.click(); setAttachOpen(false); }} className="px-3 py-1.5 text-xs text-[#64748B] hover:bg-[#F8FAFC] font-medium">Vídeo</button>
-                            <button type="button" onClick={() => { audioInputRef.current?.click(); setAttachOpen(false); }} className="px-3 py-1.5 text-xs text-[#64748B] hover:bg-[#F8FAFC] font-medium">Áudio</button>
-                            <button type="button" onClick={() => { docInputRef.current?.click(); setAttachOpen(false); }} className="px-3 py-1.5 text-xs text-[#64748B] hover:bg-[#F8FAFC] font-medium">Documento</button>
+                          <div className="flex items-center border-l border-border flex-wrap">
+                            <button type="button" onClick={() => { fileInputRef.current?.click(); setAttachOpen(false); }} className="px-3 py-1.5 text-xs text-muted-foreground hover:bg-muted/40 font-medium">Imagem</button>
+                            <button type="button" onClick={() => { videoInputRef.current?.click(); setAttachOpen(false); }} className="px-3 py-1.5 text-xs text-muted-foreground hover:bg-muted/40 font-medium">Vídeo</button>
+                            <button type="button" onClick={() => { audioInputRef.current?.click(); setAttachOpen(false); }} className="px-3 py-1.5 text-xs text-muted-foreground hover:bg-muted/40 font-medium">Áudio</button>
+                            <button type="button" onClick={() => { docInputRef.current?.click(); setAttachOpen(false); }} className="px-3 py-1.5 text-xs text-muted-foreground hover:bg-muted/40 font-medium">Documento</button>
                           </div>
                         )}
                       </div>
@@ -1262,13 +1262,13 @@ export default function BroadcastPage() {
                           ref={inputEmojiButtonRef}
                           type="button"
                           onClick={() => setInputEmojiPickerOpen((v) => !v)}
-                          className="p-2 text-[#64748B] hover:bg-[#E2E8F0] rounded-lg transition-colors"
+                          className="p-2 text-muted-foreground hover:bg-muted/60 rounded-lg transition-colors"
                           title="Inserir emoji"
                         >
                           <Smile className="h-5 w-5" />
                         </button>
                         {inputEmojiPickerOpen && (
-                          <div ref={inputEmojiPickerRef} className="absolute bottom-full left-0 mb-2 z-50 rounded-xl bg-white border border-[#E2E8F0] shadow-xl overflow-hidden w-[320px]">
+                          <div ref={inputEmojiPickerRef} className="absolute bottom-full left-0 mb-2 z-50 rounded-xl bg-card border border-border shadow-xl overflow-hidden w-[320px]">
                             <div className="max-h-[320px] overflow-auto">
                               <EmojiReactionPicker onSelect={(emoji) => setSendValue((prev) => prev + emoji)} onClose={() => setInputEmojiPickerOpen(false)} />
                             </div>
@@ -1277,18 +1277,18 @@ export default function BroadcastPage() {
                       </div>
 
                       {!recording && inputTab !== "note" && (
-                        <button type="button" onClick={startRecording} className="p-2 text-[#64748B] hover:bg-[#E2E8F0] rounded-lg transition-colors" title="Gravar áudio">
+                        <button type="button" onClick={startRecording} className="p-2 text-muted-foreground hover:bg-muted/60 rounded-lg transition-colors" title="Gravar áudio">
                           <Mic className="h-5 w-5" />
                         </button>
                       )}
 
-                      <div className="h-5 w-px bg-[#E2E8F0] mx-1" />
+                      <div className="h-5 w-px bg-muted mx-1" />
 
                       <button
                         type="button"
                         onClick={handleAICorrection}
                         disabled={correctingText || !sendValue.trim()}
-                        className="p-2 text-[#64748B] hover:text-clicvend-orange hover:bg-[#E2E8F0] rounded-lg transition-colors disabled:opacity-50"
+                        className="p-2 text-muted-foreground hover:text-amber-600 dark:hover:text-amber-400 hover:bg-muted/60 rounded-lg transition-colors disabled:opacity-50"
                         title="Corrigir com IA"
                       >
                         {correctingText ? <Loader2 className="h-5 w-5 animate-spin" /> : <Sparkles className="h-5 w-5" />}
@@ -1302,7 +1302,7 @@ export default function BroadcastPage() {
                       className={`flex h-10 w-10 items-center justify-center rounded-full text-white transition-all shadow-sm disabled:cursor-not-allowed ${
                         inputTab === "note"
                           ? "bg-purple-600 hover:bg-purple-700 disabled:bg-purple-300"
-                          : "bg-clicvend-orange hover:bg-clicvend-orange-dark disabled:bg-[#94A3B8]"
+                          : "bg-clicvend-orange hover:bg-clicvend-orange-dark disabled:bg-muted"
                       }`}
                       title={inputTab === "note" ? "Salvar comentário" : "Enviar para todos"}
                     >
@@ -1315,7 +1315,7 @@ export default function BroadcastPage() {
                   <div className="flex-1 overflow-y-auto">
                     {tabQuickReplies.length > 0 ? (
                       <table className="w-full text-sm text-left">
-                        <thead className="text-xs text-[#64748B] uppercase bg-[#F8FAFC] sticky top-0 z-10">
+                        <thead className="text-xs text-muted-foreground uppercase bg-muted/40 sticky top-0 z-10">
                           <tr>
                             <th className="px-4 py-2 font-medium w-1/4">Atalho</th>
                             <th className="px-4 py-2 font-medium">Mensagem</th>
@@ -1327,23 +1327,23 @@ export default function BroadcastPage() {
                           {tabQuickReplies.map((qr) => (
                             <tr
                               key={qr.id}
-                              className="hover:bg-[#F1F5F9] cursor-pointer group transition-colors"
+                              className="hover:bg-muted/60 cursor-pointer group transition-colors"
                               onClick={() => { selectQuickReply(qr); setInputTab("write"); }}
                             >
-                              <td className="px-4 py-2 font-medium text-[#1E293B]">
+                              <td className="px-4 py-2 font-medium text-foreground">
                                 <div className="flex items-center gap-2">
                                   <span>/{qr.shortCut}</span>
                                   <button
                                     type="button"
                                     onClick={(e) => { e.stopPropagation(); navigator.clipboard.writeText(`/${qr.shortCut}`); }}
-                                    className="text-[#94A3B8] hover:text-[#1E293B] opacity-0 group-hover:opacity-100 transition-opacity"
+                                    className="text-muted-foreground hover:text-foreground opacity-0 group-hover:opacity-100 transition-opacity"
                                     title="Copiar atalho"
                                   >
                                     <Copy className="h-3.5 w-3.5" />
                                   </button>
                                 </div>
                               </td>
-                              <td className="px-4 py-2 text-[#64748B]">
+                              <td className="px-4 py-2 text-muted-foreground">
                                 <div className="relative group/tooltip">
                                   <span className="line-clamp-1 max-w-[300px]">{qr.text}</span>
                                   <div className="absolute left-0 bottom-full mb-2 hidden w-[300px] rounded-lg bg-[#1E293B] p-2 text-xs text-white shadow-lg group-hover/tooltip:block z-50 whitespace-pre-wrap">
@@ -1352,11 +1352,11 @@ export default function BroadcastPage() {
                                   </div>
                                 </div>
                               </td>
-                              <td className="px-4 py-2 text-xs text-[#64748B]">
+                              <td className="px-4 py-2 text-xs text-muted-foreground">
                                 {qr.createdAt ? new Date(qr.createdAt).toLocaleDateString("pt-BR") : "—"}
                               </td>
                               <td className="px-4 py-2 text-right">
-                                <button type="button" className="text-clicvend-orange opacity-0 group-hover:opacity-100 transition-opacity" title="Usar resposta">
+                                <button type="button" className="text-amber-600 dark:text-amber-400 opacity-0 group-hover:opacity-100 transition-opacity" title="Usar resposta">
                                   <Check className="h-4 w-4" />
                                 </button>
                               </td>
@@ -1365,7 +1365,7 @@ export default function BroadcastPage() {
                         </tbody>
                       </table>
                     ) : (
-                      <div className="flex flex-col items-center justify-center h-full text-[#94A3B8] text-sm gap-2">
+                      <div className="flex flex-col items-center justify-center h-full text-muted-foreground text-sm gap-2">
                         <p>Nenhuma resposta encontrada.</p>
                       </div>
                     )}

@@ -64,7 +64,7 @@ export function ConfirmDialog({
       ? "bg-red-600 text-white hover:bg-red-700 focus:ring-red-500"
       : variant === "warning"
         ? "bg-amber-600 text-white hover:bg-amber-700 focus:ring-amber-500"
-        : "bg-clicvend-orange text-white hover:bg-clicvend-orange-dark focus:ring-clicvend-orange";
+        : "bg-clicvend-orange text-white hover:bg-clicvend-orange-dark focus:ring-amber-500/20";
 
   return (
     <div

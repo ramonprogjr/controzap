@@ -431,13 +431,13 @@ export function ContactDetailSideOver({
   return (
     <SideOver open={open} onClose={onClose} title="Detalhes do contato" width={640}>
       {!contact ? (
-        <p className="text-sm text-[#64748B]">Nenhum contato selecionado.</p>
+        <p className="text-sm text-muted-foreground">Nenhum contato selecionado.</p>
       ) : (
         <div className="space-y-4">
           {loading && (
             <div className="flex justify-center py-2">
-              <span className="inline-flex items-center gap-2 text-sm text-[#64748B]">
-                <Loader2 className="h-4 w-4 animate-spin text-clicvend-orange" />
+              <span className="inline-flex items-center gap-2 text-sm text-muted-foreground">
+                <Loader2 className="h-4 w-4 animate-spin text-amber-600 dark:text-amber-400" />
                 Buscando detalhes no WhatsApp…
               </span>
             </div>
@@ -449,8 +449,8 @@ export function ContactDetailSideOver({
           )}
           {contact && (
             <>
-              <div className="flex flex-col items-center gap-3 border-b border-[#E2E8F0] pb-4">
-                <div className="relative h-24 w-24 shrink-0 overflow-hidden rounded-full bg-[#E2E8F0]">
+              <div className="flex flex-col items-center gap-3 border-b border-border pb-4">
+                <div className="relative h-24 w-24 shrink-0 overflow-hidden rounded-full bg-muted">
                   {imageSrc ? (
                     <img
                       src={imageSrc}
@@ -460,32 +460,32 @@ export function ContactDetailSideOver({
                       onError={() => setImageError(true)}
                     />
                   ) : (
-                    <div className="flex h-full w-full items-center justify-center text-3xl text-[#94A3B8]">
+                    <div className="flex h-full w-full items-center justify-center text-3xl text-muted-foreground">
                       <User className="h-12 w-12" />
                     </div>
                   )}
                 </div>
                 <div className="text-center">
                   <div className="inline-flex items-center gap-2">
-                    <p className="font-semibold text-[#1E293B]">{displayName}</p>
+                    <p className="font-semibold text-foreground">{displayName}</p>
                     {contact.is_historical ? (
                       <span
-                        className="inline-flex items-center rounded-md bg-[#F1F5F9] px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-[#64748B]"
+                        className="inline-flex items-center rounded-md bg-muted/60 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-muted-foreground"
                         title="Contato histórico (sem conexão ativa)"
                       >
                         Historico
                       </span>
                     ) : null}
                   </div>
-                  <p className="text-sm text-[#64748B]">{displayPhone}</p>
-                  <p className="mt-1 text-xs text-[#94A3B8]">{channelName}</p>
+                  <p className="text-sm text-muted-foreground">{displayPhone}</p>
+                  <p className="mt-1 text-xs text-muted-foreground">{channelName}</p>
                   {details && (
                     <div className="mt-4 w-full flex justify-center">
-                      <div className="inline-flex rounded-xl border border-[#E2E8F0] bg-white shadow-sm overflow-hidden">
+                      <div className="inline-flex rounded-xl border border-border bg-card shadow-sm overflow-hidden">
                         <button
                           type="button"
                           onClick={() => onOpenChat?.(contact)}
-                          className="inline-flex flex-1 items-center justify-center gap-2 min-w-0 px-4 py-3 text-sm font-medium text-[#334155] bg-[#F8FAFC] hover:bg-[#F1F5F9] border-r border-[#E2E8F0] last:border-r-0 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-clicvend-orange transition-all"
+                          className="inline-flex flex-1 items-center justify-center gap-2 min-w-0 px-4 py-3 text-sm font-medium text-foreground bg-muted/40 hover:bg-muted/60 border-r border-border last:border-r-0 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-amber-500/20 transition-all"
                         >
                           <MessageCircle className="h-4 w-4 shrink-0" />
                           <span className="truncate">Abrir chat</span>
@@ -494,7 +494,7 @@ export function ContactDetailSideOver({
                           type="button"
                           onClick={handleBlockToggle}
                           disabled={blockLoading}
-                          className={`inline-flex flex-1 items-center justify-center gap-2 min-w-0 px-4 py-3 text-sm font-medium transition-all border-r border-[#E2E8F0] last:border-r-0 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-clicvend-orange ${
+                          className={`inline-flex flex-1 items-center justify-center gap-2 min-w-0 px-4 py-3 text-sm font-medium transition-all border-r border-border last:border-r-0 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-amber-500/20 ${
                             details.wa_isBlocked
                               ? "bg-emerald-50 text-emerald-700 hover:bg-emerald-100 active:bg-emerald-200"
                               : "bg-red-50 text-red-700 hover:bg-red-100 active:bg-red-200"
@@ -512,7 +512,7 @@ export function ContactDetailSideOver({
                             setShowAddToAgendaName(true);
                           }}
                           disabled={blockLoading}
-                          className="inline-flex flex-1 items-center justify-center gap-2 min-w-0 px-4 py-3 text-sm font-medium text-emerald-800 bg-emerald-50/80 hover:bg-emerald-100 border-r border-[#E2E8F0] last:border-r-0 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-clicvend-orange transition-all active:bg-emerald-200 disabled:opacity-60 disabled:pointer-events-none"
+                          className="inline-flex flex-1 items-center justify-center gap-2 min-w-0 px-4 py-3 text-sm font-medium text-emerald-800 bg-emerald-50/80 hover:bg-emerald-100 border-r border-border last:border-r-0 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-amber-500/20 transition-all active:bg-emerald-200 disabled:opacity-60 disabled:pointer-events-none"
                         >
                           <UserPlus className="h-4 w-4 shrink-0 text-emerald-600" />
                           <span className="truncate">Adicionar à agenda</span>
@@ -521,9 +521,9 @@ export function ContactDetailSideOver({
                           type="button"
                           onClick={handleRemoveFromAgenda}
                           disabled={blockLoading}
-                          className="inline-flex flex-1 items-center justify-center gap-2 min-w-0 px-4 py-3 text-sm font-medium text-[#64748B] bg-[#F8FAFC] hover:bg-[#F1F5F9] border-r border-[#E2E8F0] last:border-r-0 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-clicvend-orange transition-all active:bg-[#E2E8F0] disabled:opacity-60 disabled:pointer-events-none"
+                          className="inline-flex flex-1 items-center justify-center gap-2 min-w-0 px-4 py-3 text-sm font-medium text-muted-foreground bg-muted/40 hover:bg-muted/60 border-r border-border last:border-r-0 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-amber-500/20 transition-all active:bg-muted disabled:opacity-60 disabled:pointer-events-none"
                         >
-                          <UserMinus className="h-4 w-4 shrink-0 text-[#64748B]" />
+                          <UserMinus className="h-4 w-4 shrink-0 text-muted-foreground" />
                           <span className="truncate">Remover da agenda</span>
                         </button>
                       </div>
@@ -532,11 +532,11 @@ export function ContactDetailSideOver({
                 </div>
               </div>
               {/* Tags do contato */}
-              <div className="border-t border-[#E2E8F0] pt-4">
+              <div className="border-t border-border pt-4">
                 <div className="mb-2 flex items-center justify-between gap-2">
                   <div>
-                    <p className="text-sm font-medium text-[#334155]">Editar contato salvo</p>
-                    <p className="text-xs text-[#64748B]">Atualize nome e telefone deste contato na lista.</p>
+                    <p className="text-sm font-medium text-foreground">Editar contato salvo</p>
+                    <p className="text-xs text-muted-foreground">Atualize nome e telefone deste contato na lista.</p>
                   </div>
                   <button
                     type="button"
@@ -550,34 +550,34 @@ export function ContactDetailSideOver({
                 </div>
                 <div className="grid gap-2 md:grid-cols-2">
                   <div>
-                    <label className="mb-1 block text-xs font-medium text-[#64748B]">Nome</label>
+                    <label className="mb-1 block text-xs font-medium text-muted-foreground">Nome</label>
                     <input
                       type="text"
                       value={editName}
                       onChange={(e) => setEditName(e.target.value)}
                       maxLength={120}
-                      className="w-full rounded-lg border border-[#E2E8F0] px-3 py-2 text-sm text-[#1E293B] focus:border-clicvend-orange focus:outline-none focus:ring-1 focus:ring-clicvend-orange"
+                      className="w-full rounded-lg border border-border px-3 py-2 text-sm text-foreground focus:border-amber-500 focus:outline-none focus:ring-1 focus:ring-amber-500/20"
                     />
                   </div>
                   <div>
-                    <label className="mb-1 block text-xs font-medium text-[#64748B]">Telefone</label>
+                    <label className="mb-1 block text-xs font-medium text-muted-foreground">Telefone</label>
                     <input
                       type="text"
                       value={editPhone}
                       onChange={(e) => setEditPhone(e.target.value.replace(/\D/g, ""))}
                       maxLength={20}
-                      className="w-full rounded-lg border border-[#E2E8F0] px-3 py-2 text-sm text-[#1E293B] focus:border-clicvend-orange focus:outline-none focus:ring-1 focus:ring-clicvend-orange"
+                      className="w-full rounded-lg border border-border px-3 py-2 text-sm text-foreground focus:border-amber-500 focus:outline-none focus:ring-1 focus:ring-amber-500/20"
                     />
                   </div>
                 </div>
               </div>
 
               {/* Tags do contato */}
-              <div className="border-t border-[#E2E8F0] pt-4">
+              <div className="border-t border-border pt-4">
                 <div className="mb-2 flex items-center justify-between gap-2">
                   <div>
-                    <p className="text-sm font-medium text-[#334155]">Tags do contato</p>
-                    <p className="text-xs text-[#64748B]">
+                    <p className="text-sm font-medium text-foreground">Tags do contato</p>
+                    <p className="text-xs text-muted-foreground">
                       Use tags para classificar o tipo de contato.
                     </p>
                   </div>
@@ -592,12 +592,12 @@ export function ContactDetailSideOver({
                   </button>
                 </div>
                 {tagLoading ? (
-                  <div className="flex items-center gap-2 text-xs text-[#64748B]">
-                    <Loader2 className="h-3 w-3 animate-spin text-clicvend-orange" />
+                  <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                    <Loader2 className="h-3 w-3 animate-spin text-amber-600 dark:text-amber-400" />
                     Carregando tags…
                   </div>
                 ) : availableTags.length === 0 ? (
-                  <p className="text-xs text-[#94A3B8]">
+                  <p className="text-xs text-muted-foreground">
                     Nenhuma tag de contato cadastrada ainda. Crie em{" "}
                     <span className="font-medium">Tags e formulários</span>.
                   </p>
@@ -612,7 +612,7 @@ export function ContactDetailSideOver({
                           className={`inline-flex items-center gap-2 rounded-full border px-3 py-1 text-xs font-medium transition-colors ${
                             selectedTagIds.has(tag.id)
                               ? "border-transparent text-white"
-                              : "border-[#E2E8F0] text-[#475569] bg-white hover:bg-[#F8FAFC]"
+                              : "border-border text-muted-foreground bg-card hover:bg-muted/40"
                           }`}
                           style={
                             selectedTagIds.has(tag.id) && tag.color_hex
@@ -625,15 +625,15 @@ export function ContactDetailSideOver({
                       ))}
                     </div>
                     {selectedTagIds.size > 0 && (
-                      <div className="rounded-lg border border-[#E2E8F0] bg-white">
-                        <div className="flex items-center justify-between border-b border-[#E2E8F0] px-3 py-2">
-                          <span className="text-xs font-semibold uppercase tracking-wide text-[#64748B]">
+                      <div className="rounded-lg border border-border bg-card">
+                        <div className="flex items-center justify-between border-b border-border px-3 py-2">
+                          <span className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
                             Tags atribuídas ({selectedTagIds.size})
                           </span>
                           <button
                             type="button"
                             onClick={() => setSelectedTagIds(new Set())}
-                            className="text-[11px] font-medium text-[#64748B] hover:text-[#0F172A]"
+                            className="text-[11px] font-medium text-muted-foreground hover:text-foreground"
                           >
                             Limpar
                           </button>
@@ -653,11 +653,11 @@ export function ContactDetailSideOver({
                                       backgroundColor: tag.color_hex || "#CBD5F5",
                                     }}
                                   />
-                                  <span className="font-medium text-[#0F172A]">
+                                  <span className="font-medium text-foreground">
                                     {tag.name}
                                   </span>
                                 </div>
-                                <span className="text-[11px] uppercase tracking-wide text-[#94A3B8]">
+                                <span className="text-[11px] uppercase tracking-wide text-muted-foreground">
                                   {tag.category_name}
                                 </span>
                               </div>
@@ -669,22 +669,22 @@ export function ContactDetailSideOver({
                 )}
               </div>
               {showAddToAgendaName && contact && (
-                <div className="border-t border-[#E2E8F0] pt-4">
-                  <p className="text-sm font-medium text-[#334155] mb-2">Nome para salvar no celular</p>
-                  <p className="text-xs text-[#64748B] mb-2">Esse nome aparecerá na agenda do WhatsApp para você localizar o contato.</p>
+                <div className="border-t border-border pt-4">
+                  <p className="text-sm font-medium text-foreground mb-2">Nome para salvar no celular</p>
+                  <p className="text-xs text-muted-foreground mb-2">Esse nome aparecerá na agenda do WhatsApp para você localizar o contato.</p>
                   <input
                     type="text"
                     value={addToAgendaName}
                     onChange={(e) => setAddToAgendaName(e.target.value)}
                     placeholder="Ex: João Silva - Vendas"
-                    className="w-full rounded-lg border border-[#E2E8F0] px-3 py-2 text-sm text-[#1E293B] placeholder:text-[#94A3B8] focus:border-[#3B82F6] focus:outline-none focus:ring-1 focus:ring-[#3B82F6]"
+                    className="w-full rounded-lg border border-border px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:border-[#3B82F6] focus:outline-none focus:ring-1 focus:ring-[#3B82F6]"
                     autoFocus
                   />
                   <div className="mt-3 flex gap-2">
                     <button
                       type="button"
                       onClick={() => { setShowAddToAgendaName(false); setAddToAgendaName(""); }}
-                      className="flex-1 rounded-lg border border-[#E2E8F0] bg-white px-3 py-2 text-sm font-medium text-[#64748B] hover:bg-[#F1F5F9]"
+                      className="flex-1 rounded-lg border border-border bg-card px-3 py-2 text-sm font-medium text-muted-foreground hover:bg-muted/60"
                     >
                       Cancelar
                     </button>
@@ -729,7 +729,7 @@ export function ContactDetailSideOver({
                       );
                       if (entries.length === 0) {
                         return (
-                          <p className="text-xs text-[#94A3B8]">
+                          <p className="text-xs text-muted-foreground">
                             Sem informações adicionais relevantes para exibir.
                           </p>
                         );
@@ -761,8 +761,8 @@ export function ContactDetailSideOver({
                         }
                         return (
                           <div key={key}>
-                            <dt className="text-[#64748B]">{label}</dt>
-                            <dd className="font-medium text-[#1E293B] break-words whitespace-pre-wrap">
+                            <dt className="text-muted-foreground">{label}</dt>
+                            <dd className="font-medium text-foreground break-words whitespace-pre-wrap">
                               {listDisplay && listDisplay.length > 0 ? (
                                 <div className="flex flex-wrap gap-2">
                                   {listDisplay.map((item, idx) => (

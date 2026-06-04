@@ -393,7 +393,7 @@ export default function ConexoesPage() {
       disconnected: "text-[#DC2626] bg-[#FEE2E2]",
       error: "text-[#DC2626] bg-[#FEF2F2]",
     };
-    return status ? map[status] ?? "text-[#64748B] bg-[#F1F5F9]" : "text-[#64748B] bg-[#F1F5F9]";
+    return status ? map[status] ?? "text-muted-foreground bg-muted/60" : "text-muted-foreground bg-muted/60";
   };
 
   const formatConnectedNumber = (raw: string) => {
@@ -554,7 +554,7 @@ export default function ConexoesPage() {
             </p>
             <div className="flex items-center gap-4 text-sm">
               <span className="flex items-center gap-1.5 text-muted-foreground">
-                <Users className="h-4 w-4 text-clicvend-orange" />
+                <Users className="h-4 w-4 text-amber-600 dark:text-amber-400" />
                 <span className="uppercase text-[10px] font-medium tracking-wider text-muted-foreground">Conversas</span>
                 <strong className="text-foreground">{channels.reduce((s, c) => s + (channelStats[c.id]?.conversations_count ?? 0), 0)}</strong>
               </span>
@@ -671,7 +671,7 @@ export default function ConexoesPage() {
                           setSelectedChannelIds(new Set(channels.map((c) => c.id)));
                         }
                       }}
-                      className="h-4 w-4 rounded border-border text-clicvend-orange focus:ring-clicvend-orange"
+                      className="h-4 w-4 rounded border-border text-amber-600 dark:text-amber-400 focus:ring-amber-500/20"
                       aria-label="Selecionar todas"
                     />
                   </th>
@@ -710,28 +710,28 @@ export default function ConexoesPage() {
                               return next;
                             });
                           }}
-                          className="h-4 w-4 rounded border-[#E2E8F0] text-clicvend-orange focus:ring-clicvend-orange"
+                          className="h-4 w-4 rounded border-border text-amber-600 dark:text-amber-400 focus:ring-amber-500/20"
                           aria-label={`Selecionar ${ch.name}`}
                         />
                       </td>
                       <td className="px-4 py-3">
                         <div>
-                          <p className="font-semibold text-[#1E293B]">{ch.name}</p>
-                          <p className="font-mono text-xs text-[#94A3B8]" title={ch.uazapi_instance_id}>
+                          <p className="font-semibold text-foreground">{ch.name}</p>
+                          <p className="font-mono text-xs text-muted-foreground" title={ch.uazapi_instance_id}>
                             {ch.uazapi_instance_id.length > 16 ? `${ch.uazapi_instance_id.slice(0, 12)}…` : ch.uazapi_instance_id}
                           </p>
                         </div>
                       </td>
                       <td className="px-4 py-3">
                         {status === "connected" && channelConnectedNumbers[ch.id] ? (
-                          <span className="font-medium text-[#1E293B]" title={channelConnectedNumbers[ch.id]}>
+                          <span className="font-medium text-foreground" title={channelConnectedNumbers[ch.id]}>
                             {formatConnectedNumber(channelConnectedNumbers[ch.id])}
                           </span>
                         ) : (
-                          <span className="text-sm text-[#94A3B8]">—</span>
+                          <span className="text-sm text-muted-foreground">—</span>
                         )}
                       </td>
-                      <td className="px-4 py-3 text-sm text-[#64748B]">
+                      <td className="px-4 py-3 text-sm text-muted-foreground">
                         {ch.queue_id ? (queues.find((q) => q.id === ch.queue_id)?.name ?? "—") : "—"}
                       </td>
                       <td className="px-4 py-3">
@@ -755,15 +755,15 @@ export default function ConexoesPage() {
                           {getStatusLabel(status)}
                         </span>
                       </td>
-                      <td className="px-4 py-3 text-center font-medium text-[#1E293B]">{conv}</td>
-                      <td className="px-4 py-3 text-center font-medium text-[#1E293B]">{msgs}</td>
+                      <td className="px-4 py-3 text-center font-medium text-foreground">{conv}</td>
+                      <td className="px-4 py-3 text-center font-medium text-foreground">{msgs}</td>
                       <td className="px-4 py-3 text-center">
                         <span className="text-sm font-medium text-[#16A34A]">{open}</span>
                       </td>
                       <td className="px-4 py-3">
                         <div className="flex items-center justify-end gap-1">
                           {loading ? (
-                            <span className="rounded-lg p-2 text-[#64748B]">
+                            <span className="rounded-lg p-2 text-muted-foreground">
                               <Loader2 className="h-5 w-5 animate-spin" />
                             </span>
                           ) : (
@@ -773,7 +773,7 @@ export default function ConexoesPage() {
                                   type="button"
                                   onClick={() => handleDisconnect(ch)}
                                   title="Desconectar"
-                                  className="rounded-lg p-2 text-[#64748B] hover:bg-[#F1F5F9] hover:text-amber-600 transition-colors"
+                                  className="rounded-lg p-2 text-muted-foreground hover:bg-muted/60 hover:text-amber-600 transition-colors"
                                 >
                                   <WifiOff className="h-5 w-5" />
                                 </button>
@@ -782,7 +782,7 @@ export default function ConexoesPage() {
                                 type="button"
                                 onClick={() => openConfig(ch)}
                                 title="Configurar"
-                                className="rounded-lg p-2 text-[#64748B] hover:bg-[#F1F5F9] hover:text-[#1E293B] transition-colors"
+                                className="rounded-lg p-2 text-muted-foreground hover:bg-muted/60 hover:text-foreground transition-colors"
                               >
                                 <Settings className="h-5 w-5" />
                               </button>
@@ -790,7 +790,7 @@ export default function ConexoesPage() {
                                 type="button"
                                 onClick={() => handleDelete(ch)}
                                 title="Excluir"
-                                className="rounded-lg p-2 text-[#64748B] hover:bg-red-50 hover:text-red-600 transition-colors"
+                                className="rounded-lg p-2 text-muted-foreground hover:bg-red-50 hover:text-red-600 transition-colors"
                               >
                                 <Trash2 className="h-5 w-5" />
                               </button>
@@ -809,10 +809,10 @@ export default function ConexoesPage() {
 
       {/* SideOver Nova conexão - apenas cria a instância; conectar via Config */}
       <SideOver open={sideOverOpen} onClose={closeSideOver} title="Nova conexão WhatsApp" width={600}>
-        <p className="mb-4 text-sm text-[#64748B]">
+        <p className="mb-4 text-sm text-muted-foreground">
           Crie a instância primeiro. Depois, clique em <strong>Configurar</strong> na tabela para gerar o QR Code e conectar o WhatsApp.
         </p>
-        <label className="mb-1 block text-sm font-medium text-[#334155]">Nome da conexão</label>
+        <label className="mb-1 block text-sm font-medium text-foreground">Nome da conexão</label>
         <input
           type="text"
           value={name}
@@ -820,7 +820,7 @@ export default function ConexoesPage() {
           placeholder="Ex: Atendimento"
           className={`${formInputClass} mb-4`}
         />
-        <label className="mb-1 block text-sm font-medium text-[#334155]">Caixa de entrada</label>
+        <label className="mb-1 block text-sm font-medium text-foreground">Caixa de entrada</label>
         <select
           value={queueId}
           onChange={(e) => setQueueId(e.target.value)}
@@ -831,7 +831,7 @@ export default function ConexoesPage() {
             <option key={q.id} value={q.id}>{q.name}</option>
           ))}
         </select>
-        <p className="mb-4 text-xs text-[#64748B]">
+        <p className="mb-4 text-xs text-muted-foreground">
           As conversas deste número serão agrupadas nesta caixa. Para criar novas caixas, vá em{" "}
           <strong>Filas</strong> no topo da tela.
         </p>
@@ -840,7 +840,7 @@ export default function ConexoesPage() {
           <button
             type="button"
             onClick={closeSideOver}
-            className="rounded-lg border border-[#E2E8F0] px-4 py-2 text-sm font-medium text-[#64748B] hover:bg-[#F8FAFC]"
+            className="rounded-lg border border-border px-4 py-2 text-sm font-medium text-muted-foreground hover:bg-muted/40"
           >
             Cancelar
           </button>

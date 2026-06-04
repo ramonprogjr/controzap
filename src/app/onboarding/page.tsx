@@ -249,16 +249,16 @@ export default function OnboardingPage() {
   };
 
   const inputClass =
-    "mt-1.5 w-full rounded-xl border border-[#E2E8F0] bg-[#F8FAFC] px-4 py-3 text-[#1E293B] placeholder-[#94A3B8] focus:border-clicvend-blue focus:bg-white focus:outline-none focus:ring-2 focus:ring-clicvend-blue/20 transition-all";
-  const labelClass = "block text-sm font-semibold text-[#1E293B]";
+    "mt-1.5 w-full rounded-xl border border-border bg-muted/40 px-4 py-3 text-foreground placeholder:text-muted-foreground focus:border-clicvend-blue focus:bg-card focus:outline-none focus:ring-2 focus:ring-clicvend-blue/20 transition-all";
+  const labelClass = "block text-sm font-semibold text-foreground";
   const btnPrimary =
-    "inline-flex items-center gap-2 rounded-xl bg-clicvend-orange px-5 py-3 font-semibold text-white shadow-lg shadow-clicvend-orange/25 hover:bg-clicvend-orange-dark disabled:bg-[#94A3B8] disabled:shadow-none transition-all";
-  const btnSecondary = "inline-flex items-center gap-2 rounded-xl border border-[#E2E8F0] bg-white px-5 py-3 font-medium text-[#1E293B] hover:bg-[#F8FAFC] transition-all";
+    "inline-flex items-center gap-2 rounded-xl bg-clicvend-orange px-5 py-3 font-semibold text-white shadow-lg shadow-clicvend-orange/25 hover:bg-clicvend-orange-dark disabled:bg-muted disabled:shadow-none transition-all";
+  const btnSecondary = "inline-flex items-center gap-2 rounded-xl border border-border bg-card px-5 py-3 font-medium text-foreground hover:bg-muted/40 transition-all";
 
   if (!authChecked) {
     return (
-      <main className="flex min-h-screen items-center justify-center bg-[#F8FAFC]">
-        <div className="text-[#64748B]">Carregando…</div>
+      <main className="flex min-h-screen items-center justify-center bg-muted/40">
+        <div className="text-muted-foreground">Carregando…</div>
       </main>
     );
   }
@@ -273,21 +273,21 @@ export default function OnboardingPage() {
 
   if (result) {
     return (
-      <main className="min-h-screen bg-[#F8FAFC] pt-14">
+      <main className="min-h-screen bg-muted/40 pt-14">
         <PublicHeader />
         <div className="flex flex-col items-center justify-center p-8">
-          <div className="w-full max-w-md rounded-2xl border border-[#E2E8F0] bg-white p-8 shadow-sm">
+          <div className="w-full max-w-md rounded-2xl border border-border bg-card p-8 shadow-sm">
             <Link href="/" className="flex justify-center focus:outline-none focus:ring-2 focus:ring-clicvend-blue focus:ring-offset-2 rounded">
               <ClicVendLogo size="md" />
             </Link>
-          <h1 className="mt-6 text-xl font-bold text-[#0F172A]">Empresa criada</h1>
+          <h1 className="mt-6 text-xl font-bold text-foreground">Empresa criada</h1>
           {result.slug_adjusted && (
             <p className="mt-4 rounded-lg bg-amber-50 px-3 py-2 text-sm text-amber-800">
               O link desejado já estava em uso. Seu acesso foi criado com um link alternativo.
             </p>
           )}
-          <p className="mt-4 text-sm font-medium text-[#64748B]">Seu link de acesso:</p>
-          <div className="mt-2 flex items-center gap-2 rounded-xl border border-[#E2E8F0] bg-[#F8FAFC] p-3">
+          <p className="mt-4 text-sm font-medium text-muted-foreground">Seu link de acesso:</p>
+          <div className="mt-2 flex items-center gap-2 rounded-xl border border-border bg-muted/40 p-3">
             <a
               href={result.link}
               className="min-w-0 flex-1 break-all font-mono text-sm font-medium text-clicvend-blue hover:underline"
@@ -297,7 +297,7 @@ export default function OnboardingPage() {
             <button
               type="button"
               onClick={copyLink}
-              className="flex shrink-0 items-center gap-2 rounded-lg p-2 text-sm font-medium transition-colors hover:bg-[#E2E8F0]"
+              className="flex shrink-0 items-center gap-2 rounded-lg p-2 text-sm font-medium transition-colors hover:bg-muted/60"
               title={linkCopied ? "Copiado!" : "Copiar link"}
             >
               {linkCopied ? (
@@ -307,13 +307,13 @@ export default function OnboardingPage() {
                 </>
               ) : (
                 <>
-                  <Copy className="h-4 w-4 text-[#64748B]" />
-                  <span className="text-[#64748B]">Copiar</span>
+                  <Copy className="h-4 w-4 text-muted-foreground" />
+                  <span className="text-muted-foreground">Copiar</span>
                 </>
               )}
             </button>
           </div>
-          <p className="mt-4 text-sm text-[#64748B]">Use este link para acessar o painel e configurar canais e filas.</p>
+          <p className="mt-4 text-sm text-muted-foreground">Use este link para acessar o painel e configurar canais e filas.</p>
           <a href={result.link} className={`mt-6 inline-block w-full text-center ${btnPrimary}`}>
             Acessar painel
           </a>
@@ -324,7 +324,7 @@ export default function OnboardingPage() {
   }
 
   return (
-    <main className="min-h-screen bg-[#F8FAFC] pt-14">
+    <main className="min-h-screen bg-muted/40 pt-14">
       <PublicHeader />
       <div className="mx-auto max-w-4xl px-4 py-10">
         {/* Step indicator - 5 colunas iguais, círculos e labels centralizados */}
@@ -341,20 +341,20 @@ export default function OnboardingPage() {
                       ? "bg-clicvend-orange text-white shadow-lg shadow-clicvend-orange/30 ring-4 ring-clicvend-orange/20"
                       : step > s.id
                         ? "bg-clicvend-orange text-white"
-                        : "bg-[#E2E8F0] text-[#64748B] hover:bg-[#CBD5E1]"
+                        : "bg-muted text-muted-foreground hover:bg-[#CBD5E1]"
                   }`}
                 >
                   {step > s.id ? <Check className="h-5 w-5" strokeWidth={2.5} /> : s.id}
                 </button>
                 {idx < STEPS.length - 1 ? (
-                  <div className={`flex-1 h-0.5 min-w-[4px] mx-0.5 ${step > s.id ? "bg-clicvend-orange" : "bg-[#E2E8F0]"}`} />
+                  <div className={`flex-1 h-0.5 min-w-[4px] mx-0.5 ${step > s.id ? "bg-clicvend-orange" : "bg-muted"}`} />
                 ) : (
                   <div className="flex-1" />
                 )}
               </div>
               <span
                 className={`mt-3 w-full text-center text-[11px] font-semibold leading-tight sm:text-xs ${
-                  step === s.id ? "text-clicvend-blue" : step > s.id ? "text-[#64748B]" : "text-[#94A3B8]"
+                  step === s.id ? "text-clicvend-blue" : step > s.id ? "text-muted-foreground" : "text-muted-foreground"
                 }`}
               >
                 {s.title}
@@ -363,9 +363,9 @@ export default function OnboardingPage() {
           ))}
         </div>
 
-        <div className="mt-10 rounded-2xl border border-[#E2E8F0] bg-white p-8 shadow-sm sm:p-10">
-          <h2 className="text-lg font-bold text-[#0F172A]">{STEPS[step - 1].title}</h2>
-          <p className="mt-0.5 text-sm text-[#64748B]">Etapa {step} de 5</p>
+        <div className="mt-10 rounded-2xl border border-border bg-card p-8 shadow-sm sm:p-10">
+          <h2 className="text-lg font-bold text-foreground">{STEPS[step - 1].title}</h2>
+          <p className="mt-0.5 text-sm text-muted-foreground">Etapa {step} de 5</p>
 
           {step === 1 && (
             <div className="mt-8 grid grid-cols-2 gap-5 md:grid-cols-4">
@@ -385,7 +385,7 @@ export default function OnboardingPage() {
                   }}
                   className={inputClass}
                 />
-                <p className="mt-1 text-xs text-[#64748B]">Digite e clique fora do campo para preencher automaticamente.</p>
+                <p className="mt-1 text-xs text-muted-foreground">Digite e clique fora do campo para preencher automaticamente.</p>
                 {loadingCnpj && <p className="mt-1 text-xs text-clicvend-blue">Buscando…</p>}
               </div>
               <div className="col-span-2">
@@ -427,7 +427,7 @@ export default function OnboardingPage() {
                   placeholder="minha-loja"
                   className={inputClass}
                 />
-                <p className="mt-1 text-xs text-[#64748B]">Apenas letras minúsculas, números e hífen.</p>
+                <p className="mt-1 text-xs text-muted-foreground">Apenas letras minúsculas, números e hífen.</p>
               </div>
             </div>
           )}
@@ -447,7 +447,7 @@ export default function OnboardingPage() {
                   className={inputClass}
                   autoComplete="email"
                 />
-                <p className="mt-1 text-xs text-[#64748B]">Este será o acesso do administrador da empresa.</p>
+                <p className="mt-1 text-xs text-muted-foreground">Este será o acesso do administrador da empresa.</p>
               </div>
               {!isLoggedIn && (
                 <>
@@ -465,7 +465,7 @@ export default function OnboardingPage() {
                       <button
                         type="button"
                         onClick={() => setShowPassword(!showPassword)}
-                        className="absolute right-3 top-1/2 -translate-y-1/2 text-[#64748B] hover:text-[#1E293B] transition-colors"
+                        className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
                         aria-label={showPassword ? "Ocultar senha" : "Mostrar senha"}
                       >
                         {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
@@ -486,7 +486,7 @@ export default function OnboardingPage() {
                       <button
                         type="button"
                         onClick={() => setShowPasswordConfirm(!showPasswordConfirm)}
-                        className="absolute right-3 top-1/2 -translate-y-1/2 text-[#64748B] hover:text-[#1E293B] transition-colors"
+                        className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
                         aria-label={showPasswordConfirm ? "Ocultar senha" : "Mostrar senha"}
                       >
                         {showPasswordConfirm ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
@@ -500,8 +500,8 @@ export default function OnboardingPage() {
 
           {step === 3 && (
             <div className="mt-8">
-              <div className="mb-6 rounded-xl border border-[#E2E8F0] bg-[#F8FAFC] p-5">
-                <h3 className="text-sm font-bold uppercase tracking-wide text-[#64748B]">Endereço da empresa</h3>
+              <div className="mb-6 rounded-xl border border-border bg-muted/40 p-5">
+                <h3 className="text-sm font-bold uppercase tracking-wide text-muted-foreground">Endereço da empresa</h3>
               </div>
               <div className="grid grid-cols-2 gap-5 md:grid-cols-4">
                 <div>
@@ -552,9 +552,9 @@ export default function OnboardingPage() {
 
           {step === 4 && (
             <div className="mt-8">
-              <div className="mb-6 rounded-xl border border-[#E2E8F0] bg-[#F8FAFC] p-5">
-                <h3 className="text-sm font-bold uppercase tracking-wide text-[#64748B]">Setores de atendimento</h3>
-                <p className="mt-0.5 text-xs text-[#94A3B8]">Crie os setores que você terá no seu atendimento. Opcional — pode ser feito depois no painel.</p>
+              <div className="mb-6 rounded-xl border border-border bg-muted/40 p-5">
+                <h3 className="text-sm font-bold uppercase tracking-wide text-muted-foreground">Setores de atendimento</h3>
+                <p className="mt-0.5 text-xs text-muted-foreground">Crie os setores que você terá no seu atendimento. Opcional — pode ser feito depois no painel.</p>
               </div>
               <div className="space-y-3">
                 {sectors.map((name, idx) => (
@@ -575,7 +575,7 @@ export default function OnboardingPage() {
                     <button
                       type="button"
                       onClick={() => setSectors((prev) => prev.filter((_, i) => i !== idx))}
-                      className="rounded-xl p-3 text-[#64748B] hover:bg-red-50 hover:text-red-600 transition-colors"
+                      className="rounded-xl p-3 text-muted-foreground hover:bg-red-50 hover:text-red-600 transition-colors"
                       title="Remover setor"
                     >
                       <Trash2 className="h-5 w-5" />
@@ -609,7 +609,7 @@ export default function OnboardingPage() {
                         setNewSectorName("");
                       }
                     }}
-                    className="inline-flex items-center gap-2 rounded-xl border border-[#E2E8F0] bg-white px-4 py-3 font-medium text-[#64748B] hover:bg-[#F8FAFC] transition-colors"
+                    className="inline-flex items-center gap-2 rounded-xl border border-border bg-card px-4 py-3 font-medium text-muted-foreground hover:bg-muted/40 transition-colors"
                   >
                     <Plus className="h-5 w-5" />
                     Adicionar
@@ -621,19 +621,19 @@ export default function OnboardingPage() {
 
           {step === 5 && (
             <div className="mt-6 space-y-4 text-sm">
-              <div className="rounded-xl border border-[#E2E8F0] bg-[#F8FAFC] p-4">
-                <h3 className="text-xs font-bold uppercase tracking-wide text-[#64748B] mb-3">Empresa</h3>
-                <p><span className="text-[#64748B]">Nome:</span> <strong>{company.name}</strong></p>
-                <p><span className="text-[#64748B]">Link:</span> <strong>/{company.slug}</strong></p>
-                {company.cnpj && <p><span className="text-[#64748B]">CNPJ:</span> {company.cnpj.replace(/(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/, "$1.$2.$3/$4-$5")}</p>}
+              <div className="rounded-xl border border-border bg-muted/40 p-4">
+                <h3 className="text-xs font-bold uppercase tracking-wide text-muted-foreground mb-3">Empresa</h3>
+                <p><span className="text-muted-foreground">Nome:</span> <strong>{company.name}</strong></p>
+                <p><span className="text-muted-foreground">Link:</span> <strong>/{company.slug}</strong></p>
+                {company.cnpj && <p><span className="text-muted-foreground">CNPJ:</span> {company.cnpj.replace(/(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/, "$1.$2.$3/$4-$5")}</p>}
               </div>
-              <div className="rounded-xl border border-[#E2E8F0] bg-[#F8FAFC] p-4">
-                <h3 className="text-xs font-bold uppercase tracking-wide text-[#64748B] mb-3">Acesso</h3>
-                <p><span className="text-[#64748B]">E-mail (admin):</span> {userEmail || "—"}</p>
+              <div className="rounded-xl border border-border bg-muted/40 p-4">
+                <h3 className="text-xs font-bold uppercase tracking-wide text-muted-foreground mb-3">Acesso</h3>
+                <p><span className="text-muted-foreground">E-mail (admin):</span> {userEmail || "—"}</p>
               </div>
               {(company.logradouro || company.cep || company.municipio) && (
-                <div className="rounded-xl border border-[#E2E8F0] bg-[#F8FAFC] p-4">
-                  <h3 className="text-xs font-bold uppercase tracking-wide text-[#64748B] mb-3">Endereço</h3>
+                <div className="rounded-xl border border-border bg-muted/40 p-4">
+                  <h3 className="text-xs font-bold uppercase tracking-wide text-muted-foreground mb-3">Endereço</h3>
                   <p>
                     {[company.logradouro, company.numero, company.complemento].filter(Boolean).join(", ")}
                     {company.bairro && ` — ${company.bairro}`}
@@ -642,9 +642,9 @@ export default function OnboardingPage() {
                   {company.cep && <p>CEP: {company.cep.replace(/(\d{5})(\d{3})/, "$1-$2")}</p>}
                 </div>
               )}
-              <div className="rounded-xl border border-[#E2E8F0] bg-[#F8FAFC] p-4">
-                <h3 className="text-xs font-bold uppercase tracking-wide text-[#64748B] mb-3">Setores</h3>
-                <p><span className="text-[#64748B]">Setores de atendimento:</span> {sectors.filter((s) => s.trim()).join(", ") || "Padrão"}</p>
+              <div className="rounded-xl border border-border bg-muted/40 p-4">
+                <h3 className="text-xs font-bold uppercase tracking-wide text-muted-foreground mb-3">Setores</h3>
+                <p><span className="text-muted-foreground">Setores de atendimento:</span> {sectors.filter((s) => s.trim()).join(", ") || "Padrão"}</p>
               </div>
             </div>
           )}
@@ -686,8 +686,8 @@ export default function OnboardingPage() {
           </div>
         </div>
 
-        <p className="mt-6 text-center text-xs text-[#64748B]">Sem cartão de crédito • Sem compromisso</p>
-        <p className="mt-2 text-center text-sm text-[#64748B]">
+        <p className="mt-6 text-center text-xs text-muted-foreground">Sem cartão de crédito • Sem compromisso</p>
+        <p className="mt-2 text-center text-sm text-muted-foreground">
           Já tem conta? <Link href="/login" className="font-semibold text-clicvend-blue hover:underline">Faça login aqui</Link>
         </p>
       </div>

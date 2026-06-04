@@ -113,17 +113,17 @@ export function DocumentViewerModal({
         role="dialog"
         aria-modal="true"
         aria-label="Visualizador de documento (somente documentos)"
-        className="fixed inset-4 z-[101] flex flex-col rounded-xl bg-white shadow-xl border border-[#E2E8F0] overflow-hidden md:inset-8"
+        className="fixed inset-4 z-[101] flex flex-col rounded-xl bg-card shadow-xl border border-border overflow-hidden md:inset-8"
       >
         {/* Toolbar */}
-        <header className="flex shrink-0 items-center justify-between gap-2 border-b border-[#E2E8F0] bg-[#F8FAFC] px-4 py-2">
+        <header className="flex shrink-0 items-center justify-between gap-2 border-b border-border bg-muted/40 px-4 py-2">
           <div className="flex items-center gap-2">
-            <div className="flex items-center gap-0.5 rounded-lg border border-[#E2E8F0] bg-white p-0.5">
+            <div className="flex items-center gap-0.5 rounded-lg border border-border bg-card p-0.5">
               <button
                 type="button"
                 onClick={handleZoomOut}
                 disabled={zoom <= MIN_ZOOM}
-                className="rounded p-1.5 text-[#64748B] hover:bg-[#E2E8F0] hover:text-[#1E293B] disabled:opacity-40 disabled:pointer-events-none"
+                className="rounded p-1.5 text-muted-foreground hover:bg-muted/60 hover:text-foreground disabled:opacity-40 disabled:pointer-events-none"
                 aria-label="Diminuir zoom"
               >
                 <ZoomOut className="h-4 w-4" />
@@ -131,7 +131,7 @@ export function DocumentViewerModal({
               <button
                 type="button"
                 onClick={handleZoomReset}
-                className="min-w-[3rem] rounded px-2 py-1.5 text-xs font-medium text-[#64748B] hover:bg-[#E2E8F0] hover:text-[#1E293B]"
+                className="min-w-[3rem] rounded px-2 py-1.5 text-xs font-medium text-muted-foreground hover:bg-muted/60 hover:text-foreground"
               >
                 {Math.round(zoom * 100)}%
               </button>
@@ -139,7 +139,7 @@ export function DocumentViewerModal({
                 type="button"
                 onClick={handleZoomIn}
                 disabled={zoom >= MAX_ZOOM}
-                className="rounded p-1.5 text-[#64748B] hover:bg-[#E2E8F0] hover:text-[#1E293B] disabled:opacity-40 disabled:pointer-events-none"
+                className="rounded p-1.5 text-muted-foreground hover:bg-muted/60 hover:text-foreground disabled:opacity-40 disabled:pointer-events-none"
                 aria-label="Aumentar zoom"
               >
                 <ZoomIn className="h-4 w-4" />
@@ -151,7 +151,7 @@ export function DocumentViewerModal({
               type="button"
               onClick={handleDownload}
               disabled={!canDownload || downloadBusy}
-              className="inline-flex items-center gap-1.5 rounded-lg border border-[#E2E8F0] bg-white px-3 py-1.5 text-sm text-[#64748B] hover:bg-[#F1F5F9] hover:text-clicvend-orange disabled:opacity-50"
+              className="inline-flex items-center gap-1.5 rounded-lg border border-border bg-card px-3 py-1.5 text-sm text-muted-foreground hover:bg-muted/60 hover:text-amber-600 dark:hover:text-amber-400 disabled:opacity-50"
               title="Baixar arquivo"
             >
               {downloadBusy ? <Loader2 className="h-4 w-4 animate-spin" /> : <Download className="h-4 w-4" />}
@@ -161,7 +161,7 @@ export function DocumentViewerModal({
               type="button"
               onClick={() => fileUrl && window.open(fileUrl, "_blank", "noopener,noreferrer")}
               disabled={!fileUrl}
-              className="inline-flex items-center gap-1.5 rounded-lg border border-[#E2E8F0] bg-white px-3 py-1.5 text-sm text-[#64748B] hover:bg-[#F1F5F9] hover:text-clicvend-orange disabled:opacity-50"
+              className="inline-flex items-center gap-1.5 rounded-lg border border-border bg-card px-3 py-1.5 text-sm text-muted-foreground hover:bg-muted/60 hover:text-amber-600 dark:hover:text-amber-400 disabled:opacity-50"
               title="Abrir em nova aba"
             >
               <ExternalLink className="h-4 w-4" />
@@ -170,7 +170,7 @@ export function DocumentViewerModal({
             <button
               type="button"
               onClick={onClose}
-              className="rounded-lg p-2 text-[#64748B] hover:bg-[#E2E8F0] hover:text-[#1E293B]"
+              className="rounded-lg p-2 text-muted-foreground hover:bg-muted/60 hover:text-foreground"
               aria-label="Fechar"
             >
               <X className="h-5 w-5" />
@@ -181,17 +181,17 @@ export function DocumentViewerModal({
         {/* Conteúdo */}
         <div
           ref={containerRef}
-          className="flex-1 min-h-0 flex items-center justify-center overflow-auto bg-[#F1F5F9] p-4"
+          className="flex-1 min-h-0 flex items-center justify-center overflow-auto bg-muted/60 p-4"
           onClick={(e) => e.stopPropagation()}
         >
           {loading && (
-            <div className="flex flex-col items-center gap-3 text-[#64748B]">
-              <Loader2 className="h-10 w-10 animate-spin text-clicvend-orange" />
+            <div className="flex flex-col items-center gap-3 text-muted-foreground">
+              <Loader2 className="h-10 w-10 animate-spin text-amber-600 dark:text-amber-400" />
               <p className="text-sm">Carregando documento…</p>
             </div>
           )}
           {!loading && !fileUrl && (
-            <div className="text-center text-[#64748B]">
+            <div className="text-center text-muted-foreground">
               <p className="text-sm">Não foi possível carregar o documento.</p>
               <p className="mt-1 text-xs">
                 {fetchDownload
@@ -202,7 +202,7 @@ export function DocumentViewerModal({
           )}
           {!loading && fileUrl && isPdf && (
             <div
-              className="overflow-auto rounded-lg border border-[#E2E8F0] bg-white shadow-sm"
+              className="overflow-auto rounded-lg border border-border bg-card shadow-sm"
               style={{
                 transform: `scale(${zoom})`,
                 transformOrigin: "top center",
@@ -217,10 +217,10 @@ export function DocumentViewerModal({
           )}
           {!loading && fileUrl && !isPdf && (
             <div className="text-center max-w-md">
-              <p className="text-sm text-[#64748B]">
+              <p className="text-sm text-muted-foreground">
                 Visualização em navegador disponível apenas para PDF.
               </p>
-              <p className="mt-2 text-sm text-[#1E293B]">
+              <p className="mt-2 text-sm text-foreground">
                 Use <strong>Baixar</strong> ou <strong>Nova aba</strong> para abrir o arquivo.
               </p>
               <button

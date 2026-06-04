@@ -273,7 +273,7 @@ export default function CalendarioPage() {
                         ? "bg-amber-600 text-white shadow-md shadow-amber-500/30"
                         : isTod
                           ? "bg-amber-50 text-amber-800 ring-2 ring-amber-400/40"
-                          : "text-[#334155] hover:bg-[#F1F5F9]"
+                          : "text-foreground hover:bg-muted/60"
                     }`}
                   >
                     {day}
@@ -285,7 +285,7 @@ export default function CalendarioPage() {
               })}
             </div>
 
-            <div className="mt-5 flex flex-wrap gap-4 border-t border-[#E2E8F0] pt-4 text-xs text-[#64748B]">
+            <div className="mt-5 flex flex-wrap gap-4 border-t border-border pt-4 text-xs text-muted-foreground">
               <span className="flex items-center gap-1.5">
                 <span className="h-1.5 w-1.5 rounded-full bg-amber-500" />
                 Com retirada

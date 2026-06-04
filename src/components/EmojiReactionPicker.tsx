@@ -10,7 +10,7 @@ const Picker = dynamic(
   {
     ssr: false,
     loading: () => (
-      <div className="flex items-center justify-center p-6 text-[#64748B] text-sm">
+      <div className="flex items-center justify-center p-6 text-muted-foreground text-sm">
         Carregando…
       </div>
     ),

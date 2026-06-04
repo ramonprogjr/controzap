@@ -10,10 +10,10 @@ export default function CadastroPage() {
     router.replace("/onboarding");
   }, [router]);
   return (
-    <main className="flex min-h-screen flex-col bg-[#F8FAFC] pt-14">
+    <main className="flex min-h-screen flex-col bg-muted/40 pt-14">
       <PublicHeader />
       <div className="flex flex-1 items-center justify-center">
-        <p className="text-[#64748B]">Redirecionando…</p>
+        <p className="text-muted-foreground">Redirecionando…</p>
       </div>
     </main>
   );

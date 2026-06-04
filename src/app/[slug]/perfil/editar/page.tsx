@@ -98,12 +98,12 @@ export default function EditarPerfilPage() {
   };
 
   const inputClass =
-    "mt-1.5 w-full rounded-xl border border-[#E2E8F0] bg-[#F8FAFC] px-4 py-3 text-[#1E293B] placeholder-[#94A3B8] focus:border-clicvend-blue focus:bg-white focus:outline-none focus:ring-2 focus:ring-clicvend-blue/20";
+    "mt-1.5 w-full rounded-xl border border-border bg-muted/40 px-4 py-3 text-foreground placeholder:text-muted-foreground focus:border-clicvend-blue focus:bg-card focus:outline-none focus:ring-2 focus:ring-clicvend-blue/20";
 
   if (loading) {
     return (
       <div className="flex min-h-[200px] items-center justify-center">
-        <div className="text-[#64748B]">Carregando…</div>
+        <div className="text-muted-foreground">Carregando…</div>
       </div>
     );
   }
@@ -111,7 +111,7 @@ export default function EditarPerfilPage() {
   if (!company) {
     return (
       <div className="flex min-h-[200px] flex-col items-center justify-center gap-4">
-        <p className="text-[#64748B]">Não foi possível carregar os dados.</p>
+        <p className="text-muted-foreground">Não foi possível carregar os dados.</p>
         <Link href={`${base}/perfil`} className="text-sm font-medium text-clicvend-blue hover:underline">
           Voltar ao perfil
         </Link>
@@ -123,21 +123,21 @@ export default function EditarPerfilPage() {
     <div className="p-6">
       <Link
         href={`${base}/perfil`}
-        className="mb-6 inline-flex items-center gap-1 text-sm font-medium text-[#64748B] hover:text-clicvend-blue"
+        className="mb-6 inline-flex items-center gap-1 text-sm font-medium text-muted-foreground hover:text-clicvend-blue"
       >
         <ChevronLeft className="h-4 w-4" />
         Voltar ao perfil
       </Link>
 
-      <h1 className="text-xl font-bold text-[#1E293B]">Editar Perfil</h1>
-      <p className="mt-1 text-sm text-[#64748B]">Atualize os dados da empresa e endereço.</p>
+      <h1 className="text-xl font-bold text-foreground">Editar Perfil</h1>
+      <p className="mt-1 text-sm text-muted-foreground">Atualize os dados da empresa e endereço.</p>
 
       <form onSubmit={handleSubmit} className="mt-8 max-w-2xl space-y-6">
-        <div className="rounded-xl border border-[#E2E8F0] bg-white p-6">
-          <h2 className="text-sm font-bold uppercase tracking-wide text-[#64748B]">Dados da empresa</h2>
+        <div className="rounded-xl border border-border bg-card p-6">
+          <h2 className="text-sm font-bold uppercase tracking-wide text-muted-foreground">Dados da empresa</h2>
           <div className="mt-4 grid gap-4 sm:grid-cols-2">
             <div>
-              <label className="block text-sm font-semibold text-[#1E293B]">Nome de exibição</label>
+              <label className="block text-sm font-semibold text-foreground">Nome de exibição</label>
               <input
                 type="text"
                 value={form.name ?? ""}
@@ -147,7 +147,7 @@ export default function EditarPerfilPage() {
               />
             </div>
             <div>
-              <label className="block text-sm font-semibold text-[#1E293B]">Nome fantasia</label>
+              <label className="block text-sm font-semibold text-foreground">Nome fantasia</label>
               <input
                 type="text"
                 value={form.nome_fantasia ?? ""}
@@ -157,7 +157,7 @@ export default function EditarPerfilPage() {
               />
             </div>
             <div className="sm:col-span-2">
-              <label className="block text-sm font-semibold text-[#1E293B]">E-mail</label>
+              <label className="block text-sm font-semibold text-foreground">E-mail</label>
               <input
                 type="email"
                 value={form.email ?? ""}
@@ -169,12 +169,12 @@ export default function EditarPerfilPage() {
           </div>
         </div>
 
-        <div className="rounded-xl border border-[#E2E8F0] bg-white p-6">
-          <h2 className="text-sm font-bold uppercase tracking-wide text-[#64748B]">Endereço</h2>
-          <p className="mt-0.5 text-xs text-[#94A3B8]">Digite o CEP e clique fora para preencher automaticamente.</p>
+        <div className="rounded-xl border border-border bg-card p-6">
+          <h2 className="text-sm font-bold uppercase tracking-wide text-muted-foreground">Endereço</h2>
+          <p className="mt-0.5 text-xs text-muted-foreground">Digite o CEP e clique fora para preencher automaticamente.</p>
           <div className="mt-4 grid gap-4 sm:grid-cols-2">
             <div>
-              <label className="block text-sm font-semibold text-[#1E293B]">CEP</label>
+              <label className="block text-sm font-semibold text-foreground">CEP</label>
               <input
                 type="text"
                 value={(form.cep ?? "").length === 8 ? (form.cep ?? "").replace(/(\d{5})(\d{3})/, "$1-$2") : form.cep ?? ""}
@@ -186,7 +186,7 @@ export default function EditarPerfilPage() {
               {loadingCep && <p className="mt-1 text-xs text-clicvend-blue">Buscando…</p>}
             </div>
             <div className="sm:col-span-2">
-              <label className="block text-sm font-semibold text-[#1E293B]">Logradouro</label>
+              <label className="block text-sm font-semibold text-foreground">Logradouro</label>
               <input
                 type="text"
                 value={form.logradouro ?? ""}
@@ -196,7 +196,7 @@ export default function EditarPerfilPage() {
               />
             </div>
             <div>
-              <label className="block text-sm font-semibold text-[#1E293B]">Número</label>
+              <label className="block text-sm font-semibold text-foreground">Número</label>
               <input
                 type="text"
                 value={form.numero ?? ""}
@@ -206,7 +206,7 @@ export default function EditarPerfilPage() {
               />
             </div>
             <div>
-              <label className="block text-sm font-semibold text-[#1E293B]">Complemento</label>
+              <label className="block text-sm font-semibold text-foreground">Complemento</label>
               <input
                 type="text"
                 value={form.complemento ?? ""}
@@ -216,7 +216,7 @@ export default function EditarPerfilPage() {
               />
             </div>
             <div>
-              <label className="block text-sm font-semibold text-[#1E293B]">Bairro</label>
+              <label className="block text-sm font-semibold text-foreground">Bairro</label>
               <input
                 type="text"
                 value={form.bairro ?? ""}
@@ -226,7 +226,7 @@ export default function EditarPerfilPage() {
               />
             </div>
             <div>
-              <label className="block text-sm font-semibold text-[#1E293B]">Município</label>
+              <label className="block text-sm font-semibold text-foreground">Município</label>
               <input
                 type="text"
                 value={form.municipio ?? ""}
@@ -236,7 +236,7 @@ export default function EditarPerfilPage() {
               />
             </div>
             <div>
-              <label className="block text-sm font-semibold text-[#1E293B]">UF</label>
+              <label className="block text-sm font-semibold text-foreground">UF</label>
               <input
                 type="text"
                 value={form.uf ?? ""}
@@ -254,14 +254,14 @@ export default function EditarPerfilPage() {
           <button
             type="submit"
             disabled={saving}
-            className="inline-flex items-center gap-2 rounded-xl bg-clicvend-orange px-5 py-3 font-semibold text-white shadow-lg shadow-clicvend-orange/25 hover:bg-clicvend-orange-dark disabled:bg-[#94A3B8] disabled:shadow-none"
+            className="inline-flex items-center gap-2 rounded-xl bg-clicvend-orange px-5 py-3 font-semibold text-white shadow-lg shadow-clicvend-orange/25 hover:bg-clicvend-orange-dark disabled:bg-muted disabled:shadow-none"
           >
             {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
             {saving ? "Salvando…" : "Salvar"}
           </button>
           <Link
             href={`${base}/perfil`}
-            className="inline-flex items-center rounded-xl border border-[#E2E8F0] bg-white px-5 py-3 font-medium text-[#1E293B] hover:bg-[#F8FAFC]"
+            className="inline-flex items-center rounded-xl border border-border bg-card px-5 py-3 font-medium text-foreground hover:bg-muted/40"
           >
             Cancelar
           </Link>

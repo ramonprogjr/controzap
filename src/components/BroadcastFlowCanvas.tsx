@@ -55,7 +55,7 @@ function RoundNodeBase({ id, icon, label, colorClass }: RoundNodeProps) {
   return (
     <div className="flex flex-col items-center gap-2 w-[80px]">
       <div className="relative">
-        <Handle type="target" position={Position.Left} className="!w-3 !h-3 !bg-[#94A3B8] !border-2 !border-white" />
+        <Handle type="target" position={Position.Left} className="!w-3 !h-3 !bg-muted-foreground !border-2 !border-card" />
         <div
           className={`flex h-14 w-14 shrink-0 items-center justify-center rounded-full border-2 border-white shadow-md ${colorClass}`}
         >
@@ -67,14 +67,14 @@ function RoundNodeBase({ id, icon, label, colorClass }: RoundNodeProps) {
             e.stopPropagation();
             onOpenConfig(id);
           }}
-          className="nodrag nopan absolute -right-1 -top-1 flex h-6 w-6 items-center justify-center rounded-full bg-white border border-[#E2E8F0] shadow-sm text-[#64748B] hover:bg-[#F8FAFC] hover:text-clicvend-orange hover:border-clicvend-orange/50"
+          className="nodrag nopan absolute -right-1 -top-1 flex h-6 w-6 items-center justify-center rounded-full bg-card border border-border shadow-sm text-muted-foreground hover:bg-muted/40 hover:text-amber-600 dark:hover:text-amber-400 hover:border-amber-500/50"
           title="Configurar"
         >
           <Pencil className="h-3 w-3" />
         </button>
-        <Handle type="source" position={Position.Right} className="!w-3 !h-3 !bg-[#94A3B8] !border-2 !border-white" />
+        <Handle type="source" position={Position.Right} className="!w-3 !h-3 !bg-muted-foreground !border-2 !border-card" />
       </div>
-      <span className="text-[10px] font-medium text-[#475569] text-center leading-tight">{label}</span>
+      <span className="text-[10px] font-medium text-muted-foreground text-center leading-tight">{label}</span>
     </div>
   );
 }
@@ -257,12 +257,12 @@ function NodeConfigSideOver({
       <div className="space-y-4">
         {nodeType === "lista" && (
           <div>
-            <label className="block text-sm font-medium text-[#334155] mb-1">Nome da lista</label>
+            <label className="block text-sm font-medium text-foreground mb-1">Nome da lista</label>
             <input
               value={String(data.nome ?? "")}
               onChange={(e) => onUpdate("nome", e.target.value)}
               placeholder="Ex: Clientes VIP"
-              className="w-full rounded-lg border border-[#E2E8F0] px-3 py-2 text-sm focus:border-clicvend-orange focus:outline-none focus:ring-1 focus:ring-clicvend-orange"
+              className="w-full rounded-lg border border-border px-3 py-2 text-sm focus:border-amber-500 focus:outline-none focus:ring-1 focus:ring-amber-500/20"
             />
           </div>
         )}
@@ -270,21 +270,21 @@ function NodeConfigSideOver({
         {nodeType === "horario" && (
           <div className="space-y-3">
             <div>
-              <label className="block text-sm font-medium text-[#334155] mb-1">Início (ex: 09:00)</label>
+              <label className="block text-sm font-medium text-foreground mb-1">Início (ex: 09:00)</label>
               <input
                 type="time"
                 value={String(data.inicio ?? "")}
                 onChange={(e) => onUpdate("inicio", e.target.value)}
-                className="w-full rounded-lg border border-[#E2E8F0] px-3 py-2 text-sm focus:border-clicvend-orange focus:outline-none focus:ring-1 focus:ring-clicvend-orange"
+                className="w-full rounded-lg border border-border px-3 py-2 text-sm focus:border-amber-500 focus:outline-none focus:ring-1 focus:ring-amber-500/20"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-[#334155] mb-1">Fim (ex: 18:00)</label>
+              <label className="block text-sm font-medium text-foreground mb-1">Fim (ex: 18:00)</label>
               <input
                 type="time"
                 value={String(data.fim ?? "")}
                 onChange={(e) => onUpdate("fim", e.target.value)}
-                className="w-full rounded-lg border border-[#E2E8F0] px-3 py-2 text-sm focus:border-clicvend-orange focus:outline-none focus:ring-1 focus:ring-clicvend-orange"
+                className="w-full rounded-lg border border-border px-3 py-2 text-sm focus:border-amber-500 focus:outline-none focus:ring-1 focus:ring-amber-500/20"
               />
             </div>
           </div>
@@ -293,23 +293,23 @@ function NodeConfigSideOver({
         {nodeType === "delay" && (
           <div className="space-y-3">
             <div>
-              <label className="block text-sm font-medium text-[#334155] mb-1">Mín (segundos)</label>
+              <label className="block text-sm font-medium text-foreground mb-1">Mín (segundos)</label>
               <input
                 type="number"
                 min={1}
                 value={String(data.min ?? "25")}
                 onChange={(e) => onUpdate("min", e.target.value)}
-                className="w-full rounded-lg border border-[#E2E8F0] px-3 py-2 text-sm focus:border-clicvend-orange focus:outline-none focus:ring-1 focus:ring-clicvend-orange"
+                className="w-full rounded-lg border border-border px-3 py-2 text-sm focus:border-amber-500 focus:outline-none focus:ring-1 focus:ring-amber-500/20"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-[#334155] mb-1">Máx (segundos)</label>
+              <label className="block text-sm font-medium text-foreground mb-1">Máx (segundos)</label>
               <input
                 type="number"
                 min={1}
                 value={String(data.max ?? "45")}
                 onChange={(e) => onUpdate("max", e.target.value)}
-                className="w-full rounded-lg border border-[#E2E8F0] px-3 py-2 text-sm focus:border-clicvend-orange focus:outline-none focus:ring-1 focus:ring-clicvend-orange"
+                className="w-full rounded-lg border border-border px-3 py-2 text-sm focus:border-amber-500 focus:outline-none focus:ring-1 focus:ring-amber-500/20"
               />
             </div>
           </div>
@@ -318,23 +318,23 @@ function NodeConfigSideOver({
         {nodeType === "mensagem" && (
           <div className="space-y-4">
             <div>
-              <label className="block text-sm font-medium text-[#334155] mb-1">Título da mensagem</label>
+              <label className="block text-sm font-medium text-foreground mb-1">Título da mensagem</label>
               <input
                 value={String(data.titulo ?? "")}
                 onChange={(e) => onUpdate("titulo", e.target.value)}
                 placeholder="Ex: Convite aniversário, Promoção Black Friday..."
-                className="w-full rounded-lg border border-[#E2E8F0] px-3 py-2 text-sm focus:border-clicvend-orange focus:outline-none focus:ring-1 focus:ring-clicvend-orange"
+                className="w-full rounded-lg border border-border px-3 py-2 text-sm focus:border-amber-500 focus:outline-none focus:ring-1 focus:ring-amber-500/20"
               />
-              <p className="mt-0.5 text-xs text-[#64748B]">O título ajuda o mini agente a sugerir textos mais adequados.</p>
+              <p className="mt-0.5 text-xs text-muted-foreground">O título ajuda o mini agente a sugerir textos mais adequados.</p>
             </div>
             <div>
               <div className="flex items-center justify-between mb-1">
-                <label className="block text-sm font-medium text-[#334155]">Texto</label>
+                <label className="block text-sm font-medium text-foreground">Texto</label>
                 <div className="relative">
                   <button
                     type="button"
                     onClick={() => setEmojiPickerOpen((v) => !v)}
-                    className="p-1.5 rounded text-[#64748B] hover:bg-[#E2E8F0] hover:text-[#1E293B]"
+                    className="p-1.5 rounded text-muted-foreground hover:bg-muted/60 hover:text-foreground"
                     title="Inserir emoji"
                   >
                     <Smile className="h-4 w-4" />
@@ -354,7 +354,7 @@ function NodeConfigSideOver({
                 onChange={(e) => onUpdate("text", e.target.value)}
                 placeholder="Digite a mensagem... Use *negrito* e _itálico_ para WhatsApp"
                 rows={4}
-                className="w-full rounded-lg border border-[#E2E8F0] px-3 py-2 text-sm resize-y focus:border-clicvend-orange focus:outline-none focus:ring-1 focus:ring-clicvend-orange"
+                className="w-full rounded-lg border border-border px-3 py-2 text-sm resize-y focus:border-amber-500 focus:outline-none focus:ring-1 focus:ring-amber-500/20"
               />
               <div className="mt-2 flex items-center gap-2">
                 <button
@@ -391,7 +391,7 @@ function NodeConfigSideOver({
                     }
                   }}
                   disabled={suggestLoading}
-                  className="inline-flex items-center gap-1.5 rounded-lg border border-[#E2E8F0] bg-white px-3 py-1.5 text-sm font-medium text-[#475569] hover:bg-[#F8FAFC] hover:border-clicvend-orange/50 hover:text-clicvend-orange disabled:opacity-60 disabled:cursor-not-allowed"
+                  className="inline-flex items-center gap-1.5 rounded-lg border border-border bg-card px-3 py-1.5 text-sm font-medium text-muted-foreground hover:bg-muted/40 hover:border-amber-500/50 hover:text-amber-600 dark:hover:text-amber-400 disabled:opacity-60 disabled:cursor-not-allowed"
                 >
                   <Sparkles className="h-4 w-4" />
                   {suggestLoading ? "Sugerindo…" : "Sugerir melhorias"}
@@ -402,9 +402,9 @@ function NodeConfigSideOver({
               </div>
             </div>
             <div>
-              <label className="block text-sm font-medium text-[#334155] mb-1">Imagem</label>
+              <label className="block text-sm font-medium text-foreground mb-1">Imagem</label>
               {data.file ? (
-                <div className="flex items-center gap-2 rounded-lg border border-[#E2E8F0] bg-emerald-50/50 px-3 py-2">
+                <div className="flex items-center gap-2 rounded-lg border border-border bg-emerald-50/50 px-3 py-2">
                   <ImagePlus className="h-4 w-4 text-emerald-600 shrink-0" />
                   <span className="text-sm text-emerald-700 flex-1 truncate">✓ Imagem anexada</span>
                   <button
@@ -430,11 +430,11 @@ function NodeConfigSideOver({
 
         {nodeType === "envio" && (
           <div>
-            <label className="block text-sm font-medium text-[#334155] mb-1">Modo</label>
+            <label className="block text-sm font-medium text-foreground mb-1">Modo</label>
             <select
               value={String(data.tipo ?? "otimizado")}
               onChange={(e) => onUpdate("tipo", e.target.value)}
-              className="w-full rounded-lg border border-[#E2E8F0] px-3 py-2 text-sm focus:border-clicvend-orange focus:outline-none focus:ring-1 focus:ring-clicvend-orange"
+              className="w-full rounded-lg border border-border px-3 py-2 text-sm focus:border-amber-500 focus:outline-none focus:ring-1 focus:ring-amber-500/20"
             >
               <option value="otimizado">Otimizado (25–45s)</option>
               <option value="manual">Manual (~35s)</option>
@@ -442,7 +442,7 @@ function NodeConfigSideOver({
           </div>
         )}
 
-        <div className="mt-6 flex flex-col gap-3 border-t border-[#E2E8F0] pt-4">
+        <div className="mt-6 flex flex-col gap-3 border-t border-border pt-4">
           <div className="flex items-center justify-between gap-4">
             <button
               type="button"
@@ -459,7 +459,7 @@ function NodeConfigSideOver({
               <button
                 type="button"
                 onClick={onClose}
-                className="rounded-lg border border-[#E2E8F0] bg-white px-4 py-2 text-sm font-medium text-[#64748B] hover:bg-[#F8FAFC]"
+                className="rounded-lg border border-border bg-card px-4 py-2 text-sm font-medium text-muted-foreground hover:bg-muted/40"
               >
                 Cancelar
               </button>
@@ -543,7 +543,7 @@ function BroadcastFlowCanvasInner({
     <BroadcastFlowContext.Provider value={contextValue}>
       <div className={`flex flex-col gap-4 min-h-0 ${className}`}>
         <div className="shrink-0">
-          <label htmlFor="pipeline-name" className="block text-sm font-medium text-[#334155] mb-1">
+          <label htmlFor="pipeline-name" className="block text-sm font-medium text-foreground mb-1">
             Nome do pipeline
           </label>
           <input
@@ -551,15 +551,15 @@ function BroadcastFlowCanvasInner({
             value={pipelineName}
             onChange={(e) => onPipelineNameChange?.(e.target.value)}
             placeholder="Ex: Campanha Janeiro"
-            className="w-full rounded-lg border border-[#E2E8F0] bg-white px-3 py-2 text-sm text-[#1E293B] placeholder-[#94A3B8] focus:border-clicvend-orange focus:outline-none focus:ring-1 focus:ring-clicvend-orange"
+            className="w-full rounded-lg border border-border bg-card px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:border-amber-500 focus:outline-none focus:ring-1 focus:ring-amber-500/20"
           />
         </div>
         {recipientCount > 0 && (
-          <p className="text-sm text-[#64748B] shrink-0">
+          <p className="text-sm text-muted-foreground shrink-0">
             {recipientCount} contato(s) na fila — clique no lápis em cada nó para configurar.
           </p>
         )}
-        <div className="flex-1 min-h-[350px] rounded-lg border border-[#E2E8F0] bg-[#F8FAFC] overflow-hidden">
+        <div className="flex-1 min-h-[350px] rounded-lg border border-border bg-muted/40 overflow-hidden">
           <ReactFlow
             nodes={nodes}
             edges={edges}
@@ -570,7 +570,7 @@ function BroadcastFlowCanvasInner({
             defaultEdgeOptions={{ type: "smoothstep" }}
             connectionLineType={ConnectionLineType.SmoothStep}
             fitView
-            className="bg-[#F8FAFC] w-full h-full"
+            className="bg-muted/40 w-full h-full"
           >
             <Background />
             <Controls />
@@ -578,21 +578,21 @@ function BroadcastFlowCanvasInner({
           </ReactFlow>
         </div>
         <div className="flex flex-col gap-2">
-          <p className="text-xs text-[#94A3B8]">
+          <p className="text-xs text-muted-foreground">
             Clique no ícone de lápis em cada nó para configurar. Arraste os nós para reorganizar.
           </p>
-          <div className="flex flex-col gap-3 pt-2 border-t border-[#E2E8F0]">
+          <div className="flex flex-col gap-3 pt-2 border-t border-border">
             <label className="flex items-center gap-2 cursor-pointer">
               <input
                 type="checkbox"
                 checked={scheduleOnSave}
                 onChange={(e) => setScheduleOnSave(e.target.checked)}
-                className="h-4 w-4 rounded border-[#E2E8F0] text-clicvend-orange focus:ring-clicvend-orange"
+                className="h-4 w-4 rounded border-border text-amber-600 dark:text-amber-400 focus:ring-amber-500/20"
               />
-              <span className="text-xs text-[#64748B]">Agendar execução no horário configurado</span>
+              <span className="text-xs text-muted-foreground">Agendar execução no horário configurado</span>
             </label>
             <div className="flex items-center justify-between gap-4">
-              <p className="text-xs text-[#64748B]">
+              <p className="text-xs text-muted-foreground">
                 O fluxo define: <strong>Lista</strong> → <strong>Horário</strong> → <strong>Cadência</strong> → <strong>Mensagem</strong> (texto + imagem) → <strong>Envio</strong>.
               </p>
               {onSave && (

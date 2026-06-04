@@ -11,7 +11,7 @@ export function ThemeToggle() {
     <button
       type="button"
       onClick={() => setMode(isDark ? "light" : "dark")}
-      className="inline-flex items-center justify-center rounded-md p-2.5 text-muted-foreground transition-colors hover:bg-amber-50 hover:text-amber-700 focus:outline-none focus:ring-2 focus:ring-amber-200 dark:hover:bg-white/[0.06] dark:hover:text-foreground dark:focus:ring-amber-400/30"
+      className="inline-flex items-center justify-center rounded-md p-2.5 text-muted-foreground transition-colors hover:bg-amber-50 hover:text-amber-700 focus:outline-none focus:ring-2 focus:ring-amber-200 dark:hover:bg-card/[0.06] dark:hover:text-foreground dark:focus:ring-amber-400/30"
       aria-label={isDark ? "Ativar tema claro" : "Ativar tema escuro"}
       title={isDark ? "Tema: escuro" : "Tema: claro"}
     >

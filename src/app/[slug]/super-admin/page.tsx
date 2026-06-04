@@ -168,8 +168,8 @@ export default function SuperAdminPage() {
     <div className="flex flex-col gap-4 p-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-[#1E293B]">Super Admin</h1>
-          <p className="text-sm text-[#64748B] mt-0.5">
+          <h1 className="text-2xl font-bold text-foreground">Super Admin</h1>
+          <p className="text-sm text-muted-foreground mt-0.5">
             Gerencie empresas e controle pagamentos (acesso restrito ao dono da plataforma)
           </p>
         </div>
@@ -177,7 +177,7 @@ export default function SuperAdminPage() {
           type="button"
           onClick={() => fetchCompanies()}
           disabled={loading}
-          className="flex h-10 w-10 items-center justify-center rounded-full bg-[#F1F5F9] text-[#64748B] hover:bg-[#E2E8F0] transition-colors"
+          className="flex h-10 w-10 items-center justify-center rounded-full bg-muted/60 text-muted-foreground hover:bg-muted/60 transition-colors"
           aria-label="Atualizar"
         >
           <RefreshCw className={`h-4 w-4 ${loading ? "animate-spin" : ""}`} />
@@ -192,51 +192,51 @@ export default function SuperAdminPage() {
 
       {companies.length > 0 && (
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          <div className="rounded-xl border border-[#E2E8F0] bg-white p-4 shadow-sm">
-            <div className="flex items-center gap-2 text-[#64748B]">
+          <div className="rounded-xl border border-border bg-card p-4 shadow-sm">
+            <div className="flex items-center gap-2 text-muted-foreground">
               <TrendingUp className="h-4 w-4" />
               <span className="text-xs font-medium uppercase tracking-wider">Receita mensal (MRR)</span>
             </div>
-            <p className="mt-2 text-2xl font-bold text-[#1E293B]">
+            <p className="mt-2 text-2xl font-bold text-foreground">
               R$ {metrics.mrr.toLocaleString("pt-BR")}
             </p>
-            <p className="mt-0.5 text-xs text-[#94A3B8]">
+            <p className="mt-0.5 text-xs text-muted-foreground">
               R$ {metrics.arrInclImpl.toLocaleString("pt-BR")}/ano (ARR + Implantação)
             </p>
           </div>
-          <div className="rounded-xl border border-[#E2E8F0] bg-white p-4 shadow-sm">
-            <div className="flex items-center gap-2 text-[#64748B]">
+          <div className="rounded-xl border border-border bg-card p-4 shadow-sm">
+            <div className="flex items-center gap-2 text-muted-foreground">
               <ExternalLink className="h-4 w-4" />
               <span className="text-xs font-medium uppercase tracking-wider">Implantação(s)</span>
             </div>
-            <p className="mt-2 text-2xl font-bold text-[#1E293B]">
+            <p className="mt-2 text-2xl font-bold text-foreground">
               R$ {metrics.implantationsThisYearReais.toLocaleString("pt-BR")}
             </p>
-            <p className="mt-0.5 text-xs text-[#94A3B8]">
+            <p className="mt-0.5 text-xs text-muted-foreground">
               {metrics.implantationsThisYearCount} cobrança(s) no total
             </p>
           </div>
-          <div className="rounded-xl border border-[#E2E8F0] bg-white p-4 shadow-sm">
-            <div className="flex items-center gap-2 text-[#64748B]">
+          <div className="rounded-xl border border-border bg-card p-4 shadow-sm">
+            <div className="flex items-center gap-2 text-muted-foreground">
               <Users className="h-4 w-4" />
               <span className="text-xs font-medium uppercase tracking-wider">Empresas</span>
             </div>
-            <p className="mt-2 text-2xl font-bold text-[#1E293B]">
+            <p className="mt-2 text-2xl font-bold text-foreground">
               {metrics.total}
             </p>
-            <p className="mt-0.5 text-xs text-[#94A3B8]">
+            <p className="mt-0.5 text-xs text-muted-foreground">
               {metrics.active} ativas · {metrics.inactive} inativas
             </p>
           </div>
-          <div className="rounded-xl border border-[#E2E8F0] bg-white p-4 shadow-sm">
-            <div className="flex items-center gap-2 text-[#64748B]">
+          <div className="rounded-xl border border-border bg-card p-4 shadow-sm">
+            <div className="flex items-center gap-2 text-muted-foreground">
               <CreditCard className="h-4 w-4" />
               <span className="text-xs font-medium uppercase tracking-wider">Novas este mês</span>
             </div>
-            <p className="mt-2 text-2xl font-bold text-[#1E293B]">
+            <p className="mt-2 text-2xl font-bold text-foreground">
               {metrics.newThisMonth}
             </p>
-            <p className="mt-0.5 text-xs text-[#94A3B8]">
+            <p className="mt-0.5 text-xs text-muted-foreground">
               Empresas cadastradas
             </p>
           </div>
@@ -244,16 +244,16 @@ export default function SuperAdminPage() {
       )}
 
       {companies.length === 0 ? (
-        <div className="rounded-xl border border-[#E2E8F0] bg-white p-8 text-center">
-          <Building2 className="mx-auto h-12 w-12 text-[#94A3B8]" />
-          <p className="mt-2 text-[#64748B]">Nenhuma empresa cadastrada.</p>
+        <div className="rounded-xl border border-border bg-card p-8 text-center">
+          <Building2 className="mx-auto h-12 w-12 text-muted-foreground" />
+          <p className="mt-2 text-muted-foreground">Nenhuma empresa cadastrada.</p>
         </div>
       ) : (
-        <div className="rounded-xl border border-[#E2E8F0] bg-white shadow-sm overflow-hidden">
-          <div className="flex flex-wrap items-center justify-between gap-4 border-b border-[#E2E8F0] bg-[#F8FAFC] px-4 py-3">
-            <p className="text-sm text-[#64748B]">
+        <div className="rounded-xl border border-border bg-card shadow-sm overflow-hidden">
+          <div className="flex flex-wrap items-center justify-between gap-4 border-b border-border bg-muted/40 px-4 py-3">
+            <p className="text-sm text-muted-foreground">
               {companies.length} empresa(s) ·{" "}
-              <span className="font-medium text-[#1E293B]">
+              <span className="font-medium text-foreground">
                 {companies.filter((c) => c.is_active).length} ativas
               </span>
             </p>
@@ -262,26 +262,26 @@ export default function SuperAdminPage() {
           <div className="overflow-x-auto">
             <table className="w-full min-w-[640px]">
               <thead>
-                <tr className="border-b border-[#E2E8F0] bg-[#F8FAFC]">
-                  <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-[#64748B]">
+                <tr className="border-b border-border bg-muted/40">
+                  <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                     Empresa
                   </th>
-                  <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-[#64748B]">
+                  <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                     Slug
                   </th>
-                  <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-[#64748B]">
+                  <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                     Criada em
                   </th>
-                  <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-[#64748B]">
+                  <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                     Status
                   </th>
-                  <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-[#64748B]">
+                  <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                     Pagamento
                   </th>
-                  <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-[#64748B]">
+                  <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                     Plano
                   </th>
-                  <th className="px-4 py-3 text-right text-xs font-semibold uppercase tracking-wider text-[#64748B]">
+                  <th className="px-4 py-3 text-right text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                     Ações
                   </th>
                 </tr>
@@ -290,12 +290,12 @@ export default function SuperAdminPage() {
                 {companies.map((c) => (
                   <tr
                     key={c.id}
-                    className="border-b border-[#E2E8F0] transition-colors hover:bg-[#F8FAFC]"
+                    className="border-b border-border transition-colors hover:bg-muted/40"
                   >
                     <td className="px-4 py-3">
                       <div className="flex items-center gap-2">
-                        <Building2 className="h-4 w-4 text-[#94A3B8] shrink-0" />
-                        <span className="font-medium text-[#1E293B]">{c.name}</span>
+                        <Building2 className="h-4 w-4 text-muted-foreground shrink-0" />
+                        <span className="font-medium text-foreground">{c.name}</span>
                       </div>
                     </td>
                     <td className="px-4 py-3">
@@ -309,7 +309,7 @@ export default function SuperAdminPage() {
                         <ExternalLink className="h-3.5 w-3.5" />
                       </a>
                     </td>
-                    <td className="px-4 py-3 text-sm text-[#64748B]">
+                    <td className="px-4 py-3 text-sm text-muted-foreground">
                       {formatDate(c.created_at)}
                     </td>
                     <td className="px-4 py-3">
@@ -332,7 +332,7 @@ export default function SuperAdminPage() {
                               ? "bg-amber-100 text-amber-700"
                               : (c.billing_status ?? "") === "suspended"
                                 ? "bg-red-100 text-red-700"
-                                : "bg-[#F1F5F9] text-[#64748B]"
+                                : "bg-muted/60 text-muted-foreground"
                         }`}
                       >
                         <DollarSign className="h-3.5 w-3.5" />
@@ -340,14 +340,14 @@ export default function SuperAdminPage() {
                       </span>
                     </td>
                     <td className="px-4 py-3">
-                      <span className="text-sm font-medium text-[#1E293B]">
+                      <span className="text-sm font-medium text-foreground">
                         {PLAN_LABELS[c.billing_plan ?? "basic"] ?? c.billing_plan} — R$ {PLAN_VALUES[c.billing_plan ?? "basic"] ?? 0}
                       </span>
                     </td>
                     <td className="px-4 py-3">
                       <div className="flex items-center justify-end gap-1">
                         {updating === c.id ? (
-                          <span className="rounded-lg p-2 text-[#64748B]">
+                          <span className="rounded-lg p-2 text-muted-foreground">
                             <Loader2 className="h-5 w-5 animate-spin" />
                           </span>
                         ) : (
@@ -371,7 +371,7 @@ export default function SuperAdminPage() {
                             <button
                               type="button"
                               onClick={() => openDetail(c, "config")}
-                              className="rounded-lg p-2 text-[#64748B] hover:bg-[#F1F5F9] hover:text-[#1E293B] transition-colors"
+                              className="rounded-lg p-2 text-muted-foreground hover:bg-muted/60 hover:text-foreground transition-colors"
                               title="Configurações"
                             >
                               <Settings className="h-5 w-5" />

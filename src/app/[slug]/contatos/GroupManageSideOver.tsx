@@ -85,7 +85,7 @@ function GenerateDescriptionButton({
         }
       }}
       disabled={disabled || loading}
-      className={`shrink-0 rounded-lg border border-[#E2E8F0] bg-[#F8FAFC] px-3 py-2 text-sm font-medium text-[#64748B] hover:bg-[#F1F5F9] hover:text-clicvend-orange disabled:opacity-50 inline-flex items-center gap-1.5 ${className}`}
+      className={`shrink-0 rounded-lg border border-border bg-muted/40 px-3 py-2 text-sm font-medium text-muted-foreground hover:bg-muted/60 hover:text-amber-600 dark:hover:text-amber-400 disabled:opacity-50 inline-flex items-center gap-1.5 ${className}`}
       title={field === "name" ? "Gerar nome com IA" : "Gerar descrição com IA"}
     >
       {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Sparkles className="h-4 w-4" />}
@@ -249,7 +249,7 @@ export function GroupManageSideOver({
   if (!group) {
     return (
       <SideOver open={open} onClose={onClose} title="Gerenciar grupos e comunidades" width={880}>
-        <p className="text-sm text-[#64748B]">Nenhum grupo selecionado.</p>
+        <p className="text-sm text-muted-foreground">Nenhum grupo selecionado.</p>
       </SideOver>
     );
   }
@@ -259,7 +259,7 @@ export function GroupManageSideOver({
       <div className="flex flex-col gap-4">
         {loading && (
           <div className="flex items-center justify-center py-12">
-            <Loader2 className="h-8 w-8 animate-spin text-clicvend-orange" />
+            <Loader2 className="h-8 w-8 animate-spin text-amber-600 dark:text-amber-400" />
           </div>
         )}
         {error && (
@@ -269,12 +269,12 @@ export function GroupManageSideOver({
         )}
         {!loading && info && (
           <>
-            <div className="flex flex-col items-center gap-2 border-b border-[#E2E8F0] pb-4">
-              <div className="h-16 w-16 shrink-0 overflow-hidden rounded-full bg-[#E2E8F0] flex items-center justify-center">
-                <MessageCircle className="h-8 w-8 text-[#94A3B8]" />
+            <div className="flex flex-col items-center gap-2 border-b border-border pb-4">
+              <div className="h-16 w-16 shrink-0 overflow-hidden rounded-full bg-muted flex items-center justify-center">
+                <MessageCircle className="h-8 w-8 text-muted-foreground" />
               </div>
-              <p className="font-semibold text-[#1E293B] text-center">{displayName}</p>
-              <p className="text-xs text-[#94A3B8]">{channelName}</p>
+              <p className="font-semibold text-foreground text-center">{displayName}</p>
+              <p className="text-xs text-muted-foreground">{channelName}</p>
             </div>
 
             <div className="flex gap-1 pb-2 overflow-x-auto">
@@ -285,8 +285,8 @@ export function GroupManageSideOver({
                   onClick={() => setActiveTab(id)}
                   className={`flex items-center gap-1.5 shrink-0 rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
                     activeTab === id
-                      ? "bg-clicvend-orange/10 text-clicvend-orange"
-                      : "text-[#64748B] hover:bg-[#F1F5F9]"
+                      ? "bg-clicvend-orange/10 text-amber-600 dark:text-amber-400"
+                      : "text-muted-foreground hover:bg-muted/60"
                   }`}
                 >
                   <Icon className="h-4 w-4" />
@@ -339,8 +339,8 @@ export function GroupManageSideOver({
               />
             )}
             {activeTab === "leave" && (
-              <div className="border-t border-[#E2E8F0] pt-4 space-y-3">
-                <p className="text-sm text-[#64748B]">
+              <div className="border-t border-border pt-4 space-y-3">
+                <p className="text-sm text-muted-foreground">
                   Sair do grupo remove o número do grupo no WhatsApp. Excluir da lista também remove da nossa lista e sai no WhatsApp.
                 </p>
                 <button
@@ -419,45 +419,45 @@ function GroupInfoTab({
   return (
     <div className="space-y-0 text-sm">
       {topic ? (
-        <div className="py-3 border-b border-[#E2E8F0]">
-          <p className="text-[#64748B] text-xs font-medium uppercase tracking-wider mb-0.5">Descrição</p>
-          <p className="text-[#1E293B] break-words">{topic}</p>
+        <div className="py-3 border-b border-border">
+          <p className="text-muted-foreground text-xs font-medium uppercase tracking-wider mb-0.5">Descrição</p>
+          <p className="text-foreground break-words">{topic}</p>
         </div>
       ) : null}
 
       <button
         type="button"
-        className="w-full flex items-center justify-between py-3 border-b border-[#E2E8F0] text-left hover:bg-[#F8FAFC] rounded-lg -mx-1 px-1"
+        className="w-full flex items-center justify-between py-3 border-b border-border text-left hover:bg-muted/40 rounded-lg -mx-1 px-1"
       >
-        <span className="flex items-center gap-3 text-[#1E293B]">
-          <FolderOpen className="h-5 w-5 text-[#94A3B8]" />
+        <span className="flex items-center gap-3 text-foreground">
+          <FolderOpen className="h-5 w-5 text-muted-foreground" />
           Mídia, links e docs
         </span>
-        <span className="text-[#94A3B8] text-xs">0</span>
+        <span className="text-muted-foreground text-xs">0</span>
       </button>
 
-      <div className="py-3 border-b border-[#E2E8F0]">
+      <div className="py-3 border-b border-border">
         <button
           type="button"
           onClick={onGoToParticipants}
-          className="w-full flex items-center justify-between text-left hover:bg-[#F8FAFC] rounded-lg -mx-1 px-1 py-1"
+          className="w-full flex items-center justify-between text-left hover:bg-muted/40 rounded-lg -mx-1 px-1 py-1"
         >
-          <span className="flex items-center gap-3 text-[#1E293B]">
-            <Users className="h-5 w-5 text-[#94A3B8]" />
+          <span className="flex items-center gap-3 text-foreground">
+            <Users className="h-5 w-5 text-muted-foreground" />
             Participantes
           </span>
-          <span className="text-[#94A3B8] text-xs">{participants.length}</span>
+          <span className="text-muted-foreground text-xs">{participants.length}</span>
         </button>
         <ul className="mt-2 space-y-1 max-h-40 overflow-y-auto">
           {participants.slice(0, 8).map((p) => {
             const jid = p.JID ?? "";
             const isAdmin = p.IsAdmin === true;
             return (
-              <li key={jid} className="flex items-center gap-2 py-1.5 px-2 rounded-lg hover:bg-[#F8FAFC]">
-                <div className="h-8 w-8 rounded-full bg-[#E2E8F0] flex items-center justify-center shrink-0">
-                  {isAdmin ? <Crown className="h-4 w-4 text-amber-500" /> : <UserCog className="h-4 w-4 text-[#94A3B8]" />}
+              <li key={jid} className="flex items-center gap-2 py-1.5 px-2 rounded-lg hover:bg-muted/40">
+                <div className="h-8 w-8 rounded-full bg-muted flex items-center justify-center shrink-0">
+                  {isAdmin ? <Crown className="h-4 w-4 text-amber-500" /> : <UserCog className="h-4 w-4 text-muted-foreground" />}
                 </div>
-                <span className="text-[#1E293B] truncate">{formatJid(jid)}</span>
+                <span className="text-foreground truncate">{formatJid(jid)}</span>
               </li>
             );
           })}
@@ -466,7 +466,7 @@ function GroupInfoTab({
           <button
             type="button"
             onClick={onGoToParticipants}
-            className="text-clicvend-orange text-xs font-medium mt-1 hover:underline"
+            className="text-amber-600 dark:text-amber-400 text-xs font-medium mt-1 hover:underline"
           >
             Ver todos os {participants.length} participantes
           </button>
@@ -475,24 +475,24 @@ function GroupInfoTab({
 
       <button
         type="button"
-        className="w-full flex items-center gap-3 py-3 border-b border-[#E2E8F0] text-[#1E293B] hover:bg-[#F8FAFC] rounded-lg -mx-1 px-1"
+        className="w-full flex items-center gap-3 py-3 border-b border-border text-foreground hover:bg-muted/40 rounded-lg -mx-1 px-1"
       >
-        <Star className="h-5 w-5 text-[#94A3B8]" />
+        <Star className="h-5 w-5 text-muted-foreground" />
         Mensagens favoritas
       </button>
       <button
         type="button"
-        className="w-full flex items-center gap-3 py-3 border-b border-[#E2E8F0] text-[#1E293B] hover:bg-[#F8FAFC] rounded-lg -mx-1 px-1"
+        className="w-full flex items-center gap-3 py-3 border-b border-border text-foreground hover:bg-muted/40 rounded-lg -mx-1 px-1"
       >
-        <Bell className="h-5 w-5 text-[#94A3B8]" />
+        <Bell className="h-5 w-5 text-muted-foreground" />
         Configurações de notificação
       </button>
-      <div className="py-3 border-b border-[#E2E8F0]">
+      <div className="py-3 border-b border-border">
         <div className="flex items-center gap-3">
-          <LockKeyhole className="h-5 w-5 text-[#94A3B8] shrink-0" />
+          <LockKeyhole className="h-5 w-5 text-muted-foreground shrink-0" />
           <div>
-            <p className="font-medium text-[#1E293B]">Criptografia</p>
-            <p className="text-xs text-[#64748B] mt-0.5">
+            <p className="font-medium text-foreground">Criptografia</p>
+            <p className="text-xs text-muted-foreground mt-0.5">
               As mensagens são protegidas com a criptografia de ponta a ponta. Clique para saber mais.
             </p>
           </div>
@@ -500,18 +500,18 @@ function GroupInfoTab({
       </div>
 
       <div className="flex flex-wrap gap-2 pt-3">
-        <span className="inline-flex items-center gap-1 rounded-full bg-[#F1F5F9] px-2.5 py-1 text-xs text-[#64748B]">
+        <span className="inline-flex items-center gap-1 rounded-full bg-muted/60 px-2.5 py-1 text-xs text-muted-foreground">
           <Shield className="h-3.5 w-3.5" />
           {info.IsAnnounce ? "Só admins enviam" : "Todos podem enviar"}
         </span>
-        <span className="inline-flex items-center gap-1 rounded-full bg-[#F1F5F9] px-2.5 py-1 text-xs text-[#64748B]">
+        <span className="inline-flex items-center gap-1 rounded-full bg-muted/60 px-2.5 py-1 text-xs text-muted-foreground">
           <Lock className="h-3.5 w-3.5" />
           {info.IsLocked ? "Só admins editam" : "Todos podem editar"}
         </span>
       </div>
       {inviteLink ? (
-        <div className="pt-3 border-t border-[#E2E8F0]">
-          <p className="text-[#64748B] font-medium mb-1 flex items-center gap-1">
+        <div className="pt-3 border-t border-border">
+          <p className="text-muted-foreground font-medium mb-1 flex items-center gap-1">
             <Link2 className="h-3.5 w-3.5" /> Link de convite
           </p>
           <div className="flex items-center gap-2 flex-wrap">
@@ -519,14 +519,14 @@ function GroupInfoTab({
               href={inviteLink}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-clicvend-orange hover:underline break-all text-xs"
+              className="text-amber-600 dark:text-amber-400 hover:underline break-all text-xs"
             >
               {inviteLink}
             </a>
             <button
               type="button"
               onClick={() => navigator.clipboard.writeText(inviteLink)}
-              className="shrink-0 inline-flex items-center gap-1 rounded-lg border border-[#E2E8F0] bg-white px-2.5 py-1.5 text-xs font-medium text-[#64748B] hover:bg-[#F1F5F9] hover:text-clicvend-orange"
+              className="shrink-0 inline-flex items-center gap-1 rounded-lg border border-border bg-card px-2.5 py-1.5 text-xs font-medium text-muted-foreground hover:bg-muted/60 hover:text-amber-600 dark:hover:text-amber-400"
             >
               <Copy className="h-3.5 w-3.5" />
               Copiar
@@ -620,11 +620,11 @@ function GroupConfigTab({
 
   return (
     <div className="space-y-4 text-sm">
-      <p className="text-xs text-[#64748B] mb-1">
+      <p className="text-xs text-muted-foreground mb-1">
         Edite os campos abaixo e clique em <strong>Salvar</strong> para que as alterações reflitam no grupo no WhatsApp.
       </p>
       <div>
-        <label className="block text-[#64748B] font-medium mb-1">Nome do grupo</label>
+        <label className="block text-muted-foreground font-medium mb-1">Nome do grupo</label>
         <input
           type="text"
           value={name}
@@ -632,7 +632,7 @@ function GroupConfigTab({
           disabled={savingAll}
           placeholder="Nome do grupo"
           maxLength={25}
-          className="w-full rounded-lg border border-[#E2E8F0] px-3 py-2 text-[#1E293B] disabled:opacity-60"
+          className="w-full rounded-lg border border-border px-3 py-2 text-foreground disabled:opacity-60"
         />
         <GenerateDescriptionButton
           type="group"
@@ -646,14 +646,14 @@ function GroupConfigTab({
         />
       </div>
       <div>
-        <label className="block text-[#64748B] font-medium mb-1">Descrição</label>
+        <label className="block text-muted-foreground font-medium mb-1">Descrição</label>
         <textarea
           value={description}
           onChange={(e) => setDescription(e.target.value)}
           disabled={savingAll}
           rows={4}
           placeholder="Descrição do grupo"
-          className="w-full rounded-lg border border-[#E2E8F0] px-3 py-2 text-[#1E293B] disabled:opacity-60 resize-y min-h-[80px]"
+          className="w-full rounded-lg border border-border px-3 py-2 text-foreground disabled:opacity-60 resize-y min-h-[80px]"
         />
         <GenerateDescriptionButton
           type="group"
@@ -666,7 +666,7 @@ function GroupConfigTab({
         />
       </div>
       <div>
-        <label className="block text-[#64748B] font-medium mb-1">Imagem do grupo</label>
+        <label className="block text-muted-foreground font-medium mb-1">Imagem do grupo</label>
         <FileDropzone
           accept="image/*"
           maxSize={5 * 1024 * 1024}
@@ -706,16 +706,16 @@ function GroupConfigTab({
         />
       </div>
       <div>
-        <label className="block text-[#64748B] font-medium mb-1">Link de convite</label>
+        <label className="block text-muted-foreground font-medium mb-1">Link de convite</label>
         {(info?.InviteLink ?? group?.invite_link) ? (
           <div className="flex items-center gap-2 flex-wrap mb-2">
-            <span className="text-[#1E293B] text-sm break-all flex-1 min-w-0">
+            <span className="text-foreground text-sm break-all flex-1 min-w-0">
               {info?.InviteLink ?? group?.invite_link}
             </span>
             <button
               type="button"
               onClick={() => navigator.clipboard.writeText((info?.InviteLink ?? group?.invite_link) ?? "")}
-              className="shrink-0 inline-flex items-center gap-1 rounded-lg border border-[#E2E8F0] bg-white px-2.5 py-1.5 text-xs font-medium text-[#64748B] hover:bg-[#F1F5F9] hover:text-clicvend-orange"
+              className="shrink-0 inline-flex items-center gap-1 rounded-lg border border-border bg-card px-2.5 py-1.5 text-xs font-medium text-muted-foreground hover:bg-muted/60 hover:text-amber-600 dark:hover:text-amber-400"
             >
               <Copy className="h-3.5 w-3.5" />
               Copiar
@@ -726,7 +726,7 @@ function GroupConfigTab({
           type="button"
           onClick={() => setConfirmResetInviteOpen(true)}
           disabled={resettingLink || savingAll}
-          className="inline-flex items-center gap-2 rounded-lg border border-[#E2E8F0] bg-white px-3 py-2 text-sm font-medium text-[#64748B] hover:bg-[#F1F5F9] disabled:opacity-60"
+          className="inline-flex items-center gap-2 rounded-lg border border-border bg-card px-3 py-2 text-sm font-medium text-muted-foreground hover:bg-muted/60 disabled:opacity-60"
         >
           {resettingLink ? <Loader2 className="h-4 w-4 animate-spin" /> : <RefreshCw className="h-4 w-4" />}
           Gerar novo link
@@ -744,37 +744,37 @@ function GroupConfigTab({
           }}
         />
       </div>
-      <div className="flex items-center justify-between rounded-lg border border-[#E2E8F0] px-3 py-2">
-        <span className="text-[#1E293B]">Todos podem enviar mensagens</span>
+      <div className="flex items-center justify-between rounded-lg border border-border px-3 py-2">
+        <span className="text-foreground">Todos podem enviar mensagens</span>
         <button
           type="button"
           role="switch"
           aria-checked={!announce}
           onClick={() => setAnnounce((prev) => !prev)}
           disabled={savingAll}
-          className={`relative h-6 w-11 rounded-full transition-colors ${announce ? "bg-[#E2E8F0]" : "bg-clicvend-orange"}`}
+          className={`relative h-6 w-11 rounded-full transition-colors ${announce ? "bg-muted" : "bg-clicvend-orange"}`}
         >
           <span
-            className={`absolute top-1 h-4 w-4 rounded-full bg-white shadow transition-transform ${announce ? "left-1" : "left-6"}`}
+            className={`absolute top-1 h-4 w-4 rounded-full bg-card shadow transition-transform ${announce ? "left-1" : "left-6"}`}
           />
         </button>
       </div>
-      <div className="flex items-center justify-between rounded-lg border border-[#E2E8F0] px-3 py-2">
-        <span className="text-[#1E293B]">Todos podem editar informações</span>
+      <div className="flex items-center justify-between rounded-lg border border-border px-3 py-2">
+        <span className="text-foreground">Todos podem editar informações</span>
         <button
           type="button"
           role="switch"
           aria-checked={!locked}
           onClick={() => setLocked((prev) => !prev)}
           disabled={savingAll}
-          className={`relative h-6 w-11 rounded-full transition-colors ${locked ? "bg-clicvend-orange" : "bg-[#E2E8F0]"}`}
+          className={`relative h-6 w-11 rounded-full transition-colors ${locked ? "bg-clicvend-orange" : "bg-muted"}`}
         >
           <span
-            className={`absolute top-1 h-4 w-4 rounded-full bg-white shadow transition-transform ${locked ? "left-6" : "left-1"}`}
+            className={`absolute top-1 h-4 w-4 rounded-full bg-card shadow transition-transform ${locked ? "left-6" : "left-1"}`}
           />
         </button>
       </div>
-      <div className="pt-2 border-t border-[#E2E8F0]">
+      <div className="pt-2 border-t border-border">
         <button
           type="button"
           onClick={handleSaveAll}
@@ -836,14 +836,14 @@ function GroupParticipantsTab({
   return (
     <div className="space-y-4">
       <div>
-        <label className="block text-[#64748B] font-medium mb-1">Adicionar participantes (número ou JID)</label>
+        <label className="block text-muted-foreground font-medium mb-1">Adicionar participantes (número ou JID)</label>
         <div className="flex gap-2">
           <input
             type="text"
             value={addJids}
             onChange={(e) => setAddJids(e.target.value)}
             placeholder="5511999999999 ou 55..."
-            className="flex-1 rounded-lg border border-[#E2E8F0] px-3 py-2 text-sm text-[#1E293B]"
+            className="flex-1 rounded-lg border border-border px-3 py-2 text-sm text-foreground"
           />
           <button
             type="button"
@@ -857,7 +857,7 @@ function GroupParticipantsTab({
         </div>
       </div>
       <div>
-        <p className="text-[#64748B] font-medium mb-2">Participantes ({participants.length})</p>
+        <p className="text-muted-foreground font-medium mb-2">Participantes ({participants.length})</p>
         <ul className="space-y-1 max-h-48 overflow-y-auto">
           {participants.map((p) => {
             const jid = p.JID ?? "";
@@ -865,10 +865,10 @@ function GroupParticipantsTab({
             return (
               <li
                 key={jid}
-                className="flex items-center justify-between rounded-lg border border-[#E2E8F0] px-3 py-2 text-sm"
+                className="flex items-center justify-between rounded-lg border border-border px-3 py-2 text-sm"
               >
-                <span className="flex items-center gap-2 text-[#1E293B]">
-                  {isAdmin ? <Crown className="h-4 w-4 text-amber-500" /> : <UserCog className="h-4 w-4 text-[#94A3B8]" />}
+                <span className="flex items-center gap-2 text-foreground">
+                  {isAdmin ? <Crown className="h-4 w-4 text-amber-500" /> : <UserCog className="h-4 w-4 text-muted-foreground" />}
                   {formatJid(jid)}
                 </span>
                 <div className="flex gap-1">
@@ -877,7 +877,7 @@ function GroupParticipantsTab({
                     title={isAdmin ? "Rebaixar" : "Promover"}
                     onClick={() => runAction(isAdmin ? "demote" : "promote", [jid])}
                     disabled={actioning !== null}
-                    className="rounded p-1 text-[#64748B] hover:bg-[#F1F5F9] hover:text-clicvend-orange disabled:opacity-50"
+                    className="rounded p-1 text-muted-foreground hover:bg-muted/60 hover:text-amber-600 dark:hover:text-amber-400 disabled:opacity-50"
                     aria-label={isAdmin ? "Rebaixar participante" : "Promover participante para admin"}
                   >
                     {isAdmin ? <UserCog className="h-4 w-4" /> : <Crown className="h-4 w-4" />}
@@ -887,7 +887,7 @@ function GroupParticipantsTab({
                     title="Remover"
                     onClick={() => runAction("remove", [jid])}
                     disabled={actioning !== null}
-                    className="rounded p-1 text-[#64748B] hover:bg-red-50 hover:text-red-600 disabled:opacity-50"
+                    className="rounded p-1 text-muted-foreground hover:bg-red-50 hover:text-red-600 disabled:opacity-50"
                     aria-label="Remover participante do grupo"
                   >
                     <UserMinus className="h-4 w-4" />
@@ -968,29 +968,29 @@ function GroupAttendantsTab({
   if (loading) {
     return (
       <div className="flex items-center justify-center py-8">
-        <Loader2 className="h-8 w-8 animate-spin text-clicvend-orange" />
+        <Loader2 className="h-8 w-8 animate-spin text-amber-600 dark:text-amber-400" />
       </div>
     );
   }
   return (
     <div className="space-y-4">
-      <p className="text-sm text-[#64748B]">
+      <p className="text-sm text-muted-foreground">
         Atendentes responsáveis por este grupo ou comunidade poderão ver e interagir com as conversas aqui no chat.
       </p>
-      <div className="max-h-48 overflow-y-auto rounded-lg border border-[#E2E8F0] bg-white p-2">
+      <div className="max-h-48 overflow-y-auto rounded-lg border border-border bg-card p-2">
         {agents.length === 0 ? (
-          <p className="text-sm text-[#64748B]">Nenhum atendente cadastrado na empresa.</p>
+          <p className="text-sm text-muted-foreground">Nenhum atendente cadastrado na empresa.</p>
         ) : (
           agents.map((a) => (
-            <label key={a.user_id} className="flex items-center gap-2 py-2 px-2 rounded hover:bg-[#F8FAFC] cursor-pointer">
+            <label key={a.user_id} className="flex items-center gap-2 py-2 px-2 rounded hover:bg-muted/40 cursor-pointer">
               <input
                 type="checkbox"
                 checked={assignedUserIds.includes(a.user_id)}
                 onChange={() => toggle(a.user_id)}
-                className="rounded border-[#E2E8F0] text-clicvend-orange focus:ring-clicvend-orange"
+                className="rounded border-border text-amber-600 dark:text-amber-400 focus:ring-amber-500/20"
               />
-              <span className="text-sm font-medium text-[#1E293B]">{a.full_name}</span>
-              {a.email && <span className="text-xs text-[#64748B]">({a.email})</span>}
+              <span className="text-sm font-medium text-foreground">{a.full_name}</span>
+              {a.email && <span className="text-xs text-muted-foreground">({a.email})</span>}
             </label>
           ))
         )}

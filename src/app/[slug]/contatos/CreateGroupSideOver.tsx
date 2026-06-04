@@ -106,12 +106,12 @@ export function CreateGroupSideOver({
       width={600}
     >
       <div className="flex flex-col gap-4">
-        <p className="text-sm text-[#64748B]">
-          Conexão: <span className="font-medium text-[#1E293B]">{channelName}</span>
+        <p className="text-sm text-muted-foreground">
+          Conexão: <span className="font-medium text-foreground">{channelName}</span>
         </p>
 
         <div>
-          <label className="block text-sm font-medium text-[#334155] mb-1.5">
+          <label className="block text-sm font-medium text-foreground mb-1.5">
             Nome do grupo
           </label>
           <input
@@ -120,45 +120,45 @@ export function CreateGroupSideOver({
             onChange={(e) => setGroupName(e.target.value)}
             placeholder="Ex: Equipe vendas"
             maxLength={100}
-            className="w-full rounded-lg border border-[#E2E8F0] bg-white px-3 py-2 text-sm text-[#1E293B] placeholder:text-[#94A3B8] focus:border-clicvend-orange focus:outline-none focus:ring-1 focus:ring-clicvend-orange"
+            className="w-full rounded-lg border border-border bg-card px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:border-amber-500 focus:outline-none focus:ring-1 focus:ring-amber-500/20"
           />
         </div>
 
         <div>
           <div className="flex items-center justify-between mb-1.5">
-            <label className="text-sm font-medium text-[#334155]">
+            <label className="text-sm font-medium text-foreground">
               Participantes ({participants.length})
             </label>
             {participants.length < 2 && (
               <span className="text-xs text-amber-600">Mínimo 1 participante</span>
             )}
           </div>
-          <ul className="border border-[#E2E8F0] rounded-lg divide-y divide-[#E2E8F0] max-h-[280px] overflow-y-auto bg-[#F8FAFC]">
+          <ul className="border border-border rounded-lg divide-y divide-border max-h-[280px] overflow-y-auto bg-muted/40">
             {participants.length === 0 ? (
-              <li className="px-3 py-4 text-center text-sm text-[#64748B]">
+              <li className="px-3 py-4 text-center text-sm text-muted-foreground">
                 Nenhum participante. Selecione contatos na tabela e clique em &quot;Criar grupo&quot;.
               </li>
             ) : (
               participants.map((c) => (
                 <li
                   key={c.id}
-                  className="flex items-center gap-3 px-3 py-2.5 hover:bg-white"
+                  className="flex items-center gap-3 px-3 py-2.5 hover:bg-card"
                 >
-                  <div className="h-9 w-9 shrink-0 rounded-full bg-[#E2E8F0] flex items-center justify-center">
-                    <User className="h-4 w-4 text-[#94A3B8]" />
+                  <div className="h-9 w-9 shrink-0 rounded-full bg-muted flex items-center justify-center">
+                    <User className="h-4 w-4 text-muted-foreground" />
                   </div>
                   <div className="min-w-0 flex-1">
-                    <p className="text-sm font-medium text-[#1E293B] truncate">
+                    <p className="text-sm font-medium text-foreground truncate">
                       {displayName(c)}
                     </p>
-                    <p className="text-xs text-[#64748B] truncate">
+                    <p className="text-xs text-muted-foreground truncate">
                       {contactToNumber(c) || c.jid || "—"}
                     </p>
                   </div>
                   <button
                     type="button"
                     onClick={() => removeParticipant(c.id)}
-                    className="shrink-0 rounded p-1.5 text-[#64748B] hover:bg-[#E2E8F0] hover:text-[#1E293B]"
+                    className="shrink-0 rounded p-1.5 text-muted-foreground hover:bg-muted/60 hover:text-foreground"
                     title="Remover participante"
                     aria-label={`Remover ${displayName(c)}`}
                   >
@@ -168,16 +168,16 @@ export function CreateGroupSideOver({
               ))
             )}
           </ul>
-          <p className="mt-1 text-xs text-[#64748B]">
+          <p className="mt-1 text-xs text-muted-foreground">
             Estilo WhatsApp Web: os contatos selecionados na tabela já vêm aqui. Remova quem não for entrar no grupo.
           </p>
         </div>
 
-        <div className="flex gap-2 pt-2 border-t border-[#E2E8F0]">
+        <div className="flex gap-2 pt-2 border-t border-border">
           <button
             type="button"
             onClick={onClose}
-            className="flex-1 rounded-lg border border-[#E2E8F0] bg-white px-4 py-2.5 text-sm font-medium text-[#64748B] hover:bg-[#F1F5F9]"
+            className="flex-1 rounded-lg border border-border bg-card px-4 py-2.5 text-sm font-medium text-muted-foreground hover:bg-muted/60"
           >
             Cancelar
           </button>

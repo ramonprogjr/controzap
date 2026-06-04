@@ -90,16 +90,16 @@ export function ChatAudioPlayer({
   const gradientClasses = isOut
     ? "bg-gradient-to-r from-violet-300 via-purple-200 to-fuchsia-200 text-violet-900/90"
     : "bg-gradient-to-r from-emerald-300 via-green-200 to-teal-200 text-emerald-900/90";
-  const loadingBarBg = "bg-white/30";
+  const loadingBarBg = "bg-card/30";
   const textClasses = isOut ? "text-violet-800/90" : "text-emerald-800/90";
   const btnClasses = isOut
-    ? "bg-white text-violet-600 shadow-sm hover:scale-105"
-    : "bg-white text-emerald-600 shadow-sm hover:scale-105";
+    ? "bg-card text-violet-600 shadow-sm hover:scale-105"
+    : "bg-card text-emerald-600 shadow-sm hover:scale-105";
 
   if (isLoading || !src) {
     return (
       <div className={`flex items-center gap-2 rounded-xl ${gradientClasses} px-4 py-3 w-full shadow-sm`}>
-        <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-white/25">
+        <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-card/25">
           <Loader2 className="h-3.5 w-3.5 animate-spin text-white" />
         </div>
         <div className="flex-1 min-w-0">
@@ -127,7 +127,7 @@ export function ChatAudioPlayer({
           <span>{loaded ? formatDuration(duration) : "–:––"}</span>
         </div>
         <div
-          className="mt-1 h-1.5 w-full rounded-full bg-white/40 overflow-hidden cursor-pointer"
+          className="mt-1 h-1.5 w-full rounded-full bg-card/40 overflow-hidden cursor-pointer"
           onClick={handleSeek}
           role="slider"
           aria-label="Posição do áudio"
@@ -136,7 +136,7 @@ export function ChatAudioPlayer({
           aria-valuemax={100}
         >
           <div
-            className="h-full rounded-full bg-white/90 shadow-[0_0_2px_rgba(255,255,255,0.8)] transition-all duration-150"
+            className="h-full rounded-full bg-card/90 shadow-[0_0_2px_rgba(255,255,255,0.8)] transition-all duration-150"
             style={{ width: `${progress}%` }}
           />
         </div>

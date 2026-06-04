@@ -101,7 +101,7 @@ function ContactListAvatar({ avatarUrl, name }: { avatarUrl: string | null; name
   const showImg = src && !error;
   const initial = (name || " ").slice(0, 1).toUpperCase();
   return (
-    <div className="h-10 w-10 shrink-0 overflow-hidden rounded-full bg-[#E2E8F0] flex items-center justify-center text-sm font-semibold text-[#64748B]">
+    <div className="h-10 w-10 shrink-0 overflow-hidden rounded-full bg-muted flex items-center justify-center text-sm font-semibold text-muted-foreground">
       {showImg ? (
         <img
           src={src}
@@ -111,7 +111,7 @@ function ContactListAvatar({ avatarUrl, name }: { avatarUrl: string | null; name
           onError={() => setError(true)}
         />
       ) : (
-        <span aria-hidden>{initial || <User className="h-5 w-5 text-[#94A3B8]" />}</span>
+        <span aria-hidden>{initial || <User className="h-5 w-5 text-muted-foreground" />}</span>
       )}
     </div>
   );
@@ -183,19 +183,19 @@ function AddToAgendaModal({
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center p-4" role="dialog" aria-modal="true" aria-labelledby="add-agenda-title">
       <div className="absolute inset-0 bg-black/40" onClick={onClose} aria-hidden="true" />
-      <div className="relative w-full max-w-lg rounded-xl bg-white shadow-xl border border-[#E2E8F0] overflow-hidden max-h-[90vh] flex flex-col">
-        <div className="p-4 border-b border-[#E2E8F0]">
-          <h2 id="add-agenda-title" className="text-lg font-semibold text-[#1E293B]">
+      <div className="relative w-full max-w-lg rounded-xl bg-card shadow-xl border border-border overflow-hidden max-h-[90vh] flex flex-col">
+        <div className="p-4 border-b border-border">
+          <h2 id="add-agenda-title" className="text-lg font-semibold text-foreground">
             Como salvar na agenda do celular?
           </h2>
-          <p className="mt-1 text-sm text-[#64748B]">
+          <p className="mt-1 text-sm text-muted-foreground">
             O nome abaixo será o que aparece nos contatos do WhatsApp. Edite para encontrar o contato mais fácil depois.
           </p>
         </div>
         <div className="p-4 overflow-y-auto flex-1 min-h-0 space-y-3">
           {contacts.map((c) => (
             <div key={c.id} className="flex flex-col gap-1">
-              <label className="text-xs font-medium text-[#64748B]">
+              <label className="text-xs font-medium text-muted-foreground">
                 {c.phone || c.jid?.replace(/@.*$/, "") || c.jid} · {channelName(c.channel_id)}
               </label>
               <input
@@ -204,7 +204,7 @@ function AddToAgendaModal({
                 onChange={(e) => setNames((prev) => ({ ...prev, [c.id]: e.target.value }))}
                 placeholder="Nome para salvar"
                 maxLength={100}
-                className="w-full rounded-lg border border-[#E2E8F0] px-3 py-2 text-sm text-[#1E293B] focus:border-clicvend-orange focus:outline-none focus:ring-1 focus:ring-clicvend-orange"
+                className="w-full rounded-lg border border-border px-3 py-2 text-sm text-foreground focus:border-amber-500 focus:outline-none focus:ring-1 focus:ring-amber-500/20"
               />
             </div>
           ))}
@@ -214,12 +214,12 @@ function AddToAgendaModal({
             <p className="text-sm text-red-600">{error}</p>
           </div>
         )}
-        <div className="p-4 border-t border-[#E2E8F0] flex justify-end gap-2">
+        <div className="p-4 border-t border-border flex justify-end gap-2">
           <button
             type="button"
             onClick={onClose}
             disabled={loading}
-            className="rounded-lg border border-[#E2E8F0] bg-white px-4 py-2 text-sm font-medium text-[#64748B] hover:bg-[#F8FAFC] disabled:opacity-60"
+            className="rounded-lg border border-border bg-card px-4 py-2 text-sm font-medium text-muted-foreground hover:bg-muted/40 disabled:opacity-60"
           >
             Cancelar
           </button>
@@ -277,30 +277,30 @@ function BlockedRow({
     }
   };
   return (
-    <tr className="border-b border-[#E2E8F0] hover:bg-[#F8FAFC]">
+    <tr className="border-b border-border hover:bg-muted/40">
       {onToggleSelect != null && (
         <td className="px-4 py-3 w-10">
           <input
             type="checkbox"
             checked={selected ?? false}
             onChange={onToggleSelect}
-            className="h-4 w-4 rounded border-[#E2E8F0] text-clicvend-orange focus:ring-clicvend-orange"
+            className="h-4 w-4 rounded border-border text-amber-600 dark:text-amber-400 focus:ring-amber-500/20"
             aria-label={displayName !== "—" ? `Selecionar ${displayName}` : "Selecionar bloqueado"}
           />
         </td>
       )}
       <td className="px-4 py-3">
         <div className="flex items-center gap-3">
-          <div className="h-10 w-10 shrink-0 overflow-hidden rounded-full bg-[#E2E8F0] flex items-center justify-center">
+          <div className="h-10 w-10 shrink-0 overflow-hidden rounded-full bg-muted flex items-center justify-center">
             {avatarSrcRes ? (
               <img src={avatarSrcRes} alt="" className="h-full w-full object-cover" referrerPolicy="no-referrer" />
             ) : (
-              <User className="h-5 w-5 text-[#94A3B8]" />
+              <User className="h-5 w-5 text-muted-foreground" />
             )}
           </div>
           <div>
-        <div className="font-medium text-[#1E293B]">{displayName}</div>
-        <div className="text-sm text-[#64748B]">{displayPhone}</div>
+        <div className="font-medium text-foreground">{displayName}</div>
+        <div className="text-sm text-muted-foreground">{displayPhone}</div>
           </div>
         </div>
       </td>
@@ -309,7 +309,7 @@ function BlockedRow({
           type="button"
           onClick={handleUnblock}
           disabled={loading}
-          className="inline-flex items-center gap-1.5 rounded-lg border border-[#E2E8F0] bg-white px-3 py-1.5 text-sm font-medium text-[#64748B] hover:bg-[#F1F5F9] hover:text-clicvend-orange disabled:opacity-60"
+          className="inline-flex items-center gap-1.5 rounded-lg border border-border bg-card px-3 py-1.5 text-sm font-medium text-muted-foreground hover:bg-muted/60 hover:text-amber-600 dark:hover:text-amber-400 disabled:opacity-60"
         >
           {loading ? <Loader2 className="h-4 w-4 animate-spin shrink-0" /> : <Unlock className="h-4 w-4 shrink-0" />}
           Desbloquear
@@ -509,24 +509,24 @@ function GroupsManageActions({
 
   return (
     <div className="grid gap-6 md:grid-cols-2">
-      <div className="rounded-lg border border-[#E2E8F0] bg-[#F8FAFC] p-4">
-        <h3 className="text-sm font-semibold text-[#1E293B] mb-3">Criar novo grupo</h3>
-        <p className="text-xs text-[#64748B] mb-3">Conexão: {channelName}</p>
+      <div className="rounded-lg border border-border bg-muted/40 p-4">
+        <h3 className="text-sm font-semibold text-foreground mb-3">Criar novo grupo</h3>
+        <p className="text-xs text-muted-foreground mb-3">Conexão: {channelName}</p>
         <input
           type="text"
           value={createName}
           onChange={(e) => setCreateName(e.target.value)}
           placeholder="Nome do grupo (1–100 caracteres)"
           maxLength={100}
-          className="w-full rounded-lg border border-[#E2E8F0] bg-white px-3 py-2 text-sm text-[#1E293B] mb-3"
+          className="w-full rounded-lg border border-border bg-card px-3 py-2 text-sm text-foreground mb-3"
         />
-        <label className="block text-xs font-medium text-[#64748B] mb-1.5">Participantes (contatos da instância)</label>
+        <label className="block text-xs font-medium text-muted-foreground mb-1.5">Participantes (contatos da instância)</label>
         <input
           type="search"
           value={participantSearch}
           onChange={(e) => setParticipantSearch(e.target.value)}
           placeholder="Buscar contato por nome ou telefone..."
-          className="w-full rounded-lg border border-[#E2E8F0] bg-white px-3 py-2 text-sm text-[#1E293B] mb-2"
+          className="w-full rounded-lg border border-border bg-card px-3 py-2 text-sm text-foreground mb-2"
         />
         <select
           value=""
@@ -537,7 +537,7 @@ function GroupsManageActions({
             if (c) addParticipant(c);
             e.target.value = "";
           }}
-          className="w-full rounded-lg border border-[#E2E8F0] bg-white px-3 py-2 text-sm text-[#1E293B] mb-2"
+          className="w-full rounded-lg border border-border bg-card px-3 py-2 text-sm text-foreground mb-2"
         >
           <option value="">
             {availableContacts.length === 0 && channelContacts.length > 0
@@ -555,25 +555,25 @@ function GroupsManageActions({
           <p className="text-xs text-amber-600 mb-2">Nenhum contato nesta conexão. Sincronize contatos na aba Contatos primeiro.</p>
         )}
         {selectedParticipants.length > 0 && (
-          <div className="rounded-lg border border-[#E2E8F0] bg-white overflow-hidden mb-3 max-h-[180px] overflow-y-auto">
+          <div className="rounded-lg border border-border bg-card overflow-hidden mb-3 max-h-[180px] overflow-y-auto">
             <table className="w-full text-sm border-collapse">
-              <thead className="sticky top-0 bg-[#F8FAFC]">
-                <tr className="border-b border-[#E2E8F0]">
-                  <th className="px-3 py-2 text-left text-xs font-semibold text-[#64748B]">Nome</th>
-                  <th className="px-3 py-2 text-left text-xs font-semibold text-[#64748B]">Telefone</th>
-                  <th className="px-3 py-2 w-10 text-right text-xs font-semibold text-[#64748B]"></th>
+              <thead className="sticky top-0 bg-muted/40">
+                <tr className="border-b border-border">
+                  <th className="px-3 py-2 text-left text-xs font-semibold text-muted-foreground">Nome</th>
+                  <th className="px-3 py-2 text-left text-xs font-semibold text-muted-foreground">Telefone</th>
+                  <th className="px-3 py-2 w-10 text-right text-xs font-semibold text-muted-foreground"></th>
                 </tr>
               </thead>
               <tbody>
                 {selectedParticipants.map((c) => (
-                  <tr key={c.id} className="border-b border-[#E2E8F0] last:border-0 hover:bg-[#F8FAFC]">
-                    <td className="px-3 py-2 text-[#1E293B]">{displayContactName(c)}</td>
-                    <td className="px-3 py-2 text-[#64748B]">{c.phone || c.jid}</td>
+                  <tr key={c.id} className="border-b border-border last:border-0 hover:bg-muted/40">
+                    <td className="px-3 py-2 text-foreground">{displayContactName(c)}</td>
+                    <td className="px-3 py-2 text-muted-foreground">{c.phone || c.jid}</td>
                     <td className="px-3 py-2 text-right">
                       <button
                         type="button"
                         onClick={() => removeParticipant(c.id)}
-                        className="rounded p-1 text-[#64748B] hover:bg-red-50 hover:text-red-600"
+                        className="rounded p-1 text-muted-foreground hover:bg-red-50 hover:text-red-600"
                         title="Remover"
                       >
                         <Trash2 className="h-4 w-4" />
@@ -595,15 +595,15 @@ function GroupsManageActions({
           Criar grupo
         </button>
       </div>
-      <div className="rounded-lg border border-[#E2E8F0] bg-[#F8FAFC] p-4">
-        <h3 className="text-sm font-semibold text-[#1E293B] mb-3">Entrar em grupo por convite</h3>
-        <p className="text-xs text-[#64748B] mb-3">Conexão: {channelName}</p>
+      <div className="rounded-lg border border-border bg-muted/40 p-4">
+        <h3 className="text-sm font-semibold text-foreground mb-3">Entrar em grupo por convite</h3>
+        <p className="text-xs text-muted-foreground mb-3">Conexão: {channelName}</p>
         <input
           type="text"
           value={joinCode}
           onChange={(e) => setJoinCode(e.target.value)}
           placeholder="Link (https://chat.whatsapp.com/...) ou código do convite"
-          className="w-full rounded-lg border border-[#E2E8F0] bg-white px-3 py-2 text-sm text-[#1E293B] mb-3"
+          className="w-full rounded-lg border border-border bg-card px-3 py-2 text-sm text-foreground mb-3"
         />
         <button
           type="button"
@@ -615,16 +615,16 @@ function GroupsManageActions({
           Entrar no grupo
         </button>
       </div>
-      <div className="rounded-lg border border-[#E2E8F0] bg-[#F8FAFC] p-4">
-        <h3 className="text-sm font-semibold text-[#1E293B] mb-3">Criar comunidade</h3>
-        <p className="text-xs text-[#64748B] mb-3">Conexão: {channelName}</p>
+      <div className="rounded-lg border border-border bg-muted/40 p-4">
+        <h3 className="text-sm font-semibold text-foreground mb-3">Criar comunidade</h3>
+        <p className="text-xs text-muted-foreground mb-3">Conexão: {channelName}</p>
         <input
           type="text"
           value={communityName}
           onChange={(e) => setCommunityName(e.target.value)}
           placeholder="Nome da comunidade"
           maxLength={100}
-          className="w-full rounded-lg border border-[#E2E8F0] bg-white px-3 py-2 text-sm text-[#1E293B] mb-3"
+          className="w-full rounded-lg border border-border bg-card px-3 py-2 text-sm text-foreground mb-3"
         />
         <button
           type="button"
@@ -636,16 +636,16 @@ function GroupsManageActions({
           Criar comunidade
         </button>
       </div>
-      <div className="rounded-lg border border-[#E2E8F0] bg-[#F8FAFC] p-4 md:col-span-2">
-        <h3 className="text-sm font-semibold text-[#1E293B] mb-3">Gerenciar grupos em uma comunidade</h3>
-        <p className="text-xs text-[#64748B] mb-3">Conexão: {channelName}</p>
+      <div className="rounded-lg border border-border bg-muted/40 p-4 md:col-span-2">
+        <h3 className="text-sm font-semibold text-foreground mb-3">Gerenciar grupos em uma comunidade</h3>
+        <p className="text-xs text-muted-foreground mb-3">Conexão: {channelName}</p>
         <div className="grid gap-3 sm:grid-cols-2 mb-3">
           <div>
-            <label className="block text-xs font-medium text-[#64748B] mb-1">Comunidade (JID)</label>
+            <label className="block text-xs font-medium text-muted-foreground mb-1">Comunidade (JID)</label>
             <select
               value={editCommunityJid}
               onChange={(e) => setEditCommunityJid(e.target.value)}
-              className="w-full rounded-lg border border-[#E2E8F0] bg-white px-3 py-2 text-sm text-[#1E293B]"
+              className="w-full rounded-lg border border-border bg-card px-3 py-2 text-sm text-foreground"
             >
               <option value="">Selecione a comunidade</option>
               {channelGroups.map((g) => (
@@ -654,31 +654,31 @@ function GroupsManageActions({
             </select>
           </div>
           <div>
-            <label className="block text-xs font-medium text-[#64748B] mb-1">Ação</label>
+            <label className="block text-xs font-medium text-muted-foreground mb-1">Ação</label>
             <select
               value={editCommunityAction}
               onChange={(e) => setEditCommunityAction(e.target.value as "add" | "remove")}
-              className="w-full rounded-lg border border-[#E2E8F0] bg-white px-3 py-2 text-sm text-[#1E293B]"
+              className="w-full rounded-lg border border-border bg-card px-3 py-2 text-sm text-foreground"
             >
               <option value="add">Adicionar grupos à comunidade</option>
               <option value="remove">Remover grupos da comunidade</option>
             </select>
           </div>
         </div>
-        <label className="block text-xs font-medium text-[#64748B] mb-1">Grupos selecionados ({editCommunityGroupJids.length})</label>
-        <div className="max-h-32 overflow-y-auto rounded-lg border border-[#E2E8F0] bg-white p-2 mb-3">
+        <label className="block text-xs font-medium text-muted-foreground mb-1">Grupos selecionados ({editCommunityGroupJids.length})</label>
+        <div className="max-h-32 overflow-y-auto rounded-lg border border-border bg-card p-2 mb-3">
           {channelGroups.filter((g) => g.jid !== editCommunityJid).map((g) => (
             <label key={g.jid} className="flex items-center gap-2 py-1 text-sm cursor-pointer">
               <input
                 type="checkbox"
                 checked={editCommunityGroupJids.includes(g.jid)}
                 onChange={() => toggleEditCommunityGroup(g.jid)}
-                className="rounded border-[#E2E8F0] text-clicvend-orange focus:ring-clicvend-orange"
+                className="rounded border-border text-amber-600 dark:text-amber-400 focus:ring-amber-500/20"
               />
               {g.name ?? g.jid}
             </label>
           ))}
-          {channelGroups.length <= 1 && <p className="text-xs text-[#64748B]">Nenhum outro grupo nesta conexão para vincular.</p>}
+          {channelGroups.length <= 1 && <p className="text-xs text-muted-foreground">Nenhum outro grupo nesta conexão para vincular.</p>}
         </div>
         <button
           type="button"
@@ -1325,7 +1325,7 @@ export default function ContatosPage() {
                   });
                 }
               }}
-              className="h-4 w-4 rounded border-[#E2E8F0] text-clicvend-orange focus:ring-clicvend-orange"
+              className="h-4 w-4 rounded border-border text-amber-600 dark:text-amber-400 focus:ring-amber-500/20"
               aria-label="Selecionar todos (todas as páginas)"
             />
           );
@@ -1343,7 +1343,7 @@ export default function ContatosPage() {
                 return next;
               });
             }}
-            className="h-4 w-4 rounded border-[#E2E8F0] text-clicvend-orange focus:ring-clicvend-orange"
+            className="h-4 w-4 rounded border-border text-amber-600 dark:text-amber-400 focus:ring-amber-500/20"
             aria-label={`Selecionar ${displayContactName(row.original)}`}
           />
         ),
@@ -1359,10 +1359,10 @@ export default function ContatosPage() {
             <div className="flex items-center gap-3">
               <ContactListAvatar avatarUrl={avatarUrl} name={name} />
               <div className="flex items-center gap-2">
-                <span className="font-medium text-[#1E293B]">{name}</span>
+                <span className="font-medium text-foreground">{name}</span>
                 {c.is_historical ? (
                   <span
-                    className="inline-flex items-center rounded-md bg-[#F1F5F9] px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-[#64748B]"
+                    className="inline-flex items-center rounded-md bg-muted/60 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-muted-foreground"
                     title="Contato histórico (sem conexão ativa)"
                   >
                     Historico
@@ -1383,14 +1383,14 @@ export default function ContatosPage() {
           const toCopy = raw.replace(/\D/g, "") || (c.jid ?? "").replace(/@.*$/, "");
           return (
             <div className="flex items-center gap-1.5">
-              <span className="inline-flex items-center rounded-md bg-[#F1F5F9] px-2 py-0.5 text-sm font-medium text-[#334155]">
+              <span className="inline-flex items-center rounded-md bg-muted/60 px-2 py-0.5 text-sm font-medium text-foreground">
                 {formatted}
               </span>
               {toCopy ? (
                 <button
                   type="button"
                   onClick={() => navigator.clipboard.writeText(toCopy)}
-                  className="rounded p-1 text-[#64748B] hover:bg-[#E2E8F0] hover:text-clicvend-orange"
+                  className="rounded p-1 text-muted-foreground hover:bg-muted/60 hover:text-amber-600 dark:hover:text-amber-400"
                   title="Copiar número"
                   aria-label="Copiar número"
                 >
@@ -1405,8 +1405,8 @@ export default function ContatosPage() {
         header: "Conexão",
         accessorKey: "channel_id",
         cell: ({ row }) => (
-          <span className="inline-flex items-center gap-1 text-sm text-[#64748B]">
-            <Plug className="h-4 w-4 text-clicvend-orange" />
+          <span className="inline-flex items-center gap-1 text-sm text-muted-foreground">
+            <Plug className="h-4 w-4 text-amber-600 dark:text-amber-400" />
             {channelName(row.original.channel_id)}
           </span>
         ),
@@ -1416,7 +1416,7 @@ export default function ContatosPage() {
         id: "queues",
         cell: ({ row }) => {
           const queues = Array.isArray(row.original.queue_names) ? row.original.queue_names : [];
-          if (queues.length === 0) return <span className="text-[#94A3B8]">—</span>;
+          if (queues.length === 0) return <span className="text-muted-foreground">—</span>;
           return (
             <div className="flex flex-wrap gap-1">
               {queues.slice(0, 2).map((q) => (
@@ -1429,7 +1429,7 @@ export default function ContatosPage() {
                 </span>
               ))}
               {queues.length > 2 && (
-                <span className="inline-flex items-center rounded-md bg-[#F1F5F9] px-2 py-0.5 text-xs font-medium text-[#64748B]">
+                <span className="inline-flex items-center rounded-md bg-muted/60 px-2 py-0.5 text-xs font-medium text-muted-foreground">
                   +{queues.length - 2}
                 </span>
               )}
@@ -1442,7 +1442,7 @@ export default function ContatosPage() {
         id: "tags",
         cell: ({ row }) => {
           const tags = Array.isArray(row.original.tag_names) ? row.original.tag_names : [];
-          if (tags.length === 0) return <span className="text-[#94A3B8]">—</span>;
+          if (tags.length === 0) return <span className="text-muted-foreground">—</span>;
           return (
             <div className="flex flex-wrap gap-1">
               {tags.slice(0, 2).map((t) => (
@@ -1455,7 +1455,7 @@ export default function ContatosPage() {
                 </span>
               ))}
               {tags.length > 2 && (
-                <span className="inline-flex items-center rounded-md bg-[#F1F5F9] px-2 py-0.5 text-xs font-medium text-[#64748B]">
+                <span className="inline-flex items-center rounded-md bg-muted/60 px-2 py-0.5 text-xs font-medium text-muted-foreground">
                   +{tags.length - 2}
                 </span>
               )}
@@ -1467,11 +1467,11 @@ export default function ContatosPage() {
         id: "actions",
         header: "",
         cell: ({ row }) => (
-          <div className="inline-flex rounded-lg border border-[#E2E8F0] bg-white overflow-hidden">
+          <div className="inline-flex rounded-lg border border-border bg-card overflow-hidden">
             <button
               type="button"
               onClick={() => openContactChat(row.original)}
-              className="rounded-none border-r border-[#E2E8F0] p-2 text-[#64748B] hover:bg-[#F1F5F9] hover:text-clicvend-orange last:border-r-0"
+              className="rounded-none border-r border-border p-2 text-muted-foreground hover:bg-muted/60 hover:text-amber-600 dark:hover:text-amber-400 last:border-r-0"
               title="Abrir chat"
               aria-label="Abrir chat do contato"
             >
@@ -1480,7 +1480,7 @@ export default function ContatosPage() {
             <button
               type="button"
               onClick={() => openDetail(row.original)}
-              className="rounded-none border-r border-[#E2E8F0] p-2 text-[#64748B] hover:bg-[#F1F5F9] hover:text-clicvend-orange last:border-r-0"
+              className="rounded-none border-r border-border p-2 text-muted-foreground hover:bg-muted/60 hover:text-amber-600 dark:hover:text-amber-400 last:border-r-0"
               title="Ver detalhes"
               aria-label="Ver detalhes do contato"
             >
@@ -1489,7 +1489,7 @@ export default function ContatosPage() {
             <button
               type="button"
               onClick={() => setDeleteConfirm(row.original)}
-              className="rounded-none border-r border-[#E2E8F0] p-2 text-[#64748B] hover:bg-red-50 hover:text-red-600 last:border-r-0"
+              className="rounded-none border-r border-border p-2 text-muted-foreground hover:bg-red-50 hover:text-red-600 last:border-r-0"
               title="Excluir da lista"
               aria-label="Excluir contato da lista"
             >
@@ -1528,7 +1528,7 @@ export default function ContatosPage() {
                   });
                 }
               }}
-              className="h-4 w-4 rounded border-[#E2E8F0] text-clicvend-orange focus:ring-clicvend-orange"
+              className="h-4 w-4 rounded border-border text-amber-600 dark:text-amber-400 focus:ring-amber-500/20"
               aria-label="Selecionar todos (todas as páginas)"
             />
           );
@@ -1546,7 +1546,7 @@ export default function ContatosPage() {
                 return next;
               });
             }}
-            className="h-4 w-4 rounded border-[#E2E8F0] text-clicvend-orange focus:ring-clicvend-orange"
+            className="h-4 w-4 rounded border-border text-amber-600 dark:text-amber-400 focus:ring-amber-500/20"
             aria-label={`Selecionar ${row.original.name || "grupo"}`}
           />
         ),
@@ -1560,7 +1560,7 @@ export default function ContatosPage() {
           return (
             <div className="flex items-center gap-3">
               <ContactListAvatar avatarUrl={g.avatar_url?.trim() || null} name={name} />
-              <span className="font-medium text-[#1E293B]">{name}</span>
+              <span className="font-medium text-foreground">{name}</span>
             </div>
           );
         },
@@ -1569,7 +1569,7 @@ export default function ContatosPage() {
         header: "Descrição",
         accessorFn: (g) => g.topic ?? "—",
         cell: ({ getValue }) => (
-          <span className="text-sm text-[#64748B] max-w-[200px] truncate block" title={String(getValue())}>
+          <span className="text-sm text-muted-foreground max-w-[200px] truncate block" title={String(getValue())}>
             {String(getValue())}
           </span>
         ),
@@ -1578,8 +1578,8 @@ export default function ContatosPage() {
         header: "Conexão",
         accessorKey: "channel_id",
         cell: ({ row }) => (
-          <span className="inline-flex items-center gap-1 text-sm text-[#64748B]">
-            <Plug className="h-4 w-4 text-clicvend-orange" />
+          <span className="inline-flex items-center gap-1 text-sm text-muted-foreground">
+            <Plug className="h-4 w-4 text-amber-600 dark:text-amber-400" />
             {channelName(row.original.channel_id)}
           </span>
         ),
@@ -1591,14 +1591,14 @@ export default function ContatosPage() {
           const jid = row.original.jid ?? "";
           return (
             <div className="flex items-center gap-1.5 max-w-[200px]">
-              <span className="truncate text-sm text-[#64748B]" title={jid}>
+              <span className="truncate text-sm text-muted-foreground" title={jid}>
                 {jid || "—"}
               </span>
               {jid ? (
                 <button
                   type="button"
                   onClick={() => navigator.clipboard.writeText(jid)}
-                  className="shrink-0 rounded p-1 text-[#64748B] hover:bg-[#E2E8F0] hover:text-clicvend-orange"
+                  className="shrink-0 rounded p-1 text-muted-foreground hover:bg-muted/60 hover:text-amber-600 dark:hover:text-amber-400"
                   title="Copiar JID do grupo"
                   aria-label="Copiar JID"
                 >
@@ -1614,7 +1614,7 @@ export default function ContatosPage() {
         id: "groupStatus",
         cell: ({ row }) => {
           const g = row.original;
-          if (!g.left_at) return <span className="text-[#94A3B8]">—</span>;
+          if (!g.left_at) return <span className="text-muted-foreground">—</span>;
           return (
             <span className="inline-flex items-center rounded-md bg-amber-50 px-2 py-0.5 text-xs font-medium text-amber-800">
               Saiu do grupo
@@ -1626,11 +1626,11 @@ export default function ContatosPage() {
         id: "actions",
         header: "",
         cell: ({ row }) => (
-          <div className="inline-flex rounded-lg border border-[#E2E8F0] bg-white overflow-hidden">
+          <div className="inline-flex rounded-lg border border-border bg-card overflow-hidden">
             <button
               type="button"
               onClick={() => openGroupDetail(row.original)}
-              className="rounded-none border-r border-[#E2E8F0] p-2 text-[#64748B] hover:bg-[#F1F5F9] hover:text-clicvend-orange last:border-r-0"
+              className="rounded-none border-r border-border p-2 text-muted-foreground hover:bg-muted/60 hover:text-amber-600 dark:hover:text-amber-400 last:border-r-0"
               title="Ver detalhes"
               aria-label="Ver detalhes do grupo"
             >
@@ -1639,7 +1639,7 @@ export default function ContatosPage() {
             <button
               type="button"
               onClick={() => { setManageGroup(row.original); setManageGroupOpen(true); }}
-              className="rounded-none border-r border-[#E2E8F0] p-2 text-[#64748B] hover:bg-[#F1F5F9] hover:text-clicvend-orange last:border-r-0"
+              className="rounded-none border-r border-border p-2 text-muted-foreground hover:bg-muted/60 hover:text-amber-600 dark:hover:text-amber-400 last:border-r-0"
               title="Gerenciar grupo"
               aria-label="Gerenciar grupo"
             >
@@ -1808,7 +1808,7 @@ export default function ContatosPage() {
                   });
                 }
               }}
-              className="h-4 w-4 rounded border-[#E2E8F0] text-clicvend-orange focus:ring-clicvend-orange"
+              className="h-4 w-4 rounded border-border text-amber-600 dark:text-amber-400 focus:ring-amber-500/20"
               aria-label="Selecionar todos (todas as páginas)"
             />
           );
@@ -1826,7 +1826,7 @@ export default function ContatosPage() {
                 return next;
               });
             }}
-            className="h-4 w-4 rounded border-[#E2E8F0] text-clicvend-orange focus:ring-clicvend-orange"
+            className="h-4 w-4 rounded border-border text-amber-600 dark:text-amber-400 focus:ring-amber-500/20"
             aria-label={`Selecionar ${row.original.name || "comunidade"}`}
           />
         ),
@@ -1840,7 +1840,7 @@ export default function ContatosPage() {
           return (
             <div className="flex items-center gap-3">
               <ContactListAvatar avatarUrl={g.avatar_url?.trim() || null} name={name} />
-              <span className="font-medium text-[#1E293B]">{name}</span>
+              <span className="font-medium text-foreground">{name}</span>
             </div>
           );
         },
@@ -1849,7 +1849,7 @@ export default function ContatosPage() {
         header: "Descrição",
         accessorFn: (g) => g.topic ?? "—",
         cell: ({ getValue }) => (
-          <span className="text-sm text-[#64748B] max-w-[200px] truncate block" title={String(getValue())}>
+          <span className="text-sm text-muted-foreground max-w-[200px] truncate block" title={String(getValue())}>
             {String(getValue())}
           </span>
         ),
@@ -1858,8 +1858,8 @@ export default function ContatosPage() {
         header: "Conexão",
         accessorKey: "channel_id",
         cell: ({ row }) => (
-          <span className="inline-flex items-center gap-1 text-sm text-[#64748B]">
-            <Plug className="h-4 w-4 text-clicvend-orange" />
+          <span className="inline-flex items-center gap-1 text-sm text-muted-foreground">
+            <Plug className="h-4 w-4 text-amber-600 dark:text-amber-400" />
             {channelName(row.original.channel_id)}
           </span>
         ),
@@ -1871,14 +1871,14 @@ export default function ContatosPage() {
           const jid = row.original.jid ?? "";
           return (
             <div className="flex items-center gap-1.5 max-w-[200px]">
-              <span className="truncate text-sm text-[#64748B]" title={jid}>
+              <span className="truncate text-sm text-muted-foreground" title={jid}>
                 {jid || "—"}
               </span>
               {jid ? (
                 <button
                   type="button"
                   onClick={() => navigator.clipboard.writeText(jid)}
-                  className="shrink-0 rounded p-1 text-[#64748B] hover:bg-[#E2E8F0] hover:text-clicvend-orange"
+                  className="shrink-0 rounded p-1 text-muted-foreground hover:bg-muted/60 hover:text-amber-600 dark:hover:text-amber-400"
                   title="Copiar JID da comunidade"
                   aria-label="Copiar JID"
                 >
@@ -1981,22 +1981,22 @@ export default function ContatosPage() {
     <div className="flex flex-col gap-4 px-4 py-6 sm:px-6">
       <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between">
         <div>
-        <h1 className="text-2xl font-bold text-[#1E293B]">Contatos e grupos</h1>
-          <p className="mt-0.5 text-sm text-[#64748B]">
-            Total: <span className="font-medium tabular-nums text-[#1E293B]">{dedupedContacts.length}</span> contato{dedupedContacts.length !== 1 ? "s" : ""} · <span className="font-medium tabular-nums text-[#1E293B]">{groups.length}</span> grupo{groups.length !== 1 ? "s" : ""}
+        <h1 className="text-2xl font-bold text-foreground">Contatos e grupos</h1>
+          <p className="mt-0.5 text-sm text-muted-foreground">
+            Total: <span className="font-medium tabular-nums text-foreground">{dedupedContacts.length}</span> contato{dedupedContacts.length !== 1 ? "s" : ""} · <span className="font-medium tabular-nums text-foreground">{groups.length}</span> grupo{groups.length !== 1 ? "s" : ""}
             {filterChannelId ? ` (${channelName(filterChannelId)})` : " (todas as instâncias)"}
           </p>
-          <p className="mt-1 text-xs text-[#94A3B8]">
+          <p className="mt-1 text-xs text-muted-foreground">
             Laranja: sincroniza agenda. Relógio: importa conversas antigas (até 200 mensagens por chat) e cria contatos que faltarem.
           </p>
         </div>
         <div className="flex flex-wrap items-center gap-2">
           <div className="flex items-center gap-2">
-            <span className="text-sm text-[#64748B]"></span>
+            <span className="text-sm text-muted-foreground"></span>
             <select
               value={filterChannelId}
               onChange={(e) => setFilterChannelId(e.target.value)}
-              className="rounded-lg border border-[#E2E8F0] bg-white px-3 py-2 text-sm text-[#1E293B] focus:border-clicvend-orange focus:outline-none focus:ring-1 focus:ring-clicvend-orange"
+              className="rounded-lg border border-border bg-card px-3 py-2 text-sm text-foreground focus:border-amber-500 focus:outline-none focus:ring-1 focus:ring-amber-500/20"
             >
               <option value="">Todas</option>
               {channels.map((ch) => (
@@ -2016,10 +2016,10 @@ export default function ContatosPage() {
                       ? "Buscar bloqueados..."
                       : "Buscar..."
               }
-              className="rounded-lg border border-[#E2E8F0] bg-white px-3 py-2 text-sm text-[#1E293B] focus:border-clicvend-orange focus:outline-none focus:ring-1 focus:ring-clicvend-orange min-w-[160px] sm:min-w-[180px]"
+              className="rounded-lg border border-border bg-card px-3 py-2 text-sm text-foreground focus:border-amber-500 focus:outline-none focus:ring-1 focus:ring-amber-500/20 min-w-[160px] sm:min-w-[180px]"
             />
           </div>
-          <div className="flex flex-1 min-w-0 items-center gap-1.5 overflow-x-auto rounded-lg border border-[#E2E8F0] bg-[#F8FAFC] p-1">
+          <div className="flex flex-1 min-w-0 items-center gap-1.5 overflow-x-auto rounded-lg border border-border bg-muted/40 p-1">
             {channels.map((ch) => (
               <button
                 key={ch.id}
@@ -2107,7 +2107,7 @@ export default function ContatosPage() {
                 setAddContactSideOverOpen(true);
               }}
               disabled={channels.length === 0 || clearingAgenda !== null}
-              className="inline-flex items-center gap-1.5 rounded-md bg-white px-3 py-1.5 text-xs font-medium text-clicvend-orange hover:bg-[#E2E8F0] disabled:opacity-50 disabled:cursor-not-allowed"
+              className="inline-flex items-center gap-1.5 rounded-md bg-card px-3 py-1.5 text-xs font-medium text-amber-600 dark:text-amber-400 hover:bg-muted/60 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <Plus className="h-3.5 w-3.5" />
               Adicionar contatos
@@ -2116,7 +2116,7 @@ export default function ContatosPage() {
           {channels.length === 0 && !loading && (
             <Link
               href={slug ? `/${slug}/conexoes` : "/conexoes"}
-              className="text-sm font-medium text-clicvend-orange hover:underline"
+              className="text-sm font-medium text-amber-600 dark:text-amber-400 hover:underline"
             >
               Conectar um número em Conexões para sincronizar contatos e histórico de conversas
             </Link>
@@ -2126,12 +2126,12 @@ export default function ContatosPage() {
 
      
 
-      <div className="flex gap-2 border-b border-[#E2E8F0]">
+      <div className="flex gap-2 border-b border-border">
           <button
             type="button"
           onClick={() => setActiveTab("contacts")}
           className={`flex items-center gap-2 border-b-2 px-4 py-2 text-sm font-medium transition-colors ${
-            activeTab === "contacts" ? "border-clicvend-orange text-clicvend-orange" : "border-transparent text-[#64748B] hover:text-[#1E293B]"
+            activeTab === "contacts" ? "border-clicvend-orange text-amber-600 dark:text-amber-400" : "border-transparent text-muted-foreground hover:text-foreground"
           }`}
           >
           <Users className="h-4 w-4" />
@@ -2141,7 +2141,7 @@ export default function ContatosPage() {
             type="button"
           onClick={() => setActiveTab("groups")}
           className={`flex items-center gap-2 border-b-2 px-4 py-2 text-sm font-medium transition-colors ${
-            activeTab === "groups" ? "border-clicvend-orange text-clicvend-orange" : "border-transparent text-[#64748B] hover:text-[#1E293B]"
+            activeTab === "groups" ? "border-clicvend-orange text-amber-600 dark:text-amber-400" : "border-transparent text-muted-foreground hover:text-foreground"
           }`}
           >
           <MessageCircle className="h-4 w-4" />
@@ -2151,7 +2151,7 @@ export default function ContatosPage() {
             type="button"
           onClick={() => setActiveTab("blocked")}
           className={`flex items-center gap-2 border-b-2 px-4 py-2 text-sm font-medium transition-colors ${
-            activeTab === "blocked" ? "border-clicvend-orange text-clicvend-orange" : "border-transparent text-[#64748B] hover:text-[#1E293B]"
+            activeTab === "blocked" ? "border-clicvend-orange text-amber-600 dark:text-amber-400" : "border-transparent text-muted-foreground hover:text-foreground"
           }`}
           >
           <Ban className="h-4 w-4" />
@@ -2161,7 +2161,7 @@ export default function ContatosPage() {
             type="button"
           onClick={() => setActiveTab("communities")}
           className={`flex items-center gap-2 border-b-2 px-4 py-2 text-sm font-medium transition-colors ${
-            activeTab === "communities" ? "border-clicvend-orange text-clicvend-orange" : "border-transparent text-[#64748B] hover:text-[#1E293B]"
+            activeTab === "communities" ? "border-clicvend-orange text-amber-600 dark:text-amber-400" : "border-transparent text-muted-foreground hover:text-foreground"
           }`}
         >
           <MessageCircle className="h-4 w-4" />
@@ -2171,13 +2171,13 @@ export default function ContatosPage() {
 
       {loading ? (
         <div className="flex justify-center py-12">
-          <Loader2 className="h-8 w-8 animate-spin text-clicvend-orange" />
+          <Loader2 className="h-8 w-8 animate-spin text-amber-600 dark:text-amber-400" />
         </div>
       ) : activeTab === "contacts" ? (
-        <div className="rounded-xl border border-[#E2E8F0] bg-white shadow-sm overflow-hidden flex flex-col">
+        <div className="rounded-xl border border-border bg-card shadow-sm overflow-hidden flex flex-col">
           {dedupedContacts.length === 0 ? (
-            <div className="p-8 text-center text-[#64748B]">
-              <Users className="mx-auto h-12 w-12 text-[#94A3B8]" />
+            <div className="p-8 text-center text-muted-foreground">
+              <Users className="mx-auto h-12 w-12 text-muted-foreground" />
               <p className="mt-2">Nenhum contato sincronizado.</p>
               <p className="mt-1 text-sm">
                 Conecte um número em Conexões e clique em sincronizar aqui no módulo de contatos para trazer contatos e histórico de conversas da instância.
@@ -2186,11 +2186,11 @@ export default function ContatosPage() {
           ) : (
             <>
               {selectedContactIds.size > 0 && (
-                <div className="flex flex-wrap items-center justify-between gap-4 px-4 py-3 bg-clicvend-orange/10 border-b border-[#E2E8F0]">
-                  <span className="text-sm font-medium text-[#1E293B]">
+                <div className="flex flex-wrap items-center justify-between gap-4 px-4 py-3 bg-clicvend-orange/10 border-b border-border">
+                  <span className="text-sm font-medium text-foreground">
                     {selectedContactIds.size} contato(s) selecionado(s)
                   </span>
-                  <div className="inline-flex flex-wrap rounded-lg border border-[#E2E8F0] bg-white overflow-hidden shadow-sm">
+                  <div className="inline-flex flex-wrap rounded-lg border border-border bg-card overflow-hidden shadow-sm">
                     <button
                       type="button"
                       disabled={contactsActionLoading}
@@ -2216,7 +2216,7 @@ export default function ContatosPage() {
                         a.click();
                         URL.revokeObjectURL(a.href);
                       }}
-                      className="inline-flex items-center gap-1.5 border-r border-[#E2E8F0] bg-white px-3 py-2 text-sm font-medium text-[#334155] hover:bg-[#F8FAFC] disabled:opacity-60 last:border-r-0"
+                      className="inline-flex items-center gap-1.5 border-r border-border bg-card px-3 py-2 text-sm font-medium text-foreground hover:bg-muted/40 disabled:opacity-60 last:border-r-0"
                       title="Baixar os contatos selecionados em um arquivo CSV (nome, número e conexão) para uso em planilhas ou backup."
                     >
                       Exportar CSV
@@ -2225,7 +2225,7 @@ export default function ContatosPage() {
                       type="button"
                       disabled={contactsActionLoading}
                       onClick={openPipelineFromSelection}
-                      className="inline-flex items-center gap-1.5 border-r border-[#E2E8F0] bg-emerald-50 px-3 py-2 text-sm font-medium text-emerald-700 hover:bg-emerald-100 disabled:opacity-60 last:border-r-0"
+                      className="inline-flex items-center gap-1.5 border-r border-border bg-emerald-50 px-3 py-2 text-sm font-medium text-emerald-700 hover:bg-emerald-100 disabled:opacity-60 last:border-r-0"
                       title="Classificar os contatos selecionados para campanha, validando opt-in/opt-out e salvando como rascunho (sem envio)."
                     >
                       <Megaphone className="h-4 w-4" />
@@ -2261,7 +2261,7 @@ export default function ContatosPage() {
                           setContactsActionLoading(false);
                         }
                       }}
-                      className="inline-flex items-center gap-1.5 border-r border-[#E2E8F0] bg-blue-50 px-3 py-2 text-sm font-medium text-blue-700 hover:bg-blue-100 disabled:opacity-60 last:border-r-0"
+                      className="inline-flex items-center gap-1.5 border-r border-border bg-blue-50 px-3 py-2 text-sm font-medium text-blue-700 hover:bg-blue-100 disabled:opacity-60 last:border-r-0"
                       title="Enviar solicitação de consentimento para os contatos selecionados. Não reenvia para quem já aceitou, recusou ou já recebeu solicitação."
                     >
                       {contactsActionLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : <ShieldCheck className="h-4 w-4" />}
@@ -2282,7 +2282,7 @@ export default function ContatosPage() {
                         setCreateGroupContext({ contacts: selected, channelId: channelIds[0] });
                         setCreateGroupOpen(true);
                       }}
-                      className="inline-flex items-center gap-1.5 border-r border-[#E2E8F0] bg-white px-3 py-2 text-sm font-medium text-[#334155] hover:bg-[#F8FAFC] hover:text-clicvend-orange last:border-r-0"
+                      className="inline-flex items-center gap-1.5 border-r border-border bg-card px-3 py-2 text-sm font-medium text-foreground hover:bg-muted/40 hover:text-amber-600 dark:hover:text-amber-400 last:border-r-0"
                       title="Criar um novo grupo no WhatsApp com os contatos selecionados (mesma conexão)."
                     >
                       <MessageCircle className="h-4 w-4" />
@@ -2302,7 +2302,7 @@ export default function ContatosPage() {
                         if (channelIds.length === 0) return;
                         setSendToQueueSideOverOpen(true);
                       }}
-                      className="inline-flex items-center gap-1.5 border-r border-[#E2E8F0] bg-white px-3 py-2 text-sm font-medium text-[#334155] hover:bg-[#F8FAFC] hover:text-clicvend-orange last:border-r-0"
+                      className="inline-flex items-center gap-1.5 border-r border-border bg-card px-3 py-2 text-sm font-medium text-foreground hover:bg-muted/40 hover:text-amber-600 dark:hover:text-amber-400 last:border-r-0"
                       title="Adicionar os contatos à fila de envio em massa. Depois, na tela de Conversas, você poderá escrever a mensagem e enviar para todos com delay."
                     >
                       <Send className="h-4 w-4" />
@@ -2346,7 +2346,7 @@ export default function ContatosPage() {
                           },
                         });
                       }}
-                      className="inline-flex items-center gap-1.5 border-r border-[#E2E8F0] bg-red-50 px-3 py-2 text-sm font-medium text-red-700 hover:bg-red-100 disabled:opacity-60 last:border-r-0"
+                      className="inline-flex items-center gap-1.5 border-r border-border bg-red-50 px-3 py-2 text-sm font-medium text-red-700 hover:bg-red-100 disabled:opacity-60 last:border-r-0"
                       title="Bloquear os contatos selecionados no WhatsApp. Eles não poderão enviar mensagens para este número."
                     >
                       {contactsActionLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Ban className="h-4 w-4" />}
@@ -2362,7 +2362,7 @@ export default function ContatosPage() {
                         if (list.length === 0) return;
                         setAddToAgendaModalOpen(true);
                       }}
-                      className="inline-flex items-center gap-1.5 border-r border-[#E2E8F0] bg-white px-3 py-2 text-sm font-medium text-[#334155] hover:bg-[#F8FAFC] disabled:opacity-60 last:border-r-0"
+                      className="inline-flex items-center gap-1.5 border-r border-border bg-card px-3 py-2 text-sm font-medium text-foreground hover:bg-muted/40 disabled:opacity-60 last:border-r-0"
                       title="Adicionar os números selecionados à agenda do WhatsApp do celular conectado (salvar como contatos)."
                     >
                       {contactsActionLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
@@ -2394,7 +2394,7 @@ export default function ContatosPage() {
                           setContactsActionLoading(false);
                         }
                       }}
-                      className="inline-flex items-center gap-1.5 border-r border-[#E2E8F0] bg-white px-3 py-2 text-sm font-medium text-[#334155] hover:bg-[#F8FAFC] disabled:opacity-60 last:border-r-0"
+                      className="inline-flex items-center gap-1.5 border-r border-border bg-card px-3 py-2 text-sm font-medium text-foreground hover:bg-muted/40 disabled:opacity-60 last:border-r-0"
                       title="Remover os contatos selecionados da agenda do WhatsApp do celular conectado (apagam do celular)."
                     >
                       {contactsActionLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
@@ -2433,7 +2433,7 @@ export default function ContatosPage() {
                           },
                         });
                       }}
-                      className="inline-flex items-center gap-1.5 border-r border-[#E2E8F0] bg-amber-50 px-3 py-2 text-sm font-medium text-amber-800 hover:bg-amber-100 disabled:opacity-60 last:border-r-0"
+                      className="inline-flex items-center gap-1.5 border-r border-border bg-amber-50 px-3 py-2 text-sm font-medium text-amber-800 hover:bg-amber-100 disabled:opacity-60 last:border-r-0"
                       title="Remover os contatos selecionados apenas da lista desta aplicação. Eles continuam no WhatsApp e na agenda do celular."
                     >
                       {contactsActionLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Trash2 className="h-4 w-4" />}
@@ -2443,7 +2443,7 @@ export default function ContatosPage() {
                       type="button"
                       onClick={() => setSelectedContactIds(new Set())}
                       disabled={contactsActionLoading}
-                      className="inline-flex items-center gap-1.5 bg-white px-3 py-2 text-sm font-medium text-[#64748B] hover:bg-[#F1F5F9] disabled:opacity-60 last:border-r-0"
+                      className="inline-flex items-center gap-1.5 bg-card px-3 py-2 text-sm font-medium text-muted-foreground hover:bg-muted/60 disabled:opacity-60 last:border-r-0"
                       title="Desmarcar todos os contatos selecionados para escolher outros."
                     >
                       Limpar seleção
@@ -2453,13 +2453,13 @@ export default function ContatosPage() {
               )}
               <div className="max-h-[300px] overflow-auto min-h-[200px]">
                 <table className="w-full min-w-[760px] border-collapse">
-                  <thead className="sticky top-0 z-10 bg-[#F8FAFC]">
+                  <thead className="sticky top-0 z-10 bg-muted/40">
                     {table.getHeaderGroups().map((hg) => (
-                      <tr key={hg.id} className="border-b border-[#E2E8F0]">
+                      <tr key={hg.id} className="border-b border-border">
                         {hg.headers.map((h) => (
                           <th
                             key={h.id}
-                            className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-[#64748B]"
+                            className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-muted-foreground"
                           >
                             {flexRender(h.column.columnDef.header, h.getContext())}
                           </th>
@@ -2480,10 +2480,10 @@ export default function ContatosPage() {
                           const channelId = row.original.channel_id;
                           const countForChannel = sortedFilteredContacts.filter((c) => c.channel_id === channelId).length;
                           elements.push(
-                            <tr key={`sep-${channelId}-${index}`} className="bg-[#F1F5F9]">
-                              <td colSpan={colCount} className="px-4 py-2 text-xs font-semibold uppercase tracking-wider text-[#64748B] border-t border-b border-[#E2E8F0]">
+                            <tr key={`sep-${channelId}-${index}`} className="bg-muted/60">
+                              <td colSpan={colCount} className="px-4 py-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground border-t border-b border-border">
                                 <span className="inline-flex items-center gap-1.5">
-                                  <Plug className="h-3.5 w-3.5 text-clicvend-orange" />
+                                  <Plug className="h-3.5 w-3.5 text-amber-600 dark:text-amber-400" />
                                   {channelNameById(channelId)} ({countForChannel})
                                 </span>
                               </td>
@@ -2493,7 +2493,7 @@ export default function ContatosPage() {
                         elements.push(
                       <tr
                         key={row.id}
-                        className="border-b border-[#E2E8F0] hover:bg-[#F8FAFC]"
+                        className="border-b border-border hover:bg-muted/40"
                       >
                         {row.getVisibleCells().map((cell) => (
                           <td key={cell.id} className="px-4 py-3">
@@ -2508,8 +2508,8 @@ export default function ContatosPage() {
                   </tbody>
                 </table>
               </div>
-              <div className="flex items-center justify-between gap-2 border-t border-[#E2E8F0] bg-[#F8FAFC] px-4 py-2">
-                <span className="text-sm text-[#64748B]">
+              <div className="flex items-center justify-between gap-2 border-t border-border bg-muted/40 px-4 py-2">
+                <span className="text-sm text-muted-foreground">
                   Página {table.getState().pagination.pageIndex + 1} de {table.getPageCount() || 1} ({filteredContacts.length} contato{filteredContacts.length !== 1 ? "s" : ""})
                 </span>
                 <div className="flex items-center gap-1">
@@ -2517,7 +2517,7 @@ export default function ContatosPage() {
                     type="button"
                     onClick={() => table.previousPage()}
                     disabled={!table.getCanPreviousPage()}
-                    className="rounded p-2 text-[#64748B] hover:bg-white hover:text-[#1E293B] disabled:opacity-40 disabled:pointer-events-none"
+                    className="rounded p-2 text-muted-foreground hover:bg-card hover:text-foreground disabled:opacity-40 disabled:pointer-events-none"
                   >
                     <ChevronLeft className="h-4 w-4" />
                   </button>
@@ -2525,7 +2525,7 @@ export default function ContatosPage() {
                     type="button"
                     onClick={() => table.nextPage()}
                     disabled={!table.getCanNextPage()}
-                    className="rounded p-2 text-[#64748B] hover:bg-white hover:text-[#1E293B] disabled:opacity-40 disabled:pointer-events-none"
+                    className="rounded p-2 text-muted-foreground hover:bg-card hover:text-foreground disabled:opacity-40 disabled:pointer-events-none"
                   >
                     <ChevronRight className="h-4 w-4" />
                   </button>
@@ -2535,24 +2535,24 @@ export default function ContatosPage() {
           )}
         </div>
       ) : activeTab === "groups" ? (
-        <div className="rounded-xl border border-[#E2E8F0] bg-white shadow-sm overflow-hidden flex flex-col">
+        <div className="rounded-xl border border-border bg-card shadow-sm overflow-hidden flex flex-col">
           {groups.length === 0 ? (
-            <div className="p-8 text-center text-[#64748B]">
-              <MessageCircle className="mx-auto h-12 w-12 text-[#94A3B8]" />
+            <div className="p-8 text-center text-muted-foreground">
+              <MessageCircle className="mx-auto h-12 w-12 text-muted-foreground" />
               <p className="mt-2">Nenhum grupo sincronizado.</p>
               <p className="mt-1 text-sm">Quando o número for adicionado a grupos, sincronize para listar aqui.</p>
             </div>
       ) : (
         <>
-              <p className="px-4 py-2 text-xs text-[#64748B] bg-[#F8FAFC] border-b border-[#E2E8F0]">
+              <p className="px-4 py-2 text-xs text-muted-foreground bg-muted/40 border-b border-border">
                 Quando nome ou descrição aparecem como &quot;-&quot;, o grupo ainda não teve os dados carregados pelo WhatsApp. Use o botão de <strong>Sincronizar</strong> do canal ou abra o grupo para atualizar.
               </p>
               {selectedGroupIds.size > 0 && (
-                <div className="flex items-center justify-between gap-4 px-4 py-3 bg-clicvend-orange/10 border-b border-[#E2E8F0]">
-                  <span className="text-sm font-medium text-[#1E293B]">
+                <div className="flex items-center justify-between gap-4 px-4 py-3 bg-clicvend-orange/10 border-b border-border">
+                  <span className="text-sm font-medium text-foreground">
                     {selectedGroupIds.size} grupo(s) selecionado(s)
                   </span>
-                  <div className="inline-flex rounded-lg border border-[#E2E8F0] bg-white overflow-hidden shadow-sm">
+                  <div className="inline-flex rounded-lg border border-border bg-card overflow-hidden shadow-sm">
                     <button
                       type="button"
                       onClick={() => {
@@ -2577,7 +2577,7 @@ export default function ContatosPage() {
                         a.click();
                         URL.revokeObjectURL(a.href);
                       }}
-                      className="inline-flex items-center gap-1.5 border-r border-[#E2E8F0] bg-white px-3 py-2 text-sm font-medium text-[#334155] hover:bg-[#F8FAFC] last:border-r-0"
+                      className="inline-flex items-center gap-1.5 border-r border-border bg-card px-3 py-2 text-sm font-medium text-foreground hover:bg-muted/40 last:border-r-0"
                       title="Baixar os grupos selecionados em um arquivo CSV (nome, descrição e conexão)."
                     >
                       Exportar CSV
@@ -2585,7 +2585,7 @@ export default function ContatosPage() {
                     <button
                       type="button"
                       onClick={() => setSelectedGroupIds(new Set())}
-                      className="inline-flex items-center gap-1.5 border-r border-[#E2E8F0] bg-white px-3 py-2 text-sm font-medium text-[#64748B] hover:bg-[#F1F5F9] last:border-r-0"
+                      className="inline-flex items-center gap-1.5 border-r border-border bg-card px-3 py-2 text-sm font-medium text-muted-foreground hover:bg-muted/60 last:border-r-0"
                       title="Desmarcar todos os grupos selecionados."
                     >
                       Limpar seleção
@@ -2604,7 +2604,7 @@ export default function ContatosPage() {
                         setCreateCommunityContext({ groups: selected, channelId: channelIds[0] });
                         setCreateCommunityOpen(true);
                       }}
-                      className="inline-flex items-center gap-1.5 border-r border-[#E2E8F0] bg-white px-3 py-2 text-sm font-medium text-[#334155] hover:bg-[#F8FAFC] hover:text-clicvend-orange last:border-r-0"
+                      className="inline-flex items-center gap-1.5 border-r border-border bg-card px-3 py-2 text-sm font-medium text-foreground hover:bg-muted/40 hover:text-amber-600 dark:hover:text-amber-400 last:border-r-0"
                       title="Criar uma comunidade e vincular os grupos selecionados (mesma conexão)."
                     >
                       Criar comunidades
@@ -2621,7 +2621,7 @@ export default function ContatosPage() {
                           setManageGroupOpen(true);
                         }
                       }}
-                      className="inline-flex items-center gap-1.5 bg-white px-3 py-2 text-sm font-medium text-[#64748B] hover:bg-[#F1F5F9] hover:text-clicvend-orange disabled:opacity-50 disabled:cursor-not-allowed border-r border-[#E2E8F0]"
+                      className="inline-flex items-center gap-1.5 bg-card px-3 py-2 text-sm font-medium text-muted-foreground hover:bg-muted/60 hover:text-amber-600 dark:hover:text-amber-400 disabled:opacity-50 disabled:cursor-not-allowed border-r border-border"
                       title={selectedGroupIds.size === 1 ? "Abrir gerenciamento do grupo selecionado" : "Selecione um grupo para gerenciar"}
                     >
                       Gerenciar grupo
@@ -2660,7 +2660,7 @@ export default function ContatosPage() {
                           },
                         });
                       }}
-                      className="inline-flex items-center gap-1.5 bg-white px-3 py-2 text-sm font-medium text-red-600 hover:bg-red-50 disabled:opacity-50 last:border-r-0"
+                      className="inline-flex items-center gap-1.5 bg-card px-3 py-2 text-sm font-medium text-red-600 hover:bg-red-50 disabled:opacity-50 last:border-r-0"
                       title="Excluir grupos selecionados da lista e sair no WhatsApp"
                     >
                       {deletingGroup ? <Loader2 className="h-4 w-4 animate-spin" /> : <Trash2 className="h-4 w-4" />}
@@ -2671,13 +2671,13 @@ export default function ContatosPage() {
               )}
               <div className="overflow-auto max-h-[60vh] min-h-[200px]">
                 <table className="w-full min-w-[520px] border-collapse">
-                  <thead className="sticky top-0 z-10 bg-[#F8FAFC]">
+                  <thead className="sticky top-0 z-10 bg-muted/40">
                     {groupsTable.getHeaderGroups().map((hg) => (
-                      <tr key={hg.id} className="border-b border-[#E2E8F0]">
+                      <tr key={hg.id} className="border-b border-border">
                         {hg.headers.map((h) => (
                           <th
                             key={h.id}
-                            className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-[#64748B]"
+                            className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-muted-foreground"
                           >
                             {flexRender(h.column.columnDef.header, h.getContext())}
                           </th>
@@ -2689,7 +2689,7 @@ export default function ContatosPage() {
                     {groupsTable.getRowModel().rows.map((row) => (
                       <tr
                         key={row.id}
-                        className="border-b border-[#E2E8F0] hover:bg-[#F8FAFC]"
+                        className="border-b border-border hover:bg-muted/40"
                       >
                         {row.getVisibleCells().map((cell) => (
                           <td key={cell.id} className="px-4 py-3">
@@ -2701,8 +2701,8 @@ export default function ContatosPage() {
                   </tbody>
                 </table>
               </div>
-              <div className="flex items-center justify-between gap-2 border-t border-[#E2E8F0] bg-[#F8FAFC] px-4 py-2">
-                <span className="text-sm text-[#64748B]">
+              <div className="flex items-center justify-between gap-2 border-t border-border bg-muted/40 px-4 py-2">
+                <span className="text-sm text-muted-foreground">
                   Página {groupsTable.getState().pagination.pageIndex + 1} de {groupsTable.getPageCount() || 1} ({filteredGroups.length} grupo{filteredGroups.length !== 1 ? "s" : ""})
                 </span>
                 <div className="flex items-center gap-1">
@@ -2710,7 +2710,7 @@ export default function ContatosPage() {
                     type="button"
                     onClick={() => groupsTable.previousPage()}
                     disabled={!groupsTable.getCanPreviousPage()}
-                    className="rounded p-2 text-[#64748B] hover:bg-white hover:text-[#1E293B] disabled:opacity-40 disabled:pointer-events-none"
+                    className="rounded p-2 text-muted-foreground hover:bg-card hover:text-foreground disabled:opacity-40 disabled:pointer-events-none"
                   >
                     <ChevronLeft className="h-4 w-4" />
                   </button>
@@ -2718,7 +2718,7 @@ export default function ContatosPage() {
                     type="button"
                     onClick={() => groupsTable.nextPage()}
                     disabled={!groupsTable.getCanNextPage()}
-                    className="rounded p-2 text-[#64748B] hover:bg-white hover:text-[#1E293B] disabled:opacity-40 disabled:pointer-events-none"
+                    className="rounded p-2 text-muted-foreground hover:bg-card hover:text-foreground disabled:opacity-40 disabled:pointer-events-none"
                   >
                     <ChevronRight className="h-4 w-4" />
                   </button>
@@ -2728,13 +2728,13 @@ export default function ContatosPage() {
           )}
         </div>
       ) : activeTab === "blocked" ? (
-        <div className="rounded-xl border border-[#E2E8F0] bg-white shadow-sm overflow-hidden flex flex-col">
+        <div className="rounded-xl border border-border bg-card shadow-sm overflow-hidden flex flex-col">
           {selectedBlockedJids.size > 0 && filterChannelId && (
-            <div className="flex items-center justify-between gap-4 px-4 py-3 bg-clicvend-orange/10 border-b border-[#E2E8F0]">
-              <span className="text-sm font-medium text-[#1E293B]">
+            <div className="flex items-center justify-between gap-4 px-4 py-3 bg-clicvend-orange/10 border-b border-border">
+              <span className="text-sm font-medium text-foreground">
                 {selectedBlockedJids.size} bloqueado(s) selecionado(s)
               </span>
-              <div className="inline-flex rounded-lg border border-[#E2E8F0] bg-white overflow-hidden shadow-sm">
+              <div className="inline-flex rounded-lg border border-border bg-card overflow-hidden shadow-sm">
                 <button
                   type="button"
                   disabled={unblockingBulk}
@@ -2759,7 +2759,7 @@ export default function ContatosPage() {
                       setUnblockingBulk(false);
                     }
                   }}
-                  className="inline-flex items-center gap-1.5 border-r border-[#E2E8F0] bg-white px-3 py-2 text-sm font-medium text-[#334155] hover:bg-[#F8FAFC] disabled:opacity-60 last:border-r-0"
+                  className="inline-flex items-center gap-1.5 border-r border-border bg-card px-3 py-2 text-sm font-medium text-foreground hover:bg-muted/40 disabled:opacity-60 last:border-r-0"
                   title="Desbloquear no WhatsApp os contatos selecionados. Eles poderão enviar mensagens novamente."
                 >
                   {unblockingBulk ? <Loader2 className="h-4 w-4 animate-spin" /> : <Unlock className="h-4 w-4" />}
@@ -2769,7 +2769,7 @@ export default function ContatosPage() {
                   type="button"
                   onClick={() => setSelectedBlockedJids(new Set())}
                   disabled={unblockingBulk}
-                  className="inline-flex items-center gap-1.5 bg-white px-3 py-2 text-sm font-medium text-[#64748B] hover:bg-[#F1F5F9] disabled:opacity-60 last:border-r-0"
+                  className="inline-flex items-center gap-1.5 bg-card px-3 py-2 text-sm font-medium text-muted-foreground hover:bg-muted/60 disabled:opacity-60 last:border-r-0"
                   title="Desmarcar todos os bloqueados selecionados."
                 >
                   Limpar seleção
@@ -2780,7 +2780,7 @@ export default function ContatosPage() {
           <div className="overflow-auto max-h-[60vh]">
             <table className="w-full min-w-[400px]">
               <thead>
-                <tr className="border-b border-[#E2E8F0] bg-[#F8FAFC]">
+                <tr className="border-b border-border bg-muted/40">
                   {filterChannelId && filteredBlockList.length > 0 && (
                     <th className="px-4 py-3 w-10 text-left">
                       <input
@@ -2801,33 +2801,33 @@ export default function ContatosPage() {
                             });
                           }
                         }}
-                        className="h-4 w-4 rounded border-[#E2E8F0] text-clicvend-orange focus:ring-clicvend-orange"
+                        className="h-4 w-4 rounded border-border text-amber-600 dark:text-amber-400 focus:ring-amber-500/20"
                         aria-label="Selecionar todos"
                       />
                     </th>
                   )}
-                  <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-[#64748B]">Contato</th>
-                  <th className="px-4 py-3 text-right text-xs font-semibold uppercase tracking-wider text-[#64748B]">Ação</th>
+                  <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-muted-foreground">Contato</th>
+                  <th className="px-4 py-3 text-right text-xs font-semibold uppercase tracking-wider text-muted-foreground">Ação</th>
                 </tr>
               </thead>
               <tbody>
                 {!filterChannelId ? (
                   <tr>
-                    <td colSpan={2} className="px-4 py-8 text-center text-[#64748B]">
-                      <Ban className="mx-auto h-10 w-10 text-[#94A3B8]" />
+                    <td colSpan={2} className="px-4 py-8 text-center text-muted-foreground">
+                      <Ban className="mx-auto h-10 w-10 text-muted-foreground" />
                       <p className="mt-2">Selecione uma conexão no menu acima para ver os contatos bloqueados.</p>
                     </td>
                   </tr>
                 ) : blockListLoading ? (
                   <tr>
                     <td colSpan={2} className="px-4 py-12 text-center">
-                      <Loader2 className="mx-auto h-8 w-8 animate-spin text-clicvend-orange" />
+                      <Loader2 className="mx-auto h-8 w-8 animate-spin text-amber-600 dark:text-amber-400" />
                     </td>
                   </tr>
                 ) : filteredBlockList.length === 0 ? (
                   <tr>
-                    <td colSpan={2} className="px-4 py-8 text-center text-[#64748B]">
-                      <Ban className="mx-auto h-10 w-10 text-[#94A3B8]" />
+                    <td colSpan={2} className="px-4 py-8 text-center text-muted-foreground">
+                      <Ban className="mx-auto h-10 w-10 text-muted-foreground" />
                       <p className="mt-2">
                         {blockList.length === 0
                           ? "Nenhum contato bloqueado nesta conexão."
@@ -2872,21 +2872,21 @@ export default function ContatosPage() {
           </div>
         </div>
       ) : activeTab === "communities" ? (
-        <div className="rounded-xl border border-[#E2E8F0] bg-white shadow-sm overflow-hidden flex flex-col">
+        <div className="rounded-xl border border-border bg-card shadow-sm overflow-hidden flex flex-col">
           {communities.length === 0 ? (
-            <div className="p-8 text-center text-[#64748B]">
-              <MessageCircle className="mx-auto h-12 w-12 text-[#94A3B8]" />
+            <div className="p-8 text-center text-muted-foreground">
+              <MessageCircle className="mx-auto h-12 w-12 text-muted-foreground" />
               <p className="mt-2">Nenhuma comunidade criada.</p>
               <p className="mt-1 text-sm">Crie comunidades na aba Grupos selecionando grupos e usando &quot;Criar comunidades&quot;.</p>
             </div>
           ) : (
             <>
               {selectedCommunityIds.size > 0 && (
-                <div className="flex items-center justify-between gap-4 px-4 py-3 bg-clicvend-orange/10 border-b border-[#E2E8F0]">
-                  <span className="text-sm font-medium text-[#1E293B]">
+                <div className="flex items-center justify-between gap-4 px-4 py-3 bg-clicvend-orange/10 border-b border-border">
+                  <span className="text-sm font-medium text-foreground">
                     {selectedCommunityIds.size} comunidade(s) selecionada(s)
                   </span>
-                  <div className="inline-flex rounded-lg border border-[#E2E8F0] bg-white overflow-hidden shadow-sm">
+                  <div className="inline-flex rounded-lg border border-border bg-card overflow-hidden shadow-sm">
             <button
               type="button"
                       onClick={() => {
@@ -2911,7 +2911,7 @@ export default function ContatosPage() {
                         a.click();
                         URL.revokeObjectURL(a.href);
                       }}
-                      className="inline-flex items-center gap-1.5 border-r border-[#E2E8F0] bg-white px-3 py-2 text-sm font-medium text-[#334155] hover:bg-[#F8FAFC] last:border-r-0"
+                      className="inline-flex items-center gap-1.5 border-r border-border bg-card px-3 py-2 text-sm font-medium text-foreground hover:bg-muted/40 last:border-r-0"
                       title="Baixar as comunidades selecionadas em CSV"
                     >
                       Exportar CSV
@@ -2919,7 +2919,7 @@ export default function ContatosPage() {
             <button
               type="button"
                       onClick={() => setSelectedCommunityIds(new Set())}
-                      className="inline-flex items-center gap-1.5 border-r border-[#E2E8F0] bg-white px-3 py-2 text-sm font-medium text-[#64748B] hover:bg-[#F1F5F9] last:border-r-0"
+                      className="inline-flex items-center gap-1.5 border-r border-border bg-card px-3 py-2 text-sm font-medium text-muted-foreground hover:bg-muted/60 last:border-r-0"
                       title="Limpar seleção"
                     >
                       Limpar seleção
@@ -2936,7 +2936,7 @@ export default function ContatosPage() {
                 setManageGroupOpen(true);
                         }
               }}
-                      className="inline-flex items-center gap-1.5 bg-white px-3 py-2 text-sm font-medium text-[#64748B] hover:bg-[#F1F5F9] hover:text-clicvend-orange disabled:opacity-50 disabled:cursor-not-allowed border-r border-[#E2E8F0]"
+                      className="inline-flex items-center gap-1.5 bg-card px-3 py-2 text-sm font-medium text-muted-foreground hover:bg-muted/60 hover:text-amber-600 dark:hover:text-amber-400 disabled:opacity-50 disabled:cursor-not-allowed border-r border-border"
                       title={selectedCommunityIds.size === 1 ? "Abrir configuração da comunidade" : "Selecione uma comunidade para configurar"}
             >
                       Configurar
@@ -2975,7 +2975,7 @@ export default function ContatosPage() {
                           },
                         });
                       }}
-                      className="inline-flex items-center gap-1.5 bg-white px-3 py-2 text-sm font-medium text-red-600 hover:bg-red-50 disabled:opacity-50 last:border-r-0"
+                      className="inline-flex items-center gap-1.5 bg-card px-3 py-2 text-sm font-medium text-red-600 hover:bg-red-50 disabled:opacity-50 last:border-r-0"
                       title="Excluir comunidades selecionadas da lista e sair no WhatsApp"
                     >
                       {deletingGroup ? <Loader2 className="h-4 w-4 animate-spin" /> : <Trash2 className="h-4 w-4" />}
@@ -2986,11 +2986,11 @@ export default function ContatosPage() {
               )}
               <div className="overflow-auto max-h-[60vh] min-h-[200px]">
                 <table className="w-full min-w-[520px] border-collapse">
-                  <thead className="sticky top-0 z-10 bg-[#F8FAFC]">
+                  <thead className="sticky top-0 z-10 bg-muted/40">
                     {communitiesTable.getHeaderGroups().map((hg) => (
-                      <tr key={hg.id} className="border-b border-[#E2E8F0]">
+                      <tr key={hg.id} className="border-b border-border">
                         {hg.headers.map((h) => (
-                          <th key={h.id} className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-[#64748B]">
+                          <th key={h.id} className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                             {flexRender(h.column.columnDef.header, h.getContext())}
                           </th>
                         ))}
@@ -2999,7 +2999,7 @@ export default function ContatosPage() {
                   </thead>
                   <tbody>
                     {communitiesTable.getRowModel().rows.map((row) => (
-                      <tr key={row.id} className="border-b border-[#E2E8F0] hover:bg-[#F8FAFC]">
+                      <tr key={row.id} className="border-b border-border hover:bg-muted/40">
                         {row.getVisibleCells().map((cell) => (
                           <td key={cell.id} className="px-4 py-3">
                             {flexRender(cell.column.columnDef.cell, cell.getContext())}
@@ -3010,8 +3010,8 @@ export default function ContatosPage() {
               </tbody>
             </table>
           </div>
-              <div className="flex items-center justify-between gap-2 border-t border-[#E2E8F0] bg-[#F8FAFC] px-4 py-2">
-                <span className="text-sm text-[#64748B]">
+              <div className="flex items-center justify-between gap-2 border-t border-border bg-muted/40 px-4 py-2">
+                <span className="text-sm text-muted-foreground">
                   Página {communitiesTable.getState().pagination.pageIndex + 1} de {communitiesTable.getPageCount() || 1} ({filteredCommunities.length} comunidade{filteredCommunities.length !== 1 ? "s" : ""})
                 </span>
                 <div className="flex items-center gap-1">
@@ -3019,7 +3019,7 @@ export default function ContatosPage() {
                     type="button"
                     onClick={() => communitiesTable.previousPage()}
                     disabled={!communitiesTable.getCanPreviousPage()}
-                    className="rounded p-2 text-[#64748B] hover:bg-white hover:text-[#1E293B] disabled:opacity-40 disabled:pointer-events-none"
+                    className="rounded p-2 text-muted-foreground hover:bg-card hover:text-foreground disabled:opacity-40 disabled:pointer-events-none"
                   >
                     <ChevronLeft className="h-4 w-4" />
                   </button>
@@ -3027,7 +3027,7 @@ export default function ContatosPage() {
                     type="button"
                     onClick={() => communitiesTable.nextPage()}
                     disabled={!communitiesTable.getCanNextPage()}
-                    className="rounded p-2 text-[#64748B] hover:bg-white hover:text-[#1E293B] disabled:opacity-40 disabled:pointer-events-none"
+                    className="rounded p-2 text-muted-foreground hover:bg-card hover:text-foreground disabled:opacity-40 disabled:pointer-events-none"
                   >
                     <ChevronRight className="h-4 w-4" />
                   </button>
@@ -3077,15 +3077,15 @@ export default function ContatosPage() {
         width={480}
       >
         <div className="flex flex-col gap-4">
-          <p className="text-sm text-[#64748B]">
+          <p className="text-sm text-muted-foreground">
             Os <strong>{selectedContactIds.size} contato(s)</strong> selecionado(s) serão adicionados à fila de envio. Depois, na tela de Conversas, você poderá escolher a mensagem e enviar para todos com delay entre cada envio.
           </p>
           <div>
-            <label className="block text-sm font-medium text-[#334155] mb-1.5">Conexão (inbox)</label>
+            <label className="block text-sm font-medium text-foreground mb-1.5">Conexão (inbox)</label>
             <select
               value={sendToQueueChannelId}
               onChange={(e) => setSendToQueueChannelId(e.target.value)}
-              className="w-full rounded-lg border border-[#E2E8F0] bg-white px-3 py-2 text-sm text-[#1E293B] focus:border-clicvend-orange focus:outline-none focus:ring-1 focus:ring-clicvend-orange"
+              className="w-full rounded-lg border border-border bg-card px-3 py-2 text-sm text-foreground focus:border-amber-500 focus:outline-none focus:ring-1 focus:ring-amber-500/20"
             >
               <option value="">Selecione a conexão</option>
               {channels.map((ch) => (
@@ -3094,11 +3094,11 @@ export default function ContatosPage() {
             </select>
           </div>
           <div>
-            <label className="block text-sm font-medium text-[#334155] mb-1.5">Fila (opcional)</label>
+            <label className="block text-sm font-medium text-foreground mb-1.5">Fila (opcional)</label>
             <select
               value={sendToQueueQueueId}
               onChange={(e) => setSendToQueueQueueId(e.target.value)}
-              className="w-full rounded-lg border border-[#E2E8F0] bg-white px-3 py-2 text-sm text-[#1E293B] focus:border-clicvend-orange focus:outline-none focus:ring-1 focus:ring-clicvend-orange"
+              className="w-full rounded-lg border border-border bg-card px-3 py-2 text-sm text-foreground focus:border-amber-500 focus:outline-none focus:ring-1 focus:ring-amber-500/20"
             >
               <option value="">Nenhuma</option>
               {queues.map((q) => (
@@ -3110,7 +3110,7 @@ export default function ContatosPage() {
             <button
               type="button"
               onClick={() => setSendToQueueSideOverOpen(false)}
-              className="rounded-lg border border-[#E2E8F0] bg-white px-4 py-2 text-sm font-medium text-[#64748B] hover:bg-[#F8FAFC]"
+              className="rounded-lg border border-border bg-card px-4 py-2 text-sm font-medium text-muted-foreground hover:bg-muted/40"
             >
               Cancelar
             </button>
@@ -3225,16 +3225,16 @@ export default function ContatosPage() {
         width={560}
       >
         <div className="flex flex-col gap-4">
-          <div className="rounded-lg border border-[#E2E8F0] bg-[#F8FAFC] p-3">
-            <p className="text-xs text-[#64748B]">
+          <div className="rounded-lg border border-border bg-muted/40 p-3">
+            <p className="text-xs text-muted-foreground">
               Esta etapa apenas classifica e salva o rascunho. <strong>Nenhuma mensagem sera enviada.</strong>
             </p>
           </div>
 
           <div className="grid grid-cols-3 gap-2">
-            <div className="rounded-lg border border-[#E2E8F0] bg-white p-3">
-              <p className="text-[11px] uppercase tracking-wide text-[#64748B]">Selecionados</p>
-              <p className="text-lg font-semibold text-[#0F172A]">{pipelinePreview.selected}</p>
+            <div className="rounded-lg border border-border bg-card p-3">
+              <p className="text-[11px] uppercase tracking-wide text-muted-foreground">Selecionados</p>
+              <p className="text-lg font-semibold text-foreground">{pipelinePreview.selected}</p>
             </div>
             <div className="rounded-lg border border-emerald-200 bg-emerald-50 p-3">
               <p className="text-[11px] uppercase tracking-wide text-emerald-700">Elegiveis</p>
@@ -3247,56 +3247,56 @@ export default function ContatosPage() {
           </div>
 
           <div className="space-y-1">
-            <label className="text-sm font-medium text-[#334155]">Nome do pipeline</label>
+            <label className="text-sm font-medium text-foreground">Nome do pipeline</label>
             <input
               type="text"
               value={pipelineDraftName}
               onChange={(e) => setPipelineDraftName(e.target.value)}
               placeholder="Ex.: Campanha Black Friday - Segmento A"
-              className="w-full rounded-lg border border-[#E2E8F0] px-3 py-2 text-sm text-[#1E293B] focus:border-clicvend-orange focus:outline-none focus:ring-1 focus:ring-clicvend-orange"
+              className="w-full rounded-lg border border-border px-3 py-2 text-sm text-foreground focus:border-amber-500 focus:outline-none focus:ring-1 focus:ring-amber-500/20"
             />
           </div>
 
           <div className="grid grid-cols-2 gap-3">
             <div className="space-y-1">
-              <label className="text-sm font-medium text-[#334155]">Plano de lotes</label>
+              <label className="text-sm font-medium text-foreground">Plano de lotes</label>
               <input
                 type="text"
                 value={pipelineBatchPlan}
                 onChange={(e) => setPipelineBatchPlan(e.target.value)}
                 placeholder="500,300,150"
-                className="w-full rounded-lg border border-[#E2E8F0] px-3 py-2 text-sm text-[#1E293B] focus:border-clicvend-orange focus:outline-none focus:ring-1 focus:ring-clicvend-orange"
+                className="w-full rounded-lg border border-border px-3 py-2 text-sm text-foreground focus:border-amber-500 focus:outline-none focus:ring-1 focus:ring-amber-500/20"
               />
             </div>
             <div className="space-y-1">
-              <label className="text-sm font-medium text-[#334155]">Intervalo (min)</label>
+              <label className="text-sm font-medium text-foreground">Intervalo (min)</label>
               <input
                 type="number"
                 min={1}
                 value={pipelineIntervalMinutes}
                 onChange={(e) => setPipelineIntervalMinutes(Math.max(1, Number(e.target.value) || 1))}
-                className="w-full rounded-lg border border-[#E2E8F0] px-3 py-2 text-sm text-[#1E293B] focus:border-clicvend-orange focus:outline-none focus:ring-1 focus:ring-clicvend-orange"
+                className="w-full rounded-lg border border-border px-3 py-2 text-sm text-foreground focus:border-amber-500 focus:outline-none focus:ring-1 focus:ring-amber-500/20"
               />
             </div>
           </div>
 
           <div className="grid grid-cols-2 gap-3">
             <div className="space-y-1">
-              <label className="text-sm font-medium text-[#334155]">Janela inicio</label>
+              <label className="text-sm font-medium text-foreground">Janela inicio</label>
               <input
                 type="time"
                 value={pipelineWindowStart}
                 onChange={(e) => setPipelineWindowStart(e.target.value)}
-                className="w-full rounded-lg border border-[#E2E8F0] px-3 py-2 text-sm text-[#1E293B] focus:border-clicvend-orange focus:outline-none focus:ring-1 focus:ring-clicvend-orange"
+                className="w-full rounded-lg border border-border px-3 py-2 text-sm text-foreground focus:border-amber-500 focus:outline-none focus:ring-1 focus:ring-amber-500/20"
               />
             </div>
             <div className="space-y-1">
-              <label className="text-sm font-medium text-[#334155]">Janela fim</label>
+              <label className="text-sm font-medium text-foreground">Janela fim</label>
               <input
                 type="time"
                 value={pipelineWindowEnd}
                 onChange={(e) => setPipelineWindowEnd(e.target.value)}
-                className="w-full rounded-lg border border-[#E2E8F0] px-3 py-2 text-sm text-[#1E293B] focus:border-clicvend-orange focus:outline-none focus:ring-1 focus:ring-clicvend-orange"
+                className="w-full rounded-lg border border-border px-3 py-2 text-sm text-foreground focus:border-amber-500 focus:outline-none focus:ring-1 focus:ring-amber-500/20"
               />
             </div>
           </div>
@@ -3308,15 +3308,15 @@ export default function ContatosPage() {
           )}
 
           {pipelinePreview.blocked.length > 0 && (
-            <div className="rounded-lg border border-[#E2E8F0]">
-              <div className="flex items-center justify-between border-b border-[#E2E8F0] px-3 py-2">
-                <p className="text-xs font-semibold uppercase tracking-wide text-[#64748B]">Bloqueados (preview)</p>
-                <span className="text-xs text-[#64748B]">Mostrando ate 20</span>
+            <div className="rounded-lg border border-border">
+              <div className="flex items-center justify-between border-b border-border px-3 py-2">
+                <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Bloqueados (preview)</p>
+                <span className="text-xs text-muted-foreground">Mostrando ate 20</span>
               </div>
               <div className="max-h-44 overflow-auto divide-y divide-[#F1F5F9]">
                 {pipelinePreview.blocked.slice(0, 20).map((item) => (
                   <div key={item.id} className="flex items-center justify-between px-3 py-2 text-xs">
-                    <span className="truncate pr-3 text-[#334155]">{item.name}</span>
+                    <span className="truncate pr-3 text-foreground">{item.name}</span>
                     <span className="inline-flex items-center gap-1 rounded-full bg-amber-100 px-2 py-0.5 text-[11px] font-medium text-amber-800">
                       <ShieldCheck className="h-3 w-3" />
                       {blockedReasonLabel(item.reason)}
@@ -3333,11 +3333,11 @@ export default function ContatosPage() {
             </div>
           )}
 
-          <div className="flex items-center justify-end gap-2 border-t border-[#E2E8F0] pt-4">
+          <div className="flex items-center justify-end gap-2 border-t border-border pt-4">
             <button
               type="button"
               onClick={() => setPipelineSideOverOpen(false)}
-              className="rounded-lg border border-[#E2E8F0] px-3 py-2 text-sm text-[#475569] hover:bg-[#F8FAFC]"
+              className="rounded-lg border border-border px-3 py-2 text-sm text-muted-foreground hover:bg-muted/40"
             >
               Cancelar
             </button>
@@ -3361,14 +3361,14 @@ export default function ContatosPage() {
         width={520}
       >
         <div className="flex flex-col gap-4">
-          <div className="flex flex-wrap gap-2 border-b border-[#E2E8F0] pb-3">
+          <div className="flex flex-wrap gap-2 border-b border-border pb-3">
             <button
               type="button"
               onClick={() => setAddContactTab("single")}
               className={`rounded-full px-3 py-1.5 text-sm font-medium transition-colors ${
                 addContactTab === "single"
-                  ? "bg-clicvend-orange/10 text-clicvend-orange"
-                  : "text-[#64748B] hover:bg-[#F1F5F9]"
+                  ? "bg-clicvend-orange/10 text-amber-600 dark:text-amber-400"
+                  : "text-muted-foreground hover:bg-muted/60"
               }`}
             >
               Um por vez
@@ -3378,8 +3378,8 @@ export default function ContatosPage() {
               onClick={() => setAddContactTab("bulk")}
               className={`rounded-full px-3 py-1.5 text-sm font-medium transition-colors ${
                 addContactTab === "bulk"
-                  ? "bg-clicvend-orange/10 text-clicvend-orange"
-                  : "text-[#64748B] hover:bg-[#F1F5F9]"
+                  ? "bg-clicvend-orange/10 text-amber-600 dark:text-amber-400"
+                  : "text-muted-foreground hover:bg-muted/60"
               }`}
             >
               Em massa
@@ -3387,11 +3387,11 @@ export default function ContatosPage() {
           </div>
 
           <div className="space-y-3">
-            <label className="block text-sm font-medium text-[#334155]">Conexão</label>
+            <label className="block text-sm font-medium text-foreground">Conexão</label>
             <select
               value={addContactChannelId}
               onChange={(e) => setAddContactChannelId(e.target.value)}
-              className="w-full rounded-lg border border-[#E2E8F0] px-3 py-2 text-sm text-[#1E293B] focus:border-clicvend-orange focus:outline-none focus:ring-1 focus:ring-clicvend-orange"
+              className="w-full rounded-lg border border-border px-3 py-2 text-sm text-foreground focus:border-amber-500 focus:outline-none focus:ring-1 focus:ring-amber-500/20"
             >
               <option value="">Selecionar conexão…</option>
               {channels.map((ch) => (
@@ -3400,7 +3400,7 @@ export default function ContatosPage() {
                 </option>
               ))}
             </select>
-            <p className="text-xs text-[#64748B]">
+            <p className="text-xs text-muted-foreground">
               Contatos serão salvos na agenda do WhatsApp e na lista do {BRAND_NAME} desta conexão. Confira se é a conexão correta.
             </p>
           </div>
@@ -3409,41 +3409,41 @@ export default function ContatosPage() {
             <div className="space-y-4">
               <div className="space-y-3">
                 <div>
-                  <label className="block text-sm font-medium text-[#334155]">Telefone</label>
+                  <label className="block text-sm font-medium text-foreground">Telefone</label>
                   <input
                     type="tel"
                     value={addContactPhone}
                     onChange={(e) => setAddContactPhone(e.target.value)}
                     placeholder="Ex.: 55 11 99999-0000"
-                    className="mt-1 w-full rounded-lg border border-[#E2E8F0] px-3 py-2 text-sm text-[#1E293B] placeholder:text-[#94A3B8] focus:border-clicvend-orange focus:outline-none focus:ring-1 focus:ring-clicvend-orange"
+                    className="mt-1 w-full rounded-lg border border-border px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:border-amber-500 focus:outline-none focus:ring-1 focus:ring-amber-500/20"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-[#334155]">
-                    Nome <span className="font-normal text-[#94A3B8]">(opcional)</span>
+                  <label className="block text-sm font-medium text-foreground">
+                    Nome <span className="font-normal text-muted-foreground">(opcional)</span>
                   </label>
                   <input
                     type="text"
                     value={addContactName}
                     onChange={(e) => setAddContactName(e.target.value)}
                     placeholder="Só o número já basta — nome e avatar vêm do WhatsApp"
-                    className="mt-1 w-full rounded-lg border border-[#E2E8F0] px-3 py-2 text-sm text-[#1E293B] placeholder:text-[#94A3B8] focus:border-clicvend-orange focus:outline-none focus:ring-1 focus:ring-clicvend-orange"
+                    className="mt-1 w-full rounded-lg border border-border px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:border-amber-500 focus:outline-none focus:ring-1 focus:ring-amber-500/20"
                   />
                 </div>
               </div>
 
-              <div className="border-t border-[#E2E8F0] pt-4">
-                <p className="text-sm font-medium text-[#334155]">Tags do contato</p>
-                <p className="text-xs text-[#64748B] mb-2">
+              <div className="border-t border-border pt-4">
+                <p className="text-sm font-medium text-foreground">Tags do contato</p>
+                <p className="text-xs text-muted-foreground mb-2">
                   Opcional. Essas tags ajudam a classificar o tipo de contato.
                 </p>
                 {contactTagsLoading ? (
-                  <div className="flex items-center gap-2 text-xs text-[#64748B]">
-                    <Loader2 className="h-3 w-3 animate-spin text-clicvend-orange" />
+                  <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                    <Loader2 className="h-3 w-3 animate-spin text-amber-600 dark:text-amber-400" />
                     Carregando tags…
                   </div>
                 ) : availableContactTags.length === 0 ? (
-                  <p className="text-xs text-[#94A3B8]">
+                  <p className="text-xs text-muted-foreground">
                     Nenhuma tag de contato cadastrada ainda. Crie em{" "}
                     <span className="font-medium">Tags e formulários</span>.
                   </p>
@@ -3458,7 +3458,7 @@ export default function ContatosPage() {
                           className={`inline-flex items-center gap-2 rounded-full border px-3 py-1 text-xs font-medium transition-colors ${
                             selectedNewContactTagIds.has(tag.id)
                               ? "border-transparent text-white"
-                              : "border-[#E2E8F0] text-[#475569] bg-white hover:bg-[#F8FAFC]"
+                              : "border-border text-muted-foreground bg-card hover:bg-muted/40"
                           }`}
                           style={
                             selectedNewContactTagIds.has(tag.id) && tag.color_hex
@@ -3471,15 +3471,15 @@ export default function ContatosPage() {
                       ))}
                     </div>
                     {selectedNewContactTagIds.size > 0 && (
-                      <div className="rounded-lg border border-[#E2E8F0] bg-white">
-                        <div className="flex items-center justify-between border-b border-[#E2E8F0] px-3 py-2">
-                          <span className="text-xs font-semibold uppercase tracking-wide text-[#64748B]">
+                      <div className="rounded-lg border border-border bg-card">
+                        <div className="flex items-center justify-between border-b border-border px-3 py-2">
+                          <span className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
                             Tags selecionadas ({selectedNewContactTagIds.size})
                           </span>
                           <button
                             type="button"
                             onClick={() => setSelectedNewContactTagIds(new Set())}
-                            className="text-[11px] font-medium text-[#64748B] hover:text-[#0F172A]"
+                            className="text-[11px] font-medium text-muted-foreground hover:text-foreground"
                           >
                             Limpar
                           </button>
@@ -3499,11 +3499,11 @@ export default function ContatosPage() {
                                       backgroundColor: tag.color_hex || "#CBD5F5",
                                     }}
                                   />
-                                  <span className="font-medium text-[#0F172A]">
+                                  <span className="font-medium text-foreground">
                                     {tag.name}
                                   </span>
                                 </div>
-                                <span className="text-[11px] uppercase tracking-wide text-[#94A3B8]">
+                                <span className="text-[11px] uppercase tracking-wide text-muted-foreground">
                                   {tag.category_name}
                                 </span>
                               </div>
@@ -3519,18 +3519,18 @@ export default function ContatosPage() {
 
           {addContactTab === "bulk" && (
             <div className="space-y-4">
-              <div className="rounded-lg border border-[#E2E8F0] bg-[#F8FAFC] p-3">
-                <p className="text-sm font-medium text-[#334155] mb-2">Tag em massa</p>
-                <p className="text-xs text-[#64748B] mb-2">
+              <div className="rounded-lg border border-border bg-muted/40 p-3">
+                <p className="text-sm font-medium text-foreground mb-2">Tag em massa</p>
+                <p className="text-xs text-muted-foreground mb-2">
                   Opcional. A tag será aplicada a todos os contatos importados.
                 </p>
                 {contactTagsLoading ? (
-                  <div className="flex items-center gap-2 text-xs text-[#64748B]">
-                    <Loader2 className="h-3 w-3 animate-spin text-clicvend-orange" />
+                  <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                    <Loader2 className="h-3 w-3 animate-spin text-amber-600 dark:text-amber-400" />
                     Carregando tags…
                   </div>
                 ) : availableContactTags.length === 0 ? (
-                  <p className="text-xs text-[#94A3B8]">
+                  <p className="text-xs text-muted-foreground">
                     Nenhuma tag cadastrada. Crie em <span className="font-medium">Tags e formulários</span>.
                   </p>
                 ) : (
@@ -3543,7 +3543,7 @@ export default function ContatosPage() {
                         className={`inline-flex items-center gap-2 rounded-full border px-3 py-1 text-xs font-medium transition-colors ${
                           selectedNewContactTagIds.has(tag.id)
                             ? "border-transparent text-white"
-                            : "border-[#E2E8F0] text-[#475569] bg-white hover:bg-[#F8FAFC]"
+                            : "border-border text-muted-foreground bg-card hover:bg-muted/40"
                         }`}
                         style={
                           selectedNewContactTagIds.has(tag.id) && tag.color_hex
@@ -3558,12 +3558,12 @@ export default function ContatosPage() {
                 )}
               </div>
 
-              <p className="text-sm text-[#64748B]">
+              <p className="text-sm text-muted-foreground">
                 Cole a lista de números (até <span className="font-semibold">90 contatos</span>). Um por linha ou separados por vírgula/ponto e vírgula. Nome e avatar serão buscados automaticamente no WhatsApp.
               </p>
 
               <div>
-                <label className="block text-sm font-medium text-[#334155] mb-1">Números</label>
+                <label className="block text-sm font-medium text-foreground mb-1">Números</label>
                 <textarea
                   value={bulkContactsText}
                   onChange={(e) => {
@@ -3576,22 +3576,22 @@ export default function ContatosPage() {
                   }}
                   placeholder={"5511999990000\n5511988887777\n5548999991111"}
                   rows={5}
-                  className="w-full rounded-lg border border-[#E2E8F0] px-3 py-2 text-sm text-[#1E293B] placeholder:text-[#94A3B8] focus:border-clicvend-orange focus:outline-none focus:ring-1 focus:ring-clicvend-orange font-mono"
+                  className="w-full rounded-lg border border-border px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:border-amber-500 focus:outline-none focus:ring-1 focus:ring-amber-500/20 font-mono"
                 />
-                <p className="mt-1 text-xs text-[#94A3B8]">
+                <p className="mt-1 text-xs text-muted-foreground">
                   Ex.: copie e cole do Excel, WhatsApp ou qualquer lista. Só os números.
                 </p>
               </div>
 
               {bulkContactsRows.length > 0 && (
                 <>
-                  <p className="text-sm font-medium text-[#334155]">
+                  <p className="text-sm font-medium text-foreground">
                     Preview: {bulkContactsRows.length} contato(s) — serão salvos em:{" "}
-                    <span className="font-semibold text-clicvend-orange">
+                    <span className="font-semibold text-amber-600 dark:text-amber-400">
                       {channels.find((c) => c.id === addContactChannelId)?.name ?? "—"}
                     </span>
                   </p>
-                  <p className="text-xs text-[#64748B] mt-1">
+                  <p className="text-xs text-muted-foreground mt-1">
                     ℹ️ Nome e avatar serão buscados automaticamente no WhatsApp após a importação.
                   </p>
                   {bulkContactsRows.length > 90 && (
@@ -3600,23 +3600,23 @@ export default function ContatosPage() {
                       90 primeiros desta lista.
                     </p>
                   )}
-                  <div className="max-h-48 overflow-auto rounded-lg border border-[#E2E8F0]">
+                  <div className="max-h-48 overflow-auto rounded-lg border border-border">
                     <table className="min-w-full text-xs">
-                      <thead className="sticky top-0 bg-[#F8FAFC]">
+                      <thead className="sticky top-0 bg-muted/40">
                         <tr>
-                          <th className="px-2 py-1.5 text-left font-medium text-[#64748B]">Número</th>
+                          <th className="px-2 py-1.5 text-left font-medium text-muted-foreground">Número</th>
                         </tr>
                       </thead>
-                      <tbody className="divide-y divide-[#E2E8F0]">
+                      <tbody className="divide-y divide-border">
                         {bulkContactsRows.slice(0, 30).map((row, i) => (
                           <tr key={i}>
-                            <td className="px-2 py-1.5 text-[#1E293B] font-mono">{row.number}</td>
+                            <td className="px-2 py-1.5 text-foreground font-mono">{row.number}</td>
                           </tr>
                         ))}
                       </tbody>
                     </table>
                     {bulkContactsRows.length > 30 && (
-                      <p className="px-2 py-1 text-[11px] text-[#94A3B8]">
+                      <p className="px-2 py-1 text-[11px] text-muted-foreground">
                         … e mais {bulkContactsRows.length - 30} contato(s).
                       </p>
                     )}
@@ -3630,7 +3630,7 @@ export default function ContatosPage() {
                         setAddContactResult(null);
                         setAddContactError(null);
                       }}
-                      className="rounded-lg border border-[#E2E8F0] px-4 py-2 text-sm font-medium text-[#64748B] hover:bg-[#F8FAFC]"
+                      className="rounded-lg border border-border px-4 py-2 text-sm font-medium text-muted-foreground hover:bg-muted/40"
                     >
                       Limpar
                     </button>
@@ -3652,10 +3652,10 @@ export default function ContatosPage() {
             </div>
           )}
 
-          <div className="mt-2 flex justify-end gap-2 border-t border-[#E2E8F0] pt-3">
+          <div className="mt-2 flex justify-end gap-2 border-t border-border pt-3">
             <button
               type="button"
-              className="rounded-lg border border-[#E2E8F0] bg-white px-4 py-2 text-sm font-medium text-[#64748B] hover:bg-[#F8FAFC]"
+              className="rounded-lg border border-border bg-card px-4 py-2 text-sm font-medium text-muted-foreground hover:bg-muted/40"
               disabled={addContactSaving}
               onClick={() => setAddContactSideOverOpen(false)}
             >
@@ -3830,7 +3830,7 @@ export default function ContatosPage() {
           <button
             type="button"
             onClick={() => setAlertMessage(null)}
-            className="ml-2 rounded-full p-1 text-[#E2E8F0] hover:bg-white/10"
+            className="ml-2 rounded-full p-1 text-[#E2E8F0] hover:bg-card/10"
             aria-label="Fechar aviso"
           >
             <X className="h-3 w-3" />

@@ -368,28 +368,28 @@ export default function FilasPage() {
 
   return (
     <div className="flex flex-col gap-4 p-6">
-      <div className="rounded-xl border border-[#E2E8F0] bg-white p-4 shadow-sm">
+      <div className="rounded-xl border border-border bg-card p-4 shadow-sm">
         <div className="flex flex-wrap items-start justify-between gap-3">
           <div>
-            <h1 className="text-2xl font-bold text-[#1E293B]">Filas (Caixas de entrada)</h1>
-            <p className="mt-0.5 text-sm text-[#64748B]">
-              Total: <span className="font-medium tabular-nums text-[#1E293B]">{filteredQueues.length}</span> fila{filteredQueues.length !== 1 ? "s" : ""}
+            <h1 className="text-2xl font-bold text-foreground">Filas (Caixas de entrada)</h1>
+            <p className="mt-0.5 text-sm text-muted-foreground">
+              Total: <span className="font-medium tabular-nums text-foreground">{filteredQueues.length}</span> fila{filteredQueues.length !== 1 ? "s" : ""}
               {search.trim() || linkedFilter !== "all" ? (
                 <>
-                  {" "}de <span className="font-medium tabular-nums text-[#1E293B]">{queues.length}</span>
+                  {" "}de <span className="font-medium tabular-nums text-foreground">{queues.length}</span>
                 </>
               ) : null}
             </p>
           </div>
           <div className="flex flex-wrap items-center justify-end gap-2">
-            <div className="inline-flex overflow-hidden rounded-full border border-[#E2E8F0] bg-white">
+            <div className="inline-flex overflow-hidden rounded-full border border-border bg-card">
               <button
                 type="button"
                 onClick={() => setLinkedFilter("all")}
                 className={`inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium transition-colors ${
                   linkedFilter === "all"
-                    ? "bg-clicvend-orange/10 text-clicvend-orange"
-                    : "text-[#64748B] hover:bg-[#F8FAFC]"
+                    ? "bg-clicvend-orange/10 text-amber-600 dark:text-amber-400"
+                    : "text-muted-foreground hover:bg-muted/40"
                 }`}
               >
                 <Layers3 className="h-3.5 w-3.5" />
@@ -398,10 +398,10 @@ export default function FilasPage() {
               <button
                 type="button"
                 onClick={() => setLinkedFilter("with")}
-                className={`inline-flex items-center gap-1.5 border-l border-[#E2E8F0] px-3 py-1.5 text-xs font-medium transition-colors ${
+                className={`inline-flex items-center gap-1.5 border-l border-border px-3 py-1.5 text-xs font-medium transition-colors ${
                   linkedFilter === "with"
-                    ? "bg-clicvend-orange/10 text-clicvend-orange"
-                    : "text-[#64748B] hover:bg-[#F8FAFC]"
+                    ? "bg-clicvend-orange/10 text-amber-600 dark:text-amber-400"
+                    : "text-muted-foreground hover:bg-muted/40"
                 }`}
               >
                 <Link2 className="h-3.5 w-3.5" />
@@ -410,10 +410,10 @@ export default function FilasPage() {
               <button
                 type="button"
                 onClick={() => setLinkedFilter("without")}
-                className={`inline-flex items-center gap-1.5 border-l border-[#E2E8F0] px-3 py-1.5 text-xs font-medium transition-colors ${
+                className={`inline-flex items-center gap-1.5 border-l border-border px-3 py-1.5 text-xs font-medium transition-colors ${
                   linkedFilter === "without"
-                    ? "bg-clicvend-orange/10 text-clicvend-orange"
-                    : "text-[#64748B] hover:bg-[#F8FAFC]"
+                    ? "bg-clicvend-orange/10 text-amber-600 dark:text-amber-400"
+                    : "text-muted-foreground hover:bg-muted/40"
                 }`}
               >
                 <Plug className="h-3.5 w-3.5" />
@@ -422,12 +422,12 @@ export default function FilasPage() {
             </div>
 
             <div className="relative w-[260px] max-w-full">
-              <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#94A3B8]" />
+              <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
               <input
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 placeholder="Pesquisar filas..."
-                className="h-9 w-full rounded-lg border border-[#E2E8F0] bg-white pl-9 pr-3 text-sm text-[#1E293B] placeholder:text-[#94A3B8] focus:border-clicvend-orange focus:outline-none focus:ring-1 focus:ring-clicvend-orange"
+                className="h-9 w-full rounded-lg border border-border bg-card pl-9 pr-3 text-sm text-foreground placeholder:text-muted-foreground focus:border-amber-500 focus:outline-none focus:ring-1 focus:ring-amber-500/20"
               />
             </div>
 
@@ -436,7 +436,7 @@ export default function FilasPage() {
               onClick={() => {
                 void refreshAll();
               }}
-              className="flex h-9 w-9 items-center justify-center rounded-lg bg-[#F1F5F9] text-[#64748B] hover:bg-[#E2E8F0] transition-colors"
+              className="flex h-9 w-9 items-center justify-center rounded-lg bg-muted/60 text-muted-foreground hover:bg-muted/60 transition-colors"
               aria-label="Atualizar"
               title="Atualizar filas"
             >
@@ -480,7 +480,7 @@ export default function FilasPage() {
       {loading ? (
         <div className="flex justify-center py-12">
           <div className="flex flex-col items-center gap-3">
-            <Loader2 className="h-8 w-8 animate-spin text-clicvend-orange" />
+            <Loader2 className="h-8 w-8 animate-spin text-amber-600 dark:text-amber-400" />
             <span className="text-sm text-muted-foreground">Carregando…</span>
           </div>
         </div>
@@ -512,7 +512,7 @@ export default function FilasPage() {
               ) : null}
             </p>
             <span className="flex items-center gap-1.5 text-sm text-muted-foreground">
-              <Plug className="h-4 w-4 text-clicvend-orange" />
+              <Plug className="h-4 w-4 text-amber-600 dark:text-amber-400" />
               <span className="uppercase text-[10px] font-medium tracking-wider text-muted-foreground">Números vinculados</span>
               <strong className="text-foreground">
                 {filteredQueues.reduce((sum, q) => sum + (queueChannelCount[q.id] ?? 0), 0)}
@@ -530,7 +530,7 @@ export default function FilasPage() {
                   <button
                     type="button"
                     onClick={() => setLinkChannelsOpen(true)}
-                    className="inline-flex items-center gap-1.5 border-r border-[#E2E8F0] bg-white px-3 py-2 text-sm font-medium text-[#334155] hover:bg-[#F8FAFC] disabled:opacity-60 last:border-r-0"
+                    className="inline-flex items-center gap-1.5 border-r border-border bg-card px-3 py-2 text-sm font-medium text-foreground hover:bg-muted/40 disabled:opacity-60 last:border-r-0"
                   >
                     <Link2 className="h-4 w-4" />
                     Vincular números
@@ -543,7 +543,7 @@ export default function FilasPage() {
                       setConfigQueue(selected);
                     }}
                     disabled={selectedQueueIds.size !== 1}
-                    className="inline-flex items-center gap-1.5 border-r border-[#E2E8F0] bg-white px-3 py-2 text-sm font-medium text-[#334155] hover:bg-[#F8FAFC] disabled:opacity-60 last:border-r-0"
+                    className="inline-flex items-center gap-1.5 border-r border-border bg-card px-3 py-2 text-sm font-medium text-foreground hover:bg-muted/40 disabled:opacity-60 last:border-r-0"
                   >
                     Configurar
                   </button>
@@ -560,14 +560,14 @@ export default function FilasPage() {
                             : `Excluir ${ids.length} filas selecionadas?`,
                       });
                     }}
-                    className="inline-flex items-center gap-1.5 border-r border-[#E2E8F0] bg-red-50 px-3 py-2 text-sm font-medium text-red-700 hover:bg-red-100 last:border-r-0"
+                    className="inline-flex items-center gap-1.5 border-r border-border bg-red-50 px-3 py-2 text-sm font-medium text-red-700 hover:bg-red-100 last:border-r-0"
                   >
                     Excluir
                   </button>
                   <button
                     type="button"
                     onClick={() => setSelectedQueueIds(new Set())}
-                    className="inline-flex items-center gap-1.5 bg-white px-3 py-2 text-sm font-medium text-[#64748B] hover:bg-[#F1F5F9] last:border-r-0"
+                    className="inline-flex items-center gap-1.5 bg-card px-3 py-2 text-sm font-medium text-muted-foreground hover:bg-muted/60 last:border-r-0"
                     title="Limpar seleção"
                   >
                     Limpar seleção
@@ -578,7 +578,7 @@ export default function FilasPage() {
 
             <table className="w-full min-w-[900px]">
               <thead>
-                <tr className="border-b border-[#E2E8F0] bg-[#F8FAFC]">
+                <tr className="border-b border-border bg-muted/40">
                   <th className="w-10 px-4 py-3 text-left">
                     <input
                       type="checkbox"
@@ -590,27 +590,27 @@ export default function FilasPage() {
                           setSelectedQueueIds(new Set(filteredQueues.map((q) => q.id)));
                         }
                       }}
-                      className="h-4 w-4 rounded border-[#E2E8F0] text-clicvend-orange focus:ring-clicvend-orange"
+                      className="h-4 w-4 rounded border-border text-amber-600 dark:text-amber-400 focus:ring-amber-500/20"
                       aria-label="Selecionar todas"
                     />
                   </th>
-                  <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-[#64748B]">Nome</th>
-                  <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-[#64748B]">Slug</th>
-                  <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-[#64748B]">Status SLA</th>
-                  <th className="px-4 py-3 text-center text-xs font-semibold uppercase tracking-wider text-[#64748B]">Números vinculados</th>
-                  <th className="px-4 py-3 text-right text-xs font-semibold uppercase tracking-wider text-[#64748B]">Ações</th>
+                  <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-muted-foreground">Nome</th>
+                  <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-muted-foreground">Slug</th>
+                  <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-muted-foreground">Status SLA</th>
+                  <th className="px-4 py-3 text-center text-xs font-semibold uppercase tracking-wider text-muted-foreground">Números vinculados</th>
+                  <th className="px-4 py-3 text-right text-xs font-semibold uppercase tracking-wider text-muted-foreground">Ações</th>
                 </tr>
               </thead>
               <tbody>
                 {pagedQueues.length === 0 ? (
                   <tr>
-                    <td colSpan={6} className="px-4 py-8 text-center text-sm text-[#64748B]">
+                    <td colSpan={6} className="px-4 py-8 text-center text-sm text-muted-foreground">
                       Nenhuma fila encontrada para a busca.
                     </td>
                   </tr>
                 ) : (
                   pagedQueues.map((q) => (
-                    <tr key={q.id} className="border-b border-[#E2E8F0] last:border-0 transition-colors hover:bg-[#F8FAFC]">
+                    <tr key={q.id} className="border-b border-border last:border-0 transition-colors hover:bg-muted/40">
                       <td className="px-4 py-3">
                         <input
                           type="checkbox"
@@ -623,23 +623,23 @@ export default function FilasPage() {
                               return next;
                             });
                           }}
-                          className="h-4 w-4 rounded border-[#E2E8F0] text-clicvend-orange focus:ring-clicvend-orange"
+                          className="h-4 w-4 rounded border-border text-amber-600 dark:text-amber-400 focus:ring-amber-500/20"
                           aria-label={`Selecionar fila ${q.name}`}
                         />
                       </td>
                       <td className="px-4 py-3">
-                        <p className="font-medium text-[#1E293B]">{q.name}</p>
+                        <p className="font-medium text-foreground">{q.name}</p>
                         <div className="mt-1 flex flex-wrap items-center gap-1.5">
                           <span
                             className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[11px] font-medium ${
                               q.queue_type === "commercial"
                                 ? "bg-blue-100 text-blue-700"
-                                : "bg-[#F1F5F9] text-[#475569]"
+                                : "bg-muted/60 text-muted-foreground"
                             }`}
                           >
                             {q.queue_type === "commercial" ? "Comercial" : "Padrao"}
                           </span>
-                          <span className="inline-flex items-center gap-1 rounded-full bg-[#F1F5F9] px-2 py-0.5 text-[11px] font-medium text-[#475569]">
+                          <span className="inline-flex items-center gap-1 rounded-full bg-muted/60 px-2 py-0.5 text-[11px] font-medium text-muted-foreground">
                             <Users className="h-3 w-3" />
                             {queueAgentsCount[q.id] ?? 0} atendente{(queueAgentsCount[q.id] ?? 0) === 1 ? "" : "s"}
                           </span>
@@ -649,16 +649,16 @@ export default function FilasPage() {
                           </span>
                         </div>
                       </td>
-                      <td className="px-4 py-3 font-mono text-sm text-[#64748B]">{q.slug}</td>
+                      <td className="px-4 py-3 font-mono text-sm text-muted-foreground">{q.slug}</td>
                       <td className="px-4 py-3">
                         <span className={`inline-flex rounded-full px-2.5 py-1 text-xs font-medium ${getQueueSla(q.id).className}`}>
                           {getQueueSla(q.id).label}
                         </span>
                       </td>
                       <td className="px-4 py-3 text-center">
-                        <span className="inline-flex items-center gap-1.5 text-sm text-[#64748B]">
-                          <Plug className="h-4 w-4 text-clicvend-orange" />
-                          <strong className="text-[#1E293B]">{queueChannelCount[q.id] ?? 0}</strong>
+                        <span className="inline-flex items-center gap-1.5 text-sm text-muted-foreground">
+                          <Plug className="h-4 w-4 text-amber-600 dark:text-amber-400" />
+                          <strong className="text-foreground">{queueChannelCount[q.id] ?? 0}</strong>
                           {(queueChannelCount[q.id] ?? 0) === 1 ? " número" : " números"}
                         </span>
                       </td>
@@ -667,7 +667,7 @@ export default function FilasPage() {
                           <button
                             type="button"
                             onClick={() => setConfigQueue(q)}
-                            className="rounded-lg p-2 text-[#64748B] hover:bg-[#F1F5F9] hover:text-[#1E293B]"
+                            className="rounded-lg p-2 text-muted-foreground hover:bg-muted/60 hover:text-foreground"
                             title="Configurar"
                           >
                             <Settings className="h-4 w-4" />
@@ -675,7 +675,7 @@ export default function FilasPage() {
                           <button
                             type="button"
                             onClick={() => setDeleteConfirm({ ids: [q.id], label: `Excluir a fila "${q.name}"?` })}
-                            className="rounded-lg p-2 text-[#64748B] hover:bg-red-50 hover:text-red-600"
+                            className="rounded-lg p-2 text-muted-foreground hover:bg-red-50 hover:text-red-600"
                             title="Excluir"
                           >
                             <Trash2 className="h-4 w-4" />
@@ -689,12 +689,12 @@ export default function FilasPage() {
             </table>
           </div>
 
-          <div className="flex flex-wrap items-center justify-between gap-2 border-t border-[#E2E8F0] bg-[#F8FAFC] px-4 py-3">
-            <p className="text-sm text-[#64748B]">
+          <div className="flex flex-wrap items-center justify-between gap-2 border-t border-border bg-muted/40 px-4 py-3">
+            <p className="text-sm text-muted-foreground">
               Página{" "}
-              <span className="font-medium text-[#1E293B] tabular-nums">{safePageIndex + 1}</span>{" "}
+              <span className="font-medium text-foreground tabular-nums">{safePageIndex + 1}</span>{" "}
               de{" "}
-              <span className="font-medium text-[#1E293B] tabular-nums">{pageCount}</span>{" "}
+              <span className="font-medium text-foreground tabular-nums">{pageCount}</span>{" "}
               ({filteredQueues.length} fila{filteredQueues.length !== 1 ? "s" : ""})
             </p>
             <div className="flex items-center gap-2">
@@ -702,7 +702,7 @@ export default function FilasPage() {
                 type="button"
                 onClick={() => setPageIndex((p) => Math.max(0, p - 1))}
                 disabled={safePageIndex === 0}
-                className="inline-flex items-center gap-1 rounded-lg border border-[#E2E8F0] px-2.5 py-1.5 text-sm text-[#475569] hover:bg-[#F8FAFC] disabled:opacity-50"
+                className="inline-flex items-center gap-1 rounded-lg border border-border px-2.5 py-1.5 text-sm text-muted-foreground hover:bg-muted/40 disabled:opacity-50"
                 aria-label="Página anterior"
               >
                 <ChevronLeft className="h-4 w-4" />
@@ -712,7 +712,7 @@ export default function FilasPage() {
                 type="button"
                 onClick={() => setPageIndex((p) => Math.min(pageCount - 1, p + 1))}
                 disabled={safePageIndex >= pageCount - 1}
-                className="inline-flex items-center gap-1 rounded-lg border border-[#E2E8F0] px-2.5 py-1.5 text-sm text-[#475569] hover:bg-[#F8FAFC] disabled:opacity-50"
+                className="inline-flex items-center gap-1 rounded-lg border border-border px-2.5 py-1.5 text-sm text-muted-foreground hover:bg-muted/40 disabled:opacity-50"
                 aria-label="Próxima página"
               >
                 Próxima
@@ -727,21 +727,21 @@ export default function FilasPage() {
       <SideOver open={newQueueOpen} onClose={() => setNewQueueOpen(false)} title="Nova fila">
         <div className="space-y-4">
           <div>
-            <label className="mb-1 block text-sm font-medium text-[#334155]">Nome da fila</label>
+            <label className="mb-1 block text-sm font-medium text-foreground">Nome da fila</label>
             <input
               type="text"
               value={newName}
               onChange={(e) => setNewName(e.target.value)}
               placeholder="Ex: Comercial, Suporte"
-              className="w-full rounded-lg border border-[#E2E8F0] px-3 py-2 text-[#1E293B] placeholder:text-[#94A3B8] focus:border-clicvend-orange focus:outline-none focus:ring-1 focus:ring-clicvend-orange"
+              className="w-full rounded-lg border border-border px-3 py-2 text-foreground placeholder:text-muted-foreground focus:border-amber-500 focus:outline-none focus:ring-1 focus:ring-amber-500/20"
             />
           </div>
           <div>
-            <label className="mb-1 block text-sm font-medium text-[#334155]">Tipo da fila</label>
+            <label className="mb-1 block text-sm font-medium text-foreground">Tipo da fila</label>
             <select
               value={newQueueType}
               onChange={(e) => setNewQueueType(e.target.value === "commercial" ? "commercial" : "standard")}
-              className="w-full rounded-lg border border-[#E2E8F0] px-3 py-2 text-sm text-[#1E293B] focus:border-clicvend-orange focus:outline-none focus:ring-1 focus:ring-clicvend-orange"
+              className="w-full rounded-lg border border-border px-3 py-2 text-sm text-foreground focus:border-amber-500 focus:outline-none focus:ring-1 focus:ring-amber-500/20"
             >
               <option value="standard">Padrao</option>
               <option value="commercial">Comercial (carteira privada + round-robin)</option>
@@ -752,16 +752,16 @@ export default function FilasPage() {
               type="checkbox"
               checked={useGroups}
               onChange={(e) => setUseGroups(e.target.checked)}
-              className="h-4 w-4 rounded border-[#E2E8F0] text-clicvend-orange focus:ring-clicvend-orange"
+              className="h-4 w-4 rounded border-border text-amber-600 dark:text-amber-400 focus:ring-amber-500/20"
             />
-            <span className="text-sm text-[#334155]">Vai usar grupos? (cria a fila &quot;Grupos&quot; automaticamente)</span>
+            <span className="text-sm text-foreground">Vai usar grupos? (cria a fila &quot;Grupos&quot; automaticamente)</span>
           </label>
           {error && <p className="text-sm text-red-600">{error}</p>}
           <div className="flex justify-end gap-2 pt-2">
             <button
               type="button"
               onClick={() => setNewQueueOpen(false)}
-              className="rounded-lg border border-[#E2E8F0] px-4 py-2 text-sm font-medium text-[#64748B] hover:bg-[#F8FAFC]"
+              className="rounded-lg border border-border px-4 py-2 text-sm font-medium text-muted-foreground hover:bg-muted/40"
             >
               Cancelar
             </button>
@@ -787,17 +787,17 @@ export default function FilasPage() {
         title="Vincular números às filas selecionadas"
       >
         <div className="space-y-4">
-          <p className="text-sm text-[#64748B]">
+          <p className="text-sm text-muted-foreground">
             Selecione os números que devem receber as filas escolhidas. Cada número aceita até {MAX_QUEUES_PER_CHANNEL} filas.
           </p>
-          <div className="rounded-lg border border-[#E2E8F0] bg-[#F8FAFC] px-3 py-2 text-sm text-[#475569]">
-            Filas selecionadas: <strong className="text-[#1E293B]">{selectedQueueIds.size}</strong>
+          <div className="rounded-lg border border-border bg-muted/40 px-3 py-2 text-sm text-muted-foreground">
+            Filas selecionadas: <strong className="text-foreground">{selectedQueueIds.size}</strong>
           </div>
-          <div className="max-h-[320px] overflow-y-auto rounded-lg border border-[#E2E8F0]">
+          <div className="max-h-[320px] overflow-y-auto rounded-lg border border-border">
             {channels.length === 0 ? (
-              <p className="px-3 py-4 text-sm text-[#94A3B8]">Nenhum número encontrado em Conexões.</p>
+              <p className="px-3 py-4 text-sm text-muted-foreground">Nenhum número encontrado em Conexões.</p>
             ) : (
-              <ul className="divide-y divide-[#E2E8F0]">
+              <ul className="divide-y divide-border">
                 {channels.map((ch) => (
                   <li key={ch.id} className="px-3 py-2.5">
                     <label className="flex cursor-pointer items-center gap-2">
@@ -812,9 +812,9 @@ export default function FilasPage() {
                             return next;
                           });
                         }}
-                        className="h-4 w-4 rounded border-[#E2E8F0] text-clicvend-orange focus:ring-clicvend-orange"
+                        className="h-4 w-4 rounded border-border text-amber-600 dark:text-amber-400 focus:ring-amber-500/20"
                       />
-                      <span className="text-sm font-medium text-[#1E293B]">{ch.name}</span>
+                      <span className="text-sm font-medium text-foreground">{ch.name}</span>
                     </label>
                   </li>
                 ))}
@@ -826,7 +826,7 @@ export default function FilasPage() {
               type="button"
               onClick={() => setLinkChannelsOpen(false)}
               disabled={linkingChannels}
-              className="rounded-lg border border-[#E2E8F0] px-4 py-2 text-sm font-medium text-[#64748B] hover:bg-[#F8FAFC] disabled:opacity-60"
+              className="rounded-lg border border-border px-4 py-2 text-sm font-medium text-muted-foreground hover:bg-muted/40 disabled:opacity-60"
             >
               Cancelar
             </button>

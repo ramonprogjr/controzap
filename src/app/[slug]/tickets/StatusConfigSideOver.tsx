@@ -412,7 +412,7 @@ export function StatusConfigSideOver({
                   type="button"
                   onClick={() => setActiveTab(t.id)}
                   className={`flex items-center gap-1.5 shrink-0 rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
-                    activeTab === t.id ? "bg-clicvend-orange/10 text-clicvend-orange" : "text-[#64748B] hover:bg-[#F1F5F9]"
+                    activeTab === t.id ? "bg-clicvend-orange/10 text-amber-600 dark:text-amber-400" : "text-muted-foreground hover:bg-muted/60"
                   }`}
                 >
                   {t.icon}
@@ -428,24 +428,24 @@ export function StatusConfigSideOver({
 
           {loading && activeTab === "statuses" ? (
             <div className="flex flex-col items-center justify-center py-12">
-              <Loader2 className="h-10 w-10 animate-spin text-clicvend-orange" />
-              <span className="mt-3 text-sm text-[#64748B]">Carregando…</span>
+              <Loader2 className="h-10 w-10 animate-spin text-amber-600 dark:text-amber-400" />
+              <span className="mt-3 text-sm text-muted-foreground">Carregando…</span>
             </div>
           ) : (
             <>
               {activeTab === "statuses" && (
                 <div className="space-y-4">
-                  <p className="text-sm text-[#64748B]">
+                  <p className="text-sm text-muted-foreground">
                     Nesta versão, os status customizados devem ser configurados por fila.
                     Aqui ficam os padrões globais da empresa (base do sistema).
                   </p>
-                  <div className="rounded-lg border border-[#E2E8F0] bg-[#F8FAFC] p-3 flex items-center justify-between gap-2">
-                    <span className="text-sm text-[#334155]">Restaurar/garantir padrões globais (Novo, Em atendimento, Encerrado).</span>
+                  <div className="rounded-lg border border-border bg-muted/40 p-3 flex items-center justify-between gap-2">
+                    <span className="text-sm text-foreground">Restaurar/garantir padrões globais (Novo, Em atendimento, Encerrado).</span>
                     <button
                       type="button"
                       onClick={restoreCompanyDefaults}
                       disabled={saving}
-                      className="inline-flex items-center gap-2 rounded-lg border border-[#E2E8F0] bg-white px-3 py-1.5 text-sm font-medium text-[#334155] hover:bg-[#F1F5F9] disabled:opacity-60"
+                      className="inline-flex items-center gap-2 rounded-lg border border-border bg-card px-3 py-1.5 text-sm font-medium text-foreground hover:bg-muted/60 disabled:opacity-60"
                     >
                       {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
                       Restaurar padrões
@@ -456,7 +456,7 @@ export function StatusConfigSideOver({
                     {statuses.map((s, i) => (
                       <div
                         key={s.id}
-                        className="flex items-center gap-2 rounded-lg border border-[#E2E8F0] bg-white p-3"
+                        className="flex items-center gap-2 rounded-lg border border-border bg-card p-3"
                       >
                         <div
                           className="h-4 w-8 shrink-0 rounded"
@@ -468,7 +468,7 @@ export function StatusConfigSideOver({
                               type="text"
                               value={editName}
                               onChange={(e) => setEditName(e.target.value)}
-                              className="flex-1 rounded border border-[#E2E8F0] px-2 py-1 text-sm"
+                              className="flex-1 rounded border border-border px-2 py-1 text-sm"
                             />
                             <input
                               type="color"
@@ -488,29 +488,29 @@ export function StatusConfigSideOver({
                               type="button"
                               onClick={() => updateStatus(s.id)}
                               disabled={saving}
-                              className="rounded px-2 py-1 text-xs font-medium text-clicvend-orange hover:bg-clicvend-orange/10"
+                              className="rounded px-2 py-1 text-xs font-medium text-amber-600 dark:text-amber-400 hover:bg-clicvend-orange/10"
                             >
                               Salvar
                             </button>
                             <button
                               type="button"
                               onClick={() => setEditingId(null)}
-                              className="rounded px-2 py-1 text-xs text-[#64748B] hover:bg-[#F1F5F9]"
+                              className="rounded px-2 py-1 text-xs text-muted-foreground hover:bg-muted/60"
                             >
                               Cancelar
                             </button>
                           </>
                         ) : (
                           <>
-                            <span className="flex-1 font-medium text-[#1E293B]">{s.name}</span>
+                            <span className="flex-1 font-medium text-foreground">{s.name}</span>
                             {s.is_closed && (
-                              <span className="rounded bg-[#E2E8F0] px-1.5 py-0.5 text-[10px] text-[#64748B]">Fechado</span>
+                              <span className="rounded bg-muted px-1.5 py-0.5 text-[10px] text-muted-foreground">Fechado</span>
                             )}
                             <button
                               type="button"
                               onClick={() => moveCompanyStatus(i, "up")}
                               disabled={i === 0 || reorderSaving}
-                              className="rounded p-1 text-[#64748B] hover:bg-[#F1F5F9] disabled:opacity-40"
+                              className="rounded p-1 text-muted-foreground hover:bg-muted/60 disabled:opacity-40"
                               title="Subir"
                             >
                               ↑
@@ -519,7 +519,7 @@ export function StatusConfigSideOver({
                               type="button"
                               onClick={() => moveCompanyStatus(i, "down")}
                               disabled={i === statuses.length - 1 || reorderSaving}
-                              className="rounded p-1 text-[#64748B] hover:bg-[#F1F5F9] disabled:opacity-40"
+                              className="rounded p-1 text-muted-foreground hover:bg-muted/60 disabled:opacity-40"
                               title="Descer"
                             >
                               ↓
@@ -532,7 +532,7 @@ export function StatusConfigSideOver({
                                 setEditColor(s.color_hex);
                                 setEditIsClosed(s.is_closed);
                               }}
-                              className="rounded p-1.5 text-[#64748B] hover:bg-[#F1F5F9] hover:text-[#0F172A]"
+                              className="rounded p-1.5 text-muted-foreground hover:bg-muted/60 hover:text-foreground"
                               title="Editar"
                             >
                               <Pencil className="h-4 w-4" />
@@ -540,7 +540,7 @@ export function StatusConfigSideOver({
                             <button
                               type="button"
                               onClick={() => setDeleteConfirm(s)}
-                              className="rounded p-1.5 text-[#64748B] hover:bg-red-50 hover:text-red-600"
+                              className="rounded p-1.5 text-muted-foreground hover:bg-red-50 hover:text-red-600"
                               title="Excluir"
                             >
                               <Trash2 className="h-4 w-4" />
@@ -555,16 +555,16 @@ export function StatusConfigSideOver({
 
               {activeTab === "por-fila" && (
                 <div className="space-y-4">
-                  <p className="text-sm text-[#64748B]">
+                  <p className="text-sm text-muted-foreground">
                     Defina quais status cada fila usa e em que ordem. Se vazio, a fila usa todos os status da empresa.
                   </p>
 
                   <div>
-                    <label className="mb-1 block text-sm font-medium text-[#334155]">Fila</label>
+                    <label className="mb-1 block text-sm font-medium text-foreground">Fila</label>
                     <select
                       value={selectedQueueId}
                       onChange={(e) => setSelectedQueueId(e.target.value)}
-                      className="w-full rounded-lg border border-[#E2E8F0] px-3 py-2 text-sm text-[#1E293B]"
+                      className="w-full rounded-lg border border-border px-3 py-2 text-sm text-foreground"
                     >
                       <option value="">Selecione uma fila</option>
                       {queues.map((q) => (
@@ -572,7 +572,7 @@ export function StatusConfigSideOver({
                       ))}
                     </select>
                     {queues.length === 0 && (
-                      <p className="mt-2 text-sm text-[#64748B]">Nenhuma fila cadastrada. Crie filas em Filas para atribuir status por fila.</p>
+                      <p className="mt-2 text-sm text-muted-foreground">Nenhuma fila cadastrada. Crie filas em Filas para atribuir status por fila.</p>
                     )}
                   </div>
 
@@ -580,12 +580,12 @@ export function StatusConfigSideOver({
                     <>
                       {queueStatusesLoading ? (
                         <div className="flex items-center justify-center py-8">
-                          <Loader2 className="h-8 w-8 animate-spin text-clicvend-orange" />
+                          <Loader2 className="h-8 w-8 animate-spin text-amber-600 dark:text-amber-400" />
                         </div>
                       ) : (
                         <div className="space-y-3">
                           <div className="flex items-center justify-between">
-                            <span className="text-sm font-medium text-[#334155]">Status desta fila (ordem)</span>
+                            <span className="text-sm font-medium text-foreground">Status desta fila (ordem)</span>
                             <button
                               type="button"
                               onClick={saveQueueStatuses}
@@ -599,14 +599,14 @@ export function StatusConfigSideOver({
 
                           <div className="space-y-1 max-h-48 overflow-y-auto">
                             {queueStatuses.length === 0 && !queueStatusesLoading && (
-                              <p className="rounded-lg border border-dashed border-[#E2E8F0] bg-[#F8FAFC] px-4 py-6 text-center text-sm text-[#64748B]">
+                              <p className="rounded-lg border border-dashed border-border bg-muted/40 px-4 py-6 text-center text-sm text-muted-foreground">
                                 Nenhum status nesta fila. Use os botões abaixo para adicionar.
                               </p>
                             )}
                             {queueStatuses.map((s, i) => (
                               <div
                                 key={s.id}
-                                className="flex items-center gap-2 rounded-lg border border-[#E2E8F0] bg-white px-3 py-2"
+                                className="flex items-center gap-2 rounded-lg border border-border bg-card px-3 py-2"
                               >
                                 {editingId === s.id ? (
                                   <>
@@ -614,7 +614,7 @@ export function StatusConfigSideOver({
                                       type="text"
                                       value={editName}
                                       onChange={(e) => setEditName(e.target.value)}
-                                      className="flex-1 rounded border border-[#E2E8F0] px-2 py-1 text-sm"
+                                      className="flex-1 rounded border border-border px-2 py-1 text-sm"
                                     />
                                     <input
                                       type="color"
@@ -634,14 +634,14 @@ export function StatusConfigSideOver({
                                       type="button"
                                       onClick={() => updateStatus(s.id)}
                                       disabled={saving}
-                                      className="rounded px-2 py-1 text-xs font-medium text-clicvend-orange hover:bg-clicvend-orange/10"
+                                      className="rounded px-2 py-1 text-xs font-medium text-amber-600 dark:text-amber-400 hover:bg-clicvend-orange/10"
                                     >
                                       Salvar
                                     </button>
                                     <button
                                       type="button"
                                       onClick={() => setEditingId(null)}
-                                      className="rounded px-2 py-1 text-xs text-[#64748B] hover:bg-[#F1F5F9]"
+                                      className="rounded px-2 py-1 text-xs text-muted-foreground hover:bg-muted/60"
                                     >
                                       Cancelar
                                     </button>
@@ -654,13 +654,13 @@ export function StatusConfigSideOver({
                                     />
                                     <span className="flex-1 text-sm font-medium">{s.name}</span>
                                     {s.is_closed && (
-                                      <span className="rounded bg-[#E2E8F0] px-1.5 py-0.5 text-[10px] text-[#64748B]">Fechado</span>
+                                      <span className="rounded bg-muted px-1.5 py-0.5 text-[10px] text-muted-foreground">Fechado</span>
                                     )}
                                     <button
                                       type="button"
                                       onClick={() => moveQueueStatus(i, "up")}
                                       disabled={i === 0}
-                                      className="rounded p-1 text-[#64748B] hover:bg-[#F1F5F9] disabled:opacity-40"
+                                      className="rounded p-1 text-muted-foreground hover:bg-muted/60 disabled:opacity-40"
                                       title="Subir"
                                     >
                                       ↑
@@ -669,7 +669,7 @@ export function StatusConfigSideOver({
                                       type="button"
                                       onClick={() => moveQueueStatus(i, "down")}
                                       disabled={i === queueStatuses.length - 1}
-                                      className="rounded p-1 text-[#64748B] hover:bg-[#F1F5F9] disabled:opacity-40"
+                                      className="rounded p-1 text-muted-foreground hover:bg-muted/60 disabled:opacity-40"
                                       title="Descer"
                                     >
                                       ↓
@@ -682,7 +682,7 @@ export function StatusConfigSideOver({
                                         setEditColor(s.color_hex);
                                         setEditIsClosed(s.is_closed);
                                       }}
-                                      className="rounded p-1 text-[#64748B] hover:bg-[#F1F5F9] hover:text-[#0F172A]"
+                                      className="rounded p-1 text-muted-foreground hover:bg-muted/60 hover:text-foreground"
                                       title="Editar"
                                     >
                                       <Pencil className="h-4 w-4" />
@@ -703,8 +703,8 @@ export function StatusConfigSideOver({
                             ))}
                           </div>
 
-                          <div className="border-t border-[#E2E8F0] pt-3">
-                            <span className="text-sm font-medium text-[#334155]">Adicionar status da empresa</span>
+                          <div className="border-t border-border pt-3">
+                            <span className="text-sm font-medium text-foreground">Adicionar status da empresa</span>
                             <div className="mt-2 flex flex-wrap gap-2">
                               {statuses
                                 .filter((s) => !queueStatuses.some((qs) => qs.id === s.id))
@@ -713,7 +713,7 @@ export function StatusConfigSideOver({
                                     key={s.id}
                                     type="button"
                                     onClick={() => addStatusToQueue(s)}
-                                    className="inline-flex items-center gap-1.5 rounded-full border border-[#E2E8F0] bg-white px-3 py-1.5 text-sm text-[#64748B] hover:border-clicvend-orange hover:text-clicvend-orange"
+                                    className="inline-flex items-center gap-1.5 rounded-full border border-border bg-card px-3 py-1.5 text-sm text-muted-foreground hover:border-clicvend-orange hover:text-amber-600 dark:hover:text-amber-400"
                                   >
                                     <span
                                       className="h-2 w-2 rounded-full"
@@ -723,14 +723,14 @@ export function StatusConfigSideOver({
                                   </button>
                                 ))}
                               {statuses.filter((s) => !queueStatuses.some((qs) => qs.id === s.id)).length === 0 && (
-                                <span className="text-sm text-[#94A3B8]">Todos os status da empresa já estão na fila</span>
+                                <span className="text-sm text-muted-foreground">Todos os status da empresa já estão na fila</span>
                               )}
                             </div>
                           </div>
 
-                          <div className="border-t border-[#E2E8F0] pt-3">
-                            <span className="text-sm font-medium text-[#334155]">Status exclusivo desta fila</span>
-                            <p className="mt-1 text-xs text-[#64748B]">
+                          <div className="border-t border-border pt-3">
+                            <span className="text-sm font-medium text-foreground">Status exclusivo desta fila</span>
+                            <p className="mt-1 text-xs text-muted-foreground">
                               Crie um status que só existe nesta fila. Máximo {MAX_QUEUE_EXCLUSIVE_STATUSES} exclusivos por fila
                               {(() => {
                                 const exclusiveCount = queueStatuses.filter((qs) => !statuses.some((s) => s.id === qs.id)).length;
@@ -742,29 +742,29 @@ export function StatusConfigSideOver({
                                 type="button"
                                 onClick={() => setCreatingQueueExclusive(true)}
                                 disabled={queueStatuses.filter((qs) => !statuses.some((s) => s.id === qs.id)).length >= MAX_QUEUE_EXCLUSIVE_STATUSES}
-                                className="mt-2 inline-flex items-center gap-2 rounded-lg border border-dashed border-[#CBD5E1] px-3 py-2 text-sm font-medium text-[#64748B] hover:border-clicvend-orange hover:text-clicvend-orange disabled:opacity-50 disabled:pointer-events-none"
+                                className="mt-2 inline-flex items-center gap-2 rounded-lg border border-dashed border-border px-3 py-2 text-sm font-medium text-muted-foreground hover:border-clicvend-orange hover:text-amber-600 dark:hover:text-amber-400 disabled:opacity-50 disabled:pointer-events-none"
                               >
                                 <Plus className="h-4 w-4" />
                                 Novo status exclusivo
                               </button>
                             ) : (
-                              <div className="mt-2 rounded-lg border border-[#E2E8F0] bg-[#F8FAFC] p-4 space-y-3">
+                              <div className="mt-2 rounded-lg border border-border bg-muted/40 p-4 space-y-3">
                                 <input
                                   type="text"
                                   value={newQueueName}
                                   onChange={(e) => setNewQueueName(e.target.value)}
                                   placeholder="Nome (ex: Em análise técnica)"
-                                  className="w-full rounded-lg border border-[#E2E8F0] px-3 py-2 text-sm text-[#1E293B]"
+                                  className="w-full rounded-lg border border-border px-3 py-2 text-sm text-foreground"
                                 />
                                 <div className="flex items-center gap-3">
-                                  <label className="text-sm text-[#64748B]">Cor:</label>
+                                  <label className="text-sm text-muted-foreground">Cor:</label>
                                   <input
                                     type="color"
                                     value={newQueueColor}
                                     onChange={(e) => setNewQueueColor(e.target.value)}
-                                    className="h-8 w-8 cursor-pointer rounded border border-[#E2E8F0]"
+                                    className="h-8 w-8 cursor-pointer rounded border border-border"
                                   />
-                                  <label className="flex items-center gap-2 text-sm text-[#64748B]">
+                                  <label className="flex items-center gap-2 text-sm text-muted-foreground">
                                     <input
                                       type="checkbox"
                                       checked={newQueueIsClosed}
@@ -777,7 +777,7 @@ export function StatusConfigSideOver({
                                   <button
                                     type="button"
                                     onClick={() => { setCreatingQueueExclusive(false); setNewQueueName(""); setNewQueueColor("#64748B"); setNewQueueIsClosed(false); }}
-                                    className="rounded-lg px-3 py-1.5 text-sm text-[#64748B] hover:bg-[#E2E8F0]"
+                                    className="rounded-lg px-3 py-1.5 text-sm text-muted-foreground hover:bg-muted/60"
                                   >
                                     Cancelar
                                   </button>

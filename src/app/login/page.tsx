@@ -51,7 +51,7 @@ function LoginForm() {
         </div>
 
         <div className="relative z-10 mx-auto w-full max-w-xl">
-          <div className="rounded-3xl border border-white/10 bg-white/[0.04] p-5 backdrop-blur md:p-8">
+          <div className="rounded-3xl border border-white/10 bg-card/[0.04] p-5 backdrop-blur md:p-8">
             <p className="text-[11px] font-semibold tracking-wider text-amber-300/90">
               ORGANIZE O ATENDIMENTO NO WHATSAPP
             </p>
@@ -66,7 +66,7 @@ function LoginForm() {
             </p>
 
             <div className="mt-6 grid grid-cols-2 gap-3 md:mt-7 md:gap-4">
-              <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-3 transition hover:bg-white/[0.06] md:p-4">
+              <div className="rounded-2xl border border-white/10 bg-card/[0.03] p-3 transition hover:bg-card/[0.06] md:p-4">
                 <div className="flex items-center gap-2 text-amber-200">
                   <MessageSquareText className="h-4 w-4" />
                   <span className="text-sm font-semibold">Filas & atribuição</span>
@@ -76,7 +76,7 @@ function LoginForm() {
                 </p>
               </div>
 
-              <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-3 transition hover:bg-white/[0.06] md:p-4">
+              <div className="rounded-2xl border border-white/10 bg-card/[0.03] p-3 transition hover:bg-card/[0.06] md:p-4">
                 <div className="flex items-center gap-2 text-amber-200">
                   <Clock4 className="h-4 w-4" />
                   <span className="text-sm font-semibold">SLA & prioridade</span>
@@ -86,7 +86,7 @@ function LoginForm() {
                 </p>
               </div>
 
-              <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-3 transition hover:bg-white/[0.06] md:p-4">
+              <div className="rounded-2xl border border-white/10 bg-card/[0.03] p-3 transition hover:bg-card/[0.06] md:p-4">
                 <div className="flex items-center gap-2 text-amber-200">
                   <History className="h-4 w-4" />
                   <span className="text-sm font-semibold">Histórico do contato</span>
@@ -96,7 +96,7 @@ function LoginForm() {
                 </p>
               </div>
 
-              <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-3 transition hover:bg-white/[0.06] md:p-4">
+              <div className="rounded-2xl border border-white/10 bg-card/[0.03] p-3 transition hover:bg-card/[0.06] md:p-4">
                 <div className="flex items-center gap-2 text-amber-200">
                   <CalendarCheck2 className="h-4 w-4" />
                   <span className="text-sm font-semibold">Agenda & retornos</span>
@@ -106,7 +106,7 @@ function LoginForm() {
                 </p>
               </div>
 
-              <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-3 transition hover:bg-white/[0.06] md:p-4">
+              <div className="rounded-2xl border border-white/10 bg-card/[0.03] p-3 transition hover:bg-card/[0.06] md:p-4">
                 <div className="flex items-center gap-2 text-amber-200">
                   <Tags className="h-4 w-4" />
                   <span className="text-sm font-semibold">Etiquetas & CRM</span>
@@ -116,7 +116,7 @@ function LoginForm() {
                 </p>
               </div>
 
-              <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-3 transition hover:bg-white/[0.06] md:p-4">
+              <div className="rounded-2xl border border-white/10 bg-card/[0.03] p-3 transition hover:bg-card/[0.06] md:p-4">
                 <div className="flex items-center gap-2 text-amber-200">
                   <UsersRound className="h-4 w-4" />
                   <span className="text-sm font-semibold">Visão da equipe</span>
@@ -178,7 +178,7 @@ function LoginForm() {
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-[#64748B] transition-colors hover:text-[#1E293B]"
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground transition-colors hover:text-foreground"
                 aria-label={showPassword ? "Ocultar senha" : "Mostrar senha"}
               >
                 {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
@@ -194,7 +194,7 @@ function LoginForm() {
           <button
             type="submit"
             disabled={!isValid || loading || success}
-            className={`w-full inline-flex items-center justify-center gap-2 rounded-xl py-3.5 font-semibold text-white shadow-lg transition-all disabled:cursor-not-allowed disabled:bg-[#94A3B8] disabled:shadow-none ${
+            className={`w-full inline-flex items-center justify-center gap-2 rounded-xl py-3.5 font-semibold text-white shadow-lg transition-all disabled:cursor-not-allowed disabled:bg-muted disabled:shadow-none ${
               success ? "bg-amber-500 hover:bg-amber-600" : "bg-gradient-to-r from-amber-600 to-amber-500 hover:from-amber-500 hover:to-amber-400"
             }`}
           >
@@ -219,8 +219,8 @@ export default function LoginPage() {
     <main className="min-h-screen">
       <Suspense
         fallback={
-          <div className="flex min-h-screen items-center justify-center bg-[#F8FAFC]">
-            <div className="text-[#64748B]">Carregando…</div>
+          <div className="flex min-h-screen items-center justify-center bg-muted/40">
+            <div className="text-muted-foreground">Carregando…</div>
           </div>
         }
       >

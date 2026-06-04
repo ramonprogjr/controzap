@@ -115,7 +115,7 @@ function QuoteLogo({ name, candidates }: { name: string; candidates: string[] })
 
   if (resolvedUrl) {
     return (
-      <div className="flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden rounded-xl border border-slate-100 bg-white">
+      <div className="flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden rounded-xl border border-slate-100 bg-card">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src={resolvedUrl} alt={name} className="max-h-full max-w-full object-contain p-1" loading="lazy" decoding="async" />
       </div>
@@ -260,7 +260,7 @@ export default function MulticalculoPage() {
   const isLastStep = step === STEPS.length - 1;
   const progressPct = Math.round(((step + 1) / STEPS.length) * 100);
   const segBase = "inline-flex items-center justify-center gap-1.5 px-3 py-1.5 text-xs font-medium transition-colors sm:px-3.5 sm:py-2 sm:text-sm";
-  const segInactive = "text-[#64748B] hover:bg-[#F8FAFC]";
+  const segInactive = "text-muted-foreground hover:bg-muted/40";
   const segActive = "bg-violet-200/80 text-violet-900";
   const payload = useMemo(() => ({ title: `Simulação ${new Date().toLocaleDateString("pt-BR")}`, ...formData, quotes_result: quotes }), [formData, quotes]);
 
@@ -321,12 +321,12 @@ export default function MulticalculoPage() {
 
   if (permissionsData !== undefined && !canAccess) return null;
   const inputCls =
-    "rounded-lg border border-violet-200/80 bg-white px-3 py-2 text-sm outline-none focus:border-violet-400 focus:ring-2 focus:ring-violet-200/60";
+    "rounded-lg border border-violet-200/80 bg-card px-3 py-2 text-sm outline-none focus:border-violet-400 focus:ring-2 focus:ring-violet-200/60";
 
   return (
     <div className="min-h-0 flex-1 overflow-auto bg-gradient-to-b from-violet-50/80 to-[#f4f0fb] p-4 lg:p-5">
       <div className="mx-auto flex w-full max-w-[1600px] flex-col gap-4">
-        <div className="rounded-2xl border border-violet-200/80 bg-white p-5 shadow-sm shadow-violet-100/50">
+        <div className="rounded-2xl border border-violet-200/80 bg-card p-5 shadow-sm shadow-violet-100/50">
           <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
             <div className="flex items-center gap-2 text-violet-800">
               <ShieldCheck className="h-5 w-5 text-violet-500" />
@@ -351,9 +351,9 @@ export default function MulticalculoPage() {
           {okMsg ? <p className="mt-2 text-sm text-violet-800">{okMsg}</p> : null}
         </div>
 
-        <div className="rounded-2xl border border-violet-200/80 bg-white p-3 shadow-sm shadow-violet-100/40">
+        <div className="rounded-2xl border border-violet-200/80 bg-card p-3 shadow-sm shadow-violet-100/40">
           <div className="overflow-x-auto pb-0.5 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-            <div className="inline-flex min-w-min overflow-hidden rounded-full border border-violet-200 bg-white">
+            <div className="inline-flex min-w-min overflow-hidden rounded-full border border-violet-200 bg-card">
               {STEPS.map((label, idx) => (
                 <button
                   key={label}
@@ -368,7 +368,7 @@ export default function MulticalculoPage() {
           </div>
         </div>
 
-        <div className="rounded-2xl border border-violet-200/80 bg-white p-4 shadow-sm shadow-violet-100/40">
+        <div className="rounded-2xl border border-violet-200/80 bg-card p-4 shadow-sm shadow-violet-100/40">
           <h2 className="mb-4 text-base font-semibold text-violet-950">{STEPS[step]}</h2>
           <div className="grid grid-cols-1 gap-3 md:grid-cols-2 2xl:grid-cols-4">
             {step === 0 ? <><input className={inputCls} placeholder="CPF/CNPJ *" value={formData.insured_data.cpfCnpj} onChange={(e) => setFormData((p) => ({ ...p, insured_data: { ...p.insured_data, cpfCnpj: e.target.value } }))} /><input className={inputCls} placeholder="Nome *" value={formData.insured_data.nome} onChange={(e) => setFormData((p) => ({ ...p, insured_data: { ...p.insured_data, nome: e.target.value } }))} /><input className={inputCls} placeholder="CEP *" value={formData.insured_data.cep} onChange={(e) => setFormData((p) => ({ ...p, insured_data: { ...p.insured_data, cep: e.target.value } }))} /><input className={inputCls} placeholder="E-mail" value={formData.insured_data.email} onChange={(e) => setFormData((p) => ({ ...p, insured_data: { ...p.insured_data, email: e.target.value } }))} /></> : null}
@@ -381,7 +381,7 @@ export default function MulticalculoPage() {
           </div>
         </div>
 
-        <div className="rounded-2xl border border-violet-200/80 bg-white p-4 shadow-sm shadow-violet-100/40">
+        <div className="rounded-2xl border border-violet-200/80 bg-card p-4 shadow-sm shadow-violet-100/40">
           <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
             <h3 className="text-base font-semibold text-violet-950">Resultado da Simulação</h3>
             {quotes.length > 1 ? (
@@ -389,7 +389,7 @@ export default function MulticalculoPage() {
                 <button
                   type="button"
                   aria-label="Anterior"
-                  className="rounded-full p-1.5 text-violet-700 hover:bg-white hover:shadow-sm"
+                  className="rounded-full p-1.5 text-violet-700 hover:bg-card hover:shadow-sm"
                   onClick={() => carouselRef.current?.scrollBy({ left: -320, behavior: "smooth" })}
                 >
                   <ChevronLeft className="h-4 w-4" />
@@ -397,7 +397,7 @@ export default function MulticalculoPage() {
                 <button
                   type="button"
                   aria-label="Próximo"
-                  className="rounded-full p-1.5 text-violet-700 hover:bg-white hover:shadow-sm"
+                  className="rounded-full p-1.5 text-violet-700 hover:bg-card hover:shadow-sm"
                   onClick={() => carouselRef.current?.scrollBy({ left: 320, behavior: "smooth" })}
                 >
                   <ChevronRight className="h-4 w-4" />
@@ -421,13 +421,13 @@ export default function MulticalculoPage() {
           )}
         </div>
 
-        <div className="sticky bottom-2 z-20 rounded-2xl border border-violet-200/80 bg-white p-3 shadow-lg shadow-violet-200/30">
+        <div className="sticky bottom-2 z-20 rounded-2xl border border-violet-200/80 bg-card p-3 shadow-lg shadow-violet-200/30">
           <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-            <div className="inline-flex shrink-0 overflow-hidden rounded-full border border-violet-200 bg-white">
+            <div className="inline-flex shrink-0 overflow-hidden rounded-full border border-violet-200 bg-card">
               <button type="button" disabled={step === 0} onClick={() => setStep((p) => Math.max(0, p - 1))} className={`${segBase} min-h-[36px] min-w-[44px] px-3 disabled:opacity-40 ${segInactive}`}><ChevronsLeft className="h-4 w-4" /></button>
               <button type="button" disabled={step >= STEPS.length - 1} onClick={nextStep} className={`${segBase} min-h-[36px] min-w-[44px] border-l border-violet-200 px-3 disabled:opacity-40 ${segInactive}`}><ChevronsRight className="h-4 w-4" /></button>
             </div>
-            <div className="inline-flex max-w-full overflow-hidden rounded-full border border-violet-200 bg-white">
+            <div className="inline-flex max-w-full overflow-hidden rounded-full border border-violet-200 bg-card">
               <button type="button" onClick={() => void save("draft")} disabled={isSaving} className={`${segBase} border-r border-violet-200 ${segInactive} disabled:opacity-60`}><Save className="h-3.5 w-3.5" />Salvar</button>
               <button type="button" onClick={() => setOkMsg("Edição ativa.")} className={`${segBase} border-r border-violet-200 ${segInactive}`}><PencilLine className="h-3.5 w-3.5" />Editar</button>
               <button type="button" onClick={() => void save("proposal_sent")} className={`${segBase} ${isLastStep ? "border-r border-violet-200" : ""} ${segInactive}`}><Send className="h-3.5 w-3.5" />Enviar</button>

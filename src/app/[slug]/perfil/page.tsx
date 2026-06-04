@@ -239,7 +239,7 @@ export default function PerfilPage() {
     // Alteração 1: Removido items-center e justify-center, adicionado flex-col para ocupar altura natural
     <div className="flex flex-col h-[calc(100vh-6rem)] p-4 md:p-8">
       {/* Alteração 2: Aumentado max-w para 95% ou full com margem, removido max-w-7xl fixo */}
-      <div className="flex h-full w-full max-w-[98%] mx-auto flex-col overflow-hidden rounded-3xl bg-white shadow-2xl ring-1 ring-slate-900/5">
+      <div className="flex h-full w-full max-w-[98%] mx-auto flex-col overflow-hidden rounded-3xl bg-card shadow-2xl ring-1 ring-slate-900/5">
         
         {/* Header do Card */}
         <div className="relative shrink-0 bg-slate-50 px-8 pt-8 pb-4 border-b border-slate-100">
@@ -321,7 +321,7 @@ export default function PerfilPage() {
             <div className="grid gap-6 md:grid-cols-2 animate-in fade-in slide-in-from-bottom-4 duration-500">
               
               {/* Card Usuário */}
-              <div className="group relative overflow-hidden rounded-2xl border border-slate-200 bg-white p-6 transition-all hover:border-slate-300 hover:shadow-md"> {/* Alteração 8: hover border neutro */}
+              <div className="group relative overflow-hidden rounded-2xl border border-slate-200 bg-card p-6 transition-all hover:border-slate-300 hover:shadow-md"> {/* Alteração 8: hover border neutro */}
                 <div className="absolute top-0 right-0 p-4 opacity-0 transition-opacity group-hover:opacity-100">
                   <div className="rounded-full bg-slate-100 p-2 text-slate-400">
                     <User className="h-4 w-4" />
@@ -344,7 +344,7 @@ export default function PerfilPage() {
                         {(userEmail || "U").charAt(0).toUpperCase()}
                       </div>
                     )}
-                    <label className="absolute -bottom-1 -right-1 flex h-7 w-7 cursor-pointer items-center justify-center rounded-full bg-white shadow-sm ring-1 ring-slate-200 transition-transform hover:scale-110 active:scale-95">
+                    <label className="absolute -bottom-1 -right-1 flex h-7 w-7 cursor-pointer items-center justify-center rounded-full bg-card shadow-sm ring-1 ring-slate-200 transition-transform hover:scale-110 active:scale-95">
                       <input
                         type="file"
                         accept="image/*"
@@ -372,7 +372,7 @@ export default function PerfilPage() {
 
               {/* Card Link de Acesso */}
               {linkData && (
-                <div className="group relative overflow-hidden rounded-2xl border border-slate-200 bg-white p-6 transition-all hover:border-slate-300 hover:shadow-md"> {/* Alteração 10: hover border neutro */}
+                <div className="group relative overflow-hidden rounded-2xl border border-slate-200 bg-card p-6 transition-all hover:border-slate-300 hover:shadow-md"> {/* Alteração 10: hover border neutro */}
                   <div className="absolute top-0 right-0 p-4 opacity-0 transition-opacity group-hover:opacity-100">
                     <div className="rounded-full bg-slate-100 p-2 text-slate-400">
                       <Link2 className="h-4 w-4" />
@@ -411,7 +411,7 @@ export default function PerfilPage() {
           {activeTab === "empresa" && (
             <div className="grid gap-6 md:grid-cols-2 animate-in fade-in slide-in-from-bottom-4 duration-500">
               {/* Detalhes Fiscais */}
-              <div className="rounded-2xl border border-slate-200 bg-white p-6">
+              <div className="rounded-2xl border border-slate-200 bg-card p-6">
                 <div className="flex items-center gap-3 mb-6">
                   <div className="rounded-lg bg-slate-100 p-2 text-slate-600"> {/* Alteração 13: Ícone neutro */}
                     <Building2 className="h-5 w-5" />
@@ -446,7 +446,7 @@ export default function PerfilPage() {
               </div>
 
               {/* Endereço */}
-              <div className="rounded-2xl border border-slate-200 bg-white p-6">
+              <div className="rounded-2xl border border-slate-200 bg-card p-6">
                 <div className="flex items-center gap-3 mb-6">
                   <div className="rounded-lg bg-slate-100 p-2 text-slate-600"> {/* Alteração 14: Ícone neutro */}
                     <MapPin className="h-5 w-5" />

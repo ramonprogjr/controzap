@@ -52,17 +52,17 @@ function ListaNode({ id, data }: NodeProps) {
   );
 
   return (
-    <div className="min-w-[200px] rounded-lg border border-[#E2E8F0] bg-white shadow-sm">
-      <Handle type="target" position={Position.Left} className="!bg-[#94A3B8]" />
-      <div className="flex items-center justify-between gap-2 px-3 py-2 border-b border-[#E2E8F0] bg-[#F8FAFC]">
-        <div className="flex items-center gap-2 text-sm font-medium text-[#1E293B]">
+    <div className="min-w-[200px] rounded-lg border border-border bg-card shadow-sm">
+      <Handle type="target" position={Position.Left} className="!bg-muted-foreground" />
+      <div className="flex items-center justify-between gap-2 px-3 py-2 border-b border-border bg-muted/40">
+        <div className="flex items-center gap-2 text-sm font-medium text-foreground">
           <Users className="h-4 w-4 text-blue-600 shrink-0" />
           Lista de contatos
         </div>
         <button
           type="button"
           onClick={() => deleteNode(id)}
-          className="nodrag nopan rounded p-1 text-[#94A3B8] hover:bg-red-50 hover:text-red-600"
+          className="nodrag nopan rounded p-1 text-muted-foreground hover:bg-red-50 hover:text-red-600"
           aria-label="Excluir"
         >
           <Trash2 className="h-4 w-4" />
@@ -70,7 +70,7 @@ function ListaNode({ id, data }: NodeProps) {
       </div>
       <div className="px-3 py-2.5">
         <div>
-          <label htmlFor={`${id}-nome`} className="block text-xs text-[#64748B] mb-0.5">
+          <label htmlFor={`${id}-nome`} className="block text-xs text-muted-foreground mb-0.5">
             Nome da lista
           </label>
           <input
@@ -78,11 +78,11 @@ function ListaNode({ id, data }: NodeProps) {
             value={nome}
             onChange={(e) => updateData("nome", e.target.value)}
             placeholder="Ex: Clientes VIP"
-            className="nodrag w-full rounded border border-[#E2E8F0] px-2 py-1.5 text-sm"
+            className="nodrag w-full rounded border border-border px-2 py-1.5 text-sm"
           />
         </div>
       </div>
-      <Handle type="source" position={Position.Right} className="!bg-[#94A3B8]" />
+      <Handle type="source" position={Position.Right} className="!bg-muted-foreground" />
     </div>
   );
 }
@@ -105,17 +105,17 @@ function HorarioNode({ id, data }: NodeProps) {
   );
 
   return (
-    <div className="min-w-[200px] rounded-lg border border-[#E2E8F0] bg-white shadow-sm">
-      <Handle type="target" position={Position.Left} className="!bg-[#94A3B8]" />
-      <div className="flex items-center justify-between gap-2 px-3 py-2 border-b border-[#E2E8F0] bg-[#F8FAFC]">
-        <div className="flex items-center gap-2 text-sm font-medium text-[#1E293B]">
+    <div className="min-w-[200px] rounded-lg border border-border bg-card shadow-sm">
+      <Handle type="target" position={Position.Left} className="!bg-muted-foreground" />
+      <div className="flex items-center justify-between gap-2 px-3 py-2 border-b border-border bg-muted/40">
+        <div className="flex items-center gap-2 text-sm font-medium text-foreground">
           <Clock className="h-4 w-4 text-amber-600 shrink-0" />
           Horário de envio
         </div>
         <button
           type="button"
           onClick={() => deleteNode(id)}
-          className="nodrag nopan rounded p-1 text-[#94A3B8] hover:bg-red-50 hover:text-red-600"
+          className="nodrag nopan rounded p-1 text-muted-foreground hover:bg-red-50 hover:text-red-600"
           aria-label="Excluir"
         >
           <Trash2 className="h-4 w-4" />
@@ -123,7 +123,7 @@ function HorarioNode({ id, data }: NodeProps) {
       </div>
       <div className="px-3 py-2.5 space-y-2">
         <div>
-          <label htmlFor={`${id}-inicio`} className="block text-xs text-[#64748B] mb-0.5">
+          <label htmlFor={`${id}-inicio`} className="block text-xs text-muted-foreground mb-0.5">
             Início (ex: 09:00)
           </label>
           <input
@@ -131,11 +131,11 @@ function HorarioNode({ id, data }: NodeProps) {
             type="time"
             value={inicio}
             onChange={(e) => updateData("inicio", e.target.value)}
-            className="nodrag w-full rounded border border-[#E2E8F0] px-2 py-1.5 text-sm"
+            className="nodrag w-full rounded border border-border px-2 py-1.5 text-sm"
           />
         </div>
         <div>
-          <label htmlFor={`${id}-fim`} className="block text-xs text-[#64748B] mb-0.5">
+          <label htmlFor={`${id}-fim`} className="block text-xs text-muted-foreground mb-0.5">
             Fim (ex: 18:00)
           </label>
           <input
@@ -143,11 +143,11 @@ function HorarioNode({ id, data }: NodeProps) {
             type="time"
             value={fim}
             onChange={(e) => updateData("fim", e.target.value)}
-            className="nodrag w-full rounded border border-[#E2E8F0] px-2 py-1.5 text-sm"
+            className="nodrag w-full rounded border border-border px-2 py-1.5 text-sm"
           />
         </div>
       </div>
-      <Handle type="source" position={Position.Right} className="!bg-[#94A3B8]" />
+      <Handle type="source" position={Position.Right} className="!bg-muted-foreground" />
     </div>
   );
 }
@@ -170,17 +170,17 @@ function DelayNode({ id, data }: NodeProps) {
   );
 
   return (
-    <div className="min-w-[200px] rounded-lg border border-[#E2E8F0] bg-white shadow-sm">
-      <Handle type="target" position={Position.Left} className="!bg-[#94A3B8]" />
-      <div className="flex items-center justify-between gap-2 px-3 py-2 border-b border-[#E2E8F0] bg-[#F8FAFC]">
-        <div className="flex items-center gap-2 text-sm font-medium text-[#1E293B]">
+    <div className="min-w-[200px] rounded-lg border border-border bg-card shadow-sm">
+      <Handle type="target" position={Position.Left} className="!bg-muted-foreground" />
+      <div className="flex items-center justify-between gap-2 px-3 py-2 border-b border-border bg-muted/40">
+        <div className="flex items-center gap-2 text-sm font-medium text-foreground">
           <Timer className="h-4 w-4 text-emerald-600 shrink-0" />
           Cadência (delay)
         </div>
         <button
           type="button"
           onClick={() => deleteNode(id)}
-          className="nodrag nopan rounded p-1 text-[#94A3B8] hover:bg-red-50 hover:text-red-600"
+          className="nodrag nopan rounded p-1 text-muted-foreground hover:bg-red-50 hover:text-red-600"
           aria-label="Excluir"
         >
           <Trash2 className="h-4 w-4" />
@@ -188,7 +188,7 @@ function DelayNode({ id, data }: NodeProps) {
       </div>
       <div className="px-3 py-2.5 space-y-2">
         <div>
-          <label htmlFor={`${id}-min`} className="block text-xs text-[#64748B] mb-0.5">
+          <label htmlFor={`${id}-min`} className="block text-xs text-muted-foreground mb-0.5">
             Mín (segundos)
           </label>
           <input
@@ -197,11 +197,11 @@ function DelayNode({ id, data }: NodeProps) {
             min={1}
             value={min}
             onChange={(e) => updateData("min", e.target.value)}
-            className="nodrag w-full rounded border border-[#E2E8F0] px-2 py-1.5 text-sm"
+            className="nodrag w-full rounded border border-border px-2 py-1.5 text-sm"
           />
         </div>
         <div>
-          <label htmlFor={`${id}-max`} className="block text-xs text-[#64748B] mb-0.5">
+          <label htmlFor={`${id}-max`} className="block text-xs text-muted-foreground mb-0.5">
             Máx (segundos)
           </label>
           <input
@@ -210,11 +210,11 @@ function DelayNode({ id, data }: NodeProps) {
             min={1}
             value={max}
             onChange={(e) => updateData("max", e.target.value)}
-            className="nodrag w-full rounded border border-[#E2E8F0] px-2 py-1.5 text-sm"
+            className="nodrag w-full rounded border border-border px-2 py-1.5 text-sm"
           />
         </div>
       </div>
-      <Handle type="source" position={Position.Right} className="!bg-[#94A3B8]" />
+      <Handle type="source" position={Position.Right} className="!bg-muted-foreground" />
     </div>
   );
 }
@@ -237,17 +237,17 @@ function MensagemNode({ id, data }: NodeProps) {
   );
 
   return (
-    <div className="min-w-[220px] rounded-lg border border-[#E2E8F0] bg-white shadow-sm">
-      <Handle type="target" position={Position.Left} className="!bg-[#94A3B8]" />
-      <div className="flex items-center justify-between gap-2 px-3 py-2 border-b border-[#E2E8F0] bg-[#F8FAFC]">
-        <div className="flex items-center gap-2 text-sm font-medium text-[#1E293B]">
+    <div className="min-w-[220px] rounded-lg border border-border bg-card shadow-sm">
+      <Handle type="target" position={Position.Left} className="!bg-muted-foreground" />
+      <div className="flex items-center justify-between gap-2 px-3 py-2 border-b border-border bg-muted/40">
+        <div className="flex items-center gap-2 text-sm font-medium text-foreground">
           <MessageSquare className="h-4 w-4 text-sky-600 shrink-0" />
           Mensagem
         </div>
         <button
           type="button"
           onClick={() => deleteNode(id)}
-          className="nodrag nopan rounded p-1 text-[#94A3B8] hover:bg-red-50 hover:text-red-600"
+          className="nodrag nopan rounded p-1 text-muted-foreground hover:bg-red-50 hover:text-red-600"
           aria-label="Excluir"
         >
           <Trash2 className="h-4 w-4" />
@@ -255,7 +255,7 @@ function MensagemNode({ id, data }: NodeProps) {
       </div>
       <div className="px-3 py-2.5 space-y-2">
         <div>
-          <label htmlFor={`${id}-text`} className="block text-xs text-[#64748B] mb-0.5">
+          <label htmlFor={`${id}-text`} className="block text-xs text-muted-foreground mb-0.5">
             Texto
           </label>
           <textarea
@@ -264,11 +264,11 @@ function MensagemNode({ id, data }: NodeProps) {
             onChange={(e) => updateData("text", e.target.value)}
             placeholder="Digite a mensagem..."
             rows={3}
-            className="nodrag w-full rounded border border-[#E2E8F0] px-2 py-1.5 text-sm resize-none"
+            className="nodrag w-full rounded border border-border px-2 py-1.5 text-sm resize-none"
           />
         </div>
         <div>
-          <label htmlFor={`${id}-file`} className="block text-xs text-[#64748B] mb-0.5">
+          <label htmlFor={`${id}-file`} className="block text-xs text-muted-foreground mb-0.5">
             Imagem (URL ou base64)
           </label>
           <input
@@ -276,12 +276,12 @@ function MensagemNode({ id, data }: NodeProps) {
             value={(data.file as string) ?? ""}
             onChange={(e) => updateData("file", e.target.value)}
             placeholder="Opcional: URL ou base64"
-            className="nodrag w-full rounded border border-[#E2E8F0] px-2 py-1.5 text-sm text-[11px]"
+            className="nodrag w-full rounded border border-border px-2 py-1.5 text-sm text-[11px]"
           />
           {hasImage && <span className="text-[10px] text-emerald-600 mt-0.5 block">✓ Imagem anexada</span>}
         </div>
       </div>
-      <Handle type="source" position={Position.Right} className="!bg-[#94A3B8]" />
+      <Handle type="source" position={Position.Right} className="!bg-muted-foreground" />
     </div>
   );
 }
@@ -303,17 +303,17 @@ function EnvioNode({ id, data }: NodeProps) {
   );
 
   return (
-    <div className="min-w-[200px] rounded-lg border border-[#E2E8F0] bg-white shadow-sm">
-      <Handle type="target" position={Position.Left} className="!bg-[#94A3B8]" />
-      <div className="flex items-center justify-between gap-2 px-3 py-2 border-b border-[#E2E8F0] bg-[#F8FAFC]">
-        <div className="flex items-center gap-2 text-sm font-medium text-[#1E293B]">
+    <div className="min-w-[200px] rounded-lg border border-border bg-card shadow-sm">
+      <Handle type="target" position={Position.Left} className="!bg-muted-foreground" />
+      <div className="flex items-center justify-between gap-2 px-3 py-2 border-b border-border bg-muted/40">
+        <div className="flex items-center gap-2 text-sm font-medium text-foreground">
           <Send className="h-4 w-4 text-violet-600 shrink-0" />
           Envio
         </div>
         <button
           type="button"
           onClick={() => deleteNode(id)}
-          className="nodrag nopan rounded p-1 text-[#94A3B8] hover:bg-red-50 hover:text-red-600"
+          className="nodrag nopan rounded p-1 text-muted-foreground hover:bg-red-50 hover:text-red-600"
           aria-label="Excluir"
         >
           <Trash2 className="h-4 w-4" />
@@ -321,21 +321,21 @@ function EnvioNode({ id, data }: NodeProps) {
       </div>
       <div className="px-3 py-2.5">
         <div>
-          <label htmlFor={`${id}-tipo`} className="block text-xs text-[#64748B] mb-0.5">
+          <label htmlFor={`${id}-tipo`} className="block text-xs text-muted-foreground mb-0.5">
             Modo
           </label>
           <select
             id={`${id}-tipo`}
             value={tipo}
             onChange={(e) => updateData("tipo", e.target.value)}
-            className="nodrag w-full rounded border border-[#E2E8F0] px-2 py-1.5 text-sm"
+            className="nodrag w-full rounded border border-border px-2 py-1.5 text-sm"
           >
             <option value="otimizado">Otimizado (25–45s)</option>
             <option value="manual">Manual (~35s)</option>
           </select>
         </div>
       </div>
-      <Handle type="source" position={Position.Right} className="!bg-[#94A3B8]" />
+      <Handle type="source" position={Position.Right} className="!bg-muted-foreground" />
     </div>
   );
 }
@@ -402,7 +402,7 @@ export function BroadcastFlowSideOver({
     >
       <div className="flex flex-col gap-4">
         <div>
-          <label htmlFor="pipeline-name" className="block text-sm font-medium text-[#334155] mb-1">
+          <label htmlFor="pipeline-name" className="block text-sm font-medium text-foreground mb-1">
             Nome do pipeline
           </label>
           <input
@@ -410,15 +410,15 @@ export function BroadcastFlowSideOver({
             value={pipelineName}
             onChange={(e) => setPipelineName(e.target.value)}
             placeholder="Ex: Campanha Janeiro"
-            className="w-full rounded-lg border border-[#E2E8F0] bg-white px-3 py-2 text-sm text-[#1E293B] placeholder-[#94A3B8] focus:border-clicvend-orange focus:outline-none focus:ring-1 focus:ring-clicvend-orange"
+            className="w-full rounded-lg border border-border bg-card px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:border-amber-500 focus:outline-none focus:ring-1 focus:ring-amber-500/20"
           />
         </div>
         {recipientCount > 0 && (
-          <p className="text-sm text-[#64748B]">
+          <p className="text-sm text-muted-foreground">
             {recipientCount} contato(s) na fila — configure cada etapa abaixo.
           </p>
         )}
-        <div className="h-[550px] w-full min-h-[450px] rounded-lg border border-[#E2E8F0] bg-[#F8FAFC] overflow-hidden">
+        <div className="h-[550px] w-full min-h-[450px] rounded-lg border border-border bg-muted/40 overflow-hidden">
           <ReactFlow
             nodes={nodes}
             edges={edges}
@@ -429,7 +429,7 @@ export function BroadcastFlowSideOver({
             defaultEdgeOptions={{ type: "smoothstep" }}
             connectionLineType={ConnectionLineType.SmoothStep}
             fitView
-            className="bg-[#F8FAFC]"
+            className="bg-muted/40"
           >
             <Background />
             <Controls />
@@ -437,11 +437,11 @@ export function BroadcastFlowSideOver({
           </ReactFlow>
         </div>
         <div className="flex flex-col gap-2">
-          <p className="text-xs text-[#94A3B8]">
+          <p className="text-xs text-muted-foreground">
             Preencha os campos em cada card. Clique no ícone de lixeira para excluir um card. Arraste os nós para reorganizar.
           </p>
-          <div className="flex items-center justify-between gap-4 pt-2 border-t border-[#E2E8F0]">
-            <p className="text-xs text-[#64748B]">
+          <div className="flex items-center justify-between gap-4 pt-2 border-t border-border">
+            <p className="text-xs text-muted-foreground">
               O fluxo define: <strong>Lista</strong> → <strong>Horário</strong> → <strong>Cadência</strong> → <strong>Mensagem</strong> (texto + imagem) → <strong>Envio</strong>.
             </p>
             <button

@@ -31,7 +31,7 @@ export function ChannelIcon({
   if (variant === "outline") {
     return (
       <span
-        className={`inline-flex items-center justify-center text-[#64748B] ${className ?? ""}`}
+        className={`inline-flex items-center justify-center text-muted-foreground ${className ?? ""}`}
         style={{ width: size, height: size }}
         title={label}
         aria-hidden

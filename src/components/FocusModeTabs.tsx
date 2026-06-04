@@ -95,12 +95,12 @@ export function FocusModeTabs() {
   if (list.length === 0 && !isLoading) return null;
 
   return (
-    <div className="flex shrink-0 items-center gap-0 border-b border-[#E2E8F0] bg-white px-1 py-1.5">
+    <div className="flex shrink-0 items-center gap-0 border-b border-border bg-card px-1 py-1.5">
       <button
         type="button"
         onClick={() => scrollTabs("left")}
         disabled={!canScrollLeft}
-        className="mr-1 hidden h-7 w-7 items-center justify-center rounded-full border border-[#E2E8F0] bg-white text-[#64748B] hover:bg-[#F8FAFC] disabled:opacity-30 disabled:hover:bg-white md:flex"
+        className="mr-1 hidden h-7 w-7 items-center justify-center rounded-full border border-border bg-card text-muted-foreground hover:bg-muted/40 disabled:opacity-30 disabled:hover:bg-card md:flex"
         aria-label="Rolagem para a esquerda"
       >
         <ChevronLeft className="h-4 w-4" />
@@ -128,10 +128,10 @@ export function FocusModeTabs() {
               className={`flex shrink-0 items-center gap-2 rounded-[6px] border px-2 py-1.5 transition-all min-w-0 max-w-[160px] ${
                 isActive
                   ? "border-clicvend-orange/50 bg-clicvend-orange/10 ring-1 ring-clicvend-orange/30"
-                  : "border-[#E2E8F0] bg-[#F8FAFC] hover:border-green-300 hover:bg-green-50/80"
+                  : "border-border bg-muted/40 hover:border-green-300 hover:bg-emerald-500/10"
               }`}
             >
-              <span className="flex h-7 w-7 shrink-0 items-center justify-center overflow-hidden rounded-full bg-[#E2E8F0] text-xs font-medium text-[#64748B]">
+              <span className="flex h-7 w-7 shrink-0 items-center justify-center overflow-hidden rounded-full bg-muted text-xs font-medium text-muted-foreground">
                 {avatarSrc ? (
                   <img src={avatarSrc} alt="" className="h-full w-full object-cover" referrerPolicy="no-referrer" />
                 ) : c.is_group ? (
@@ -140,7 +140,7 @@ export function FocusModeTabs() {
                   initial
                 )}
               </span>
-              <p className="truncate text-xs font-medium text-[#1E293B] min-w-0 flex-1">{displayName}</p>
+              <p className="truncate text-xs font-medium text-foreground min-w-0 flex-1">{displayName}</p>
               <ChannelIcon
                 provider="generic"
                 channelName={c.channel_name}
@@ -156,7 +156,7 @@ export function FocusModeTabs() {
         type="button"
         onClick={() => scrollTabs("right")}
         disabled={!canScrollRight}
-        className="ml-1 hidden h-7 w-7 items-center justify-center rounded-full border border-[#E2E8F0] bg-white text-[#64748B] hover:bg-[#F8FAFC] disabled:opacity-30 disabled:hover:bg-white md:flex"
+        className="ml-1 hidden h-7 w-7 items-center justify-center rounded-full border border-border bg-card text-muted-foreground hover:bg-muted/40 disabled:opacity-30 disabled:hover:bg-card md:flex"
         aria-label="Rolagem para a direita"
       >
         <ChevronRight className="h-4 w-4" />

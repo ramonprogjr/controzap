@@ -25,6 +25,7 @@ import {
 } from "@/lib/ticket-statuses/closed-slugs";
 import { parseLooseTimeToMs, UAZ_MIN_MESSAGE_TIME_MS } from "@/lib/uazapi/message-timestamp";
 import { getChannelToken } from "@/lib/uazapi/channel-token";
+import { getUazapiWebhookSecret, isUazapiWebhookAuthorized } from "@/lib/uazapi/webhook-auth";
 import { NextResponse } from "next/server";
 
 /**
@@ -226,8 +227,16 @@ function triggerSyncHistoryForInstance(instanceId: string): void {
  * - history           → processamos só para conversas que JÁ EXISTEM (não criamos conversa nem contato; evita encher Novos/Contatos ao conectar). Novas conversas/contatos só quando chega evento "messages".
  *
  * Manter "wasSentByApi" excluído no painel para não entrar em loop.
+ *
+ * Segurança: defina UAZAPI_WEBHOOK_SECRET no Render; a URL registrada na UAZ deve incluir ?secret=...
+ * (gerado automaticamente em POST /api/uazapi/webhook). Sem secret configurado, aceita POST legado.
  */
 export async function POST(request: Request) {
+  const secretConfigured = getUazapiWebhookSecret();
+  if (secretConfigured && !isUazapiWebhookAuthorized(request)) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
   try {
     const body = (await request.json()) as WebhookPayload & Record<string, unknown>;
     

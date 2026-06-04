@@ -85,8 +85,8 @@ export function FileDropzone({
         }}
         className={`
           relative flex flex-col items-center justify-center rounded-lg border-2 border-dashed px-4 py-6 text-center transition-colors
-          ${disabled || loading ? "cursor-not-allowed bg-[#F8FAFC] border-[#E2E8F0]" : "cursor-pointer"}
-          ${isDragging ? "border-clicvend-orange bg-[#FFF7ED]" : "border-[#E2E8F0] hover:border-[#CBD5E1] hover:bg-[#F8FAFC]"}
+          ${disabled || loading ? "cursor-not-allowed bg-muted/40 border-border" : "cursor-pointer"}
+          ${isDragging ? "border-clicvend-orange bg-amber-50/50 dark:bg-amber-950/20" : "border-border hover:border-border hover:bg-muted/40"}
         `}
       >
         <input
@@ -98,11 +98,11 @@ export function FileDropzone({
           disabled={disabled || loading}
         />
         {loading ? (
-          <Loader2 className="h-10 w-10 animate-spin text-clicvend-orange mb-2" />
+          <Loader2 className="h-10 w-10 animate-spin text-amber-600 dark:text-amber-400 mb-2" />
         ) : (
-          <Upload className="h-10 w-10 text-[#94A3B8] mb-2" />
+          <Upload className="h-10 w-10 text-muted-foreground mb-2" />
         )}
-        <p className="text-sm text-[#64748B]">{label}</p>
+        <p className="text-sm text-muted-foreground">{label}</p>
         {error && <p className="mt-2 text-sm text-red-600">{error}</p>}
       </div>
     </div>

@@ -171,30 +171,30 @@ export function CreateCommunitySideOver({
   return (
     <SideOver open={open} onClose={onClose} title="Criar comunidade" width={640}>
       <div className="space-y-4">
-        <p className="text-sm text-[#64748B]">
+        <p className="text-sm text-muted-foreground">
           A comunidade será criada na conexão <strong>{channelName}</strong>. Os grupos selecionados serão vinculados a ela. Opcionalmente defina descrição e imagem; elas serão aplicadas após a criação.
         </p>
         <div>
-          <label className="block text-sm font-medium text-[#334155] mb-1">Nome da comunidade</label>
+          <label className="block text-sm font-medium text-foreground mb-1">Nome da comunidade</label>
           <input
             type="text"
             value={communityName}
             onChange={(e) => setCommunityName(e.target.value)}
             placeholder="Ex: Suporte Oficial"
             maxLength={100}
-            className="w-full rounded-lg border border-[#E2E8F0] px-3 py-2 text-[#1E293B] placeholder:text-[#94A3B8] focus:border-clicvend-orange focus:outline-none focus:ring-1 focus:ring-clicvend-orange"
+            className="w-full rounded-lg border border-border px-3 py-2 text-foreground placeholder:text-muted-foreground focus:border-amber-500 focus:outline-none focus:ring-1 focus:ring-amber-500/20"
             disabled={loading}
           />
         </div>
         <div>
-          <label className="block text-sm font-medium text-[#334155] mb-1">Descrição (opcional)</label>
+          <label className="block text-sm font-medium text-foreground mb-1">Descrição (opcional)</label>
           <textarea
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             placeholder="Ex: Canal oficial de suporte da empresa"
             maxLength={512}
             rows={3}
-            className="w-full rounded-lg border border-[#E2E8F0] px-3 py-2 text-[#1E293B] placeholder:text-[#94A3B8] focus:border-clicvend-orange focus:outline-none focus:ring-1 focus:ring-clicvend-orange resize-none"
+            className="w-full rounded-lg border border-border px-3 py-2 text-foreground placeholder:text-muted-foreground focus:border-amber-500 focus:outline-none focus:ring-1 focus:ring-amber-500/20 resize-none"
             disabled={loading}
           />
           <button
@@ -225,17 +225,17 @@ export function CreateCommunitySideOver({
               }
             }}
             disabled={loading || generatingDesc}
-            className="mt-2 rounded-lg border border-[#E2E8F0] bg-[#F8FAFC] px-3 py-2 text-sm font-medium text-[#64748B] hover:bg-[#F1F5F9] hover:text-clicvend-orange disabled:opacity-50 inline-flex items-center gap-1.5"
+            className="mt-2 rounded-lg border border-border bg-muted/40 px-3 py-2 text-sm font-medium text-muted-foreground hover:bg-muted/60 hover:text-amber-600 dark:hover:text-amber-400 disabled:opacity-50 inline-flex items-center gap-1.5"
             title="Gerar descrição com IA"
           >
             {generatingDesc ? <Loader2 className="h-4 w-4 animate-spin" /> : <Sparkles className="h-4 w-4" />}
             Gerar com IA
           </button>
-          <p className="mt-1.5 text-xs text-[#94A3B8]">Até 512 caracteres. Aplicada após criar a comunidade.</p>
+          <p className="mt-1.5 text-xs text-muted-foreground">Até 512 caracteres. Aplicada após criar a comunidade.</p>
         </div>
         <div>
-          <label className="block text-sm font-medium text-[#334155] mb-1 flex items-center gap-1.5">
-            <ImagePlus className="h-4 w-4 text-[#94A3B8]" />
+          <label className="block text-sm font-medium text-foreground mb-1 flex items-center gap-1.5">
+            <ImagePlus className="h-4 w-4 text-muted-foreground" />
             Imagem da comunidade (opcional)
           </label>
           <FileDropzone
@@ -271,16 +271,16 @@ export function CreateCommunitySideOver({
               }
             }}
           />
-          <p className="mt-0.5 text-xs text-[#94A3B8]">Aplicada após criar a comunidade.</p>
+          <p className="mt-0.5 text-xs text-muted-foreground">Aplicada após criar a comunidade.</p>
         </div>
         <div>
-          <label className="block text-sm font-medium text-[#334155] mb-2">
+          <label className="block text-sm font-medium text-foreground mb-2">
             Grupos que serão vinculados ({selectedGroups.length})
           </label>
-          <ul className="rounded-lg border border-[#E2E8F0] bg-[#F8FAFC] max-h-48 overflow-y-auto p-2 space-y-1">
+          <ul className="rounded-lg border border-border bg-muted/40 max-h-48 overflow-y-auto p-2 space-y-1">
             {selectedGroups.map((g) => (
-              <li key={g.id} className="flex items-center gap-2 px-2 py-1.5 text-sm text-[#1E293B]">
-                <MessageCircle className="h-4 w-4 shrink-0 text-[#94A3B8]" />
+              <li key={g.id} className="flex items-center gap-2 px-2 py-1.5 text-sm text-foreground">
+                <MessageCircle className="h-4 w-4 shrink-0 text-muted-foreground" />
                 <span className="truncate">{g.name ?? g.jid ?? "—"}</span>
               </li>
             ))}
@@ -291,7 +291,7 @@ export function CreateCommunitySideOver({
             type="button"
             onClick={onClose}
             disabled={loading}
-            className="flex-1 rounded-lg border border-[#E2E8F0] bg-white px-4 py-2 text-sm font-medium text-[#64748B] hover:bg-[#F8FAFC] disabled:opacity-60"
+            className="flex-1 rounded-lg border border-border bg-card px-4 py-2 text-sm font-medium text-muted-foreground hover:bg-muted/40 disabled:opacity-60"
           >
             Cancelar
           </button>

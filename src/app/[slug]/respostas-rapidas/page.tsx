@@ -167,36 +167,36 @@ function RichTextEditor({
     saveSelection();
     onChange(el.innerHTML);
   };
-  const btnBase = "rounded p-1.5 hover:bg-[#E2E8F0]";
+  const btnBase = "rounded p-1.5 hover:bg-muted/60";
   return (
-    <div className="rounded-lg border border-[#E2E8F0] bg-white">
-      <div className="flex flex-wrap items-center gap-1 border-b border-[#E2E8F0] bg-[#F8FAFC] p-2">
+    <div className="rounded-lg border border-border bg-card">
+      <div className="flex flex-wrap items-center gap-1 border-b border-border bg-muted/40 p-2">
         <button type="button" onMouseDown={(e) => e.preventDefault()} onClick={() => apply("bold")} className={btnBase} title="Negrito">
-          <Bold className="h-4 w-4 text-[#475569]" />
+          <Bold className="h-4 w-4 text-muted-foreground" />
         </button>
         <button type="button" onMouseDown={(e) => e.preventDefault()} onClick={() => apply("italic")} className={btnBase} title="Itálico">
-          <Italic className="h-4 w-4 text-[#475569]" />
+          <Italic className="h-4 w-4 text-muted-foreground" />
         </button>
         <button type="button" onMouseDown={(e) => e.preventDefault()} onClick={() => apply("underline")} className={btnBase} title="Sublinhado">
-          <Underline className="h-4 w-4 text-[#475569]" />
+          <Underline className="h-4 w-4 text-muted-foreground" />
         </button>
         <button type="button" onMouseDown={(e) => e.preventDefault()} onClick={() => apply("strikeThrough")} className={btnBase} title="Riscado">
-          <Strikethrough className="h-4 w-4 text-[#475569]" />
+          <Strikethrough className="h-4 w-4 text-muted-foreground" />
         </button>
         <button type="button" onMouseDown={(e) => e.preventDefault()} onClick={() => apply("insertUnorderedList")} className={btnBase} title="Lista">
-          <List className="h-4 w-4 text-[#475569]" />
+          <List className="h-4 w-4 text-muted-foreground" />
         </button>
         <button type="button" onMouseDown={(e) => e.preventDefault()} onClick={() => apply("insertOrderedList")} className={btnBase} title="Lista numerada">
-          <ListOrdered className="h-4 w-4 text-[#475569]" />
+          <ListOrdered className="h-4 w-4 text-muted-foreground" />
         </button>
         <button type="button" onMouseDown={(e) => e.preventDefault()} onClick={() => apply("justifyLeft")} className={btnBase} title="Alinhar esquerda">
-          <AlignLeft className="h-4 w-4 text-[#475569]" />
+          <AlignLeft className="h-4 w-4 text-muted-foreground" />
         </button>
         <button type="button" onMouseDown={(e) => e.preventDefault()} onClick={() => apply("justifyCenter")} className={btnBase} title="Centralizar">
-          <AlignCenter className="h-4 w-4 text-[#475569]" />
+          <AlignCenter className="h-4 w-4 text-muted-foreground" />
         </button>
         <button type="button" onMouseDown={(e) => e.preventDefault()} onClick={() => apply("justifyRight")} className={btnBase} title="Alinhar direita">
-          <AlignRight className="h-4 w-4 text-[#475569]" />
+          <AlignRight className="h-4 w-4 text-muted-foreground" />
         </button>
         <button
           type="button"
@@ -208,10 +208,10 @@ function RichTextEditor({
           className={btnBase}
           title="Inserir link"
         >
-          <Link className="h-4 w-4 text-[#475569]" />
+          <Link className="h-4 w-4 text-muted-foreground" />
         </button>
         <button type="button" onMouseDown={(e) => e.preventDefault()} onClick={() => apply("removeFormat")} className={btnBase} title="Limpar formatação">
-          <Eraser className="h-4 w-4 text-[#475569]" />
+          <Eraser className="h-4 w-4 text-muted-foreground" />
         </button>
       </div>
       <div
@@ -222,7 +222,7 @@ function RichTextEditor({
         onMouseUp={saveSelection}
         onBlur={saveSelection}
         onInput={(e) => onChange((e.currentTarget as HTMLDivElement).innerHTML)}
-        className="min-h-[160px] whitespace-pre-wrap px-3 py-2 text-sm text-[#1E293B] focus:outline-none"
+        className="min-h-[160px] whitespace-pre-wrap px-3 py-2 text-sm text-foreground focus:outline-none"
         data-placeholder={placeholder ?? "Digite aqui..."}
       />
     </div>
@@ -1352,12 +1352,12 @@ export default function RespostasRapidasPage() {
   return (
     <div className="flex flex-col gap-4 p-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-[#1E293B]">Respostas rápidas</h1>
+        <h1 className="text-2xl font-bold text-foreground">Respostas rápidas</h1>
         <div className="flex items-center gap-2">
           <button
             type="button"
             onClick={() => fetchQuickReplies()}
-            className="flex h-10 w-10 items-center justify-center rounded-full bg-[#F1F5F9] text-[#64748B] hover:bg-[#E2E8F0] transition-colors"
+            className="flex h-10 w-10 items-center justify-center rounded-full bg-muted/60 text-muted-foreground hover:bg-muted/60 transition-colors"
             aria-label="Atualizar"
           >
             {loading ? (
@@ -1381,14 +1381,14 @@ export default function RespostasRapidasPage() {
         </div>
       </div>
 
-      <div className="flex gap-2 border-b border-[#E2E8F0]">
+      <div className="flex gap-2 border-b border-border">
         <button
           type="button"
           onClick={() => setModuleTab("general")}
           className={`flex items-center gap-2 border-b-2 px-4 py-2 text-sm font-medium transition-colors ${
             moduleTab === "general"
-              ? "border-clicvend-orange text-clicvend-orange"
-              : "border-transparent text-[#64748B] hover:text-[#1E293B]"
+              ? "border-clicvend-orange text-amber-600 dark:text-amber-400"
+              : "border-transparent text-muted-foreground hover:text-foreground"
           }`}
         >
           <MessageSquare className="h-4 w-4" />
@@ -1399,8 +1399,8 @@ export default function RespostasRapidasPage() {
           onClick={() => setModuleTab("campaign")}
           className={`flex items-center gap-2 border-b-2 px-4 py-2 text-sm font-medium transition-colors ${
             moduleTab === "campaign"
-              ? "border-clicvend-orange text-clicvend-orange"
-              : "border-transparent text-[#64748B] hover:text-[#1E293B]"
+              ? "border-clicvend-orange text-amber-600 dark:text-amber-400"
+              : "border-transparent text-muted-foreground hover:text-foreground"
           }`}
         >
           <Megaphone className="h-4 w-4" />
@@ -1415,15 +1415,15 @@ export default function RespostasRapidasPage() {
       )}
 
       {loading && tabRows.length === 0 ? (
-        <div className="rounded-xl border border-[#E2E8F0] bg-white p-8 text-center">
-          <Loader2 className="mx-auto h-10 w-10 animate-spin text-[#94A3B8]" />
-          <p className="mt-2 text-[#64748B]">Carregando respostas rápidas…</p>
+        <div className="rounded-xl border border-border bg-card p-8 text-center">
+          <Loader2 className="mx-auto h-10 w-10 animate-spin text-muted-foreground" />
+          <p className="mt-2 text-muted-foreground">Carregando respostas rápidas…</p>
         </div>
       ) : tabRows.length === 0 ? (
-        <div className="rounded-xl border border-[#E2E8F0] bg-white p-8 text-center">
-          <MessageSquare className="mx-auto h-12 w-12 text-[#94A3B8]" />
-          <p className="mt-2 text-[#64748B]">{moduleTabMeta.emptyTitle}</p>
-          <p className="mt-1 text-xs text-[#94A3B8]">
+        <div className="rounded-xl border border-border bg-card p-8 text-center">
+          <MessageSquare className="mx-auto h-12 w-12 text-muted-foreground" />
+          <p className="mt-2 text-muted-foreground">{moduleTabMeta.emptyTitle}</p>
+          <p className="mt-1 text-xs text-muted-foreground">
             {moduleTabMeta.emptyHint}
           </p>
           {moduleTab === "general" && (
@@ -1439,33 +1439,33 @@ export default function RespostasRapidasPage() {
           )}
         </div>
       ) : (
-        <div className="rounded-xl border border-[#E2E8F0] bg-white shadow-sm overflow-hidden">
-          <div className="flex flex-wrap items-center justify-between gap-4 border-b border-[#E2E8F0] bg-[#F8FAFC] px-4 py-3">
-            <p className="text-sm text-[#64748B]">
-              <span className="font-medium text-[#1E293B]">{tabRows.length}</span> item(ns) nesta aba
+        <div className="rounded-xl border border-border bg-card shadow-sm overflow-hidden">
+          <div className="flex flex-wrap items-center justify-between gap-4 border-b border-border bg-muted/40 px-4 py-3">
+            <p className="text-sm text-muted-foreground">
+              <span className="font-medium text-foreground">{tabRows.length}</span> item(ns) nesta aba
             </p>
             <div className="flex items-center gap-4 text-sm">
-              <span className="flex items-center gap-1.5 text-[#64748B]">
-                <MessageSquare className="h-4 w-4 text-clicvend-orange" />
-                <span className="uppercase text-[10px] font-medium tracking-wider text-[#64748B]">
+              <span className="flex items-center gap-1.5 text-muted-foreground">
+                <MessageSquare className="h-4 w-4 text-amber-600 dark:text-amber-400" />
+                <span className="uppercase text-[10px] font-medium tracking-wider text-muted-foreground">
                   Templates
                 </span>
-                <strong className="text-[#1E293B]">{tabRows.length}</strong>
+                <strong className="text-foreground">{tabRows.length}</strong>
               </span>
             </div>
           </div>
 
           {selectedIds.size > 0 && (
-            <div className="flex flex-wrap items-center justify-between gap-4 px-4 py-3 bg-clicvend-orange/10 border-b border-[#E2E8F0]">
-              <span className="text-sm font-medium text-[#1E293B]">
+            <div className="flex flex-wrap items-center justify-between gap-4 px-4 py-3 bg-clicvend-orange/10 border-b border-border">
+              <span className="text-sm font-medium text-foreground">
                 {selectedIds.size} resposta(s) rápida(s) selecionada(s)
               </span>
-              <div className="inline-flex flex-wrap rounded-lg border border-[#E2E8F0] bg-white overflow-hidden shadow-sm">
+              <div className="inline-flex flex-wrap rounded-lg border border-border bg-card overflow-hidden shadow-sm">
                 <button
                   type="button"
                   disabled={bulkActionLoading}
                   onClick={() => setShowBulkLink(true)}
-                  className="inline-flex items-center gap-1.5 border-r border-[#E2E8F0] bg-emerald-50 px-3 py-2 text-sm font-medium text-emerald-700 hover:bg-emerald-100 disabled:opacity-60"
+                  className="inline-flex items-center gap-1.5 border-r border-border bg-emerald-50 px-3 py-2 text-sm font-medium text-emerald-700 hover:bg-emerald-100 disabled:opacity-60"
                   title="Vincular filas às respostas selecionadas."
                 >
                   <Link2 className="h-4 w-4" />
@@ -1475,7 +1475,7 @@ export default function RespostasRapidasPage() {
                   type="button"
                   disabled={bulkActionLoading}
                   onClick={() => setBulkDeleteConfirm(true)}
-                  className="inline-flex items-center gap-1.5 border-r border-[#E2E8F0] bg-red-50 px-3 py-2 text-sm font-medium text-red-700 hover:bg-red-100 disabled:opacity-60"
+                  className="inline-flex items-center gap-1.5 border-r border-border bg-red-50 px-3 py-2 text-sm font-medium text-red-700 hover:bg-red-100 disabled:opacity-60"
                   title="Excluir as respostas rápidas selecionadas."
                 >
                   {bulkActionLoading ? (
@@ -1489,7 +1489,7 @@ export default function RespostasRapidasPage() {
                   type="button"
                   onClick={() => setSelectedIds(new Set())}
                   disabled={bulkActionLoading}
-                  className="inline-flex items-center gap-1.5 bg-white px-3 py-2 text-sm font-medium text-[#64748B] hover:bg-[#F1F5F9] disabled:opacity-60"
+                  className="inline-flex items-center gap-1.5 bg-card px-3 py-2 text-sm font-medium text-muted-foreground hover:bg-muted/60 disabled:opacity-60"
                   title="Desmarcar todas."
                 >
                   Limpar seleção
@@ -1500,36 +1500,36 @@ export default function RespostasRapidasPage() {
 
           <div className="overflow-auto max-h-[60vh] min-h-[200px]">
             <table className="w-full min-w-[640px] border-collapse">
-              <thead className="sticky top-0 z-10 bg-[#F8FAFC]">
-                <tr className="border-b border-[#E2E8F0]">
+              <thead className="sticky top-0 z-10 bg-muted/40">
+                <tr className="border-b border-border">
                   <th className="w-10 px-4 py-3 text-left">
                     <input
                       type="checkbox"
                       checked={tabRows.length > 0 && tabRows.every((r) => selectedIds.has(r.id))}
                       onChange={toggleSelectAll}
-                      className="h-4 w-4 rounded border-[#E2E8F0] text-clicvend-orange focus:ring-clicvend-orange"
+                      className="h-4 w-4 rounded border-border text-amber-600 dark:text-amber-400 focus:ring-amber-500/20"
                       aria-label="Selecionar todas"
                     />
                   </th>
-                  <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-[#64748B]">
+                  <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                     Atalho
                   </th>
-                  <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-[#64748B]">
+                  <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                     Tipo
                   </th>
-                  <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-[#64748B]">
+                  <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                     Texto
                   </th>
-                  <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-[#64748B]">
+                  <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                     Status
                   </th>
-                  <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-[#64748B]">
+                  <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                     Filas
                   </th>
-                  <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-[#64748B]">
+                  <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                     Canais
                   </th>
-                  <th className="px-4 py-3 text-right text-xs font-semibold uppercase tracking-wider text-[#64748B]">
+                  <th className="px-4 py-3 text-right text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                     Ações
                   </th>
                 </tr>
@@ -1538,23 +1538,23 @@ export default function RespostasRapidasPage() {
                 {pagedRows.map((row) => (
                   <tr
                     key={row.id}
-                    className="border-b border-[#E2E8F0] transition-colors hover:bg-[#F8FAFC]"
+                    className="border-b border-border transition-colors hover:bg-muted/40"
                   >
                     <td className="w-10 px-4 py-3">
                       <input
                         type="checkbox"
                         checked={selectedIds.has(row.id)}
                         onChange={() => toggleSelect(row.id)}
-                        className="h-4 w-4 rounded border-[#E2E8F0] text-clicvend-orange focus:ring-clicvend-orange"
+                        className="h-4 w-4 rounded border-border text-amber-600 dark:text-amber-400 focus:ring-amber-500/20"
                         aria-label={`Selecionar ${row.shortCut}`}
                       />
                     </td>
                     <td className="px-4 py-3">
                       <div>
-                        <p className="font-semibold text-[#1E293B]">{row.shortCut}</p>
+                        <p className="font-semibold text-foreground">{row.shortCut}</p>
                         {row.uazapiId ? (
                           <p
-                            className="font-mono text-[10px] text-[#94A3B8]"
+                            className="font-mono text-[10px] text-muted-foreground"
                             title={`ID UAZAPI: ${row.uazapiId}`}
                           >
                             {row.uazapiId.length > 16
@@ -1563,7 +1563,7 @@ export default function RespostasRapidasPage() {
                           </p>
                         ) : (
                           <p
-                            className="font-mono text-[10px] text-[#94A3B8] opacity-60"
+                            className="font-mono text-[10px] text-muted-foreground opacity-60"
                             title={`ID Interno: ${row.id}`}
                           >
                             Local: #{row.id.slice(0, 8)}
@@ -1571,8 +1571,8 @@ export default function RespostasRapidasPage() {
                         )}
                       </div>
                     </td>
-                    <td className="px-4 py-3 text-sm text-[#64748B]">{row.type}</td>
-                    <td className="max-w-[200px] px-4 py-3 text-sm text-[#64748B] truncate">
+                    <td className="px-4 py-3 text-sm text-muted-foreground">{row.type}</td>
+                    <td className="max-w-[200px] px-4 py-3 text-sm text-muted-foreground truncate">
                       {row.text
                         ? row.text.length > 50
                           ? `${row.text.slice(0, 50)}…`
@@ -1590,10 +1590,10 @@ export default function RespostasRapidasPage() {
                         </span>
                       )}
                     </td>
-                    <td className="px-4 py-3 text-sm text-[#64748B]">
+                    <td className="px-4 py-3 text-sm text-muted-foreground">
                       {queueNames(row.queueIds)}
                     </td>
-                    <td className="px-4 py-3 text-sm text-[#64748B]">
+                    <td className="px-4 py-3 text-sm text-muted-foreground">
                       {row.channels && row.channels.length > 0 ? (
                         row.channels.map((c) => c.name).join(", ")
                       ) : (
@@ -1603,14 +1603,14 @@ export default function RespostasRapidasPage() {
                     <td className="px-4 py-3">
                       <div className="flex items-center justify-end gap-1">
                         {deleting === row.id ? (
-                          <Loader2 className="h-5 w-5 animate-spin text-[#64748B]" />
+                          <Loader2 className="h-5 w-5 animate-spin text-muted-foreground" />
                         ) : (
                           <>
                             <button
                               type="button"
                               onClick={() => openEditForm(row)}
                               title="Configurar"
-                              className="rounded-lg p-2 text-[#64748B] hover:bg-[#F1F5F9] hover:text-[#1E293B] transition-colors"
+                              className="rounded-lg p-2 text-muted-foreground hover:bg-muted/60 hover:text-foreground transition-colors"
                             >
                               <Settings className="h-5 w-5" />
                             </button>
@@ -1618,7 +1618,7 @@ export default function RespostasRapidasPage() {
                               type="button"
                               onClick={() => setDeleteConfirmRow(row)}
                               title="Excluir"
-                              className="rounded-lg p-2 text-[#64748B] hover:bg-red-50 hover:text-red-600 transition-colors"
+                              className="rounded-lg p-2 text-muted-foreground hover:bg-red-50 hover:text-red-600 transition-colors"
                             >
                               <Trash2 className="h-5 w-5" />
                             </button>
@@ -1631,8 +1631,8 @@ export default function RespostasRapidasPage() {
               </tbody>
             </table>
           </div>
-          <div className="flex items-center justify-between gap-2 border-t border-[#E2E8F0] bg-[#F8FAFC] px-4 py-2">
-            <span className="text-sm text-[#64748B]">
+          <div className="flex items-center justify-between gap-2 border-t border-border bg-muted/40 px-4 py-2">
+            <span className="text-sm text-muted-foreground">
               Página {pageIndex + 1} de {Math.ceil(tabRows.length / PAGE_SIZE) || 1} ({tabRows.length} item{tabRows.length !== 1 ? "s" : ""})
             </span>
             <div className="flex items-center gap-1">
@@ -1640,7 +1640,7 @@ export default function RespostasRapidasPage() {
                 type="button"
                 onClick={() => setPageIndex((p) => Math.max(0, p - 1))}
                 disabled={pageIndex === 0}
-                className="rounded p-2 text-[#64748B] hover:bg-white hover:text-[#1E293B] disabled:opacity-40 disabled:pointer-events-none"
+                className="rounded p-2 text-muted-foreground hover:bg-card hover:text-foreground disabled:opacity-40 disabled:pointer-events-none"
               >
                 <ChevronLeft className="h-4 w-4" />
               </button>
@@ -1648,7 +1648,7 @@ export default function RespostasRapidasPage() {
                 type="button"
                 onClick={() => setPageIndex((p) => Math.min(Math.ceil(tabRows.length / PAGE_SIZE) - 1, p + 1))}
                 disabled={pageIndex >= Math.ceil(tabRows.length / PAGE_SIZE) - 1}
-                className="rounded p-2 text-[#64748B] hover:bg-white hover:text-[#1E293B] disabled:opacity-40 disabled:pointer-events-none"
+                className="rounded p-2 text-muted-foreground hover:bg-card hover:text-foreground disabled:opacity-40 disabled:pointer-events-none"
               >
                 <ChevronRight className="h-4 w-4" />
               </button>
@@ -1664,21 +1664,21 @@ export default function RespostasRapidasPage() {
         width={500}
       >
         <div className="flex flex-col gap-4">
-          <p className="text-sm text-[#64748B]">
+          <p className="text-sm text-muted-foreground">
             Selecione as filas que deseja vincular às respostas rápidas selecionadas.
             Isso tornará essas respostas disponíveis para os agentes dessas filas.
           </p>
 
           <div className="flex flex-col gap-2">
-            <label className="text-sm font-medium text-[#334155]">Filas disponíveis</label>
+            <label className="text-sm font-medium text-foreground">Filas disponíveis</label>
             {queues.length === 0 ? (
-              <p className="rounded-lg border border-[#E2E8F0] bg-[#F8FAFC] px-3 py-3 text-sm text-[#64748B]">
+              <p className="rounded-lg border border-border bg-muted/40 px-3 py-3 text-sm text-muted-foreground">
                 Nenhuma fila encontrada.
               </p>
             ) : (
-              <div className="flex flex-col gap-2 rounded-lg border border-[#E2E8F0] p-2 max-h-[300px] overflow-y-auto">
+              <div className="flex flex-col gap-2 rounded-lg border border-border p-2 max-h-[300px] overflow-y-auto">
                 {queues.map((q) => (
-                  <label key={q.id} className="flex items-center gap-2 p-2 hover:bg-[#F8FAFC] rounded cursor-pointer">
+                  <label key={q.id} className="flex items-center gap-2 p-2 hover:bg-muted/40 rounded cursor-pointer">
                     <input
                       type="checkbox"
                       checked={bulkLinkQueueIds.includes(q.id)}
@@ -1689,20 +1689,20 @@ export default function RespostasRapidasPage() {
                           setBulkLinkQueueIds((prev) => prev.filter((id) => id !== q.id));
                         }
                       }}
-                      className="h-4 w-4 rounded border-[#E2E8F0] text-clicvend-orange focus:ring-clicvend-orange"
+                      className="h-4 w-4 rounded border-border text-amber-600 dark:text-amber-400 focus:ring-amber-500/20"
                     />
-                    <span className="text-sm text-[#1E293B]">{q.name}</span>
+                    <span className="text-sm text-foreground">{q.name}</span>
                   </label>
                 ))}
               </div>
             )}
           </div>
 
-          <div className="mt-4 flex justify-end gap-2 border-t border-[#E2E8F0] pt-4">
+          <div className="mt-4 flex justify-end gap-2 border-t border-border pt-4">
             <button
               type="button"
               onClick={() => setShowBulkLink(false)}
-              className="rounded-lg border border-[#E2E8F0] bg-white px-4 py-2 text-sm font-medium text-[#64748B] hover:bg-[#F8FAFC]"
+              className="rounded-lg border border-border bg-card px-4 py-2 text-sm font-medium text-muted-foreground hover:bg-muted/40"
             >
               Cancelar
             </button>
@@ -1734,14 +1734,14 @@ export default function RespostasRapidasPage() {
           width={500}
       >
         {form.templateCategory === "general" && (
-          <div className="mb-4 flex flex-wrap gap-2 border-b border-[#E2E8F0] pb-3">
+          <div className="mb-4 flex flex-wrap gap-2 border-b border-border pb-3">
             <button
               type="button"
               onClick={() => setSideOverTab("form")}
               className={`rounded-full px-3 py-1.5 text-sm font-medium transition-colors ${
                 sideOverTab === "form"
-                  ? "bg-clicvend-orange/10 text-clicvend-orange"
-                  : "text-[#64748B] hover:bg-[#F1F5F9]"
+                  ? "bg-clicvend-orange/10 text-amber-600 dark:text-amber-400"
+                  : "text-muted-foreground hover:bg-muted/60"
               }`}
             >
               Configuração
@@ -1751,8 +1751,8 @@ export default function RespostasRapidasPage() {
               onClick={() => setSideOverTab("import")}
               className={`rounded-full px-3 py-1.5 text-sm font-medium transition-colors ${
                 sideOverTab === "import"
-                  ? "bg-clicvend-orange/10 text-clicvend-orange"
-                  : "text-[#64748B] hover:bg-[#F1F5F9]"
+                  ? "bg-clicvend-orange/10 text-amber-600 dark:text-amber-400"
+                  : "text-muted-foreground hover:bg-muted/60"
               }`}
             >
               Importar em massa
@@ -1762,8 +1762,8 @@ export default function RespostasRapidasPage() {
               onClick={() => setSideOverTab("ativas")}
               className={`rounded-full px-3 py-1.5 text-sm font-medium transition-colors ${
                 sideOverTab === "ativas"
-                  ? "bg-clicvend-orange/10 text-clicvend-orange"
-                  : "text-[#64748B] hover:bg-[#F1F5F9]"
+                  ? "bg-clicvend-orange/10 text-amber-600 dark:text-amber-400"
+                  : "text-muted-foreground hover:bg-muted/60"
               }`}
             >
               Respostas ativas
@@ -1773,7 +1773,7 @@ export default function RespostasRapidasPage() {
 
         {sideOverTab === "form" && (
           <>
-            <p className="mb-4 text-sm text-[#64748B]">
+            <p className="mb-4 text-sm text-muted-foreground">
               {form.templateCategory === "consent"
                 ? "Edite o template de consentimento vinculado à instância."
                 : form.templateCategory === "campaign"
@@ -1781,15 +1781,15 @@ export default function RespostasRapidasPage() {
                   : "Escolha a conexão e as filas em que esta resposta rápida ficará disponível no chat para os agentes."}
             </p>
 
-            <p className="mb-4 rounded-lg border border-[#E2E8F0] bg-[#F8FAFC] px-3 py-2 text-xs text-[#64748B]">
+            <p className="mb-4 rounded-lg border border-border bg-muted/40 px-3 py-2 text-xs text-muted-foreground">
               Categoria: <strong>{form.templateCategory === "consent" ? "Template de consentimento" : form.templateCategory === "campaign" ? "Template de campanha" : "Respostas rápidas (chat)"}</strong>
             </p>
 
-            <label className="mb-1 block text-sm font-medium text-[#334155]">Conexão</label>
+            <label className="mb-1 block text-sm font-medium text-foreground">Conexão</label>
             <select
               value={form.channelId}
               onChange={(e) => handleChannelChange(e.target.value)}
-              className="mb-4 w-full rounded-lg border border-[#E2E8F0] px-3 py-2 text-[#1E293B] focus:border-clicvend-orange focus:outline-none focus:ring-1 focus:ring-clicvend-orange"
+              className="mb-4 w-full rounded-lg border border-border px-3 py-2 text-foreground focus:border-amber-500 focus:outline-none focus:ring-1 focus:ring-amber-500/20"
             >
               <option value="">Selecionar conexão…</option>
               {channels.map((ch) => (
@@ -1801,17 +1801,17 @@ export default function RespostasRapidasPage() {
 
             {form.templateCategory !== "consent" && (
               <>
-                <label className="mb-1 block text-sm font-medium text-[#334155]">Filas (opcional)</label>
-                <p className="mb-2 text-xs text-[#64748B]">
+                <label className="mb-1 block text-sm font-medium text-foreground">Filas (opcional)</label>
+                <p className="mb-2 text-xs text-muted-foreground">
                   Filas vinculadas a esta conexão. Respostas vinculadas a uma fila ficam disponíveis para
                   agentes dessa fila no chat (até 40 respostas por fila).
                 </p>
                 {!form.channelId ? (
-                  <p className="mb-4 rounded-lg border border-[#E2E8F0] bg-[#F8FAFC] px-3 py-3 text-sm text-[#64748B]">
+                  <p className="mb-4 rounded-lg border border-border bg-muted/40 px-3 py-3 text-sm text-muted-foreground">
                     Selecione uma conexão para ver as filas.
                   </p>
                 ) : channelQueuesLoading ? (
-                  <p className="mb-4 flex items-center gap-2 rounded-lg border border-[#E2E8F0] bg-[#F8FAFC] px-3 py-3 text-sm text-[#64748B]">
+                  <p className="mb-4 flex items-center gap-2 rounded-lg border border-border bg-muted/40 px-3 py-3 text-sm text-muted-foreground">
                     <Loader2 className="h-4 w-4 animate-spin" />
                     Carregando filas…
                   </p>
@@ -1828,7 +1828,7 @@ export default function RespostasRapidasPage() {
                       const selected = Array.from(e.target.selectedOptions, (o) => o.value);
                       setForm((c) => ({ ...c, queueIds: selected }));
                     }}
-                    className="mb-4 h-24 w-full rounded-lg border border-[#E2E8F0] px-3 py-2 text-[#1E293B] focus:border-clicvend-orange focus:outline-none focus:ring-1 focus:ring-clicvend-orange"
+                    className="mb-4 h-24 w-full rounded-lg border border-border px-3 py-2 text-foreground focus:border-amber-500 focus:outline-none focus:ring-1 focus:ring-amber-500/20"
                   >
                     {channelQueues.map((q) => (
                       <option key={q.id} value={q.id}>
@@ -1840,22 +1840,22 @@ export default function RespostasRapidasPage() {
               </>
             )}
 
-            <label className="mb-1 block text-sm font-medium text-[#334155]">Atalho</label>
+            <label className="mb-1 block text-sm font-medium text-foreground">Atalho</label>
             <input
               type="text"
               value={form.shortCut}
               onChange={(e) => setForm((c) => ({ ...c, shortCut: e.target.value }))}
               placeholder="Ex: saudacao1"
-              className="mb-4 w-full rounded-lg border border-[#E2E8F0] px-3 py-2 text-[#1E293B] placeholder:text-[#94A3B8] focus:border-clicvend-orange focus:outline-none focus:ring-1 focus:ring-clicvend-orange"
+              className="mb-4 w-full rounded-lg border border-border px-3 py-2 text-foreground placeholder:text-muted-foreground focus:border-amber-500 focus:outline-none focus:ring-1 focus:ring-amber-500/20"
             />
 
             {form.templateCategory === "campaign" && (
               <>
-                <label className="mb-1 block text-sm font-medium text-[#334155]">Tipo de conteúdo</label>
+                <label className="mb-1 block text-sm font-medium text-foreground">Tipo de conteúdo</label>
                 <select
                   value={form.type}
                   onChange={(e) => setForm((c) => ({ ...c, type: e.target.value }))}
-                  className="mb-4 w-full rounded-lg border border-[#E2E8F0] px-3 py-2 text-[#1E293B]"
+                  className="mb-4 w-full rounded-lg border border-border px-3 py-2 text-foreground"
                 >
                   <option value="text">Texto</option>
                   <option value="image">Imagem</option>
@@ -1866,7 +1866,7 @@ export default function RespostasRapidasPage() {
               </>
             )}
 
-            <label className="mb-1 block text-sm font-medium text-[#334155]">
+            <label className="mb-1 block text-sm font-medium text-foreground">
               {form.type === "text" ? "Texto" : "Mensagem / legenda"}
             </label>
             <div className="mb-2">
@@ -1881,21 +1881,21 @@ export default function RespostasRapidasPage() {
               />
             </div>
             {stripHtmlToText(form.text).length > 0 && (
-              <p className="mb-2 text-xs text-[#64748B]">
+              <p className="mb-2 text-xs text-muted-foreground">
                 Preview texto limpo: {stripHtmlToText(form.text).slice(0, 180)}
               </p>
             )}
             {form.templateCategory === "campaign" && form.type !== "text" && (
               <>
-                <label className="mb-1 block text-sm font-medium text-[#334155]">Arquivo (URL/base64 ou upload)</label>
+                <label className="mb-1 block text-sm font-medium text-foreground">Arquivo (URL/base64 ou upload)</label>
                 <textarea
                   value={form.file}
                   onChange={(e) => setForm((c) => ({ ...c, file: e.target.value }))}
                   rows={3}
                   placeholder="Cole URL pública/base64 ou use o botão de upload abaixo"
-                  className="mb-2 w-full resize-none rounded-lg border border-[#E2E8F0] px-3 py-2 text-[#1E293B]"
+                  className="mb-2 w-full resize-none rounded-lg border border-border px-3 py-2 text-foreground"
                 />
-                <label className="mb-4 inline-flex cursor-pointer items-center gap-2 rounded-lg border border-[#E2E8F0] bg-white px-3 py-2 text-sm text-[#334155] hover:bg-[#F8FAFC]">
+                <label className="mb-4 inline-flex cursor-pointer items-center gap-2 rounded-lg border border-border bg-card px-3 py-2 text-sm text-foreground hover:bg-muted/40">
                   <Upload className="h-4 w-4" />
                   Subir arquivo
                   <input
@@ -1906,10 +1906,10 @@ export default function RespostasRapidasPage() {
                   />
                 </label>
                 {form.file && form.type === "image" && (
-                  <img src={form.file} alt="preview" className="mb-4 max-h-36 rounded-lg border border-[#E2E8F0] object-cover" />
+                  <img src={form.file} alt="preview" className="mb-4 max-h-36 rounded-lg border border-border object-cover" />
                 )}
                 {form.file && form.type === "video" && (
-                  <video src={form.file} controls className="mb-4 max-h-36 w-full rounded-lg border border-[#E2E8F0]" />
+                  <video src={form.file} controls className="mb-4 max-h-36 w-full rounded-lg border border-border" />
                 )}
                 {form.file && form.type === "audio" && (
                   <audio src={form.file} controls className="mb-4 w-full" />
@@ -1918,23 +1918,23 @@ export default function RespostasRapidasPage() {
             )}
             {form.templateCategory === "campaign" && form.type === "document" && (
               <>
-                <label className="mb-1 block text-sm font-medium text-[#334155]">Nome do documento</label>
+                <label className="mb-1 block text-sm font-medium text-foreground">Nome do documento</label>
                 <input
                   type="text"
                   value={form.docName}
                   onChange={(e) => setForm((c) => ({ ...c, docName: e.target.value }))}
                   placeholder="Ex.: folder-promocao.pdf"
-                  className="mb-4 w-full rounded-lg border border-[#E2E8F0] px-3 py-2 text-[#1E293B]"
+                  className="mb-4 w-full rounded-lg border border-border px-3 py-2 text-foreground"
                 />
               </>
             )}
 
             {form.templateCategory === "consent" && (
-              <div className="mb-4 rounded-lg border border-[#E2E8F0] bg-[#F8FAFC] p-3">
-                <p className="text-xs font-medium text-[#334155]">Configurações de consentimento</p>
+              <div className="mb-4 rounded-lg border border-border bg-muted/40 p-3">
+                <p className="text-xs font-medium text-foreground">Configurações de consentimento</p>
                 <div className="mt-2 grid gap-3">
                   <div>
-                    <label className="mb-1 block text-xs font-medium text-[#334155]">Ação do template</label>
+                    <label className="mb-1 block text-xs font-medium text-foreground">Ação do template</label>
                     <select
                       value={form.consentAction}
                       onChange={(e) =>
@@ -1947,30 +1947,30 @@ export default function RespostasRapidasPage() {
                             (e.target.value as "opt_in_request" | "opt_out_confirm") || "opt_in_request",
                         }))
                       }
-                      className="w-full rounded-lg border border-[#E2E8F0] px-3 py-2 text-sm text-[#1E293B] focus:border-clicvend-orange focus:outline-none focus:ring-1 focus:ring-clicvend-orange"
+                      className="w-full rounded-lg border border-border px-3 py-2 text-sm text-foreground focus:border-amber-500 focus:outline-none focus:ring-1 focus:ring-amber-500/20"
                     >
                       <option value="opt_in_request">Solicitar opt-in (SIM confirma automaticamente)</option>
                       <option value="opt_out_confirm">Confirmar opt-out</option>
                     </select>
                   </div>
                   <div>
-                    <label className="mb-1 block text-xs font-medium text-[#334155]">Palavras de aceite</label>
+                    <label className="mb-1 block text-xs font-medium text-foreground">Palavras de aceite</label>
                     <input
                       type="text"
                       value={form.consentAcceptKeywords}
                       onChange={(e) => setForm((c) => ({ ...c, consentAcceptKeywords: e.target.value }))}
                       placeholder="SIM,ACEITO,OK"
-                      className="w-full rounded-lg border border-[#E2E8F0] px-3 py-2 text-sm text-[#1E293B]"
+                      className="w-full rounded-lg border border-border px-3 py-2 text-sm text-foreground"
                     />
                   </div>
                   <div>
-                    <label className="mb-1 block text-xs font-medium text-[#334155]">Palavras de saída (opt-out)</label>
+                    <label className="mb-1 block text-xs font-medium text-foreground">Palavras de saída (opt-out)</label>
                     <input
                       type="text"
                       value={form.consentOptOutKeywords}
                       onChange={(e) => setForm((c) => ({ ...c, consentOptOutKeywords: e.target.value }))}
                       placeholder="SAIR,PARAR,STOP"
-                      className="w-full rounded-lg border border-[#E2E8F0] px-3 py-2 text-sm text-[#1E293B]"
+                      className="w-full rounded-lg border border-border px-3 py-2 text-sm text-foreground"
                     />
                   </div>
                 </div>
@@ -1979,28 +1979,28 @@ export default function RespostasRapidasPage() {
 
             {form.templateCategory === "campaign" && (
               <>
-                <div className="mb-4 rounded-lg border border-[#E2E8F0] bg-[#F8FAFC] p-3">
-                  <p className="text-xs font-medium text-[#334155]">Botões CTA</p>
-                  <p className="mt-1 text-[11px] text-[#64748B]">Uma linha por botão: <code>label|url</code></p>
+                <div className="mb-4 rounded-lg border border-border bg-muted/40 p-3">
+                  <p className="text-xs font-medium text-foreground">Botões CTA</p>
+                  <p className="mt-1 text-[11px] text-muted-foreground">Uma linha por botão: <code>label|url</code></p>
                   <textarea
                     value={form.campaignButtonsText}
                     onChange={(e) => setForm((c) => ({ ...c, campaignButtonsText: e.target.value }))}
                     rows={3}
                     placeholder={"Comprar agora|https://...\nFalar com vendedor|https://..."}
-                    className="mt-2 w-full resize-none rounded-lg border border-[#E2E8F0] px-3 py-2 text-sm text-[#1E293B]"
+                    className="mt-2 w-full resize-none rounded-lg border border-border px-3 py-2 text-sm text-foreground"
                   />
                 </div>
-                <div className="mb-4 rounded-lg border border-[#E2E8F0] bg-[#F8FAFC] p-3">
-                  <p className="text-xs font-medium text-[#334155]">Carrossel (itens)</p>
-                  <p className="mt-1 text-[11px] text-[#64748B]">Uma linha por item (URL de imagem/card).</p>
+                <div className="mb-4 rounded-lg border border-border bg-muted/40 p-3">
+                  <p className="text-xs font-medium text-foreground">Carrossel (itens)</p>
+                  <p className="mt-1 text-[11px] text-muted-foreground">Uma linha por item (URL de imagem/card).</p>
                   <textarea
                     value={form.campaignCarouselText}
                     onChange={(e) => setForm((c) => ({ ...c, campaignCarouselText: e.target.value }))}
                     rows={3}
                     placeholder={"https://.../card1.jpg\nhttps://.../card2.jpg"}
-                    className="mt-2 w-full resize-none rounded-lg border border-[#E2E8F0] px-3 py-2 text-sm text-[#1E293B]"
+                    className="mt-2 w-full resize-none rounded-lg border border-border px-3 py-2 text-sm text-foreground"
                   />
-                  <label className="mt-2 inline-flex cursor-pointer items-center gap-2 rounded-lg border border-[#E2E8F0] bg-white px-3 py-2 text-xs text-[#334155] hover:bg-[#F8FAFC]">
+                  <label className="mt-2 inline-flex cursor-pointer items-center gap-2 rounded-lg border border-border bg-card px-3 py-2 text-xs text-foreground hover:bg-muted/40">
                     <Upload className="h-3.5 w-3.5" />
                     Subir imagens do carrossel
                     <input
@@ -2031,17 +2031,17 @@ export default function RespostasRapidasPage() {
               <p className="mb-4 text-xs text-amber-700">
                 {formAiError}
                 {formAiError.includes("Mistral") && (
-                  <span className="block mt-1 text-[#64748B]">Você pode preencher o texto manualmente e salvar.</span>
+                  <span className="block mt-1 text-muted-foreground">Você pode preencher o texto manualmente e salvar.</span>
                 )}
               </p>
             )}
             {!formAiError && <div className="mb-4" />}
             {(form.templateCategory === "consent" || form.templateCategory === "campaign") && (
-              <div className="mb-4 rounded-lg border border-[#E2E8F0] bg-white p-3">
-                <p className="text-xs font-medium text-[#334155]">
+              <div className="mb-4 rounded-lg border border-border bg-card p-3">
+                <p className="text-xs font-medium text-foreground">
                   Teste rápido ({form.templateCategory === "consent" ? "consentimento" : "campanha"})
                 </p>
-                <p className="mt-1 text-[11px] text-[#64748B]">
+                <p className="mt-1 text-[11px] text-muted-foreground">
                   Informe um número e envie um teste do template atual para validar antes de usar em lote.
                 </p>
                 <div className="mt-2 flex items-center gap-2">
@@ -2050,13 +2050,13 @@ export default function RespostasRapidasPage() {
                     value={detailTestNumber}
                     onChange={(e) => setDetailTestNumber(e.target.value)}
                     placeholder="Ex.: 5511999999999"
-                    className="flex-1 rounded-lg border border-[#E2E8F0] px-3 py-2 text-sm text-[#1E293B] placeholder:text-[#94A3B8]"
+                    className="flex-1 rounded-lg border border-border px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground"
                   />
                   <button
                     type="button"
                     onClick={handleDetailTest}
                     disabled={detailTesting}
-                    className="inline-flex items-center gap-2 rounded-lg border border-clicvend-orange px-3 py-2 text-sm font-medium text-clicvend-orange hover:bg-clicvend-orange/10 disabled:opacity-60"
+                    className="inline-flex items-center gap-2 rounded-lg border border-clicvend-orange px-3 py-2 text-sm font-medium text-amber-600 dark:text-amber-400 hover:bg-clicvend-orange/10 disabled:opacity-60"
                   >
                     {detailTesting ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
                     Enviar teste
@@ -2069,7 +2069,7 @@ export default function RespostasRapidasPage() {
               <button
                 type="button"
                 onClick={closeForm}
-                className="rounded-lg border border-[#E2E8F0] px-4 py-2 text-sm font-medium text-[#64748B] hover:bg-[#F8FAFC]"
+                className="rounded-lg border border-border px-4 py-2 text-sm font-medium text-muted-foreground hover:bg-muted/40"
               >
                 Cancelar
               </button>
@@ -2094,19 +2094,19 @@ export default function RespostasRapidasPage() {
 
         {form.templateCategory === "general" && sideOverTab === "ativas" && (
           <div className="space-y-3">
-            <p className="text-sm text-[#64748B]">
+            <p className="text-sm text-muted-foreground">
               Respostas ativas aparecem no chat para os agentes das filas vinculadas. Use o botão
               para ativar ou desativar.
             </p>
             {tabRows.length === 0 ? (
-              <p className="py-4 text-center text-sm text-[#94A3B8]">
+              <p className="py-4 text-center text-sm text-muted-foreground">
                 Nenhum item desta aba. Crie na aba Configuração ou importe em massa.
               </p>
             ) : (
               tabRows.map((row) => (
                 <div
                   key={row.id}
-                  className="rounded-lg border border-[#E2E8F0] bg-[#F8FAFC] p-3 flex items-start justify-between gap-3"
+                  className="rounded-lg border border-border bg-muted/40 p-3 flex items-start justify-between gap-3"
                 >
                   <div className="min-w-0 flex-1">
                     <div className="flex flex-wrap items-center gap-2">
@@ -2114,7 +2114,7 @@ export default function RespostasRapidasPage() {
                         className={`rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase ${
                           row.enabled
                             ? "bg-emerald-100 text-emerald-700"
-                            : "bg-[#E2E8F0] text-[#64748B]"
+                            : "bg-muted text-muted-foreground"
                         }`}
                       >
                         {row.enabled ? "Ativa" : "Inativa"}
@@ -2125,11 +2125,11 @@ export default function RespostasRapidasPage() {
                         </span>
                       )}
                     </div>
-                    <p className="mt-1.5 font-semibold text-[#1E293B]">{row.shortCut}</p>
-                    <p className="mt-0.5 line-clamp-2 text-xs text-[#64748B]">
+                    <p className="mt-1.5 font-semibold text-foreground">{row.shortCut}</p>
+                    <p className="mt-0.5 line-clamp-2 text-xs text-muted-foreground">
                       {row.text || "Sem texto definido."}
                     </p>
-                    <p className="mt-1 text-[11px] text-[#94A3B8]">
+                    <p className="mt-1 text-[11px] text-muted-foreground">
                       Filas: {queueNames(row.queueIds)}
                     </p>
                   </div>
@@ -2152,7 +2152,7 @@ export default function RespostasRapidasPage() {
 
         {form.templateCategory === "general" && sideOverTab === "import" && (
           <div className="space-y-4">
-            <p className="text-sm text-[#64748B]">
+            <p className="text-sm text-muted-foreground">
               Escolha a conexão e as filas abaixo (igual à configuração individual). Baixe o modelo em CSV, preencha atalho, tipo e texto — ou descreva uma ideia e use a IA para gerar sugestões na tabela. Depois importe em massa.
             </p>
 
@@ -2160,12 +2160,12 @@ export default function RespostasRapidasPage() {
               <button
                 type="button"
                 onClick={handleDownloadTemplate}
-                className="inline-flex items-center gap-2 rounded-lg border border-[#E2E8F0] bg-white px-4 py-2 text-sm font-medium text-[#334155] hover:bg-[#F8FAFC]"
+                className="inline-flex items-center gap-2 rounded-lg border border-border bg-card px-4 py-2 text-sm font-medium text-foreground hover:bg-muted/40"
               >
                 <Download className="h-4 w-4" />
                 Baixar modelo (CSV)
               </button>
-              <label className="inline-flex cursor-pointer items-center gap-2 rounded-lg border border-[#E2E8F0] bg-white px-4 py-2 text-sm font-medium text-[#334155] hover:bg-[#F8FAFC]">
+              <label className="inline-flex cursor-pointer items-center gap-2 rounded-lg border border-border bg-card px-4 py-2 text-sm font-medium text-foreground hover:bg-muted/40">
                 <Upload className="h-4 w-4" />
                 Enviar planilha preenchida
                 <input
@@ -2177,9 +2177,9 @@ export default function RespostasRapidasPage() {
               </label>
             </div>
 
-            <div className="rounded-lg border border-[#E2E8F0] bg-[#F8FAFC] p-3">
-              <label className="block text-sm font-medium text-[#334155]">Gerar sugestões com IA</label>
-              <p className="mt-0.5 text-xs text-[#64748B]">
+            <div className="rounded-lg border border-border bg-muted/40 p-3">
+              <label className="block text-sm font-medium text-foreground">Gerar sugestões com IA</label>
+              <p className="mt-0.5 text-xs text-muted-foreground">
                 Descreva as respostas que deseja (ex.: saudação, estoque, horário de atendimento, despedida). A IA preenche a tabela abaixo.
               </p>
               <textarea
@@ -2187,7 +2187,7 @@ export default function RespostasRapidasPage() {
                 onChange={(e) => setBulkIdea(e.target.value)}
                 placeholder="Ex.: saudação inicial, consulta de estoque, horário de funcionamento, pedido de feedback"
                 rows={2}
-                className="mt-2 w-full resize-none rounded-lg border border-[#E2E8F0] px-3 py-2 text-sm text-[#1E293B] placeholder:text-[#94A3B8] focus:border-clicvend-orange focus:outline-none focus:ring-1 focus:ring-clicvend-orange"
+                className="mt-2 w-full resize-none rounded-lg border border-border px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:border-amber-500 focus:outline-none focus:ring-1 focus:ring-amber-500/20"
               />
               <button
                 type="button"
@@ -2204,14 +2204,14 @@ export default function RespostasRapidasPage() {
               </button>
             </div>
 
-            <label className="block text-sm font-medium text-[#334155]">Conexão para importar</label>
+            <label className="block text-sm font-medium text-foreground">Conexão para importar</label>
             <select
               value={bulkChannelId}
               onChange={(e) => {
                 setBulkChannelId(e.target.value);
                 setBulkQueueIds([]);
               }}
-              className="mt-1 w-full rounded-lg border border-[#E2E8F0] px-3 py-2 text-[#1E293B] focus:border-clicvend-orange focus:outline-none focus:ring-1 focus:ring-clicvend-orange"
+              className="mt-1 w-full rounded-lg border border-border px-3 py-2 text-foreground focus:border-amber-500 focus:outline-none focus:ring-1 focus:ring-amber-500/20"
             >
               <option value="">Selecionar conexão…</option>
               {channels.map((ch) => (
@@ -2220,20 +2220,20 @@ export default function RespostasRapidasPage() {
                 </option>
               ))}
             </select>
-            <p className="mt-1 text-xs text-[#64748B]">
+            <p className="mt-1 text-xs text-muted-foreground">
               As respostas serão vinculadas às filas selecionadas e ficarão disponíveis no chat. Escolha as filas abaixo.
             </p>
 
-            <label className="mt-4 block text-sm font-medium text-[#334155]">Filas (opcional)</label>
-            <p className="mt-1 text-xs text-[#64748B]">
+            <label className="mt-4 block text-sm font-medium text-foreground">Filas (opcional)</label>
+            <p className="mt-1 text-xs text-muted-foreground">
               Filas vinculadas a esta conexão. As respostas importadas ficarão disponíveis para as filas que você selecionar (até 40 por fila).
             </p>
             {!bulkChannelId ? (
-              <p className="mt-1 rounded-lg border border-[#E2E8F0] bg-[#F8FAFC] px-3 py-3 text-sm text-[#64748B]">
+              <p className="mt-1 rounded-lg border border-border bg-muted/40 px-3 py-3 text-sm text-muted-foreground">
                 Selecione uma conexão para ver e escolher as filas.
               </p>
             ) : channelQueuesLoading ? (
-              <p className="mt-1 flex items-center gap-2 rounded-lg border border-[#E2E8F0] bg-[#F8FAFC] px-3 py-3 text-sm text-[#64748B]">
+              <p className="mt-1 flex items-center gap-2 rounded-lg border border-border bg-muted/40 px-3 py-3 text-sm text-muted-foreground">
                 <Loader2 className="h-4 w-4 animate-spin" />
                 Carregando filas…
               </p>
@@ -2249,7 +2249,7 @@ export default function RespostasRapidasPage() {
                   const selected = Array.from(e.target.selectedOptions, (o) => o.value);
                   setBulkQueueIds(selected);
                 }}
-                className="mt-1 h-24 w-full rounded-lg border border-[#E2E8F0] px-3 py-2 text-[#1E293B] focus:border-clicvend-orange focus:outline-none focus:ring-1 focus:ring-clicvend-orange"
+                className="mt-1 h-24 w-full rounded-lg border border-border px-3 py-2 text-foreground focus:border-amber-500 focus:outline-none focus:ring-1 focus:ring-amber-500/20"
               >
                 {channelQueues.map((q) => (
                   <option key={q.id} value={q.id}>
@@ -2275,29 +2275,29 @@ export default function RespostasRapidasPage() {
 
             {bulkParsedRows.length > 0 && (
               <>
-                <p className="text-sm font-medium text-[#334155]">
+                <p className="text-sm font-medium text-foreground">
                   Preview: {bulkParsedRows.length} linha(s) — conexão: {channels.find((c) => c.id === bulkChannelId)?.name ?? "—"}
                   {bulkQueueIds.length > 0 && (
                     <> — filas: {channelQueues.filter((q) => bulkQueueIds.includes(q.id)).map((q) => q.name).join(", ")}</>
                   )}
                 </p>
-                <div className="max-h-48 overflow-auto rounded-lg border border-[#E2E8F0]">
+                <div className="max-h-48 overflow-auto rounded-lg border border-border">
                   <table className="min-w-full text-xs">
-                    <thead className="sticky top-0 bg-[#F8FAFC]">
+                    <thead className="sticky top-0 bg-muted/40">
                       <tr>
-                        <th className="px-2 py-1.5 text-left font-medium text-[#64748B]">Atalho</th>
-                        <th className="px-2 py-1.5 text-left font-medium text-[#64748B]">Tipo</th>
-                        <th className="px-2 py-1.5 text-left font-medium text-[#64748B]">Texto</th>
-                        <th className="px-2 py-1.5 text-left font-medium text-[#64748B]">Filas</th>
+                        <th className="px-2 py-1.5 text-left font-medium text-muted-foreground">Atalho</th>
+                        <th className="px-2 py-1.5 text-left font-medium text-muted-foreground">Tipo</th>
+                        <th className="px-2 py-1.5 text-left font-medium text-muted-foreground">Texto</th>
+                        <th className="px-2 py-1.5 text-left font-medium text-muted-foreground">Filas</th>
                       </tr>
                     </thead>
-                    <tbody className="divide-y divide-[#E2E8F0]">
+                    <tbody className="divide-y divide-border">
                       {bulkParsedRows.slice(0, 20).map((row, i) => (
                         <tr key={i}>
-                          <td className="px-2 py-1.5 text-[#1E293B]">{row.shortCut}</td>
-                          <td className="px-2 py-1.5 text-[#64748B]">{row.type}</td>
-                          <td className="max-w-[200px] truncate px-2 py-1.5 text-[#64748B]">{row.text}</td>
-                          <td className="px-2 py-1.5 text-[#64748B]">
+                          <td className="px-2 py-1.5 text-foreground">{row.shortCut}</td>
+                          <td className="px-2 py-1.5 text-muted-foreground">{row.type}</td>
+                          <td className="max-w-[200px] truncate px-2 py-1.5 text-muted-foreground">{row.text}</td>
+                          <td className="px-2 py-1.5 text-muted-foreground">
                             {bulkQueueIds.length > 0
                               ? channelQueues.filter((q) => bulkQueueIds.includes(q.id)).map((q) => q.name).join(", ")
                               : row.filas || "—"}
@@ -2307,7 +2307,7 @@ export default function RespostasRapidasPage() {
                     </tbody>
                   </table>
                   {bulkParsedRows.length > 20 && (
-                    <p className="px-2 py-1 text-[11px] text-[#94A3B8]">
+                    <p className="px-2 py-1 text-[11px] text-muted-foreground">
                       … e mais {bulkParsedRows.length - 20} linha(s).
                     </p>
                   )}
@@ -2334,7 +2334,7 @@ export default function RespostasRapidasPage() {
                   <button
                     type="button"
                     onClick={() => { setBulkParsedRows([]); setBulkImportResult(null); setBulkImportError(null); }}
-                    className="rounded-lg border border-[#E2E8F0] px-4 py-2 text-sm font-medium text-[#64748B] hover:bg-[#F8FAFC]"
+                    className="rounded-lg border border-border px-4 py-2 text-sm font-medium text-muted-foreground hover:bg-muted/40"
                   >
                     Limpar
                   </button>
@@ -2409,66 +2409,66 @@ export default function RespostasRapidasPage() {
 
           return (
             <div className="flex flex-col gap-4">
-              <div className="rounded-lg border border-[#E2E8F0] bg-[#F8FAFC] p-3">
-                <div className="mb-2 flex items-center justify-between text-xs text-[#64748B]">
+              <div className="rounded-lg border border-border bg-muted/40 p-3">
+                <div className="mb-2 flex items-center justify-between text-xs text-muted-foreground">
                   <span>Etapa {assistantStep + 1} de {maxStep + 1}</span>
                   <span>{progress}%</span>
                 </div>
-                <div className="h-2 w-full overflow-hidden rounded-full bg-[#E2E8F0]">
+                <div className="h-2 w-full overflow-hidden rounded-full bg-muted">
                   <div className="h-full rounded-full bg-clicvend-orange transition-all" style={{ width: `${progress}%` }} />
                 </div>
               </div>
 
-              <div className="max-h-[300px] space-y-2 overflow-auto rounded-lg border border-[#E2E8F0] bg-white p-3">
+              <div className="max-h-[300px] space-y-2 overflow-auto rounded-lg border border-border bg-card p-3">
                 <div className="flex">
-                  <div className="max-w-[90%] rounded-2xl rounded-bl-sm bg-clicvend-orange/10 px-3 py-2 text-sm text-[#334155]">
+                  <div className="max-w-[90%] rounded-2xl rounded-bl-sm bg-clicvend-orange/10 px-3 py-2 text-sm text-foreground">
                     {question}
                   </div>
                 </div>
                 {assistantDraft.channelId && (
                   <div className="flex justify-end">
-                    <div className="max-w-[90%] rounded-2xl rounded-br-sm bg-[#F1F5F9] px-3 py-2 text-sm text-[#334155]">
+                    <div className="max-w-[90%] rounded-2xl rounded-br-sm bg-muted/60 px-3 py-2 text-sm text-foreground">
                       Conexão: {channels.find((c) => c.id === assistantDraft.channelId)?.name ?? assistantDraft.channelId}
                     </div>
                   </div>
                 )}
                 {assistantDraft.shortCut.trim() && (
                   <div className="flex justify-end">
-                    <div className="max-w-[90%] rounded-2xl rounded-br-sm bg-[#F1F5F9] px-3 py-2 text-sm text-[#334155]">
+                    <div className="max-w-[90%] rounded-2xl rounded-br-sm bg-muted/60 px-3 py-2 text-sm text-foreground">
                       Atalho: {assistantDraft.shortCut}
                     </div>
                   </div>
                 )}
                 {stripHtmlToText(assistantDraft.text).trim() && assistantStep >= (assistantKind === "consent" ? 2 : 3) && (
                   <div className="flex justify-end">
-                    <div className="max-w-[90%] rounded-2xl rounded-br-sm bg-[#F1F5F9] px-3 py-2 text-sm text-[#334155]">
+                    <div className="max-w-[90%] rounded-2xl rounded-br-sm bg-muted/60 px-3 py-2 text-sm text-foreground">
                       Texto: {stripHtmlToText(assistantDraft.text).length > 180 ? `${stripHtmlToText(assistantDraft.text).slice(0, 180)}…` : stripHtmlToText(assistantDraft.text)}
                     </div>
                   </div>
                 )}
               </div>
 
-              <div className="space-y-3 rounded-lg border border-[#E2E8F0] bg-white p-3">
+              <div className="space-y-3 rounded-lg border border-border bg-card p-3">
                 {assistantStep === 0 && (
                   <>
                     {assistantKind === "campaign" ? (
                       <>
-                        <label className="text-sm font-medium text-[#334155]">Nome da campanha/template</label>
+                        <label className="text-sm font-medium text-foreground">Nome da campanha/template</label>
                         <input
                           type="text"
                           value={assistantDraft.shortCut}
                           onChange={(e) => setAssistantDraft((prev) => ({ ...prev, shortCut: e.target.value }))}
                           placeholder="Ex.: campanha_black_friday"
-                          className="w-full rounded-lg border border-[#E2E8F0] px-3 py-2 text-sm text-[#1E293B]"
+                          className="w-full rounded-lg border border-border px-3 py-2 text-sm text-foreground"
                         />
                       </>
                     ) : (
                       <>
-                        <label className="text-sm font-medium text-[#334155]">Conexão</label>
+                        <label className="text-sm font-medium text-foreground">Conexão</label>
                         <select
                           value={assistantDraft.channelId}
                           onChange={(e) => setAssistantDraft((prev) => ({ ...prev, channelId: e.target.value }))}
-                          className="w-full rounded-lg border border-[#E2E8F0] px-3 py-2 text-[#1E293B] focus:border-clicvend-orange focus:outline-none focus:ring-1 focus:ring-clicvend-orange"
+                          className="w-full rounded-lg border border-border px-3 py-2 text-foreground focus:border-amber-500 focus:outline-none focus:ring-1 focus:ring-amber-500/20"
                         >
                           <option value="">Selecionar conexão…</option>
                           {channels.map((ch) => (
@@ -2486,11 +2486,11 @@ export default function RespostasRapidasPage() {
                   <>
                     {assistantKind === "campaign" ? (
                       <>
-                        <label className="text-sm font-medium text-[#334155]">Conexão</label>
+                        <label className="text-sm font-medium text-foreground">Conexão</label>
                         <select
                           value={assistantDraft.channelId}
                           onChange={(e) => setAssistantDraft((prev) => ({ ...prev, channelId: e.target.value, queueIds: [] }))}
-                          className="w-full rounded-lg border border-[#E2E8F0] px-3 py-2 text-[#1E293B]"
+                          className="w-full rounded-lg border border-border px-3 py-2 text-foreground"
                         >
                           <option value="">Selecionar conexão…</option>
                           {channels.map((ch) => (
@@ -2499,7 +2499,7 @@ export default function RespostasRapidasPage() {
                             </option>
                           ))}
                         </select>
-                        <label className="mt-2 block text-sm font-medium text-[#334155]">Fila</label>
+                        <label className="mt-2 block text-sm font-medium text-foreground">Fila</label>
                         <select
                           value={assistantDraft.queueIds[0] ?? ""}
                           onChange={(e) =>
@@ -2508,7 +2508,7 @@ export default function RespostasRapidasPage() {
                               queueIds: e.target.value ? [e.target.value] : [],
                             }))
                           }
-                          className="w-full rounded-lg border border-[#E2E8F0] px-3 py-2 text-[#1E293B]"
+                          className="w-full rounded-lg border border-border px-3 py-2 text-foreground"
                         >
                           <option value="">Selecionar fila…</option>
                           {channelQueues.map((q) => (
@@ -2520,13 +2520,13 @@ export default function RespostasRapidasPage() {
                       </>
                     ) : (
                       <>
-                        <label className="text-sm font-medium text-[#334155]">Atalho</label>
+                        <label className="text-sm font-medium text-foreground">Atalho</label>
                         <input
                           type="text"
                           value={assistantDraft.shortCut}
                           onChange={(e) => setAssistantDraft((prev) => ({ ...prev, shortCut: e.target.value }))}
                           placeholder="Ex.: consent_boas_vindas"
-                          className="w-full rounded-lg border border-[#E2E8F0] px-3 py-2 text-sm text-[#1E293B]"
+                          className="w-full rounded-lg border border-border px-3 py-2 text-sm text-foreground"
                         />
                       </>
                     )}
@@ -2535,7 +2535,7 @@ export default function RespostasRapidasPage() {
 
                 {assistantKind === "consent" && assistantStep === 2 && (
                   <>
-                    <label className="text-sm font-medium text-[#334155]">Mensagem de consentimento</label>
+                    <label className="text-sm font-medium text-foreground">Mensagem de consentimento</label>
                     <RichTextEditor
                       value={assistantDraft.text}
                       onChange={(next) => setAssistantDraft((prev) => ({ ...prev, text: next }))}
@@ -2557,23 +2557,23 @@ export default function RespostasRapidasPage() {
                 {assistantKind === "consent" && assistantStep === 3 && (
                   <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
                     <div>
-                      <label className="mb-1 block text-xs font-medium text-[#334155]">Palavras de aceite</label>
+                      <label className="mb-1 block text-xs font-medium text-foreground">Palavras de aceite</label>
                       <input
                         type="text"
                         value={assistantDraft.consentAcceptKeywords}
                         onChange={(e) => setAssistantDraft((prev) => ({ ...prev, consentAcceptKeywords: e.target.value }))}
                         placeholder="SIM,ACEITO,OK"
-                        className="w-full rounded-lg border border-[#E2E8F0] px-3 py-2 text-sm text-[#1E293B]"
+                        className="w-full rounded-lg border border-border px-3 py-2 text-sm text-foreground"
                       />
                     </div>
                     <div>
-                      <label className="mb-1 block text-xs font-medium text-[#334155]">Palavras de saída</label>
+                      <label className="mb-1 block text-xs font-medium text-foreground">Palavras de saída</label>
                       <input
                         type="text"
                         value={assistantDraft.consentOptOutKeywords}
                         onChange={(e) => setAssistantDraft((prev) => ({ ...prev, consentOptOutKeywords: e.target.value }))}
                         placeholder="SAIR,PARAR,STOP"
-                        className="w-full rounded-lg border border-[#E2E8F0] px-3 py-2 text-sm text-[#1E293B]"
+                        className="w-full rounded-lg border border-border px-3 py-2 text-sm text-foreground"
                       />
                     </div>
                   </div>
@@ -2581,7 +2581,7 @@ export default function RespostasRapidasPage() {
 
                 {assistantKind === "campaign" && assistantStep === 2 && (
                   <>
-                    <label className="text-sm font-medium text-[#334155]">Tipo de conteúdo da campanha</label>
+                    <label className="text-sm font-medium text-foreground">Tipo de conteúdo da campanha</label>
                     <select
                       value={assistantDraft.campaignContentType}
                       onChange={(e) =>
@@ -2591,7 +2591,7 @@ export default function RespostasRapidasPage() {
                           campaignMenuType: e.target.value === "carousel" ? "carousel" : "button",
                         }))
                       }
-                      className="w-full rounded-lg border border-[#E2E8F0] px-3 py-2 text-sm text-[#1E293B]"
+                      className="w-full rounded-lg border border-border px-3 py-2 text-sm text-foreground"
                     >
                       <option value="text">Texto</option>
                       <option value="image">Imagem</option>
@@ -2605,7 +2605,7 @@ export default function RespostasRapidasPage() {
 
                 {assistantKind === "campaign" && assistantStep === 3 && (
                   <>
-                    <label className="text-sm font-medium text-[#334155]">Texto principal</label>
+                    <label className="text-sm font-medium text-foreground">Texto principal</label>
                     <RichTextEditor
                       value={assistantDraft.text}
                       onChange={(next) => setAssistantDraft((prev) => ({ ...prev, text: next }))}
@@ -2628,15 +2628,15 @@ export default function RespostasRapidasPage() {
                   <>
                     {assistantDraft.campaignContentType === "carousel" ? (
                       <>
-                        <label className="text-sm font-medium text-[#334155]">Itens do carrossel (choices)</label>
+                        <label className="text-sm font-medium text-foreground">Itens do carrossel (choices)</label>
                         <textarea
                           value={assistantDraft.campaignChoicesText}
                           onChange={(e) => setAssistantDraft((prev) => ({ ...prev, campaignChoicesText: e.target.value }))}
                           rows={4}
                           placeholder="[Card 1]\n{https://.../card1.jpg}\nSaiba mais|https://..."
-                          className="w-full resize-none rounded-lg border border-[#E2E8F0] px-3 py-2 text-sm text-[#1E293B]"
+                          className="w-full resize-none rounded-lg border border-border px-3 py-2 text-sm text-foreground"
                         />
-                        <label className="inline-flex cursor-pointer items-center gap-2 rounded-lg border border-[#E2E8F0] bg-white px-3 py-2 text-xs text-[#334155] hover:bg-[#F8FAFC]">
+                        <label className="inline-flex cursor-pointer items-center gap-2 rounded-lg border border-border bg-card px-3 py-2 text-xs text-foreground hover:bg-muted/40">
                           <Upload className="h-3.5 w-3.5" />
                           Subir imagens do carrossel
                           <input
@@ -2649,20 +2649,20 @@ export default function RespostasRapidasPage() {
                         </label>
                       </>
                     ) : assistantDraft.campaignContentType === "text" ? (
-                      <p className="text-xs text-[#64748B]">
+                      <p className="text-xs text-muted-foreground">
                         Conteúdo de texto não exige upload. Você pode seguir para revisão e teste.
                       </p>
                     ) : (
                       <>
-                        <label className="text-sm font-medium text-[#334155]">Mídia do template</label>
+                        <label className="text-sm font-medium text-foreground">Mídia do template</label>
                         <textarea
                           value={assistantDraft.campaignFile}
                           onChange={(e) => setAssistantDraft((prev) => ({ ...prev, campaignFile: e.target.value }))}
                           rows={3}
                           placeholder="Cole URL/base64 ou use o upload"
-                          className="w-full resize-none rounded-lg border border-[#E2E8F0] px-3 py-2 text-sm text-[#1E293B]"
+                          className="w-full resize-none rounded-lg border border-border px-3 py-2 text-sm text-foreground"
                         />
-                        <label className="inline-flex cursor-pointer items-center gap-2 rounded-lg border border-[#E2E8F0] bg-white px-3 py-2 text-xs text-[#334155] hover:bg-[#F8FAFC]">
+                        <label className="inline-flex cursor-pointer items-center gap-2 rounded-lg border border-border bg-card px-3 py-2 text-xs text-foreground hover:bg-muted/40">
                           <Upload className="h-3.5 w-3.5" />
                           Subir arquivo
                           <input
@@ -2678,14 +2678,14 @@ export default function RespostasRapidasPage() {
                             value={assistantDraft.campaignDocName}
                             onChange={(e) => setAssistantDraft((prev) => ({ ...prev, campaignDocName: e.target.value }))}
                             placeholder="Nome do documento (ex.: catalogo.pdf)"
-                            className="w-full rounded-lg border border-[#E2E8F0] px-3 py-2 text-sm text-[#1E293B]"
+                            className="w-full rounded-lg border border-border px-3 py-2 text-sm text-foreground"
                           />
                         )}
                         {assistantDraft.campaignFile && assistantDraft.campaignContentType === "image" && (
-                          <img src={assistantDraft.campaignFile} alt="preview" className="max-h-36 rounded-lg border border-[#E2E8F0] object-cover" />
+                          <img src={assistantDraft.campaignFile} alt="preview" className="max-h-36 rounded-lg border border-border object-cover" />
                         )}
                         {assistantDraft.campaignFile && assistantDraft.campaignContentType === "video" && (
-                          <video src={assistantDraft.campaignFile} controls className="max-h-36 w-full rounded-lg border border-[#E2E8F0]" />
+                          <video src={assistantDraft.campaignFile} controls className="max-h-36 w-full rounded-lg border border-border" />
                         )}
                         {assistantDraft.campaignFile && assistantDraft.campaignContentType === "audio" && (
                           <audio src={assistantDraft.campaignFile} controls className="w-full" />
@@ -2696,21 +2696,21 @@ export default function RespostasRapidasPage() {
                 )}
 
                 {assistantStep === maxStep && (
-                  <div className="rounded-lg border border-[#E2E8F0] bg-[#F8FAFC] p-3">
-                    <label className="mb-1 block text-xs font-medium text-[#334155]">Número de teste</label>
+                  <div className="rounded-lg border border-border bg-muted/40 p-3">
+                    <label className="mb-1 block text-xs font-medium text-foreground">Número de teste</label>
                     <div className="flex items-center gap-2">
                       <input
                         type="text"
                         value={assistantTestNumber}
                         onChange={(e) => setAssistantTestNumber(e.target.value)}
                         placeholder="Ex.: 5511999999999"
-                        className="flex-1 rounded-lg border border-[#E2E8F0] px-3 py-2 text-sm text-[#1E293B]"
+                        className="flex-1 rounded-lg border border-border px-3 py-2 text-sm text-foreground"
                       />
                       <button
                         type="button"
                         onClick={handleAssistantTest}
                         disabled={assistantTesting}
-                        className="inline-flex items-center gap-2 rounded-lg border border-clicvend-orange px-3 py-2 text-sm font-medium text-clicvend-orange hover:bg-clicvend-orange/10 disabled:opacity-60"
+                        className="inline-flex items-center gap-2 rounded-lg border border-clicvend-orange px-3 py-2 text-sm font-medium text-amber-600 dark:text-amber-400 hover:bg-clicvend-orange/10 disabled:opacity-60"
                       >
                         {assistantTesting ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
                         Testar
@@ -2720,12 +2720,12 @@ export default function RespostasRapidasPage() {
                 )}
               </div>
 
-              <div className="flex items-center justify-between border-t border-[#E2E8F0] pt-4">
+              <div className="flex items-center justify-between border-t border-border pt-4">
                 <button
                   type="button"
                   onClick={() => setAssistantStep((prev) => Math.max(0, prev - 1))}
                   disabled={assistantStep === 0}
-                  className="rounded-lg border border-[#E2E8F0] px-3 py-2 text-sm text-[#475569] hover:bg-[#F8FAFC] disabled:opacity-50"
+                  className="rounded-lg border border-border px-3 py-2 text-sm text-muted-foreground hover:bg-muted/40 disabled:opacity-50"
                 >
                   Voltar
                 </button>
@@ -2735,7 +2735,7 @@ export default function RespostasRapidasPage() {
                       type="button"
                       onClick={() => setAssistantStep((prev) => Math.min(maxStep, prev + 1))}
                       disabled={!canNext}
-                      className="rounded-lg border border-[#E2E8F0] px-3 py-2 text-sm text-[#475569] hover:bg-[#F8FAFC] disabled:opacity-50"
+                      className="rounded-lg border border-border px-3 py-2 text-sm text-muted-foreground hover:bg-muted/40 disabled:opacity-50"
                     >
                       Próxima etapa
                     </button>

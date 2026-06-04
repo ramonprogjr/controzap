@@ -10,6 +10,24 @@ import { ChannelIcon } from "@/components/ChannelIcon";
 import { queryKeys } from "@/lib/query-keys";
 import { useBroadcastStore } from "@/stores/broadcast-store";
 import { getCompanySlugFromPath } from "@/lib/company-slug";
+import { tabActive, tabInactive } from "@/lib/ui/theme-classes";
+
+const INBOX_TAB_ACTIVE = tabActive;
+const INBOX_TAB_INACTIVE = tabInactive;
+
+function inboxTabButtonClass(isActive: boolean) {
+  return `relative flex min-w-[5rem] shrink-0 items-center justify-center gap-2 rounded-xl px-3 py-2 transition-all duration-200 ${
+    isActive ? INBOX_TAB_ACTIVE : INBOX_TAB_INACTIVE
+  }`;
+}
+
+function inboxTabBadgeClass(isActive: boolean, inactiveBg: string) {
+  const base =
+    "absolute -right-0.5 -top-0.5 flex h-4.5 min-w-[1.125rem] max-w-[4.5rem] items-center justify-center rounded-full px-1 text-[10px] font-bold tabular-nums shadow-sm";
+  return isActive
+    ? `${base} bg-card/25 text-white ring-1 ring-white/30`
+    : `${base} ${inactiveBg} text-white ring-1 ring-white/20`;
+}
 
 type Conversation = {
   id: string;
@@ -312,7 +330,7 @@ const ConversationListItem = memo(function ConversationListItem({
               className={`inline-flex items-center gap-1 rounded-full px-1.5 py-0.5 font-medium ${
                 !badgeTextColor
                   ? c.status === "closed"
-                    ? "bg-[#64748B]/10 text-[#64748B]"
+                    ? "bg-muted-foreground/10 text-muted-foreground"
                     : c.status === "in_progress"
                       ? "bg-[#8B5CF6]/10 text-[#7C3AED]"
                       : c.status === "open" || c.status === "in_queue"
@@ -406,7 +424,7 @@ const ContactListItem = memo(function ContactListItem({
       >
         <span className="flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-full bg-gradient-to-br from-muted to-muted/60 text-sm font-semibold text-muted-foreground shadow-sm ring-1 ring-border">
           {starting ? (
-            <span className="inline-block h-4 w-4 animate-spin rounded-full border-2 border-[#64748B] border-t-transparent" />
+            <span className="inline-block h-4 w-4 animate-spin rounded-full border-2 border-muted-foreground border-t-transparent" />
           ) : avatarSrc ? (
             <img
               src={avatarSrc}
@@ -505,7 +523,7 @@ const BroadcastQueueListItem = memo(function BroadcastQueueListItem({
         {/* Card content */}
         <div className="flex min-w-0 flex-1 flex-col cursor-pointer">
           <div className="flex items-start gap-3 p-3 pl-2">
-            <span className="relative flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden rounded-full bg-gradient-to-br from-blue-50 to-indigo-50 text-base font-semibold text-blue-600 shadow-sm ring-1 ring-white/80">
+            <span className="relative flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden rounded-full bg-gradient-to-br from-blue-50 to-indigo-50 text-base font-semibold text-blue-600 shadow-sm ring-1 ring-card/80">
               {avatarSrc ? (
                 <img
                   src={avatarSrc}
@@ -530,13 +548,13 @@ const BroadcastQueueListItem = memo(function BroadcastQueueListItem({
           </div>
           <footer className="flex flex-wrap items-center gap-x-3 gap-y-1.5 border-t border-border bg-muted/30 px-3 py-2 text-[10px] text-muted-foreground">
             <span className="inline-flex items-center gap-1" title={`ID: ${item.id}`}>
-              <Hash className="h-3.5 w-3.5 shrink-0 text-[#94A3B8]" />
+              <Hash className="h-3.5 w-3.5 shrink-0 text-muted-foreground" />
               <span className="font-mono font-medium tracking-wide">{shortId}</span>
             </span>
             {item.channel_name?.trim() && (
               <span className="inline-flex min-w-0 items-center gap-1" title={`Instância / conexão: ${item.channel_name.trim()}`}>
                 <Plug className="h-3.5 w-3.5 shrink-0 text-[#22C55E]" aria-hidden />
-                <span className="truncate max-w-[min(140px,40vw)] font-medium text-[#475569]">{item.channel_name.trim()}</span>
+                <span className="truncate max-w-[min(140px,40vw)] font-medium text-muted-foreground">{item.channel_name.trim()}</span>
               </span>
             )}
             <span className="inline-flex items-center gap-1 rounded-full bg-blue-100 px-1.5 py-0.5 font-medium text-blue-700">
@@ -603,7 +621,7 @@ const GroupListItem = memo(function GroupListItem({
       >
         <span className="flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-full bg-gradient-to-br from-muted to-muted/60 text-sm font-semibold text-muted-foreground shadow-sm ring-1 ring-border">
           {opening ? (
-            <span className="inline-block h-4 w-4 animate-spin rounded-full border-2 border-[#64748B] border-t-transparent" />
+            <span className="inline-block h-4 w-4 animate-spin rounded-full border-2 border-muted-foreground border-t-transparent" />
           ) : avatarSrc ? (
             <img
               src={avatarSrc}
@@ -1067,7 +1085,7 @@ export function ConversasSidebar() {
             placeholder="Pesquisar por nome ou número…"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full rounded-xl border border-border bg-muted/40 pl-10 pr-4 py-2.5 text-sm text-foreground placeholder:text-muted-foreground transition-all focus:border-clicvend-orange focus:bg-background focus:outline-none focus:ring-2 focus:ring-clicvend-orange/20 shadow-sm hover:border-border"
+            className="w-full rounded-xl border border-border bg-muted/40 pl-10 pr-4 py-2.5 text-sm text-foreground placeholder:text-muted-foreground transition-all focus:border-amber-500 focus:bg-background focus:outline-none focus:ring-2 focus:ring-amber-500/20/20 shadow-sm hover:border-border"
           />
         </div>
       </div>
@@ -1089,18 +1107,14 @@ export function ConversasSidebar() {
           <button
             type="button"
             onClick={() => handleTabChange("novos")}
-            className={`relative flex min-w-[5rem] shrink-0 items-center justify-center gap-2 rounded-lg px-3 py-2 transition-all duration-200 ${
-              activeTab === "novos"
-                ? "bg-emerald-50 text-emerald-800 shadow-md shadow-emerald-200/60 border border-emerald-200/70"
-                : "text-muted-foreground hover:bg-muted/60 hover:text-foreground"
-            }`}
+            className={inboxTabButtonClass(activeTab === "novos")}
             title="Novos (não atribuídos)"
             aria-label="Novos"
           >
             <Inbox className="h-5 w-5 shrink-0" />
             <span className="truncate text-xs font-semibold">Novos</span>
             {counts.unassigned > 0 && (
-              <span className="absolute -right-0.5 -top-0.5 flex h-4.5 min-w-[1.125rem] max-w-[4.5rem] items-center justify-center rounded-full bg-emerald-500 px-1 text-[10px] font-bold tabular-nums text-white shadow-sm ring-1 ring-white/20">
+              <span className={inboxTabBadgeClass(activeTab === "novos", "bg-emerald-500")}>
                 {inboxBadgeText(counts.unassigned)}
               </span>
             )}
@@ -1108,18 +1122,14 @@ export function ConversasSidebar() {
           <button
             type="button"
             onClick={() => handleTabChange("queues")}
-            className={`relative flex min-w-[5rem] shrink-0 items-center justify-center gap-2 rounded-lg px-3 py-2 transition-all duration-200 ${
-              activeTab === "queues"
-                ? "bg-sky-50 text-sky-800 shadow-md shadow-sky-200/60 border border-sky-200/70"
-                : "text-muted-foreground hover:bg-muted/60 hover:text-foreground"
-            }`}
+            className={inboxTabButtonClass(activeTab === "queues")}
             title="Pendente — todos os atendimentos ativos nas suas filas"
             aria-label="Pendente"
           >
             <Inbox className="h-5 w-5 shrink-0" />
             <span className="truncate text-xs font-semibold">Pendente</span>
             {counts.queues > 0 && (
-              <span className="absolute -right-0.5 -top-0.5 flex h-4.5 min-w-[1.125rem] max-w-[4.5rem] items-center justify-center rounded-full bg-sky-500 px-1 text-[10px] font-bold tabular-nums text-white shadow-sm ring-1 ring-white/20">
+              <span className={inboxTabBadgeClass(activeTab === "queues", "bg-sky-500")}>
                 {inboxBadgeText(counts.queues)}
               </span>
             )}
@@ -1127,18 +1137,14 @@ export function ConversasSidebar() {
           <button
             type="button"
             onClick={() => handleTabChange("mine")}
-            className={`relative flex min-w-[5rem] shrink-0 items-center justify-center gap-2 rounded-lg px-3 py-2 transition-all duration-200 ${
-              activeTab === "mine"
-                ? "bg-violet-50 text-violet-800 shadow-md shadow-violet-200/60 border border-violet-200/70"
-                : "text-muted-foreground hover:bg-muted/60 hover:text-foreground"
-            }`}
+            className={inboxTabButtonClass(activeTab === "mine")}
             title="Meus atendimentos"
             aria-label="Meus atendimentos"
           >
             <UserCheck className="h-5 w-5 shrink-0" />
             <span className="truncate text-xs font-semibold">Meus</span>
             {counts.mine > 0 && (
-              <span className="absolute -right-0.5 -top-0.5 flex h-4.5 min-w-[1.125rem] max-w-[4.5rem] items-center justify-center rounded-full bg-violet-500 px-1 text-[10px] font-bold tabular-nums text-white shadow-sm ring-1 ring-white/20">
+              <span className={inboxTabBadgeClass(activeTab === "mine", "bg-violet-500")}>
                 {inboxBadgeText(counts.mine)}
               </span>
             )}
@@ -1146,18 +1152,14 @@ export function ConversasSidebar() {
           <button
             type="button"
             onClick={() => handleTabChange("mine_closed")}
-            className={`relative flex min-w-[5rem] shrink-0 items-center justify-center gap-2 rounded-lg px-3 py-2 transition-all duration-200 ${
-              activeTab === "mine_closed"
-                ? "bg-red-50 text-red-800 shadow-md shadow-red-200/50 border border-red-200/70"
-                : "text-muted-foreground hover:bg-muted/60 hover:text-foreground"
-            }`}
+            className={inboxTabButtonClass(activeTab === "mine_closed")}
             title="Meus encerrados"
             aria-label="Meus encerrados"
           >
             <Archive className="h-5 w-5 shrink-0" />
             <span className="truncate text-xs font-semibold">Encerrados</span>
             {counts.mine_closed > 0 && (
-              <span className="absolute -right-0.5 -top-0.5 flex h-4.5 min-w-[1.125rem] max-w-[4.5rem] items-center justify-center rounded-full bg-red-500 px-1 text-[10px] font-bold tabular-nums text-white shadow-sm ring-1 ring-white/20">
+              <span className={inboxTabBadgeClass(activeTab === "mine_closed", "bg-red-500")}>
                 {inboxBadgeText(counts.mine_closed)}
               </span>
             )}
@@ -1228,7 +1230,7 @@ export function ConversasSidebar() {
         </button>
       </div>
       {showStatusFilters && (
-        <div className="shrink-0 border-b border-[#E2E8F0]/60 px-3 py-2">
+        <div className="shrink-0 border-b border-border/60 px-3 py-2">
           <div className="flex items-center gap-1 min-w-0">
             <button
               type="button"
@@ -1248,7 +1250,7 @@ export function ConversasSidebar() {
                 onClick={() => setStatusFilter("all")}
                 className={`inline-flex shrink-0 items-center gap-1 rounded-full px-2.5 py-1 text-xs font-medium ${
                   statusFilter === "all"
-                    ? "bg-clicvend-orange/10 text-clicvend-orange border border-clicvend-orange/30"
+                    ? "bg-clicvend-orange/10 text-amber-600 dark:text-amber-400 border border-clicvend-orange/30"
                     : "bg-card text-muted-foreground border border-border hover:bg-muted/40"
                 }`}
               >
@@ -1297,7 +1299,7 @@ export function ConversasSidebar() {
                   onClick={() => setStatusFilter(opt.key)}
                   className={`inline-flex shrink-0 items-center gap-1 rounded-full px-2.5 py-1 text-xs font-medium ${
                     statusFilter === opt.key
-                      ? "border border-clicvend-orange/30 bg-clicvend-orange/10 text-clicvend-orange"
+                      ? "border border-clicvend-orange/30 bg-clicvend-orange/10 text-amber-600 dark:text-amber-400"
                       : "border border-border bg-card text-muted-foreground hover:bg-muted/40"
                   }`}
                   title={`Filtrar por status: ${opt.label}`}
@@ -1324,7 +1326,7 @@ export function ConversasSidebar() {
         </div>
       )}
       {activeTab === "mine" && counts.mine > 0 && (
-        <div className="shrink-0 border-b border-[#E2E8F0]/60 px-3 py-2.5">
+        <div className="shrink-0 border-b border-border/60 px-3 py-2.5">
           <button
             type="button"
             onClick={async () => {
@@ -1362,11 +1364,11 @@ export function ConversasSidebar() {
             <div className="p-4 text-center text-sm text-muted-foreground">
               <p className="font-medium text-foreground">Nenhum contato</p>
               <p className="mt-1 text-xs">
-                Sincronize contatos em <Link href={`${base}/contatos`} className="text-clicvend-orange hover:underline">Contatos e grupos</Link> ou conecte um número em <Link href={`${base}/conexoes`} className="text-clicvend-orange hover:underline">Conexões</Link>.
+                Sincronize contatos em <Link href={`${base}/contatos`} className="text-amber-600 dark:text-amber-400 hover:underline">Contatos e grupos</Link> ou conecte um número em <Link href={`${base}/conexoes`} className="text-amber-600 dark:text-amber-400 hover:underline">Conexões</Link>.
               </p>
             </div>
           ) : (
-            <ul className="divide-y divide-[#E2E8F0]/40 px-2">
+            <ul className="divide-y divide-border/40 px-2">
               {filteredContacts.map((c) => (
                 <ContactListItem key={c.id} contact={c} base={base} apiHeaders={apiHeaders} />
               ))}
@@ -1379,7 +1381,7 @@ export function ConversasSidebar() {
             <div className="p-4 text-center text-sm text-muted-foreground">
               <p className="font-medium text-foreground">Nenhum contato na fila</p>
               <p className="mt-1 text-xs">
-                Em <Link href={`${base}/contatos`} className="text-clicvend-orange hover:underline">Contatos</Link>, selecione contatos e clique em <strong>Enviar pra todos</strong> para adicioná-los à fila de envio em massa.
+                Em <Link href={`${base}/contatos`} className="text-amber-600 dark:text-amber-400 hover:underline">Contatos</Link>, selecione contatos e clique em <strong>Enviar pra todos</strong> para adicioná-los à fila de envio em massa.
               </p>
             </div>
           ) : (
@@ -1398,7 +1400,7 @@ export function ConversasSidebar() {
                           : "bg-card text-foreground border-border hover:border-blue-400 hover:text-blue-600"
                       }`}
                     >
-                      <span className={`flex h-4 w-4 items-center justify-center rounded-full border-2 transition-all ${allSelected ? "border-white bg-white" : "border-current"}`}>
+                      <span className={`flex h-4 w-4 items-center justify-center rounded-full border-2 transition-all ${allSelected ? "border-white bg-card" : "border-current"}`}>
                         {allSelected && (
                           <svg viewBox="0 0 10 8" fill="none" className="h-2.5 w-2.5">
                             <path d="M1 4l2.5 2.5L9 1" stroke="#2563EB" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
@@ -1415,7 +1417,7 @@ export function ConversasSidebar() {
                   </div>
                 );
               })()}
-              <ul className="divide-y divide-[#E2E8F0]/40 px-2">
+              <ul className="divide-y divide-border/40 px-2">
                 {broadcastQueueItems.map((item) => (
                   <BroadcastQueueListItem
                     key={item.id}
@@ -1434,16 +1436,16 @@ export function ConversasSidebar() {
             <div className="p-4 text-center text-sm text-muted-foreground">
               <p className="font-medium text-foreground">Nenhum grupo</p>
               {counts.groups > 0 && (
-                <p className="mt-1 text-xs text-[#64748B]">
+                <p className="mt-1 text-xs text-muted-foreground">
                   Há {counts.groups} conversa(s) de grupo no inbox, mas sem grupos sincronizados para esta lista.
                 </p>
               )}
               <p className="mt-1 text-xs">
-                Sincronize em <Link href={`${base}/contatos`} className="text-clicvend-orange hover:underline">Contatos e grupos</Link> (botão do canal) ou conecte o número em <Link href={`${base}/conexoes`} className="text-clicvend-orange hover:underline">Conexões</Link>.
+                Sincronize em <Link href={`${base}/contatos`} className="text-amber-600 dark:text-amber-400 hover:underline">Contatos e grupos</Link> (botão do canal) ou conecte o número em <Link href={`${base}/conexoes`} className="text-amber-600 dark:text-amber-400 hover:underline">Conexões</Link>.
               </p>
             </div>
           ) : (
-            <ul className="divide-y divide-[#E2E8F0]/40 px-2">
+            <ul className="divide-y divide-border/40 px-2">
               {filteredGroups.map((g) => (
                 <GroupListItem key={g.id} group={g} base={base} apiHeaders={apiHeaders} />
               ))}
@@ -1454,9 +1456,9 @@ export function ConversasSidebar() {
         ) : conversationsError ? (
           <div className="p-4 text-center text-sm">
             <p className="font-medium text-red-600">Não foi possível carregar as conversas</p>
-            <p className="mt-1 text-xs text-[#64748B]">{errorMessage}</p>
-            <p className="mt-2 text-xs text-[#64748B]">
-              Confira as <Link href={`${base}/filas`} className="text-clicvend-orange hover:underline">Atribuições</Link> da fila.
+            <p className="mt-1 text-xs text-muted-foreground">{errorMessage}</p>
+            <p className="mt-2 text-xs text-muted-foreground">
+              Confira as <Link href={`${base}/filas`} className="text-amber-600 dark:text-amber-400 hover:underline">Atribuições</Link> da fila.
             </p>
             <button
               type="button"
@@ -1476,12 +1478,12 @@ export function ConversasSidebar() {
               {activeTab === "mine_closed" && "Nenhum chamado encerrado por você ainda. Ao fechar atendimentos, eles aparecerão aqui."}
             </p>
             <p className="mt-3 text-xs leading-relaxed">
-              Se você já tem contatos/conversas, confira a aba <strong>Pendente</strong> ou as <Link href={`${base}/filas`} className="text-clicvend-orange hover:underline font-medium">Atribuições</Link>. Números conectados em <Link href={`${base}/conexoes`} className="text-clicvend-orange hover:underline font-medium">Conexões</Link> recebem mensagens e histórico em segundo plano.
+              Se você já tem contatos/conversas, confira a aba <strong>Pendente</strong> ou as <Link href={`${base}/filas`} className="text-amber-600 dark:text-amber-400 hover:underline font-medium">Atribuições</Link>. Números conectados em <Link href={`${base}/conexoes`} className="text-amber-600 dark:text-amber-400 hover:underline font-medium">Conexões</Link> recebem mensagens e histórico em segundo plano.
             </p>
           </div>
         ) : (
           <>
-            <ul className="divide-y divide-[#E2E8F0]/40 px-2">
+            <ul className="divide-y divide-border/40 px-2">
               {filtered.map((c) => (
                 <ConversationListItem
                   key={c.id}
@@ -1542,7 +1544,7 @@ export function ConversasSidebar() {
             </ul>
           {hasMore && <div ref={loadMoreSentinelRef} className="h-1" aria-hidden />}
           {hasMore && (
-            <div className="border-t border-[#E2E8F0]/60 p-3">
+            <div className="border-t border-border/60 p-3">
               <button
                 type="button"
                 onClick={() => loadMore()}

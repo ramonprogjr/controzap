@@ -136,12 +136,12 @@ export function GroupDetailSideOver({
   return (
     <SideOver open={open} onClose={onClose} title="Detalhes do grupo" width={600}>
       {!group ? (
-        <p className="text-sm text-[#64748B]">Nenhum grupo selecionado.</p>
+        <p className="text-sm text-muted-foreground">Nenhum grupo selecionado.</p>
       ) : (
         <div className="flex flex-col gap-4">
           {loading && (
             <div className="flex items-center justify-center py-12">
-              <Loader2 className="h-8 w-8 animate-spin text-clicvend-orange" />
+              <Loader2 className="h-8 w-8 animate-spin text-amber-600 dark:text-amber-400" />
             </div>
           )}
           {error && (
@@ -158,7 +158,7 @@ export function GroupDetailSideOver({
           )}
           {hasAnyInfo && (
             <>
-              <div className="flex flex-col items-center gap-2 border-b border-[#E2E8F0] pb-4">
+              <div className="flex flex-col items-center gap-2 border-b border-border pb-4">
                 {avatarUrl ? (
                   <img
                     src={avatarUrl.startsWith("http") ? `/api/contacts/avatar?url=${encodeURIComponent(avatarUrl)}` : avatarUrl}
@@ -167,26 +167,26 @@ export function GroupDetailSideOver({
                     referrerPolicy="no-referrer"
                   />
                 ) : (
-                  <div className="h-20 w-20 shrink-0 overflow-hidden rounded-full bg-[#E2E8F0] flex items-center justify-center">
-                    <MessageCircle className="h-10 w-10 text-[#94A3B8]" />
+                  <div className="h-20 w-20 shrink-0 overflow-hidden rounded-full bg-muted flex items-center justify-center">
+                    <MessageCircle className="h-10 w-10 text-muted-foreground" />
                   </div>
                 )}
-                <p className="font-semibold text-[#1E293B] text-center">{displayName}</p>
-                <p className="text-xs text-[#94A3B8]">{channelName}</p>
+                <p className="font-semibold text-foreground text-center">{displayName}</p>
+                <p className="text-xs text-muted-foreground">{channelName}</p>
               </div>
 
               <div className="space-y-3 text-sm">
                 {topic ? (
                   <div>
-                    <dt className="text-[#64748B] font-medium">Descrição</dt>
-                    <dd className="text-[#1E293B] break-words mt-0.5">{topic}</dd>
+                    <dt className="text-muted-foreground font-medium">Descrição</dt>
+                    <dd className="text-foreground break-words mt-0.5">{topic}</dd>
                   </div>
                 ) : displayName === "—" ? (
-                  <p className="text-[#64748B]">Nome e descrição ainda não carregados. Use <strong>Sincronizar</strong> no canal ou abra o grupo no WhatsApp para atualizar.</p>
+                  <p className="text-muted-foreground">Nome e descrição ainda não carregados. Use <strong>Sincronizar</strong> no canal ou abra o grupo no WhatsApp para atualizar.</p>
                 ) : null}
                 {inviteLink ? (
                   <div>
-                    <dt className="text-[#64748B] font-medium flex items-center gap-1">
+                    <dt className="text-muted-foreground font-medium flex items-center gap-1">
                       <Link2 className="h-3.5 w-3.5" /> Link de convite
                     </dt>
                     <dd className="mt-1 flex items-center gap-2 flex-wrap">
@@ -194,7 +194,7 @@ export function GroupDetailSideOver({
                         href={inviteLink}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-clicvend-orange hover:underline break-all"
+                        className="text-amber-600 dark:text-amber-400 hover:underline break-all"
                       >
                         {inviteLink}
                       </a>
@@ -203,7 +203,7 @@ export function GroupDetailSideOver({
                         onClick={() => {
                           navigator.clipboard.writeText(inviteLink);
                         }}
-                        className="shrink-0 rounded-lg border border-[#E2E8F0] bg-white px-2.5 py-1.5 text-xs font-medium text-[#64748B] hover:bg-[#F1F5F9] hover:text-clicvend-orange"
+                        className="shrink-0 rounded-lg border border-border bg-card px-2.5 py-1.5 text-xs font-medium text-muted-foreground hover:bg-muted/60 hover:text-amber-600 dark:hover:text-amber-400"
                       >
                         Copiar link
                       </button>
@@ -212,25 +212,25 @@ export function GroupDetailSideOver({
                 ) : null}
                 {info && !fromDb && (
                   <div className="flex flex-wrap gap-2">
-                    <span className="inline-flex items-center gap-1 rounded-full bg-[#F1F5F9] px-2.5 py-1 text-xs text-[#64748B]">
+                    <span className="inline-flex items-center gap-1 rounded-full bg-muted/60 px-2.5 py-1 text-xs text-muted-foreground">
                       <Shield className="h-3.5 w-3.5" />
                       {info.IsAnnounce ? "Só admins enviam" : "Todos podem enviar"}
                     </span>
-                    <span className="inline-flex items-center gap-1 rounded-full bg-[#F1F5F9] px-2.5 py-1 text-xs text-[#64748B]">
+                    <span className="inline-flex items-center gap-1 rounded-full bg-muted/60 px-2.5 py-1 text-xs text-muted-foreground">
                       <Lock className="h-3.5 w-3.5" />
                       {info.IsLocked ? "Só admins editam" : "Todos podem editar"}
                     </span>
                   </div>
                 )}
                 {info && (participants.length > 0 || !fromDb) && (
-                  <p className="text-xs text-[#94A3B8]">
+                  <p className="text-xs text-muted-foreground">
                     {participants.length} participante(s).
                   </p>
                 )}
               </div>
 
               {info && (
-                <div className="border-t border-[#E2E8F0] pt-4">
+                <div className="border-t border-border pt-4">
                   <button
                     type="button"
                     onClick={() => setConfirmLeaveOpen(true)}
