@@ -1,6 +1,7 @@
 "use client";
 
-import { Suspense, useState } from "react";
+import { clearSupabaseAuthCookies } from "@/lib/auth/clear-supabase-cookies";
+import { Suspense, useEffect, useState } from "react";
 import Link from "next/link";
 import { ClicVendLogo } from "@/components/ClicVendLogo";
 import { BRAND_NAME, BRAND_TAGLINE } from "@/lib/brand";
@@ -21,6 +22,9 @@ import { useLogin } from "@/lib/auth/use-login";
 
 function LoginForm() {
   const { login, error, loading, success } = useLogin();
+  useEffect(() => {
+    clearSupabaseAuthCookies();
+  }, []);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);

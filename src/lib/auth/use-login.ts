@@ -1,11 +1,12 @@
 "use client";
 
+import { clearSupabaseAuthCookies } from "@/lib/auth/clear-supabase-cookies";
+import { safeReturnPath } from "@/lib/auth/safe-return-path";
 import { createClient } from "@/lib/supabase/client";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { useState } from "react";
 
 export function useLogin() {
-  const router = useRouter();
   const searchParams = useSearchParams();
   const returnUrl = searchParams.get("returnUrl");
   const [error, setError] = useState<string | null>(null);
@@ -16,6 +17,8 @@ export function useLogin() {
     setError(null);
     setLoading(true);
     setSuccess(false);
+
+    clearSupabaseAuthCookies();
 
     const supabase = createClient();
     const { data, error: signError } = await supabase.auth.signInWithPassword({
@@ -35,11 +38,9 @@ export function useLogin() {
       setLoading(false);
       return;
     }
-    
-    // Sucesso no login - iniciando busca de perfil e redirecionamento
+
     setSuccess(true);
-    
-    // Buscar primeiro company slug do usuário (perfis)
+
     const { data: profiles } = await supabase
       .from("profiles")
       .select("company_id, companies(slug)")
@@ -50,23 +51,23 @@ export function useLogin() {
         ? (profiles[0].companies as unknown as { slug: string }).slug
         : null;
 
-    // Não desativar loading no sucesso; esperar redirecionamento
-    // setLoading(false);
-    
     let target = slug ? `/${slug}` : "/sem-empresa";
-    if (returnUrl && returnUrl.startsWith("/") && !returnUrl.startsWith("//")) {
-      const returnSegments = returnUrl.split("/").filter(Boolean);
-      const returnIsReserved =
-        returnSegments[0] === "login" ||
-        returnSegments[0] === "cadastro" ||
-        returnSegments[0] === "onboarding";
-      if (!returnIsReserved) {
-        target = returnUrl.endsWith("/login") ? returnUrl.replace(/\/login$/, "") || "/" : returnUrl;
-      }
+    const safeReturn = safeReturnPath(returnUrl);
+    if (safeReturn) {
+      target = safeReturn;
     }
-    router.push(target);
-    router.refresh();
+
+    window.location.assign(target);
   }
 
-  return { login: (e: string, p: string) => login(e, p).catch(() => { setLoading(false); setSuccess(false); }), error, loading, success };
+  return {
+    login: (e: string, p: string) =>
+      login(e, p).catch(() => {
+        setLoading(false);
+        setSuccess(false);
+      }),
+    error,
+    loading,
+    success,
+  };
 }

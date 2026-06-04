@@ -1,5 +1,6 @@
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
+import { buildLoginReturnUrl } from "@/lib/auth/safe-return-path";
 import { normalizeCompanySlug } from "@/lib/company-slug";
 import {
   getPublicSupabaseAnonKey,
@@ -76,8 +77,8 @@ export async function middleware(request: NextRequest) {
     if (tenantSlug && !RESERVED_SLUGS.has(tenantSlug) && !pathname.startsWith("/_next") && !pathname.startsWith("/api")) {
       if (!user) {
         const url = new URL("/login", request.url);
-        const returnPath = pathname.endsWith("/login") ? `/${firstSegment}` : pathname;
-        url.searchParams.set("returnUrl", returnPath);
+        const returnPath = pathname.endsWith("/login") ? `/${canonicalSlug || firstSegment}` : pathname;
+        url.searchParams.set("returnUrl", buildLoginReturnUrl(returnPath));
         return NextResponse.redirect(url);
       }
 
