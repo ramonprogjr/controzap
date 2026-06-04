@@ -1,5 +1,6 @@
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
+import { isMiddlewarePublicPath } from "@/lib/auth/middleware-public";
 import { buildLoginReturnUrl } from "@/lib/auth/safe-return-path";
 import { normalizeCompanySlug } from "@/lib/company-slug";
 import {
@@ -22,45 +23,46 @@ const RESERVED_SLUGS = new Set([
 ]);
 
 export async function middleware(request: NextRequest) {
+  const pathname = request.nextUrl.pathname;
   let response = NextResponse.next({ request });
+  const segments = pathname.split("/").filter(Boolean);
+  const firstSegment = segments[0] ?? "";
+
+  // /login/conversas/... — redirect sem Supabase
+  if (firstSegment === "login" && segments.length > 1) {
+    const tenantSlug = normalizeCompanySlug(request.cookies.get("clicvend_slug")?.value);
+    if (tenantSlug && !RESERVED_SLUGS.has(tenantSlug)) {
+      const rest = segments.slice(1).join("/");
+      return NextResponse.redirect(new URL(`/${tenantSlug}/${rest}`, request.url));
+    }
+  }
+
+  if (isMiddlewarePublicPath(pathname)) {
+    return response;
+  }
 
   const supabaseUrl = getPublicSupabaseUrl();
   const supabaseAnonKey = getPublicSupabaseAnonKey();
 
   try {
-    const supabase = createServerClient(
-      supabaseUrl,
-      supabaseAnonKey,
-      {
-        cookies: {
-          getAll() {
-            return request.cookies.getAll();
-          },
-          setAll(cookiesToSet: { name: string; value: string; options?: object }[]) {
-            cookiesToSet.forEach(({ name, value, options }) =>
-              response.cookies.set(name, value, options)
-            );
-          },
+    const supabase = createServerClient(supabaseUrl, supabaseAnonKey, {
+      cookies: {
+        getAll() {
+          return request.cookies.getAll();
         },
-      }
-    );
+        setAll(cookiesToSet: { name: string; value: string; options?: object }[]) {
+          cookiesToSet.forEach(({ name, value, options }) =>
+            response.cookies.set(name, value, options)
+          );
+        },
+      },
+    });
 
-    const { data: { user } } = await supabase.auth.getUser();
-    const pathname = request.nextUrl.pathname;
-    const segments = pathname.split("/").filter(Boolean);
-    const firstSegment = segments[0];
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
     const canonicalSlug = firstSegment ? normalizeCompanySlug(firstSegment) : "";
 
-    // /login/conversas/... trata "login" como slug dinâmico — redireciona para o tenant real
-    if (firstSegment === "login" && segments.length > 1) {
-      const tenantSlug = normalizeCompanySlug(request.cookies.get("clicvend_slug")?.value);
-      if (tenantSlug && !RESERVED_SLUGS.has(tenantSlug)) {
-        const rest = segments.slice(1).join("/");
-        return NextResponse.redirect(new URL(`/${tenantSlug}/${rest}`, request.url));
-      }
-    }
-
-    // Slug com espaços ou caracteres inválidos → URL canônica
     if (
       canonicalSlug &&
       firstSegment &&
@@ -72,12 +74,18 @@ export async function middleware(request: NextRequest) {
       return NextResponse.redirect(new URL(target, request.url));
     }
 
-    // Rotas de tenant: /[slug]/...
     const tenantSlug = canonicalSlug || firstSegment;
-    if (tenantSlug && !RESERVED_SLUGS.has(tenantSlug) && !pathname.startsWith("/_next") && !pathname.startsWith("/api")) {
+    if (
+      tenantSlug &&
+      !RESERVED_SLUGS.has(tenantSlug) &&
+      !pathname.startsWith("/_next") &&
+      !pathname.startsWith("/api")
+    ) {
       if (!user) {
         const url = new URL("/login", request.url);
-        const returnPath = pathname.endsWith("/login") ? `/${canonicalSlug || firstSegment}` : pathname;
+        const returnPath = pathname.endsWith("/login")
+          ? `/${canonicalSlug || firstSegment}`
+          : pathname;
         url.searchParams.set("returnUrl", buildLoginReturnUrl(returnPath));
         return NextResponse.redirect(url);
       }
@@ -100,12 +108,16 @@ export async function middleware(request: NextRequest) {
 
     return response;
   } catch (err) {
-    const pathname = request.nextUrl.pathname;
-    const segments = pathname.split("/").filter(Boolean);
-    const firstSegment = segments[0];
-    const isTenantRoute = firstSegment && !RESERVED_SLUGS.has(firstSegment) && !pathname.startsWith("/_next") && !pathname.startsWith("/api");
+    const isTenantRoute =
+      firstSegment &&
+      !RESERVED_SLUGS.has(firstSegment) &&
+      !pathname.startsWith("/_next") &&
+      !pathname.startsWith("/api");
     if (process.env.NODE_ENV === "development") {
-      console.warn("[middleware] Supabase request failed (timeout or network):", err instanceof Error ? err.message : err);
+      console.warn(
+        "[middleware] Supabase request failed (timeout or network):",
+        err instanceof Error ? err.message : err
+      );
     }
     if (isTenantRoute) {
       return NextResponse.redirect(new URL("/login", request.url));

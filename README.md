@@ -6,9 +6,11 @@ CRM WhatsApp multi-tenant (Next.js 14 + Supabase + UAZAPI).
 
 ```powershell
 npm install
-cp .env.example .env   # preencher Supabase, Redis, etc.
-npm run dev -- -p 3003
+cp .env.example .env   # preencher Supabase; NEXT_PUBLIC_APP_URL=http://localhost:3003
+.\scripts\start-local-dev.ps1   # ou: npm run dev:turbo -- -p 3003
 ```
+
+Abrir: http://localhost:3003/login
 
 - Performance local: [`DEV-PERFORMANCE.md`](DEV-PERFORMANCE.md)
 - Inbox em localhost (webhook): [`docs/inbox-local-dev.md`](docs/inbox-local-dev.md)

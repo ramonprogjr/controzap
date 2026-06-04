@@ -27,7 +27,7 @@ export function useLogin() {
     });
     if (signError) {
       const msg = signError.message.toLowerCase().includes("invalid login credentials")
-        ? "E-mail ou senha incorretos. Verifique os dados ou use \"Esqueci minha senha\" para redefinir."
+        ? "E-mail ou senha incorretos. Verifique os dados ou fale com o administrador da empresa."
         : signError.message;
       setError(msg);
       setLoading(false);

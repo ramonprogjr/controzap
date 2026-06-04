@@ -1,4 +1,4 @@
-# Performance local (finy)
+# Performance local (GestorZap)
 
 A lentidão ao trocar de abas no **`npm run dev`** é esperada. Em **produção** (`next start` ou Render) o app já está compilado e responde bem mais rápido.
 
@@ -32,7 +32,7 @@ Conclusão: a demora **não é bug do app**; é principalmente **modo dev + OneD
 ## Por que o dev é lento aqui
 
 1. [`next.config.mjs`](next.config.mjs) desliga `webpack` cache em dev (`config.cache = false`) por causa de EBUSY no OneDrive.
-2. Projeto em pasta sincronizada: `OneDrive\Área de Trabalho\GestorZap\finy`.
+2. Projeto em pasta sincronizada: `OneDrive\Área de Trabalho\GestorZap`.
 3. `NEXT_DIST_DIR=.next-local` no [`.env`](.env).
 4. Redis desligado localmente — cache de conversas/contagens só em produção.
 
@@ -41,7 +41,7 @@ Conclusão: a demora **não é bug do app**; é principalmente **modo dev + OneD
 ### Testar como produção (recomendado para validar UX)
 
 ```powershell
-cd "c:\Users\ramon\OneDrive\Área de Trabalho\GestorZap\finy"
+cd "c:\Users\ramon\OneDrive\Área de Trabalho\GestorZap"
 npm.cmd run build
 npm.cmd run start:prod
 ```
@@ -58,7 +58,7 @@ npm.cmd run dev:turbo -- -p 3003
 
 1. Feche o Cursor e pare servidores Node (`Get-NetTCPConnection -LocalPort 3003`).
 2. Copie a pasta inteira para um caminho **local**, por exemplo:
-   - `C:\dev\GestorZap\finy`
+   - `C:\dev\GestorZap`
 3. Abra essa pasta no Cursor.
 4. Rode `npm.cmd install` (se necessário) e `npm.cmd run dev:turbo -- -p 3003`.
 5. No OneDrive, pause sincronização na pasta antiga ou exclua `.next-local` do backup.

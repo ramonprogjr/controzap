@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
+import { clearSupabaseAuthCookies } from "@/lib/auth/clear-supabase-cookies";
 import { createClient } from "@/lib/supabase/client";
 import { ClicVendLogo } from "@/components/ClicVendLogo";
 import { PublicHeader } from "@/components/PublicHeader";
@@ -229,6 +230,7 @@ export default function OnboardingPage() {
       const link = typeof window !== "undefined" ? `${window.location.origin}/${s}` : `/${s}`;
 
       if (!isLoggedIn) {
+        clearSupabaseAuthCookies();
         const { error: signInError } = await supabase.auth.signInWithPassword({
           email: userEmail.trim(),
           password: userPassword,

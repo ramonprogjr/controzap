@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { useState, useEffect, useRef } from "react";
 import { Settings, ChevronDown, Bell, Loader2, Check, LogOut, CalendarDays } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
@@ -21,7 +21,6 @@ type NotificationItem = {
 
 export function AppHeader() {
   const pathname = usePathname();
-  const router = useRouter();
   const [user, setUser] = useState<{ email?: string } | null>(null);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [notificationsOpen, setNotificationsOpen] = useState(false);
@@ -176,8 +175,7 @@ export function AppHeader() {
 
   async function handleLogout() {
     await createClient().auth.signOut();
-    router.push("/login");
-    router.refresh();
+    window.location.href = "/login";
   }
 
   function formatRelativeTime(iso: string): string {

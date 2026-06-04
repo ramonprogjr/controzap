@@ -1,4 +1,6 @@
 import { createClient } from "@supabase/supabase-js";
+import { toHeaderSafeLatin1 } from "@/lib/env/header-safe-latin1";
+import { getPublicSupabaseUrl } from "@/lib/env/supabase-public";
 import { fetchWithTimeout } from "./fetch-with-timeout";
 
 /**
@@ -6,8 +8,8 @@ import { fetchWithTimeout } from "./fetch-with-timeout";
  * Bypassa RLS. NUNCA exponha esta chave no front-end.
  */
 export function createServiceRoleClient() {
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  const url = getPublicSupabaseUrl();
+  const key = toHeaderSafeLatin1(process.env.SUPABASE_SERVICE_ROLE_KEY ?? "");
   if (!url || !key) {
     throw new Error("Missing NEXT_PUBLIC_SUPABASE_URL or SUPABASE_SERVICE_ROLE_KEY");
   }

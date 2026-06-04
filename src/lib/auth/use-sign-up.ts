@@ -1,22 +1,24 @@
 "use client";
 
+import { clearSupabaseAuthCookies } from "@/lib/auth/clear-supabase-cookies";
 import { createClient } from "@/lib/supabase/client";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 export function useSignUp() {
-  const router = useRouter();
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
   async function signUp(email: string, password: string) {
     setError(null);
     setLoading(true);
+    clearSupabaseAuthCookies();
+
     const supabase = createClient();
+    const origin = typeof window !== "undefined" ? window.location.origin : "";
     const { data, error: signError } = await supabase.auth.signUp({
       email,
       password,
-      options: { emailRedirectTo: `${typeof window !== "undefined" ? window.location.origin : ""}/auth/callback` },
+      options: { emailRedirectTo: `${origin}/auth/callback` },
     });
     if (signError) {
       setError(signError.message);
@@ -28,9 +30,7 @@ export function useSignUp() {
       setLoading(false);
       return;
     }
-    setLoading(false);
-    router.push("/onboarding");
-    router.refresh();
+    window.location.assign("/onboarding");
   }
 
   return { signUp, error, loading };
