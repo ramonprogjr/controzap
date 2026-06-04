@@ -82,6 +82,7 @@ export async function insertHistoryMessagesFromUazapiForConversation(
   supabase: SupabaseClient,
   token: string,
   conversationId: string,
+  companyId: string,
   waChatid: string,
   maxNewMessages: number,
   options?: { skipMedia?: boolean }
@@ -233,6 +234,7 @@ export async function insertHistoryMessagesFromUazapiForConversation(
 
         const insertPayload: Record<string, unknown> = {
           conversation_id: conversationId,
+          company_id: companyId,
           direction: fromMe ? "out" : "in",
           content: content.slice(0, 10000),
           message_type: isMedia ? messageType : "text",

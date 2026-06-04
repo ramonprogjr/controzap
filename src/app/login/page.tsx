@@ -1,7 +1,7 @@
 "use client";
 
 import { clearSupabaseAuthCookies } from "@/lib/auth/clear-supabase-cookies";
-import { Suspense, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { ClicVendLogo } from "@/components/ClicVendLogo";
 import { BRAND_NAME, BRAND_TAGLINE } from "@/lib/brand";
@@ -227,15 +227,7 @@ function LoginForm() {
 export default function LoginPage() {
   return (
     <main className="min-h-screen">
-      <Suspense
-        fallback={
-          <div className="flex min-h-screen items-center justify-center bg-muted/40">
-            <div className="text-muted-foreground">Carregando…</div>
-          </div>
-        }
-      >
-        <LoginForm />
-      </Suspense>
+      <LoginForm />
     </main>
   );
 }

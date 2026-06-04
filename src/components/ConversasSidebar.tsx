@@ -4,13 +4,14 @@ import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
 import { useState, useEffect, memo, useRef, useMemo } from "react";
 import { useQuery, useInfiniteQuery, useQueryClient } from "@tanstack/react-query";
-import { Search, Users, Inbox, UserCheck, User, Loader2, Plus, ChevronLeft, ChevronRight, Archive, Hash, Layers, Send, Plug } from "lucide-react";
+import { Search, Users, Inbox, UserCheck, User, Loader2, Plus, ChevronLeft, ChevronRight, Archive, Hash, Layers, Send, Plug, X } from "lucide-react";
 import { ConversationListSkeleton } from "@/components/Skeleton";
 import { ChannelIcon } from "@/components/ChannelIcon";
 import { queryKeys } from "@/lib/query-keys";
 import { useBroadcastStore } from "@/stores/broadcast-store";
 import { getCompanySlugFromPath } from "@/lib/company-slug";
 import { tabActive, tabInactive } from "@/lib/ui/theme-classes";
+import { LocalDevWebhookNotice } from "@/components/LocalDevWebhookNotice";
 
 const INBOX_TAB_ACTIVE = tabActive;
 const INBOX_TAB_INACTIVE = tabInactive;
@@ -209,11 +210,21 @@ const ConversationListItem = memo(function ConversationListItem({
   canClaim?: boolean;
   onClaim?: (conversationId: string) => void;
 }) {
+  const router = useRouter();
   const href = `${base}/conversas/${c.id}`;
+
+  const openConversation = (e: React.MouseEvent) => {
+    if (e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+    e.preventDefault();
+    router.push(href);
+  };
   const displayName = (c.customer_name ?? formatPhoneBrazil(c.customer_phone)) ?? "?";
   const initial = displayName.slice(0, 1).toUpperCase();
   const isGroup = c.is_group === true;
-  const showClaim = canClaim && (c.assigned_to == null || c.assigned_to === "");
+  const isUnassigned = c.assigned_to == null || c.assigned_to === "";
+  /** Atendente removido da empresa: assigned_to preenchido mas sem perfil (nome null no card). */
+  const isOrphanAssignee = Boolean(c.assigned_to) && c.assigned_to_name == null;
+  const showClaim = canClaim && (isUnassigned || isOrphanAssignee);
   const [claiming, setClaiming] = useState(false);
   const [imgError, setImgError] = useState(false);
   const isNew = (c.assigned_to == null || c.assigned_to === "") && (c.status === "open" || c.status === "in_queue");
@@ -258,7 +269,11 @@ const ConversationListItem = memo(function ConversationListItem({
       <div
         className={`flex items-stretch gap-1.5 rounded-xl border transition-all duration-200 overflow-hidden ${currentId === c.id ? "border-clicvend-green/40 bg-clicvend-green/10 shadow-sm ring-1 ring-clicvend-green/20" : "border-border bg-card hover:border-border hover:bg-muted/40 hover:shadow-sm"}`}
       >
-        <Link href={href} className="flex min-w-0 flex-1 flex-col">
+        <a
+          href={href}
+          onClick={openConversation}
+          className="flex min-w-0 flex-1 flex-col no-underline text-inherit outline-none focus-visible:ring-2 focus-visible:ring-clicvend-green/40 rounded-lg"
+        >
           <div className="flex items-start gap-3 p-3">
             <span className="relative flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden rounded-full bg-gradient-to-br from-muted to-muted/60 text-base font-semibold text-muted-foreground shadow-sm ring-1 ring-border">
               {avatarSrc ? (
@@ -348,7 +363,7 @@ const ConversationListItem = memo(function ConversationListItem({
               <span className="truncate max-w-[80px]"><span className="text-muted-foreground">Atendente:</span> {c.assigned_to_name ?? "—"}</span>
             </span>
           </footer>
-        </Link>
+        </a>
         {showClaim && (
           <button
             type="button"
@@ -663,6 +678,7 @@ export function ConversasSidebar() {
   const [statusFilter, setStatusFilter] = useState<string>("all");
   const [channelFilter, setChannelFilter] = useState<string>("all");
   const [unassigning, setUnassigning] = useState(false);
+  const [claimFeedback, setClaimFeedback] = useState<string | null>(null);
   const tabsScrollRef = useRef<HTMLDivElement>(null);
   const statusScrollRef = useRef<HTMLDivElement>(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
@@ -704,6 +720,57 @@ export function ConversasSidebar() {
       }
     };
   }, []);
+
+  useEffect(() => {
+    if (!claimFeedback) return;
+    const id = window.setTimeout(() => setClaimFeedback(null), 6000);
+    return () => window.clearTimeout(id);
+  }, [claimFeedback]);
+
+  const handleClaimConversation = async (conversationId: string) => {
+    try {
+      const res = await fetch(`/api/conversations/${conversationId}/claim`, {
+        method: "POST",
+        credentials: "include",
+        headers: apiHeaders ?? {},
+      });
+      const json = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        const msg =
+          typeof json?.error === "string" && json.error.trim()
+            ? json.error
+            : res.status === 403
+              ? "Sem permissão para assumir este atendimento."
+              : res.status === 404
+                ? "Conversa não encontrada."
+                : "Não foi possível assumir o atendimento. Tente novamente.";
+        setClaimFeedback(msg);
+        return;
+      }
+      const assignedToName = json?.assigned_to_name ?? null;
+      queryClient.invalidateQueries({ queryKey: queryKeys.conversationListInfinite(slug ?? "", viewMode) });
+      queryClient.invalidateQueries({ queryKey: queryKeys.conversationListInfinite(slug ?? "", "queues") });
+      queryClient.invalidateQueries({ queryKey: queryKeys.conversationListInfinite(slug ?? "", "mine") });
+      queryClient.invalidateQueries({ queryKey: queryKeys.conversationListInfinite(slug ?? "", "unassigned") });
+      queryClient.invalidateQueries({ queryKey: queryKeys.counts(slug ?? "") });
+      window.dispatchEvent(new CustomEvent("conversations-status-reset"));
+      queryClient.refetchQueries({ queryKey: queryKeys.conversationListInfinite(slug ?? "", "mine") });
+      queryClient.setQueryData(queryKeys.conversation(conversationId), (prev: Record<string, unknown> | undefined) =>
+        prev
+          ? {
+              ...prev,
+              assigned_to: json?.assigned_to ?? prev.assigned_to,
+              assigned_to_name: assignedToName ?? prev.assigned_to_name,
+              channel_id: json?.channel_id ?? prev.channel_id,
+              status: "in_progress",
+            }
+          : prev
+      );
+      router.push(`${base}/conversas/${conversationId}`);
+    } catch {
+      setClaimFeedback("Erro de conexão ao assumir o atendimento. Verifique sua internet.");
+    }
+  };
 
   // Verificar se pode rolar os tabs
   const checkTabsScroll = () => {
@@ -1055,7 +1122,9 @@ export function ConversasSidebar() {
       )
     : groupsList;
 
-  const currentId = pathname?.split("/")[3] ?? null;
+  const pathParts = pathname?.split("/").filter(Boolean) ?? [];
+  const currentId =
+    pathParts[1] === "conversas" && pathParts[2] && pathParts[2] !== "broadcast" ? pathParts[2] : null;
 
   // Infinite scroll: ao chegar perto do fim da lista, carrega mais conversas automaticamente.
   useEffect(() => {
@@ -1077,6 +1146,9 @@ export function ConversasSidebar() {
 
   return (
     <aside className="flex min-h-0 w-[32%] min-w-[320px] max-w-[520px] shrink-0 flex-col border-r border-border bg-background shadow-sm overflow-hidden self-stretch">
+      <div className="shrink-0 px-3 pt-3">
+        <LocalDevWebhookNotice />
+      </div>
       <div className="shrink-0 px-3 py-3 border-b border-border">
         <div className="relative">
           <Search className="absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
@@ -1491,36 +1563,7 @@ export function ConversasSidebar() {
                   base={base}
                   currentId={currentId}
                   canClaim={Array.isArray(permissionsData?.permissions) && permissionsData.permissions.includes("inbox.claim")}
-                  onClaim={async (conversationId) => {
-                    const res = await fetch(`/api/conversations/${conversationId}/claim`, {
-                      method: "POST",
-                      credentials: "include",
-                      headers: apiHeaders ?? {},
-                    });
-                    const json = await res.json().catch(() => ({}));
-                    if (res.ok) {
-                      const assignedToName = json?.assigned_to_name ?? null;
-                      queryClient.invalidateQueries({ queryKey: queryKeys.conversationListInfinite(slug ?? "", viewMode) });
-                      queryClient.invalidateQueries({ queryKey: queryKeys.conversationListInfinite(slug ?? "", "queues") });
-                      queryClient.invalidateQueries({ queryKey: queryKeys.conversationListInfinite(slug ?? "", "mine") });
-                      queryClient.invalidateQueries({ queryKey: queryKeys.conversationListInfinite(slug ?? "", "unassigned") });
-                      queryClient.invalidateQueries({ queryKey: queryKeys.counts(slug ?? "") });
-                      window.dispatchEvent(new CustomEvent("conversations-status-reset"));
-                      queryClient.refetchQueries({ queryKey: queryKeys.conversationListInfinite(slug ?? "", "mine") });
-                      queryClient.setQueryData(queryKeys.conversation(conversationId), (prev: Record<string, unknown> | undefined) =>
-                        prev
-                          ? {
-                              ...prev,
-                              assigned_to: json?.assigned_to ?? prev.assigned_to,
-                              assigned_to_name: assignedToName ?? prev.assigned_to_name,
-                              channel_id: json?.channel_id ?? prev.channel_id,
-                              status: "in_progress",
-                            }
-                          : prev
-                      );
-                      router.push(`${base}/conversas/${conversationId}`);
-                    }
-                  }}
+                  onClaim={handleClaimConversation}
                   onHover={slug ? (id) => {
                     if (lastPrefetchedIdRef.current === id) return;
                     if (prefetchTimeoutRef.current) {
@@ -1558,6 +1601,22 @@ export function ConversasSidebar() {
           </>
         )}
       </div>
+      {claimFeedback && (
+        <div
+          role="alert"
+          className="fixed bottom-4 right-4 z-50 max-w-sm rounded-lg border border-red-200 bg-[#0F172A] px-4 py-3 text-sm text-white shadow-lg flex items-start gap-2"
+        >
+          <span className="flex-1">{claimFeedback}</span>
+          <button
+            type="button"
+            onClick={() => setClaimFeedback(null)}
+            className="ml-2 rounded-full p-1 text-[#E2E8F0] hover:bg-white/10"
+            aria-label="Fechar aviso"
+          >
+            <X className="h-3 w-3" />
+          </button>
+        </div>
+      )}
     </aside>
   );
 }

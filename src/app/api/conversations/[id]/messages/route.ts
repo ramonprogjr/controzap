@@ -317,6 +317,7 @@ export async function POST(
   const messageType = isMedia ? (type === "myaudio" || type === "ptv" ? type : type === "ptt" ? "ptt" : type) : "text";
   const insertPayload: Record<string, unknown> = {
     conversation_id: conversationId,
+    company_id: companyId,
     direction: "out",
     content: isMedia ? (caption || `[${messageType}]`) : content,
     message_type: messageType,

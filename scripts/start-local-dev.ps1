@@ -16,8 +16,13 @@ if ($nodeVer -notmatch '^v20\.') {
   Write-Warning "Use Node 20 (engines no package.json: >=20 <21)"
 }
 
-Write-Host "Limpando cache Next..."
-npm run clean
+# npm.cmd evita PSSecurityException quando ExecutionPolicy bloqueia npm.ps1
+$npm = if (Get-Command npm.cmd -ErrorAction SilentlyContinue) { "npm.cmd" } else { "npm" }
 
-Write-Host "Iniciando dev:turbo em http://localhost:3003 ..."
-npm run dev:turbo -- -p 3003
+Write-Host "Limpando cache Next..."
+& $npm run clean
+
+# Webpack dev (sem --turbo): evita "Invalid hook call" / useContext em /login após HMR longo.
+$env:NEXT_DIST_DIR = ".next-local"
+Write-Host "Iniciando dev em http://localhost:3003 (NEXT_DIST_DIR=.next-local) ..."
+& $npm run dev -- -p 3003

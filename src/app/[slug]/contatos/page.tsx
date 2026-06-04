@@ -28,6 +28,23 @@ type Channel = { id: string; name: string };
 
 const PAGE_SIZE = 150;
 
+type PipelineBlockedReason = "invalid_number" | "opted_out" | "missing_opt_in" | "blocked";
+
+function blockedReasonLabel(reason: PipelineBlockedReason | string): string {
+  switch (reason) {
+    case "invalid_number":
+      return "Número inválido";
+    case "opted_out":
+      return "Opt-out";
+    case "missing_opt_in":
+      return "Sem opt-in";
+    case "blocked":
+      return "Bloqueado";
+    default:
+      return "Indisponível";
+  }
+}
+
 /** Corrige Brasil: DDD+0+8 dígitos → DDD+9+8 (celular). */
 function fixBrazilMobileZero(d: string): string {
   if (d.length === 11 && !d.startsWith("55")) {
@@ -731,6 +748,9 @@ export default function ContatosPage() {
     variant?: "danger";
     onConfirm: () => Promise<void> | void;
   } | null>(null);
+  const [bulkDeleteConfirmOpen, setBulkDeleteConfirmOpen] = useState(false);
+  const [bulkDeletePendingCount, setBulkDeletePendingCount] = useState(0);
+  const bulkDeleteIdsRef = useRef<string[]>([]);
   const [deleting, setDeleting] = useState(false);
   const [deletingGroup, setDeletingGroup] = useState(false);
   const [blockList, setBlockList] = useState<string[]>([]);
@@ -1269,6 +1289,47 @@ export default function ContatosPage() {
     }
   };
 
+  const executeBulkDeleteContacts = async () => {
+    const ids = bulkDeleteIdsRef.current;
+    if (ids.length === 0) return;
+    setContactsActionLoading(true);
+    try {
+      const res = await fetch("/api/contacts/bulk-delete", {
+        method: "POST",
+        credentials: "include",
+        headers: { "Content-Type": "application/json", ...apiHeaders },
+        body: JSON.stringify({ contact_ids: ids }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        setAlertMessage(data?.error ?? "Falha ao excluir contatos.");
+        throw new Error(data?.error ?? "bulk-delete-failed");
+      }
+      const deleted = Number(data?.deleted ?? 0);
+      const failed = Number(data?.failed ?? 0);
+      setSelectedContactIds(new Set());
+      setBulkDeleteConfirmOpen(false);
+      setBulkDeletePendingCount(0);
+      mutateContacts();
+      bulkDeleteIdsRef.current = [];
+      if (deleted === 0 && failed > 0) {
+        setAlertMessage(
+          `Nenhum contato foi removido. ${failed} ID(s) não encontrado(s) no banco — atualize a página e tente de novo.`
+        );
+      } else if (failed > 0) {
+        setAlertMessage(`✅ ${deleted} contato(s) removido(s). ${failed} não encontrado(s) ou já excluído(s).`);
+      } else {
+        setAlertMessage(`✅ ${deleted} contato(s) removido(s) da lista.`);
+      }
+    } catch (e) {
+      if (e instanceof Error && e.message === "bulk-delete-failed") throw e;
+      setAlertMessage("Erro de rede ao excluir contatos.");
+      throw e;
+    } finally {
+      setContactsActionLoading(false);
+    }
+  };
+
   const handleDeleteGroup = async () => {
     const g = deleteGroupConfirm;
     setDeleteGroupConfirm(null);
@@ -1304,29 +1365,34 @@ export default function ContatosPage() {
       {
         id: "select",
         header: ({ table }) => {
-          const pageIds = table.getCoreRowModel().rows.map((r) => r.original.id);
-          const allSelected = pageIds.length > 0 && pageIds.every((id) => selectedContactIds.has(id));
+          const allFilteredIds = table.getCoreRowModel().rows.map((r) => r.original.id);
+          const allSelected =
+            allFilteredIds.length > 0 && allFilteredIds.every((id) => selectedContactIds.has(id));
+          const someSelected = allFilteredIds.some((id) => selectedContactIds.has(id));
           return (
             <input
               type="checkbox"
               checked={allSelected}
+              ref={(el) => {
+                if (el) el.indeterminate = someSelected && !allSelected;
+              }}
               onChange={() => {
                 if (allSelected) {
                   setSelectedContactIds((prev) => {
                     const next = new Set(prev);
-                    pageIds.forEach((id) => next.delete(id));
+                    allFilteredIds.forEach((id) => next.delete(id));
                     return next;
                   });
                 } else {
                   setSelectedContactIds((prev) => {
                     const next = new Set(prev);
-                    pageIds.forEach((id) => next.add(id));
+                    allFilteredIds.forEach((id) => next.add(id));
                     return next;
                   });
                 }
               }}
               className="h-4 w-4 rounded border-border text-amber-600 dark:text-amber-400 focus:ring-amber-500/20"
-              aria-label="Selecionar todos (todas as páginas)"
+              aria-label="Selecionar todos os contatos filtrados"
             />
           );
         },
@@ -1978,8 +2044,8 @@ export default function ContatosPage() {
   }
 
   return (
-    <div className="flex flex-col gap-4 px-4 py-6 sm:px-6">
-      <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between">
+    <div className="flex min-h-0 flex-1 flex-col gap-4 overflow-hidden px-4 py-4 sm:px-6">
+      <div className="shrink-0 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between">
         <div>
         <h1 className="text-2xl font-bold text-foreground">Contatos e grupos</h1>
           <p className="mt-0.5 text-sm text-muted-foreground">
@@ -2126,7 +2192,7 @@ export default function ContatosPage() {
 
      
 
-      <div className="flex gap-2 border-b border-border">
+      <div className="shrink-0 flex gap-2 border-b border-border">
           <button
             type="button"
           onClick={() => setActiveTab("contacts")}
@@ -2170,11 +2236,11 @@ export default function ContatosPage() {
       </div>
 
       {loading ? (
-        <div className="flex justify-center py-12">
+        <div className="flex min-h-0 flex-1 items-center justify-center py-12">
           <Loader2 className="h-8 w-8 animate-spin text-amber-600 dark:text-amber-400" />
         </div>
       ) : activeTab === "contacts" ? (
-        <div className="rounded-xl border border-border bg-card shadow-sm overflow-hidden flex flex-col">
+        <div className="flex min-h-0 flex-1 flex-col overflow-hidden rounded-xl border border-border bg-card shadow-sm">
           {dedupedContacts.length === 0 ? (
             <div className="p-8 text-center text-muted-foreground">
               <Users className="mx-auto h-12 w-12 text-muted-foreground" />
@@ -2186,7 +2252,7 @@ export default function ContatosPage() {
           ) : (
             <>
               {selectedContactIds.size > 0 && (
-                <div className="flex flex-wrap items-center justify-between gap-4 px-4 py-3 bg-clicvend-orange/10 border-b border-border">
+                <div className="shrink-0 flex flex-wrap items-center justify-between gap-4 px-4 py-3 bg-clicvend-orange/10 border-b border-border">
                   <span className="text-sm font-medium text-foreground">
                     {selectedContactIds.size} contato(s) selecionado(s)
                   </span>
@@ -2404,34 +2470,11 @@ export default function ContatosPage() {
                       type="button"
                       disabled={contactsActionLoading}
                       onClick={() => {
-                        const total = selectedContactIds.size;
-                        if (total === 0) return;
-                        setBulkConfirm({
-                          title: "Excluir contatos da lista?",
-                          message: `Excluir ${total} contato(s) da lista? Eles continuarão no WhatsApp; apenas serão removidos desta lista.`,
-                          confirmLabel: "Excluir",
-                          variant: "danger",
-                          onConfirm: async () => {
-                            setContactsActionLoading(true);
-                            try {
-                              const ids = Array.from(selectedContactIds);
-                              await Promise.all(
-                                ids.map((id) =>
-                                  fetch(`/api/contacts/${encodeURIComponent(id)}`, {
-                                    method: "DELETE",
-                                    credentials: "include",
-                                    headers: apiHeaders,
-                                  })
-                                )
-                              );
-                              setSelectedContactIds(new Set());
-                              mutateContacts();
-                              setAlertMessage(`✅ ${ids.length} contato(s) removido(s) da lista.`);
-                            } finally {
-                              setContactsActionLoading(false);
-                            }
-                          },
-                        });
+                        if (selectedContactIds.size === 0) return;
+                        const ids = Array.from(selectedContactIds);
+                        bulkDeleteIdsRef.current = ids;
+                        setBulkDeletePendingCount(ids.length);
+                        setBulkDeleteConfirmOpen(true);
                       }}
                       className="inline-flex items-center gap-1.5 border-r border-border bg-amber-50 px-3 py-2 text-sm font-medium text-amber-800 hover:bg-amber-100 disabled:opacity-60 last:border-r-0"
                       title="Remover os contatos selecionados apenas da lista desta aplicação. Eles continuam no WhatsApp e na agenda do celular."
@@ -2451,7 +2494,7 @@ export default function ContatosPage() {
                   </div>
                 </div>
               )}
-              <div className="max-h-[300px] overflow-auto min-h-[200px]">
+              <div className="min-h-0 flex-1 overflow-auto">
                 <table className="w-full min-w-[760px] border-collapse">
                   <thead className="sticky top-0 z-10 bg-muted/40">
                     {table.getHeaderGroups().map((hg) => (
@@ -2508,7 +2551,7 @@ export default function ContatosPage() {
                   </tbody>
                 </table>
               </div>
-              <div className="flex items-center justify-between gap-2 border-t border-border bg-muted/40 px-4 py-2">
+              <div className="shrink-0 flex items-center justify-between gap-2 border-t border-border bg-muted/40 px-4 py-2">
                 <span className="text-sm text-muted-foreground">
                   Página {table.getState().pagination.pageIndex + 1} de {table.getPageCount() || 1} ({filteredContacts.length} contato{filteredContacts.length !== 1 ? "s" : ""})
                 </span>
@@ -2535,7 +2578,7 @@ export default function ContatosPage() {
           )}
         </div>
       ) : activeTab === "groups" ? (
-        <div className="rounded-xl border border-border bg-card shadow-sm overflow-hidden flex flex-col">
+        <div className="flex min-h-0 flex-1 flex-col overflow-hidden rounded-xl border border-border bg-card shadow-sm">
           {groups.length === 0 ? (
             <div className="p-8 text-center text-muted-foreground">
               <MessageCircle className="mx-auto h-12 w-12 text-muted-foreground" />
@@ -2669,7 +2712,7 @@ export default function ContatosPage() {
                   </div>
                 </div>
               )}
-              <div className="overflow-auto max-h-[60vh] min-h-[200px]">
+              <div className="min-h-0 flex-1 overflow-auto">
                 <table className="w-full min-w-[520px] border-collapse">
                   <thead className="sticky top-0 z-10 bg-muted/40">
                     {groupsTable.getHeaderGroups().map((hg) => (
@@ -2701,7 +2744,7 @@ export default function ContatosPage() {
                   </tbody>
                 </table>
               </div>
-              <div className="flex items-center justify-between gap-2 border-t border-border bg-muted/40 px-4 py-2">
+              <div className="shrink-0 flex items-center justify-between gap-2 border-t border-border bg-muted/40 px-4 py-2">
                 <span className="text-sm text-muted-foreground">
                   Página {groupsTable.getState().pagination.pageIndex + 1} de {groupsTable.getPageCount() || 1} ({filteredGroups.length} grupo{filteredGroups.length !== 1 ? "s" : ""})
                 </span>
@@ -2728,7 +2771,7 @@ export default function ContatosPage() {
           )}
         </div>
       ) : activeTab === "blocked" ? (
-        <div className="rounded-xl border border-border bg-card shadow-sm overflow-hidden flex flex-col">
+        <div className="flex min-h-0 flex-1 flex-col overflow-hidden rounded-xl border border-border bg-card shadow-sm">
           {selectedBlockedJids.size > 0 && filterChannelId && (
             <div className="flex items-center justify-between gap-4 px-4 py-3 bg-clicvend-orange/10 border-b border-border">
               <span className="text-sm font-medium text-foreground">
@@ -2777,7 +2820,7 @@ export default function ContatosPage() {
               </div>
             </div>
           )}
-          <div className="overflow-auto max-h-[60vh]">
+          <div className="min-h-0 flex-1 overflow-auto">
             <table className="w-full min-w-[400px]">
               <thead>
                 <tr className="border-b border-border bg-muted/40">
@@ -2872,7 +2915,7 @@ export default function ContatosPage() {
           </div>
         </div>
       ) : activeTab === "communities" ? (
-        <div className="rounded-xl border border-border bg-card shadow-sm overflow-hidden flex flex-col">
+        <div className="flex min-h-0 flex-1 flex-col overflow-hidden rounded-xl border border-border bg-card shadow-sm">
           {communities.length === 0 ? (
             <div className="p-8 text-center text-muted-foreground">
               <MessageCircle className="mx-auto h-12 w-12 text-muted-foreground" />
@@ -2984,7 +3027,7 @@ export default function ContatosPage() {
                   </div>
                 </div>
               )}
-              <div className="overflow-auto max-h-[60vh] min-h-[200px]">
+              <div className="min-h-0 flex-1 overflow-auto">
                 <table className="w-full min-w-[520px] border-collapse">
                   <thead className="sticky top-0 z-10 bg-muted/40">
                     {communitiesTable.getHeaderGroups().map((hg) => (
@@ -3010,7 +3053,7 @@ export default function ContatosPage() {
               </tbody>
             </table>
           </div>
-              <div className="flex items-center justify-between gap-2 border-t border-border bg-muted/40 px-4 py-2">
+              <div className="shrink-0 flex items-center justify-between gap-2 border-t border-border bg-muted/40 px-4 py-2">
                 <span className="text-sm text-muted-foreground">
                   Página {communitiesTable.getState().pagination.pageIndex + 1} de {communitiesTable.getPageCount() || 1} ({filteredCommunities.length} comunidade{filteredCommunities.length !== 1 ? "s" : ""})
                 </span>
@@ -3810,15 +3853,34 @@ export default function ContatosPage() {
         onConfirm={handleDeleteGroup}
       />
       <ConfirmDialog
+        open={bulkDeleteConfirmOpen}
+        onClose={() => {
+          setBulkDeleteConfirmOpen(false);
+          setBulkDeletePendingCount(0);
+          bulkDeleteIdsRef.current = [];
+        }}
+        title="Excluir contatos da lista?"
+        message={`Excluir ${bulkDeletePendingCount} contato(s) da lista? Eles continuarão no WhatsApp; apenas serão removidos desta lista.`}
+        confirmLabel="Excluir"
+        cancelLabel="Cancelar"
+        variant="danger"
+        loading={contactsActionLoading}
+        onConfirm={executeBulkDeleteContacts}
+        onCancel={() => {
+          setBulkDeletePendingCount(0);
+          bulkDeleteIdsRef.current = [];
+        }}
+      />
+      <ConfirmDialog
         open={!!bulkConfirm}
         onClose={() => setBulkConfirm(null)}
         title={bulkConfirm?.title ?? ""}
         message={bulkConfirm?.message ?? ""}
         confirmLabel={bulkConfirm?.confirmLabel ?? "Confirmar"}
         variant={bulkConfirm?.variant}
+        loading={contactsActionLoading}
         onConfirm={async () => {
           const pending = bulkConfirm;
-          setBulkConfirm(null);
           if (!pending) return;
           await pending.onConfirm();
         }}

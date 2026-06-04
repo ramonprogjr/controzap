@@ -3,12 +3,14 @@
 import { clearSupabaseAuthCookies } from "@/lib/auth/clear-supabase-cookies";
 import { safeReturnPath } from "@/lib/auth/safe-return-path";
 import { createClient } from "@/lib/supabase/client";
-import { useSearchParams } from "next/navigation";
 import { useState } from "react";
 
+function readReturnUrlFromBrowser(): string | null {
+  if (typeof window === "undefined") return null;
+  return new URLSearchParams(window.location.search).get("returnUrl");
+}
+
 export function useLogin() {
-  const searchParams = useSearchParams();
-  const returnUrl = searchParams.get("returnUrl");
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
@@ -52,7 +54,7 @@ export function useLogin() {
         : null;
 
     let target = slug ? `/${slug}` : "/sem-empresa";
-    const safeReturn = safeReturnPath(returnUrl);
+    const safeReturn = safeReturnPath(readReturnUrlFromBrowser());
     if (safeReturn) {
       target = safeReturn;
     }

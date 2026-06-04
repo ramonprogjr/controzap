@@ -1308,6 +1308,7 @@ async function processOneMessage(
       .from("messages")
       .insert({
         conversation_id: conversationId,
+        company_id: companyId,
         direction: fromMe ? "out" : "in",
         content: finalContent,
         message_type: finalMessageType,

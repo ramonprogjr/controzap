@@ -100,12 +100,27 @@ export async function DELETE(
     .eq("id", id)
     .eq("company_id", companyId)
     .select("id")
-    .single();
+    .maybeSingle();
 
   if (error) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
-  if (!data) {
+  if (data) {
+    return NextResponse.json({ ok: true });
+  }
+
+  const { data: histData, error: histError } = await supabase
+    .from("company_contacts")
+    .delete()
+    .eq("id", id)
+    .eq("company_id", companyId)
+    .select("id")
+    .maybeSingle();
+
+  if (histError) {
+    return NextResponse.json({ error: histError.message }, { status: 500 });
+  }
+  if (!histData) {
     return NextResponse.json({ error: "Contato não encontrado" }, { status: 404 });
   }
 

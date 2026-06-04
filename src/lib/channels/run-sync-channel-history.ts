@@ -285,6 +285,7 @@ export async function runSyncChannelHistory(params: {
       supabase,
       token,
       conversationId,
+      companyId,
       waChatid,
       budget,
       includeMedia ? undefined : { skipMedia: true }

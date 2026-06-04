@@ -90,6 +90,7 @@ export async function POST(request: Request, { params }: { params: Promise<{ id:
       supabase,
       resolved.token,
       conversationId,
+      companyId,
       chatKey,
       maxMessages,
       skipMedia ? { skipMedia: true } : undefined
