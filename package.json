@@ -2,11 +2,14 @@
   "name": "controlzap",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": ">=20 <21"
+  },
   "scripts": {
     "dev": "next dev",
     "dev:turbo": "next dev --turbo",
     "start:prod": "next start -p 3003",
-    "build": "next build",
+    "build": "node scripts/verify-render-env.mjs && next build",
     "start": "next start",
     "lint": "next lint",
     "test:redis": "node scripts/test-redis.mjs",
