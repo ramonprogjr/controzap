@@ -9,7 +9,6 @@ import { SideOver } from "@/components/SideOver";
 import { ConfirmDialog } from "@/components/ConfirmDialog";
 import { ChannelTableSkeleton } from "@/components/Skeleton";
 import { ChannelConfigSideOver } from "./ChannelConfigSideOver";
-import { LocalDevWebhookNotice } from "@/components/LocalDevWebhookNotice";
 import { formInputClass } from "@/lib/ui/form-input-class";
 
 type Channel = {
@@ -559,8 +558,6 @@ export default function ConexoesPage() {
           </button>
         </div>
       </div>
-
-      <LocalDevWebhookNotice />
 
       {feedback && (
         <div

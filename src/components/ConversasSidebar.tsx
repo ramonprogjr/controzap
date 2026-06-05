@@ -11,7 +11,6 @@ import { queryKeys } from "@/lib/query-keys";
 import { useBroadcastStore } from "@/stores/broadcast-store";
 import { getCompanySlugFromPath } from "@/lib/company-slug";
 import { tabActive, tabInactive } from "@/lib/ui/theme-classes";
-import { LocalDevWebhookNotice } from "@/components/LocalDevWebhookNotice";
 
 const INBOX_TAB_ACTIVE = tabActive;
 const INBOX_TAB_INACTIVE = tabInactive;
@@ -1146,9 +1145,6 @@ export function ConversasSidebar() {
 
   return (
     <aside className="flex min-h-0 w-[32%] min-w-[320px] max-w-[520px] shrink-0 flex-col border-r border-border bg-background shadow-sm overflow-hidden self-stretch">
-      <div className="shrink-0 px-3 pt-3">
-        <LocalDevWebhookNotice />
-      </div>
       <div className="shrink-0 px-3 py-3 border-b border-border">
         <div className="relative">
           <Search className="absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />

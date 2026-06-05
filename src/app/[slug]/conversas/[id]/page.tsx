@@ -11,7 +11,6 @@ import { useInboxStore } from "@/stores/inbox-store";
 import { SideOver } from "@/components/SideOver";
 import { Skeleton } from "@/components/Skeleton";
 import { Loader2 } from "lucide-react";
-import { LocalDevWebhookNotice } from "@/components/LocalDevWebhookNotice";
 import { RealtimeMessages } from "@/components/RealtimeMessages";
 import { EmojiReactionPicker } from "@/components/EmojiReactionPicker";
 import { ChannelIcon } from "@/components/ChannelIcon";
@@ -3185,11 +3184,6 @@ export default function ConversaThreadPage({
 
       {resolved?.id && typeof window !== "undefined" && <RealtimeMessages conversationId={resolved.id} />}
 
-      {process.env.NODE_ENV === "development" && (
-        <div className="mx-4 mt-2 max-w-3xl">
-          <LocalDevWebhookNotice />
-        </div>
-      )}
       <div className="relative flex flex-1 min-h-0 flex-col min-w-0 overflow-hidden">
         {showScrollToTopBtn && !isLoading && (
           <button
